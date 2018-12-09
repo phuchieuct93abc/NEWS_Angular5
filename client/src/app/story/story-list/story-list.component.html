@@ -1,0 +1,7 @@
+<div class="col-12 story-list">
+
+    <div *ngFor="let story of stories | async" class="row" [routerLink]="story.id">
+        <app-story [story]="story"></app-story>
+    </div>
+
+</div>

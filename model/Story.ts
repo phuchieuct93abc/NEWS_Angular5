@@ -1,13 +1,13 @@
 export class Story {
-    private id: string;
+    public id: string;
 
-    private title: string;
+    public title: string;
 
-    private desc: string;
+    public desc: string;
 
-    private imagePath: string;
+    public imagePath: string;
 
-    private originalUrl: string;
+    public originalUrl: string;
 
     constructor(id: string, title: string, desc: string, imagePath: string, originalUrl: string) {
         this.id = id;

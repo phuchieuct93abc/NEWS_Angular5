@@ -8,7 +8,8 @@ export default class StoryParser {
         if (!html.getElementsByClassName('story__thumb')[0]) {
             return null;
         }
-        const imagePath = html.getElementsByTagName('img')[0].getAttribute('src');
+        const imagePath = html.getElementsByTagName('img')[0].getAttribute('data-src');
+
         const title = html.getElementsByClassName('story__heading')[0].textContent
         this.story = new Story(this.extractId(), title, '1', imagePath,this.extractUrl())
     }

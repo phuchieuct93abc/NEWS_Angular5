@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
 
 
 app.get('/story', (req, res) => {
-    axios.get("https://m.baomoi.com/"+req.query.url).then(response => {
+    axios.get("https://m.baomoi.com"+req.query.url).then(response => {
+        response.data = response.data.replace(new RegExp("data-", 'g'), '');
         const dom = new JSDOM(response.data);
         res.send(new ArticleParser(dom.window.document.getElementsByTagName('body')[0]).getArticle())
     })

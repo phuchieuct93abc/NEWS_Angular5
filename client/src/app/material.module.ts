@@ -62,7 +62,7 @@ const modules = [
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatRippleModule,
+    MatRippleModule
 
 
 ]

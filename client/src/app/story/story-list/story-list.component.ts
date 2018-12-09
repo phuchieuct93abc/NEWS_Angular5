@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {StoryService} from "../shared/story.service";
+import {StoryService} from "../../shared/story.service";
 import {Observable} from "rxjs";
-import {Story} from "../../../../model/Story";
+import {Story} from "../../../../../model/Story";
 
 @Component({
     selector: 'app-story-list',

@@ -3,25 +3,33 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
 import {map} from "rxjs/operators";
+import CONFIG from "../config";
 
 @Injectable({
     providedIn: 'root'
 })
 export class StoryService {
+    private stories: Story[] = []
+
     constructor(private httpClient: HttpClient) {
 
     }
 
     getStories(): Observable<any> {
-        console.log("call")
-        return this.httpClient.get("http://localhost:3000").pipe(map(
+        return this.httpClient.get(CONFIG.baseUrl).pipe(map(
             (result) => {
                 let results = result as any[];
-                return results.map(story => {
-                    return story == null ? null : new Story(story['id'], story['title'], story['desc'], story['imagePath'], story['originalUrl'])
+                return results.map(s => {
+                    const story = new Story(s['id'], s['title'], s['desc'], s['imagePath'], s['originalUrl']);
+                    this.stories.push(story);
+                    return story;
                 })
             }
         ));
 
+    }
+
+    getById(id: string) {
+        return this.stories.find(s => s.id === id)
     }
 }

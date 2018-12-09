@@ -1,4 +1,4 @@
-import {Story} from "../model/Story";
+import {Story} from "../../../model/Story";
 
 export default class StoryParser {
     public story: Story;

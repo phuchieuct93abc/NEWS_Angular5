@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {StoryService} from "../shared/story.service";
+import {Observable} from "rxjs";
+import {Story} from "../../../../model/Story";
 
 @Component({
     selector: 'app-story-list',
@@ -8,14 +10,13 @@ import {HttpClient} from "@angular/common/http";
 })
 export class StoryListComponent implements OnInit {
 
-    constructor(private http: HttpClient) {
+    stories: Observable<Story[]>
+
+    constructor(private storyService: StoryService) {
     }
 
     ngOnInit() {
-        this.http.get("http://localhost:3000").lift()
-            .subscribe(res => {
-            console.log(res)
-        })
+        this.stories = this.storyService.getStories() ;
     }
 
 }

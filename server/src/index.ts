@@ -1,5 +1,5 @@
 import StoryParser from "./parsers/StoryParser";
-import Article from "./model/Article";
+import Article from "../../model/Article";
 import ArticleParser from "./parsers/ArticleParser";
 
 const express = require('express')
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
         const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
         let stories = Array.from(result).map(r => {
             return new StoryParser(r).story;
-        }).filter(r => r !== null);
+        }).filter(r => r != null);
         res.send(stories)
     })
 })

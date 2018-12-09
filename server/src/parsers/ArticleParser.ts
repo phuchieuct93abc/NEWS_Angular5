@@ -1,4 +1,4 @@
-import Article from "../model/Article";
+import Article from "../../../model/Article";
 
 export default class ArticleParser {
     private article: Article;

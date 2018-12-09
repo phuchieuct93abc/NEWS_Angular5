@@ -15,7 +15,7 @@
   "scripts": {
     "start": "npm-run-all --parallel watch:build watch:server",
     "watch:build": "tsc --watch",
-    "watch:server": "nodemon dist/index"
+    "watch:server": "nodemon dist/server/src/index"
   },
   "devDependencies": {
     "@types/node": "^10.12.12"

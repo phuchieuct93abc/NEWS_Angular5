@@ -1,0 +1,25 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm-run-all --parallel client server",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phuchieuct93abc/NEWS_Angular5.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phuchieuct93abc/NEWS_Angular5/issues"
+  },
+  "homepage": "https://github.com/phuchieuct93abc/NEWS_Angular5#readme",
+  "dependencies": {
+    "nodemon": "^1.18.7",
+    "npm-run-all": "^4.1.5"
+  }
+}

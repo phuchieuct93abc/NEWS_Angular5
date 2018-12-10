@@ -1,0 +1,11 @@
+.mat-card .last-child {
+    margin-bottom: 0;
+}
+
+.mat-card {
+    cursor: pointer;
+}
+
+.mat-card.active {
+    background-color: #e5e5e5;
+}

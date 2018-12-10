@@ -1,0 +1,13 @@
+<div #articleView *ngIf="article" class="container-fluid article">
+    <div class="row">
+        <div class="col-12">
+            <h3>
+                {{article.header}}
+
+            </h3>
+            <p [innerHTML]="article.body" class="article-body">
+            </p>
+        </div>
+    </div>
+
+</div>

@@ -1,11 +1,14 @@
-<div class="container-fluid pt-2 pb-2 h-100">
-    <div class="row h-100">
+<div class="container-fluid pb-2 h-100 ">
+    <div class="row header">
+        <app-navigator class="w-100"></app-navigator>
+    </div>
+    <div class="row mt-2 main-content">
         <div class="col-5">
 
             <app-story-list></app-story-list>
         </div>
-    <div class="col-7">
-        <router-outlet></router-outlet>
-    </div>
+        <div class="col-7">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </div>

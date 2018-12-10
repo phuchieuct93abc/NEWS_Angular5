@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'my-app',
@@ -9,11 +9,11 @@ import {HttpClient} from "@angular/common/http";
 export class AppComponent implements OnInit {
     name = 'Angular';
 
-    constructor(private http: HttpClient) {
+    constructor(private router: Router) {
     }
 
     ngOnInit(): void {
-
+        this.router.navigate(["/"])
     }
 
 }

@@ -2,4 +2,16 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+:focus {
+    outline: none;
+}
 
+.body-image img {
+    width: 100% !important;
+    height: auto;
+}
+
+.body-video video {
+    width: 100%;
+    height: auto;
+}

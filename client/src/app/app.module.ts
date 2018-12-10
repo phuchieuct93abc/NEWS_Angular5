@@ -10,10 +10,11 @@ import {MaterialModule} from "./material.module";
 import {StoryComponent} from "./story/story/story.component";
 import {AppRoutingModule} from "./routing.module";
 import {ArticleComponent} from "./article/article.component";
+import {NavigatorComponent} from "./navigator/navigator.component";
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpClientModule, BrowserAnimationsModule, MaterialModule,AppRoutingModule],
-    declarations: [AppComponent, StoryListComponent, StoryComponent,ArticleComponent],
+    declarations: [AppComponent, StoryListComponent, StoryComponent, ArticleComponent, NavigatorComponent],
     bootstrap: [AppComponent],
     providers:[]
 

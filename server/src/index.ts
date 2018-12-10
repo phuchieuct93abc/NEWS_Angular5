@@ -1,36 +1,23 @@
-import StoryParser from "./parsers/StoryParser";
-import Article from "../../model/Article";
-import ArticleParser from "./parsers/ArticleParser";
+import StoryService from "./StoryService";
+import ArticleService from "./ArticleService";
 
-const express = require('express')
-const axios = require('axios');
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const express = require('express');
 
-const app = express()
+
+const app = express();
 const port = 3000;
-var cors = require('cors')
-
-app.use(cors())
+var cors = require('cors');
+const storyService = new StoryService();
+const articleService = new ArticleService();
+app.use(cors());
 
 app.get('/', (req, res) => {
-    axios.get("https://m.baomoi.com/").then(response => {
-        const dom = new JSDOM(response.data);
-        const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-        let stories = Array.from(result).map(r => {
-            return new StoryParser(r).story;
-        }).filter(r => r != null);
-        res.send(stories)
-    })
-})
+    storyService.getAllStories().then(stories => res.send(stories))
+});
 
 
 app.get('/story', (req, res) => {
-    axios.get("https://m.baomoi.com"+req.query.url).then(response => {
-        response.data = response.data.replace(new RegExp("data-", 'g'), '');
-        const dom = new JSDOM(response.data);
-        res.send(new ArticleParser(dom.window.document.getElementsByTagName('body')[0]).getArticle())
-    })
-})
+    articleService.getArticleById(req.query.url).then(article => res.send(article))
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

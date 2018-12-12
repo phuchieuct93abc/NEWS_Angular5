@@ -1,4 +1,4 @@
-import ArticleParser from "./parsers/ArticleParser";
+import BaomoiArticleParser from "./parsers/baomoi/BaomoiArticleParser";
 import Article from "../../model/Article";
 
 const jsdom = require("jsdom");
@@ -10,7 +10,7 @@ export default class ArticleService {
         return new Promise((resolve) => {
                 axios.get("https://m.baomoi.com" + id).then(response => {
                     const dom = new JSDOM(response.data);
-                    resolve(new ArticleParser(dom.window.document.getElementsByTagName('body')[0]).getArticle())
+                    resolve(new BaomoiArticleParser(dom.window.document.getElementsByTagName('body')[0]).article)
 
                 })
             }

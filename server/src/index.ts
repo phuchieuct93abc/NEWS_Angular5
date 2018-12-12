@@ -11,12 +11,13 @@ const storyService = new StoryService();
 const articleService = new ArticleService();
 app.use(cors());
 
-app.get('/', (req, res) => {
-    storyService.getAllStories().then(stories => res.send(stories))
+app.get('/story', (req, res) => {
+    console.log(req.query.pageNumber);
+    storyService.getStories(req.query.pageNumber).then(stories => res.send(stories))
 });
 
 
-app.get('/story', (req, res) => {
+app.get('/article', (req, res) => {
     articleService.getArticleById(req.query.url).then(article => res.send(article))
 });
 

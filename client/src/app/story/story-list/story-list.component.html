@@ -1,6 +1,12 @@
-<div class="col-12 story-list">
+<div (scrolled)="onLoadMore()"
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="50"
+     [scrollWindow]="false"
+     class="col-12 story-list"
+     infinite-scroll>
 
-    <div *ngFor="let story of stories | async">
+    <div *ngFor="let story of stories | async"
+    >
         <app-story [story]="story"></app-story>
     </div>
 

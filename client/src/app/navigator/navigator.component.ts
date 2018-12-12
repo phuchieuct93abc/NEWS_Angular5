@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Categories} from "../shared/categories.cont";
 
 @Component({
     selector: 'app-navigator',
@@ -6,11 +7,12 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./navigator.component.css']
 })
 export class NavigatorComponent implements OnInit {
-
+    categories: any;
     constructor() {
     }
 
     ngOnInit() {
+        this.categories = Categories;
     }
 
 }

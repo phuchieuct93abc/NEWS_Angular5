@@ -1,27 +1,15 @@
 import Article from "../../../model/Article";
 
-export default class ArticleParser {
-    private article: Article;
+export abstract class ArticleParser {
+    protected html: Element;
 
-    constructor(private html: Element) {
-        const header = html.getElementsByClassName('article__header')[0].textContent;
-        const id = html.getElementsByClassName('article')[0].getAttribute('data-aid');
-        this.article = new Article(id, header, null, this.convertHtmlBody(), null);
+    protected constructor(html: Element) {
+        this.html = html;
     }
 
-    convertHtmlBody() {
-        let body = this.html.getElementsByClassName('article__body')[0].innerHTML;
-        body = this.replaceAll(body, "data-", "");
-        return this.replaceAll(body, "<video", "<video controls")
+    protected _article: Article;
 
-    }
-
-    getArticle() {
-        return this.article;
-    }
-
-    replaceAll(str: string, placeholder: string, replacement: string): string {
-        return str.replace(new RegExp(placeholder, 'g'), replacement);
-
+    get article(): Article {
+        return this._article;
     }
 }

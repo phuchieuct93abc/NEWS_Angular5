@@ -19,7 +19,7 @@ export class ArticleService {
         if (story == null) {
             return EMPTY;
         }
-        return this.httpClient.get(CONFIG.baseUrl + "/story", {
+        return this.httpClient.get(CONFIG.baseUrl + "article", {
             params: {
                 url: story.originalUrl
             }

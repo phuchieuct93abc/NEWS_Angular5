@@ -20,10 +20,14 @@ export class ArticleComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             let id = params['id'];
-            this.articleService.getById(id).subscribe(article => {
-                this.article = article;
-                (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
-            });
+            console.log(id);
+            if (id) {
+                this.articleService.getById(id).subscribe(article => {
+                    this.article = article;
+                    (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
+                });
+            }
+
 
         })
     }

@@ -11,12 +11,21 @@ import {StoryComponent} from "./story/story/story.component";
 import {AppRoutingModule} from "./routing.module";
 import {ArticleComponent} from "./article/article.component";
 import {NavigatorComponent} from "./navigator/navigator.component";
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {ArticleHeaderComponent} from "./article/article-header/article-header.component";
+
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpClientModule, BrowserAnimationsModule, MaterialModule,AppRoutingModule],
-    declarations: [AppComponent, StoryListComponent, StoryComponent, ArticleComponent, NavigatorComponent],
+    imports: [BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        AppRoutingModule,
+        InfiniteScrollModule],
+    declarations: [AppComponent, StoryListComponent, StoryComponent, ArticleComponent, NavigatorComponent, ArticleHeaderComponent],
     bootstrap: [AppComponent],
-    providers:[]
+    providers: []
 
 })
 export class AppModule {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
-import {Observable} from "rxjs";
-import {Story} from "../../../../../model/Story";
+import {Observable, of} from "rxjs";
+import {Story} from '../../../../../model/Story';
 
 @Component({
     selector: 'app-story-list',
@@ -10,13 +10,16 @@ import {Story} from "../../../../../model/Story";
 })
 export class StoryListComponent implements OnInit {
 
-    stories: Observable<Story[]>
+    stories: Observable<Story[]>;
 
     constructor(private storyService: StoryService) {
     }
 
     ngOnInit() {
-        this.stories = this.storyService.getStories() ;
+        this.stories = this.storyService.getStories();
     }
 
+    onLoadMore() {
+        this.storyService.getStories().subscribe(value => this.stories = of(value));
+    }
 }

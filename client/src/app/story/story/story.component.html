@@ -1,4 +1,4 @@
-<mat-card [routerLink]="story.id" class="mb-2" matRipple routerLinkActive="active">
+<mat-card (click)="navigate(story)" class="mb-2" matRipple routerLinkActive="active">
     <mat-card-content class="last-child">
         Text content
         <div class="container">

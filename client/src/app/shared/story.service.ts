@@ -5,28 +5,38 @@ import {Story} from "../../../../model/Story";
 import {map} from "rxjs/operators";
 import CONFIG from "../config";
 
+const storyUrl = CONFIG.baseUrl + `story`;
+
 @Injectable({
     providedIn: 'root'
 })
 export class StoryService {
-    private stories: Story[] = []
+    private currentStoryPage = 0;
+
+    private stories: Story[] = [];
 
     constructor(private httpClient: HttpClient) {
 
     }
 
     getStories(): Observable<any> {
-        return this.httpClient.get(CONFIG.baseUrl).pipe(map(
-            (result) => {
+        return this.httpClient.get(storyUrl, {
+            params: {
+                pageNumber: ++this.currentStoryPage + ''
+            }
+        }).pipe(map(
+            result => {
                 let results = result as any[];
-                return results.map(s => {
-                    const story = new Story(s['id'], s['title'], s['desc'], s['imagePath'], s['originalUrl']);
-                    this.stories.push(story);
-                    return story;
-                })
+                let stories: Story[] = results.map(this.storyConverter);
+                this.stories.push(...stories);
+                return this.stories
             }
         ));
 
+    }
+
+    private storyConverter(rawData) {
+        return new Story(rawData['id'], rawData['title'], rawData['desc'], rawData['imagePath'], rawData['originalUrl']);
     }
 
     getById(id: string) {

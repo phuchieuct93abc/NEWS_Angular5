@@ -1,23 +1,31 @@
 import {Story} from "../../model/Story";
-import StoryParser from "./parsers/StoryParser";
+import BaomoiStoryParser from "./parsers/baomoi/BaomoiStoryParser";
+import {CONFIG} from "./const";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 const axios = require('axios');
 
+
 export default class StoryService {
-    getAllStories(): Promise<Story[]> {
+    getStories(pageNumber: string): Promise<Story[]> {
         return new Promise((resolve) => {
-            axios.get("https://m.baomoi.com/").then(response => {
+            const url = CONFIG.baomoiUrl + `trang${pageNumber}.epi?loadmore=1`;
+            console.log('url', url);
+            axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-                resolve(Array.from(result).map(r => {
-                        return new StoryParser(r).story;
-                    }).filter(r => r != null)
-                )
+                let stories = Array.from(result)
+                    .map(r => {
+                        return new BaomoiStoryParser(r).parseStory()
+
+                    })
+                    .filter(r => r != null);
+                resolve(stories)
             })
         })
 
 
     }
+
 }

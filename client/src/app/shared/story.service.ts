@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
 import {map} from "rxjs/operators";
-import CONFIG from "../config";
+import CONFIG from "../../environments/environment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 

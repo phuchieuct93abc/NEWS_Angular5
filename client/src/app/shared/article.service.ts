@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import CONFIG from "../config";
 import {StoryService} from "./story.service";
 import {EMPTY, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import Article from "../../../../model/Article";
+import CONFIG from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'

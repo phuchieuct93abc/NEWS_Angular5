@@ -2,10 +2,15 @@ import {NgModule} from '@angular/core';
 
 import {RouterModule, Routes} from '@angular/router';
 import {ArticleComponent} from "./article/article.component";
+import {MainComponent} from "./main/main.component";
 
 const routes: Routes = [
-    {path: ':category', component: ArticleComponent},
-    {path: ':category/:id', component: ArticleComponent}
+    {
+        path: ':category', component: MainComponent, children: [
+            {path: ':id', component: ArticleComponent}
+
+        ]
+    },
 ];
 
 @NgModule({

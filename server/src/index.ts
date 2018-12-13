@@ -13,7 +13,7 @@ app.use(cors());
 
 app.get('/story', (req, res) => {
     console.log(req.query.pageNumber);
-    storyService.getStories(req.query.pageNumber).then(stories => res.send(stories))
+    storyService.getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
 });
 
 

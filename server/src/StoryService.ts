@@ -8,10 +8,9 @@ const axios = require('axios');
 
 
 export default class StoryService {
-    getStories(pageNumber: string): Promise<Story[]> {
+    getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
-            const url = CONFIG.baomoiUrl + `trang${pageNumber}.epi?loadmore=1`;
-            console.log('url', url);
+            const url = CONFIG.baomoiUrl + `${category}/trang${pageNumber}.epi?loadmore=1`;
             axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");

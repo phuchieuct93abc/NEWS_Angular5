@@ -19,10 +19,16 @@ export class StoryService {
 
     }
 
-    getStories(): Observable<any> {
+    resetPageNumber() {
+        this.currentStoryPage = 0;
+        this.stories = [];
+    }
+
+    getStories(category: string): Observable<any> {
         return this.httpClient.get(storyUrl, {
             params: {
-                pageNumber: ++this.currentStoryPage + ''
+                pageNumber: ++this.currentStoryPage + '',
+                category: category
             }
         }).pipe(map(
             result => {

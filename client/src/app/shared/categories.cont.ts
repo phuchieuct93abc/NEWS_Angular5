@@ -7,6 +7,12 @@ export const Categories = {
     },
     'thoi-su': {
         name: 'Thời sự'
+    },
+    'the-thao': {
+        name: "Thể Thao"
+    },
+    "khoa-hoc-cong-nghe": {
+        name: "Công Nghệ"
     }
 
 };

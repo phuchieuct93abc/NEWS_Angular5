@@ -3,6 +3,8 @@
     "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
   },
   "hosting": {
+    "predeploy": "cd client && npm build",
+
     "public": "client/dist",
     "ignore": [
       "firebase.json",

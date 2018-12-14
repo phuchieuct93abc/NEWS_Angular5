@@ -3,13 +3,12 @@ import Article from "../../../model/Article";
 export abstract class ArticleParser {
     protected html: Element;
 
-    protected constructor(html: Element) {
+    public setHtml(html: any) {
         this.html = html;
+        return this;
+
     }
 
-    protected _article: Article;
 
-    get article(): Article {
-        return this._article;
-    }
+    abstract parserArticle(): Article;
 }

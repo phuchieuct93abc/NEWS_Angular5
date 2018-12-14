@@ -1,13 +1,12 @@
-import {Story} from "../../../../model/Story";
-import {StoryParser} from "../StoryParser";
+import {Story} from "../../../model/Story";
+import {StoryParser} from "../parsers/StoryParser";
 
-export default class BaomoiStoryParser extends StoryParser {
+export default class GoogleStoryParser extends StoryParser {
 
-
-    constructor(html: any) {
-        super(html);
-
+    constructor() {
+        super();
     }
+
 
     parseStory(): Story {
         if (!this.html.getElementsByClassName('story__thumb')[0]) {

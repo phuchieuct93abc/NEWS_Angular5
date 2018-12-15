@@ -5,9 +5,9 @@ export default class StoryServiceFactory {
     public static get(lang: string): any {
         if (lang === 'en') {
 
-            return new BaomoiStoryService();
-        } else {
             return new GoogleStoryService();
+        } else {
+            return new BaomoiStoryService();
         }
         return null
     }

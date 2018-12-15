@@ -13,7 +13,7 @@ export default class GoogleArticleService extends ArticleService {
         this.parser = new GoogleArticleParser();
     }
 
-    getArticleById(id: string): Promise<Article> {
+    crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
                 axios.get("https://m.baomoi.com" + id).then(response => {
                     const dom = new JSDOM(response.data);

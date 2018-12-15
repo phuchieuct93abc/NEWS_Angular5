@@ -7,10 +7,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <mat-chip-list>
-                <mat-chip *ngFor="let category of categories | keyvalue" [routerLink]="category.key"
-                          routerLinkActive="active">{{ category.value.name }}</mat-chip>
-            </mat-chip-list>
+            <div *ngFor="let category of categories | keyvalue">
+                <a [routerLink]="category.key"
+
+                   class="mr-1 ml-1"
+                   mat-button
+                   routerLinkActive="active"
+                >
+                    {{ category.value.name }}
+                </a>
+                <mat-divider [vertical]="true"></mat-divider>
+
+                <!--<button *ngFor="let category of categories | keyvalue" [routerLink]="category.key"-->
+                <!--routerLinkActive="active"-->
+                <!--mat-raised-button color="primary">{{ category.value.name }}</button>-->
+            </div>
+
+            <!--<mat-chip-list>-->
+            <!--<mat-chip *ngFor="let category of categories | keyvalue" [routerLink]="category.key"-->
+            <!--routerLinkActive="active">{{ category.value.name }}</mat-chip>-->
+            <!--</mat-chip-list>-->
         </div>
     </div>
 </nav>

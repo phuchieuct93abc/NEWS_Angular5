@@ -13,12 +13,14 @@ export default class BaomoiArticleService extends ArticleService {
         this.parser = new BaomoiArticleParser();
     }
 
-    getArticleById(id: string): Promise<Article> {
-        console.log("AA");
+    crawnArticleById(id: string): Promise<Article> {
+        console.log('crawn');
         return new Promise((resolve) => {
                 axios.get("https://m.baomoi.com" + id).then(response => {
                     const dom = new JSDOM(response.data);
-                    resolve(this.parser.setHtml(dom.window.document.getElementsByTagName('body')[0]).parserArticle())
+                    const article = this.parser.setHtml(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
+                    resolve(article);
+                    this.saveArticle(article);
 
                 })
             }

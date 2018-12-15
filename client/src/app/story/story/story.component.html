@@ -1,15 +1,13 @@
 <mat-card [routerLink]="story.id" class="mb-2" matRipple routerLinkActive="active">
     <mat-card-content class="last-child">
-        Text content
         <div class="container">
             <div class="row">
-                <div class="col-5">
-                    <img [src]="story.imagePath" alt="Photo of a Shiba Inu" mat-card-image>
+                <div class="col-8 col-sm-3">
+                    <img [src]="story.imagePath" alt="Photo of a Shiba Inu" class="mt-0 mb-0 " mat-card-image>
 
                 </div>
-                <div class="col-7">
-                    <mat-card-title>{{story.title}}</mat-card-title>
-
+                <div class="col">
+                    <h5>{{story.title}}</h5>
                 </div>
             </div>
         </div>

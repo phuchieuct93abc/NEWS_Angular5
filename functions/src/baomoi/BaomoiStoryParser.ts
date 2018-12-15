@@ -1,11 +1,13 @@
 import {Story} from "../../../model/Story";
 import {StoryParser} from "../parsers/StoryParser";
+import Utility from "../Utility";
 
 export default class BaomoiStoryParser extends StoryParser {
 
     constructor() {
         super();
     }
+
     parseStory(): Story {
         if (!this.html.getElementsByClassName('story__thumb')[0]) {
             return null;
@@ -17,11 +19,8 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     private extractId(): string {
-        const regex = /(\d)+(.epi)+$/gm;
-        const id = this.html.getElementsByTagName('a')[0].getAttribute('href').trim();
+        return Utility.extractId(this.html.getElementsByTagName('a')[0].getAttribute('href').trim());
 
-        const m = regex.exec(id);
-        return m[0].replace('.epi', '');
     }
 
     private extractUrl() {

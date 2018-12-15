@@ -2,6 +2,7 @@ import {Story} from "../../../model/Story";
 import BaomoiStoryParser from "./BaomoiStoryParser";
 import {CONFIG} from "../const";
 import {StoryService} from "../StoryService";
+import ArticleServiceFactory from "../ArticleServiceFactory";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -27,11 +28,19 @@ export default class BaomoiStoryService extends StoryService {
 
                     })
                     .filter(r => r != null);
-                resolve(stories)
+                resolve(stories);
+                this.cacheArticle(stories);
             })
         })
 
 
+    }
+
+    cacheArticle(stories: Story[]) {
+        stories.forEach(story => {
+            console.log("store");
+            ArticleServiceFactory.get("en").getArticleById(story.originalUrl)
+        })
     }
 
 }

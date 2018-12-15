@@ -6,7 +6,10 @@
   "scripts": {
     "start": "npm-run-all --parallel client server",
     "client": "cd client && npm start",
-    "server": "cd functions && npm run-script serve"
+    "server": "cd functions && npm run-script serve",
+    "deploy": "npm-run-all build:client firebase:deploy",
+    "build:client": "cd client && npm run-script build",
+    "firebase:deploy": "firebase deploy"
   },
   "repository": {
     "type": "git",

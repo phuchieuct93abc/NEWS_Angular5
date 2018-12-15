@@ -11,12 +11,12 @@ const cors = require('cors');
 app.use(cors());
 
 app.get('/story', (req, res) => {
-    StoryServiceFactory.get('en').getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
+    StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
 });
 
 
 app.get('/article', (req, res) => {
-    ArticleServiceFactory.get("en").getArticleById(req.query.url).then(article => res.send(article))
+    ArticleServiceFactory.get("vi").getArticleById(req.query.url).then(article => res.send(article))
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

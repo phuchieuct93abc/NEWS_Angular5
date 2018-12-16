@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2" matRipple
+        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2 w-100" matRipple
                   routerLinkActive="active">
             <mat-card-content class="last-child">
                 <div class="w-100">
@@ -12,7 +12,6 @@
                                     [useSrcset]="true"
                                     alt="Photo of a Shiba Inu"
                                     class="mt-0 mb-0 "
-
                                     defaultImage="../../assets/loading.gif"
                                     mat-card-image
                                     offset="0">

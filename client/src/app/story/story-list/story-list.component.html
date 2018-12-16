@@ -7,7 +7,7 @@
      infinite-scroll>
 
     <div *ngFor="let story of stories;trackBy: trackByFn ">
-        <app-story [scrollContainer]="scrollContainer" [story]="story"></app-story>
+        <app-story *ngIf="scrollContainer" [scrollContainer]="scrollContainer" [story]="story"></app-story>
     </div>
 
 </div>

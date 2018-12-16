@@ -16,7 +16,7 @@ import {ArticleHeaderComponent} from "./article/article-header/article-header.co
 import {MainComponent} from "./main/main.component";
 import {MomentModule} from 'ngx-moment';
 
-import {intersectionObserverPreset, LazyLoadImageModule} from 'ng-lazyload-image';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
 
 
 @NgModule({
@@ -29,9 +29,7 @@ import {intersectionObserverPreset, LazyLoadImageModule} from 'ng-lazyload-image
         AppRoutingModule,
         InfiniteScrollModule,
         MomentModule,
-        LazyLoadImageModule.forRoot({
-            preset: intersectionObserverPreset
-        })
+        LazyLoadImageModule
     ],
     declarations: [
         AppComponent,

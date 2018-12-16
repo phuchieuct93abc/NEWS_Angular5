@@ -8,7 +8,6 @@ export abstract class ArticleService {
     abstract crawnArticleById(id: string): Promise<Article>
 
     public getArticleById(idPath: string): Promise<Article> {
-
         return new Promise(resolver => {
             FirebaseService.findArticle(idPath).then(article => {
                 if (article.exists) {
@@ -26,6 +25,9 @@ export abstract class ArticleService {
     }
 
     protected saveArticle(article: Article) {
-        FirebaseService.saveArticle(article);
+        setTimeout(() => {
+            console.log('save article', article);
+            FirebaseService.saveArticle(article);
+        }, 10000)
     }
 }

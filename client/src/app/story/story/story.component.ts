@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Story} from "../../../../../model/Story";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-story',
@@ -10,15 +12,25 @@ export class StoryComponent implements OnInit {
 
     @Input()
     story: Story;
+    selected: boolean = false;
+    isSmallScreen: boolean;
 
-
-    constructor() {
-
+    constructor(private breakpointService: BreakpointDetectorService, private route: ActivatedRoute, private router: Router) {
     }
 
-    ngOnInit() {
-        console.log(this.story.storyMeta)
+    onSelectStory() {
+        this.selected = true;
     }
 
+    ngOnInit(): void {
+        this.isSmallScreen = this.breakpointService.isSmallScreen;
 
+        // this.router.events.subscribe((event) => {
+        //     if (event instanceof NavigationEnd) {
+        //         this.selected = this.route.firstChild.snapshot.params['id'] === this.story.id;
+        //
+        //     }
+        // });
+
+    }
 }

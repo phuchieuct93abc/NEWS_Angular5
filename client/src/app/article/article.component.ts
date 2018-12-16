@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -10,6 +10,8 @@ import Article from "../../../../model/Article";
 })
 export class ArticleComponent implements OnInit {
     article: Article;
+    @Input()
+    articleId: string;
 
     @ViewChild('articleView')
     articleView: ElementRef;
@@ -19,17 +21,19 @@ export class ArticleComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            let id = params['id'];
-            console.log(id);
-            if (id) {
-                this.articleService.getById(id).subscribe(article => {
-                    this.article = article;
-                    (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
-                });
-            }
+            this.showArticleById(params['id']);
+        });
+        this.showArticleById(this.articleId);
+    }
 
 
-        })
+    private showArticleById(id: string) {
+        if (id) {
+            this.articleService.getById(id).subscribe(article => {
+                this.article = article;
+                (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
+            });
+        }
     }
 
 }

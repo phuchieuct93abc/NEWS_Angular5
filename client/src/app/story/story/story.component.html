@@ -1,29 +1,39 @@
-<mat-card [routerLink]="story.id" class="mb-2" matRipple routerLinkActive="active">
-    <mat-card-content class="last-child">
-        <div class="container">
-            <div class="row">
-                <div class="col-8 col-sm-3">
-                    <img [src]="story.imagePath" alt="Photo of a Shiba Inu" class="mt-0 mb-0 " mat-card-image>
-
-                </div>
-                <div class="col">
+<div class="container-fluid">
+    <div class="row">
+        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2" matRipple routerLinkActive="active">
+            <mat-card-content class="last-child">
+                <div class="w-100">
                     <div class="row">
-                        <div class="col">
-                            <h5>{{story.title}}</h5>
+                        <div class="col-12 col-sm-3">
+                            <img [src]="story.imagePath" alt="Photo of a Shiba Inu" class="mt-0 mb-0 " mat-card-image>
 
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col">
-                            <footer class="blockquote-footer text-right">
-                                <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                                {{story.storyMeta.time | amTimeAgo}}
+                            <div class="row">
+                                <div class="col">
+                                    <h5>{{story.title}}</h5>
 
-                            </footer>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <footer class="blockquote-footer text-right">
+                                        <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                                        {{story.storyMeta.time | amTimeAgo}}
+
+                                    </footer>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-        </div>
-    </mat-card-content>
-</mat-card>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div *ngIf="selected && isSmallScreen" class="row">
+        <app-article [articleId]="story.id" class="w-100"></app-article>
+
+
+    </div>
+</div>

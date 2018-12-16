@@ -1,4 +1,5 @@
 .story-list{
     height: 100%;
     overflow: auto;
+    padding: 0 1px;
 }

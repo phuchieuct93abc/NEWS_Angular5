@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
-import {Observable, of} from "rxjs";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 
@@ -11,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class StoryListComponent implements OnInit {
 
-    stories: Observable<Story[]>;
+    stories: Story[];
     category: string;
 
     constructor(private storyService: StoryService, private route: ActivatedRoute) {
@@ -21,11 +20,17 @@ export class StoryListComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.category = params['category'];
             this.storyService.resetPageNumber();
-            this.stories = this.storyService.getStories(this.category);
+            this.onLoadMore();
         })
     }
 
     onLoadMore() {
-        this.storyService.getStories(this.category).subscribe(value => this.stories = of(value));
+        this.storyService.getStories(this.category).subscribe(value => {
+            this.stories = value;
+        });
+    }
+
+    trackByFn(index) {
+        return index;
     }
 }

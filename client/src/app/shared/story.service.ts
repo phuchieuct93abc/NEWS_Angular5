@@ -42,7 +42,8 @@ export class StoryService {
     }
 
     private storyConverter(rawData) {
-        return new Story(rawData['id'], rawData['title'], rawData['desc'], rawData['imagePath'], rawData['originalUrl']);
+        let {id, title, desc, imagePath, originalUrl, storyMeta} = rawData;
+        return new Story(id, title, desc, imagePath, originalUrl, storyMeta);
     }
 
     getById(id: string) {

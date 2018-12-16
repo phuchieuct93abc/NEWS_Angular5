@@ -5,8 +5,7 @@
      class="col story-list"
      infinite-scroll>
 
-    <div *ngFor="let story of stories | async"
-    >
+    <div *ngFor="let story of stories;trackBy: trackByFn ">
         <app-story [story]="story"></app-story>
     </div>
 

@@ -17,6 +17,7 @@ export class StoryComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.story.storyMeta)
     }
 
 

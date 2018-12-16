@@ -7,7 +7,21 @@
 
                 </div>
                 <div class="col">
-                    <h5>{{story.title}}</h5>
+                    <div class="row">
+                        <div class="col">
+                            <h5>{{story.title}}</h5>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <footer class="blockquote-footer text-right">
+                                <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                                {{story.storyMeta.time | amTimeAgo}}
+
+                            </footer>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

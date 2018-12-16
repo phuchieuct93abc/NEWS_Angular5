@@ -29,7 +29,7 @@ export default class BaomoiStoryService extends StoryService {
                     })
                     .filter(r => r != null);
                 resolve(stories);
-                this.cacheArticle(stories);
+                //  this.cacheArticle(stories);
             })
         })
 
@@ -38,7 +38,6 @@ export default class BaomoiStoryService extends StoryService {
 
     cacheArticle(stories: Story[]) {
         stories.forEach(story => {
-            console.log("store");
             ArticleServiceFactory.get("en").getArticleById(story.originalUrl)
         })
     }

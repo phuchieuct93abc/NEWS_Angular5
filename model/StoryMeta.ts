@@ -1,4 +1,4 @@
-export default class Meta {
+export default class StoryMeta {
     public source: string;
     public time: string;
 

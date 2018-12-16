@@ -14,6 +14,7 @@ import {NavigatorComponent} from "./navigator/navigator.component";
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {ArticleHeaderComponent} from "./article/article-header/article-header.component";
 import {MainComponent} from "./main/main.component";
+import {MomentModule} from 'ngx-moment';
 
 
 @NgModule({
@@ -24,7 +25,9 @@ import {MainComponent} from "./main/main.component";
         BrowserAnimationsModule,
         MaterialModule,
         AppRoutingModule,
-        InfiniteScrollModule],
+        InfiniteScrollModule,
+        MomentModule
+    ],
     declarations: [
         AppComponent,
         StoryListComponent,

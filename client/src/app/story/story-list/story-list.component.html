@@ -3,10 +3,11 @@
      [infiniteScrollThrottle]="50"
      [scrollWindow]="false"
      class="w-100 story-list"
+     #scrollContainer
      infinite-scroll>
 
     <div *ngFor="let story of stories;trackBy: trackByFn ">
-        <app-story [story]="story"></app-story>
+        <app-story [scrollContainer]="scrollContainer" [story]="story"></app-story>
     </div>
 
 </div>

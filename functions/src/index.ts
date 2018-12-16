@@ -3,13 +3,14 @@ import StoryServiceFactory from "./StoryServiceFactory";
 import ArticleServiceFactory from "./ArticleServiceFactory";
 
 const express = require('express');
+var compression = require('compression');
 
 
 const app = express();
 const port = 3000;
 const cors = require('cors');
+app.use(compression());
 app.use(cors());
-
 app.get('/story', (req, res) => {
     StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
 });

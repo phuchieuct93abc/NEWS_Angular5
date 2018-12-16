@@ -1,11 +1,21 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2" matRipple routerLinkActive="active">
+        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2" matRipple
+                  routerLinkActive="active">
             <mat-card-content class="last-child">
                 <div class="w-100">
                     <div class="row">
                         <div class="col-12 col-sm-3">
-                            <img [src]="story.imagePath" alt="Photo of a Shiba Inu" class="mt-0 mb-0 " mat-card-image>
+                            <img
+                                    [lazyLoad]="story.imagePath"
+                                    [scrollTarget]="scrollTarget"
+                                    [useSrcset]="true"
+                                    alt="Photo of a Shiba Inu"
+                                    class="mt-0 mb-0 "
+
+                                    defaultImage="../../assets/loading.gif"
+                                    mat-card-image
+                                    offset="0">
 
                         </div>
                         <div class="col">

@@ -1,18 +1,14 @@
 <div #articleView class="w-100 article">
-    <div class="row">
-        <div class="col-12">
-            <app-article-header></app-article-header>
-        </div>
+    <div>
+        <app-article-header></app-article-header>
     </div>
-    <div *ngIf="article" class="row">
-        <div class="col-12">
-            <h3>
-                {{article.header}}
+    <div *ngIf="article">
+        <h3>
+            {{article.header}}
 
-            </h3>
-            <p [innerHTML]="article.body" class="article-body">
-            </p>
-        </div>
+        </h3>
+        <p [innerHTML]="article.body" class="article-body">
+        </p>
     </div>
 
 </div>

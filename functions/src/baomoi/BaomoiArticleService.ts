@@ -15,11 +15,12 @@ export default class BaomoiArticleService extends ArticleService {
 
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
-            console.time(`fetcharticle${id}`);
+            console.time(`fetch article${id}`);
                 axios.get("https://m.baomoi.com" + id).then(response => {
+
                     const dom = new JSDOM(response.data);
                     const article = this.parser.setHtml(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
-                    console.timeEnd(`fetcharticle${id}`);
+                    console.timeEnd(`fetch article${id}`);
 
                     resolve(article);
                     this.saveArticle(article);

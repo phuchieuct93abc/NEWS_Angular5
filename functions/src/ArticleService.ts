@@ -9,8 +9,11 @@ export abstract class ArticleService {
 
     public getArticleById(idPath: string): Promise<Article> {
         return new Promise(resolver => {
+
             console.time(`firebase${idPath}`);
+
             FirebaseService.findArticle(idPath).then(article => {
+
                 if (article.exists) {
                     console.timeEnd(`firebase${idPath}`);
 

@@ -21,9 +21,10 @@ class FirebaseService {
 
     constructor() {
         if (functions.config().firebase) {
-
+            console.error('load from cloud function');
             admin.initializeApp(functions.config().firebase);
         } else {
+            console.error('load from json');
 
             admin.initializeApp({
                 credential: admin.credential.cert(firebaseConfig)

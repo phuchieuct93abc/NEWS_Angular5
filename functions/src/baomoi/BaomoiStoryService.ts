@@ -29,7 +29,7 @@ export default class BaomoiStoryService extends StoryService {
                     })
                     .filter(r => r != null);
                 resolve(stories);
-                this.cacheArticle(stories);
+                //  this.cacheArticle(stories);
             })
         })
 

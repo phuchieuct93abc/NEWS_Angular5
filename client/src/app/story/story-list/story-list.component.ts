@@ -30,7 +30,7 @@ export class StoryListComponent implements OnInit {
         });
     }
 
-    trackByFn(index) {
-        return index;
+    trackByFn(index, value: Story) {
+        return value.id;
     }
 }

@@ -1,18 +1,18 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2 w-100" matRipple
+        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2 w-100"
                   routerLinkActive="active">
             <mat-card-content class="last-child">
                 <div class="w-100">
                     <div class="row">
                         <div class="col-12 col-sm-3" style="overflow: hidden">
                             <img
-                                    [lazyLoad]="story.imagePath"
-                                    [scrollTarget]="scrollTarget"
+                                    [src]="story.imagePath"
                                     class="mt-0 mb-0 "
                                     defaultImage="../../assets/loading.png"
                                     mat-card-image
-                                    offset="0">
+                                    offset="0"
+                            >
 
                         </div>
                         <div class="col">
@@ -38,7 +38,7 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="selected && isSmallScreen" class="row">
+    <div *ngIf="selected && isSmallScreen" class="d-block d-sm-none">
         <app-article [articleId]="story.id" class="w-100"></app-article>
 
 

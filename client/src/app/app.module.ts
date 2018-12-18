@@ -17,6 +17,7 @@ import {MainComponent} from "./main/main.component";
 import {MomentModule} from 'ngx-moment';
 
 import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {VirtualScrollerModule} from "ngx-virtual-scroller";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
         AppRoutingModule,
         InfiniteScrollModule,
         MomentModule,
-        LazyLoadImageModule
+        LazyLoadImageModule,
+        VirtualScrollerModule
     ],
     declarations: [
         AppComponent,

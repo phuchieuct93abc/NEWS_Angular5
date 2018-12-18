@@ -65,7 +65,7 @@ const modules = [
     MatRippleModule
 
 
-]
+];
 
 @NgModule({
     exports: modules,

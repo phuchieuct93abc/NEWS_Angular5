@@ -2,11 +2,11 @@
     <div>
         <!--<app-article-header></app-article-header>-->
     </div>
-    <div *ngIf="article">
-        <h3>
+    <div>
+        <h5>
             {{article.header}}
 
-        </h3>
+        </h5>
         <p [innerHTML]="article.body" class="article-body">
         </p>
     </div>

@@ -11,7 +11,10 @@ import {ActivatedRoute} from "@angular/router";
 export class StoryListComponent implements OnInit {
 
     stories: Story[];
+    isLoadingMore = false;
+
     category: string;
+    protected buffer: Story[] = [];
 
     constructor(private storyService: StoryService, private route: ActivatedRoute) {
     }
@@ -20,14 +23,24 @@ export class StoryListComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.category = params['category'];
             this.storyService.resetPageNumber();
-            this.onLoadMore();
+            this.storyService.getStories(this.category).subscribe(value => {
+                this.isLoadingMore = false;
+                this.stories = value;
+            });
         })
     }
 
-    onLoadMore() {
-        this.storyService.getStories(this.category).subscribe(value => {
-            this.stories = value;
-        });
+    onLoadMore(event) {
+        if (event.end !== this.stories.length - 1) return;
+
+        if (!this.isLoadingMore) {
+            this.isLoadingMore = true;
+            this.storyService.getStories(this.category).subscribe(value => {
+                this.isLoadingMore = false;
+                this.stories = value;
+            });
+        }
+
     }
 
     trackByFn(index, value: Story) {

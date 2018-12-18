@@ -1,15 +1,26 @@
-<div (scrolled)="onLoadMore()"
-     [infiniteScrollDistance]="2"
-     [infiniteScrollThrottle]="50"
-     [scrollWindow]="false"
-     class="w-100 story-list"
-     #scrollContainer
-     infinite-scroll>
+<!--<div-->
+<!--class="w-100 story-list"-->
+<!--#scrollContainer-->
+<!--&gt;-->
 
-    <div *ngFor="let story of stories;trackBy: trackByFn ">
-        <app-story *ngIf="scrollContainer" [scrollContainer]="scrollContainer" [story]="story"></app-story>
-    </div>
+<!--<div *ngFor="let story of stories;trackBy: trackByFn ">-->
+<!--<app-story  [scrollContainer]="scrollContainer" [story]="story"></app-story>-->
+<!--</div>-->
 
-</div>
+<!--</div>-->
+
+<!--<cdk-virtual-scroll-viewport itemSize="358" class="w-100 story-list" #scrollContainer>-->
+
+<!--<div *cdkVirtualFor="let story of stories; templateCacheSize: 0" minBufferPx="200" maxBufferPx="400">-->
+<!--<app-story  [scrollContainer]="scrollContainer" [story]="story"></app-story>-->
+<!--</div>-->
+<!--</cdk-virtual-scroll-viewport>-->
+<virtual-scroller #scroll (vsEnd)="onLoadMore($event)" *ngIf="stories" [enableUnequalChildrenSizes]="true"
+                  [items]="stories" class="h-100 w-100">
+
+    <app-story *ngFor="let item of scroll.viewPortItems" [scrollContainer]="scrollContainer" [story]="item"></app-story>
+
+
+</virtual-scroller>
 
 

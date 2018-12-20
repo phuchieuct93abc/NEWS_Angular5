@@ -30,9 +30,7 @@ export class ArticleComponent implements OnInit {
 
     protected showArticleById(id: string) {
         if (id) {
-            console.log(id);
             this.articleService.getById(id).subscribe(article => {
-                console.log(article);
                 this.article = article;
                 this.scrollToTop();
             });

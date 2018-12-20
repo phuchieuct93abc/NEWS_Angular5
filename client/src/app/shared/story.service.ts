@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
+const cachestoryUrl = CONFIG.baseUrl + `cachestory`;
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,7 @@ export class StoryService {
     }
 
     getStories(category: string): Observable<any> {
-        return this.httpClient.get(storyUrl, {
+        const result = this.httpClient.get(storyUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
                 category: category
@@ -35,9 +36,14 @@ export class StoryService {
                 let results = result as any[];
                 let stories: Story[] = results.map(this.storyConverter);
                 this.stories.push(...stories);
+
+
                 return this.stories
             }
         ));
+
+
+        return result;
 
     }
 

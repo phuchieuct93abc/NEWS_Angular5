@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -6,41 +6,41 @@ import Article from "../../../../model/Article";
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
-    styleUrls: ['./article.component.css']
+    styleUrls: ['./article.component.css'],
+
 })
-export class ArticleComponent implements OnInit, AfterViewInit {
-    article: Article;
+export class ArticleComponent implements OnInit {
+    protected article: Article;
     @Input()
-    articleId: string;
+    protected articleId: string;
 
 
     @ViewChild('articleView')
-    articleView: ElementRef;
+    protected articleView: ElementRef;
 
-    constructor(private route: ActivatedRoute, private articleService: ArticleService, private cdr: ChangeDetectorRef) {
+    constructor(protected route: ActivatedRoute, protected articleService: ArticleService) {
     }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.showArticleById(params['id']);
         });
-        this.showArticleById(this.articleId);
     }
 
-    ngAfterViewInit(): void {
-        // if(this.article){
-        //     this.cdr.detach();
-        // }
-    }
 
-    private showArticleById(id: string) {
+    protected showArticleById(id: string) {
         if (id) {
             console.log(id);
             this.articleService.getById(id).subscribe(article => {
+                console.log(article);
                 this.article = article;
-                (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
+                this.scrollToTop();
             });
         }
+    }
+
+    protected scrollToTop(): void {
+        (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
     }
 
 

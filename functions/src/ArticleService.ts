@@ -10,17 +10,13 @@ export abstract class ArticleService {
     public getArticleById(idPath: string): Promise<Article> {
         return new Promise(resolver => {
 
-            console.time(`firebase${idPath}`);
 
             FirebaseService.findArticle(idPath).then(article => {
 
                 if (article.exists) {
-                    console.timeEnd(`firebase${idPath}`);
-
                     resolver((<Article>article.data()));
                 } else {
                     this.crawnArticleById(idPath).then(article => {
-                        this.saveArticle(article);
                         resolver(article)
                     })
                 }
@@ -30,7 +26,21 @@ export abstract class ArticleService {
 
     }
 
-    protected saveArticle(article: Article) {
-            FirebaseService.saveArticle(article);
+    public crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {
+        return new Promise(resolver => {
+            console.log("article");
+            this.crawnArticleById(idPath).then(article => {
+                this.saveArticle(article).then(value => {
+                    console.log(`success store article ${article.header}`);
+                    resolver(article)
+                });
+            })
+        })
+
+
+    }
+
+    protected saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
+        return FirebaseService.saveArticle(article);
     }
 }

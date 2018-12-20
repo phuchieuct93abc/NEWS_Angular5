@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
+import {StoryListService} from "../../shared/story-list.service";
 
 @Component({
     selector: 'app-story-list',
@@ -16,7 +17,7 @@ export class StoryListComponent implements OnInit {
     category: string;
     protected buffer: Story[] = [];
 
-    constructor(private storyService: StoryService, private route: ActivatedRoute) {
+    constructor(private storyService: StoryService, private route: ActivatedRoute, private storyListService: StoryListService) {
     }
 
     ngOnInit() {
@@ -45,5 +46,9 @@ export class StoryListComponent implements OnInit {
 
     trackByFn(index, value: Story) {
         return value.id;
+    }
+
+    onScroll() {
+        this.storyListService.onScroll.next();
     }
 }

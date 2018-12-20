@@ -38,9 +38,8 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="selected && isSmallScreen" class="d-block d-sm-none">
-        <app-article [articleId]="story.id" class="w-100"></app-article>
-
+    <div *ngIf="selected && isSmallScreen" class="d-block d-sm-none row">
+        <app-inline-article (onClosed)="selected=false" [articleId]="story.id" class="w-100"></app-inline-article>
 
     </div>
 </div>

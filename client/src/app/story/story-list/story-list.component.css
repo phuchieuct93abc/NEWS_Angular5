@@ -1,7 +1,5 @@
 .story-list{
-    height: 100%;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+
     padding: 0 1px;
 }
 

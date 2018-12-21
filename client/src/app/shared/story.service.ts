@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
-import {map} from "rxjs/operators";
+import {map, retry} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
@@ -31,7 +31,9 @@ export class StoryService {
                 pageNumber: ++this.currentStoryPage + '',
                 category: category
             }
-        }).pipe(map(
+        }).pipe(
+            retry(3),
+            map(
             result => {
                 let results = result as any[];
                 let stories: Story[] = results.map(this.storyConverter);

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
-import {StoryListService} from "../../shared/story-list.service";
+import {ScrollEvent, StoryListService} from "../../shared/story-list.service";
 import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 
 @Component({
@@ -36,8 +36,13 @@ export class StoryListComponent implements OnInit {
         this.registerScrollTo();
     }
 
-    vsEnd(event) {
-        this.onLoadMore(event);
+    vsEnd(event: ScrollEvent) {
+        this.onLoadMore(event)
+    }
+
+    vsChange(event: ScrollEvent) {
+        this.storyListService.onScroll.next(event)
+
     }
 
     private registerScrollTo() {
@@ -48,7 +53,7 @@ export class StoryListComponent implements OnInit {
         })
     }
 
-    private onLoadMore(event) {
+    private onLoadMore(event: ScrollEvent) {
         if (event.end !== this.stories.length - 1) return;
 
         if (!this.isLoadingMore) {
@@ -58,6 +63,7 @@ export class StoryListComponent implements OnInit {
                 this.stories = value;
             });
         }
+
 
     }
 

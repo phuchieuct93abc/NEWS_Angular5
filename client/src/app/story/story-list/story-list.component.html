@@ -1,4 +1,4 @@
-<virtual-scroller #scroll (vsEnd)="vsEnd($event)" *ngIf="stories"
+<virtual-scroller #scroll (vsChange)="vsChange($event)" (vsEnd)="vsEnd($event)" *ngIf="stories"
                   [enableUnequalChildrenSizes]="true"
                   [items]="stories" class="h-100 w-100">
 

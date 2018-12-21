@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -6,14 +6,11 @@ import Article from "../../../../model/Article";
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
-    styleUrls: ['./article.component.css'],
+    styleUrls: ['./article.component.scss'],
 
 })
 export class ArticleComponent implements OnInit {
-    protected article: Article;
-    @Input()
-    protected articleId: string;
-
+    public article: Article;
 
     @ViewChild('articleView')
     protected articleView: ElementRef;
@@ -30,6 +27,7 @@ export class ArticleComponent implements OnInit {
 
     protected showArticleById(id: string) {
         if (id) {
+            this.article = null;
             this.articleService.getById(id).subscribe(article => {
                 this.article = article;
                 this.scrollToTop();

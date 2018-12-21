@@ -1,8 +1,8 @@
-<virtual-scroller #scroll (vsEnd)="onLoadMore($event);onScroll()" *ngIf="stories"
+<virtual-scroller #scroll (vsEnd)="vsEnd($event)" *ngIf="stories"
                   [enableUnequalChildrenSizes]="true"
                   [items]="stories" class="h-100 w-100">
 
-    <app-story *ngFor="let item of scroll.viewPortItems" [story]="item"></app-story>
+    <app-story *ngFor="let item of scroll.viewPortItems" [story]="item" class="d-block"></app-story>
 
 
 </virtual-scroller>

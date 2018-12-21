@@ -35,11 +35,15 @@
                     </div>
 
                 </div>
+
+
+                <div *ngIf="selected && isSmallScreen" class="d-block d-sm-none row">
+                    <app-inline-article (onClosed)="selected=false" [story]="story"
+                                        class="w-100 d-block"></app-inline-article>
+
+                </div>
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="selected && isSmallScreen" class="d-block d-sm-none row">
-        <app-inline-article (onClosed)="selected=false" [articleId]="story.id" class="w-100"></app-inline-article>
 
-    </div>
 </div>

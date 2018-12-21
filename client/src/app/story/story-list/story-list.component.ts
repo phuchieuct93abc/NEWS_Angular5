@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 import {StoryListService} from "../../shared/story-list.service";
+import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 
 @Component({
     selector: 'app-story-list',
@@ -16,6 +17,9 @@ export class StoryListComponent implements OnInit {
 
     category: string;
     protected buffer: Story[] = [];
+    @ViewChild(VirtualScrollerComponent)
+    private virtualScroller: VirtualScrollerComponent;
+
 
     constructor(private storyService: StoryService, private route: ActivatedRoute, private storyListService: StoryListService) {
     }
@@ -28,10 +32,23 @@ export class StoryListComponent implements OnInit {
                 this.isLoadingMore = false;
                 this.stories = value;
             });
+        });
+        this.registerScrollTo();
+    }
+
+    vsEnd(event) {
+        this.onLoadMore(event);
+    }
+
+    private registerScrollTo() {
+        this.storyListService.scrollTo.subscribe(item => {
+            const index = this.stories.findIndex(i => i.id === item.id);
+            this.virtualScroller.items = this.stories;
+            this.virtualScroller.scrollInto(this.stories[index]);
         })
     }
 
-    onLoadMore(event) {
+    private onLoadMore(event) {
         if (event.end !== this.stories.length - 1) return;
 
         if (!this.isLoadingMore) {
@@ -44,11 +61,5 @@ export class StoryListComponent implements OnInit {
 
     }
 
-    trackByFn(index, value: Story) {
-        return value.id;
-    }
 
-    onScroll() {
-        this.storyListService.onScroll.next();
-    }
 }

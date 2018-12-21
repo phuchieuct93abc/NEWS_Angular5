@@ -1,5 +1,5 @@
 <div #articleView class="w-100 article" class="scrollable">
-    <div>
+    <div *ngIf="article;else loading">
         <h5>
             {{article.header}}
 
@@ -7,5 +7,12 @@
         <p [innerHTML]="article.body" class="article-body">
         </p>
     </div>
+    <ng-template #loading>
+        <div class="text-center">
+            Đợi tí nhe, tớ đang kéo về
+
+        </div>
+    </ng-template>
+
 
 </div>

@@ -1,0 +1,64 @@
+/* Add application styles & imports to this file! */
+@import "~bootstrap/scss/bootstrap";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:focus {
+    outline: none;
+}
+
+.body-image img {
+    width: 100% !important;
+    height: auto;
+}
+
+.body-video video {
+    width: 100%;
+    height: auto;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+html {
+    font-size: 1rem;
+}
+
+@include media-breakpoint-up(xs) {
+    html {
+        font-size: 1.2rem;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    html {
+        font-size: 1.4rem;
+    }
+}
+.scrollable{
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.fadein{
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.scrollable-content{
+   // transform: none !important;
+}
+
+

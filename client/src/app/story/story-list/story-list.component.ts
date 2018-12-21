@@ -66,7 +66,7 @@ export class StoryListComponent implements OnInit {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
-            this.virtualScroller.scrollInto(this.stories[index]);
+            this.virtualScroller.scrollInto(this.stories[index],true,0,1000);
         })
     }
 

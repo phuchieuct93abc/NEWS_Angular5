@@ -20,6 +20,9 @@ export class StoryListComponent implements OnInit {
     @ViewChild(VirtualScrollerComponent)
     private virtualScroller: VirtualScrollerComponent;
 
+    isShowFixedCloseIcon = false;
+
+    openStory: Story;
 
     constructor(private storyService: StoryService, private route: ActivatedRoute, private storyListService: StoryListService) {
     }
@@ -34,6 +37,20 @@ export class StoryListComponent implements OnInit {
             });
         });
         this.registerScrollTo();
+        this.storyListService.onShowFixedCloseIcon.subscribe(isShow => {
+            if (isShow) {
+                this.isShowFixedCloseIcon = true;
+                this.openStory = isShow
+            } else {
+                this.isShowFixedCloseIcon = false;
+            }
+        })
+
+
+    }
+
+    onCloseFn() {
+        this.storyListService.onFixedCloseClicked.next(this.openStory)
     }
 
     vsEnd(event: ScrollEvent) {

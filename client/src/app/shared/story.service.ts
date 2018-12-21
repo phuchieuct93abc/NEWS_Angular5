@@ -25,6 +25,10 @@ export class StoryService {
         this.stories = [];
     }
 
+    getStorySnapshot() {
+        return this.stories;
+    }
+
     getStories(category: string): Observable<any> {
         const result = this.httpClient.get(storyUrl, {
             params: {

@@ -22,20 +22,20 @@ export class ArticleComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.showArticleById(params['id']);
         });
-    }
 
+    }
 
     protected showArticleById(id: string) {
         if (id) {
             this.article = null;
             this.articleService.getById(id).subscribe(article => {
                 this.article = article;
-                this.scrollToTop();
+                this.afterGetArticle();
             });
         }
     }
 
-    protected scrollToTop(): void {
+    protected afterGetArticle(): void {
         (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
     }
 

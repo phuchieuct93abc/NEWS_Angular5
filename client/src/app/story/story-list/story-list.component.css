@@ -3,3 +3,8 @@
     padding: 0 1px;
 }
 
+.fixed-close-icon {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+}

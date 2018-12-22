@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Categories} from "../shared/categories.cont";
+import {Categories} from "../../../../model/Categories";
 
 @Component({
     selector: 'app-navigator',
@@ -8,6 +8,7 @@ import {Categories} from "../shared/categories.cont";
 })
 export class NavigatorComponent implements OnInit {
     categories: any;
+
     constructor() {
     }
 

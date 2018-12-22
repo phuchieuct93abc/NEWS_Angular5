@@ -3,6 +3,7 @@ import BaomoiStoryParser from "./BaomoiStoryParser";
 import {CONFIG} from "../const";
 import {StoryService} from "../StoryService";
 import ArticleServiceFactory from "../ArticleServiceFactory";
+import {Categories} from "../../../model/Categories";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -18,7 +19,9 @@ export default class BaomoiStoryService extends StoryService {
 
     getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
-            const url = CONFIG.baomoiUrl + `${category}/trang${pageNumber}.epi?loadmore=1`;
+            const categoryUrl = Categories[category].url != null ? Categories[category].url : category + "/";
+            let url = CONFIG.baomoiUrl + `${categoryUrl}trang${pageNumber}.epi?loadmore=1`;
+
             axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
@@ -29,20 +32,11 @@ export default class BaomoiStoryService extends StoryService {
                     })
                     .filter(r => r != null);
                 resolve(stories);
-                //  this.cacheArticle(stories);
             })
         })
 
 
     }
 
-    cacheArticle(stories: Story[]) {
-        stories.forEach((story, index) => {
-            setTimeout(() => {
-
-                ArticleServiceFactory.get("en").getArticleById(story.originalUrl)
-            }, index * 3000)
-        })
-    }
 
 }

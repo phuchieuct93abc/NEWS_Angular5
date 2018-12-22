@@ -2,6 +2,7 @@ import {Story} from "../../../model/Story";
 import {StoryParser} from "../parsers/StoryParser";
 import Utility from "../Utility";
 import StoryMeta from "../../../model/StoryMeta";
+import StoryImage from "../../../model/StoryImage";
 
 export default class BaomoiStoryParser extends StoryParser {
 
@@ -16,7 +17,8 @@ export default class BaomoiStoryParser extends StoryParser {
         const imagePath = this.html.getElementsByTagName('img')[0].getAttribute('data-src');
 
         const title = this.html.getElementsByClassName('story__heading')[0].textContent;
-        return new Story(this.extractId(), title, '1', imagePath, this.extractUrl(), this.parserStoryMeta());
+        const hasVideo = this.html.classList.contains('story--video');
+        return new Story(this.extractId(), title, '1', imagePath, this.parserStoryImages(), this.extractUrl(), this.parserStoryMeta(), hasVideo,);
     }
 
     private extractId(): string {
@@ -37,6 +39,18 @@ export default class BaomoiStoryParser extends StoryParser {
 
         const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
         return new StoryMeta(source, time);
+    }
+
+    private parserStoryImages(): StoryImage[] {
+        const images = this.html.getElementsByClassName('story__thumb')[0].getElementsByTagName('img');
+        let result: StoryImage[] = [];
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+            result.push(new StoryImage(image.getAttribute('data-src'), image["width"], image['height'], image['alt']))
+        }
+        return result;
+
+
     }
 
 }

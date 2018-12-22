@@ -1,6 +1,7 @@
 export const Categories = {
-    'tin-moi': {
-        name: 'Tin mới'
+    'tin-nong': {
+        name: 'Tin Nóng',
+        url:""
     },
     "xa-hoi": {
         name: 'Xã hội'

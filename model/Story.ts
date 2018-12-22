@@ -1,4 +1,5 @@
 import StoryMeta from "./StoryMeta";
+import StoryImage from "./StoryImage";
 
 export class Story {
 
@@ -6,8 +7,11 @@ export class Story {
                 public  title: string,
                 public desc: string,
                 public  imagePath: string,
+                public images: StoryImage[],
                 public  originalUrl: string,
-                public  storyMeta: StoryMeta) {
+                public  storyMeta: StoryMeta,
+                public hasVideo: boolean,
+    ) {
     }
 
 }

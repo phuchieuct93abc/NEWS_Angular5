@@ -38,15 +38,15 @@ export class StoryService {
         }).pipe(
             retry(3),
             map(
-            result => {
-                let results = result as any[];
-                let stories: Story[] = results.map(this.storyConverter);
-                this.stories.push(...stories);
+                result => {
+                    let results = result as any[];
+                    let stories: Story[] = results.map(this.storyConverter);
+                    this.stories.push(...stories);
 
 
-                return this.stories
-            }
-        ));
+                    return this.stories
+                }
+            ));
 
 
         return result;
@@ -54,8 +54,8 @@ export class StoryService {
     }
 
     private storyConverter(rawData) {
-        let {id, title, desc, imagePath, originalUrl, storyMeta} = rawData;
-        return new Story(id, title, desc, imagePath, originalUrl, storyMeta);
+        let {id, title, desc, imagePath, images, originalUrl, storyMeta, hasVideo} = rawData;
+        return new Story(id, title, desc, imagePath, images, originalUrl, storyMeta, hasVideo);
     }
 
     getById(id: string) {

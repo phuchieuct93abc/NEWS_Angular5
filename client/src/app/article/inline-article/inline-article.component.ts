@@ -5,6 +5,7 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild
 import {StoryListService} from "../../shared/story-list.service";
 import {Story} from "../../../../../model/Story";
 import {StoryService} from "../../shared/story.service";
+import {UtilityService} from "../../shared/utility.service";
 
 @Component({
     selector: 'app-inline-article',
@@ -44,8 +45,10 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
         this.subscription = this.storyListService.onScroll.subscribe(event => {
-            const articlePosition = this.articleView.nativeElement.getBoundingClientRect();
-            if (articlePosition.y < 60 && articlePosition.bottom > 0) {
+
+            console.log(12);
+            if (UtilityService.isElementInViewport(<HTMLElement>this.articleView.nativeElement)) {
+                console.log('show')
                 this.storyListService.onShowFixedCloseIcon.next(this.story)
 
             } else {
@@ -62,7 +65,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
     close(event) {
-        if(event){
+        if (event) {
 
             event && event.stopPropagation();
         }
@@ -82,6 +85,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     ngOnDestroy(): void {
+        console.log('stop')
         this.storyListService.onShowFixedCloseIcon.next(null);
 
         this.subscription.unsubscribe();

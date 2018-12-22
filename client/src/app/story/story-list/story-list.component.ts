@@ -65,6 +65,10 @@ export class StoryListComponent implements OnInit {
     }
 
     vsChange(event: ScrollEvent) {
+        //this.storyListService.onScroll.next(event)
+
+    }
+    vsUpdate(event: ScrollEvent) {
         this.storyListService.onScroll.next(event)
 
     }

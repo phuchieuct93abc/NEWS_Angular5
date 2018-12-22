@@ -18,7 +18,7 @@ export default class BaomoiStoryParser extends StoryParser {
 
         const title = this.html.getElementsByClassName('story__heading')[0].textContent;
         const hasVideo = this.html.classList.contains('story--video');
-        return new Story(this.extractId(), title, '1', imagePath, this.parserStoryImages(), this.extractUrl(), this.parserStoryMeta(), hasVideo,);
+        return new Story(this.extractId(), title, '1',  this.parserStoryImages(), this.extractUrl(), this.parserStoryMeta(), hasVideo,);
     }
 
     private extractId(): string {

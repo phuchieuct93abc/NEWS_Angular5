@@ -15,7 +15,7 @@ export default class GoogleStoryParser extends StoryParser {
         const imagePath = this.html.getElementsByTagName('img')[0].getAttribute('data-src');
 
         const title = this.html.getElementsByClassName('story__heading')[0].textContent;
-        return new Story(this.extractId(), title, '1', imagePath, null, this.extractUrl(), null, null)
+        return new Story(this.extractId(), title, '1', null, null, null, null)
     }
 
     private extractId(): string {

@@ -1,16 +1,26 @@
 
-img {
-  transition: all linear 0.2s;
-  object-fit: contain;
-  max-height: 200px;
-}
-
 .mat-card {
   cursor: pointer;
   margin: 0 1px;
 
+  img {
+    transition: all linear 0.2s;
+    object-fit: contain;
+    max-height: 300px;
+  }
+
   .last-child {
     margin-bottom: 0;
+  }
+
+  .image-wrapper {
+    position: relative;
+
+    .videocam {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
   }
 
 
@@ -22,14 +32,5 @@ img {
 
   &.active {
     background-color: #e5e5e5;
-  }
-}
-
-mat-expansion-panel-header {
-  height: auto !important;
-  padding:0;
-
-  ::ng-deep .mat-expansion-indicator {
-    display: none !important;
   }
 }

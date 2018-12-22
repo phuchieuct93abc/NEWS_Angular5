@@ -30,9 +30,9 @@ export class StoryListComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.category = params['category'];
+            this.scrollToTop();
             this.storyService.resetPageNumber();
             this.storyService.getStories(this.category).subscribe(value => {
-                this.isLoadingMore = false;
                 this.stories = value;
             });
         });
@@ -47,6 +47,13 @@ export class StoryListComponent implements OnInit {
         })
 
 
+    }
+
+    private scrollToTop() {
+        if (this.virtualScroller) {
+
+            this.virtualScroller.scrollToIndex(0);
+        }
     }
 
     onCloseFn() {

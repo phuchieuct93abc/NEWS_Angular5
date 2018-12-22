@@ -1,0 +1,28 @@
+.story-list {
+
+  padding: 0 1px;
+}
+
+.fixed-close-icon {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+}
+
+.story-list {
+  position: relative;
+
+  .move-to-top {
+
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border: 3px solid white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+  }
+}

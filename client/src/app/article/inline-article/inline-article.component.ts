@@ -46,16 +46,12 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         this.subscription = this.storyListService.onScroll.subscribe(event => {
 
-            console.log(12);
             if (UtilityService.isElementInViewport(<HTMLElement>this.articleView.nativeElement)) {
-                console.log('show')
                 this.storyListService.onShowFixedCloseIcon.next(this.story)
 
             } else {
                 this.storyListService.onShowFixedCloseIcon.next(null)
-
             }
-
         });
 
         this.closeSubscription = this.storyListService.onFixedCloseClicked.subscribe(() => {
@@ -66,7 +62,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     close(event) {
         if (event) {
-
             event && event.stopPropagation();
         }
         this.storyListService.onShowFixedCloseIcon.next(null);
@@ -79,15 +74,11 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     afterGetArticle() {
-
         this.currentStoryIndex = this.storyService.getStorySnapshot().indexOf(this.story);
-
     }
 
     ngOnDestroy(): void {
-        console.log('stop')
         this.storyListService.onShowFixedCloseIcon.next(null);
-
         this.subscription.unsubscribe();
         this.closeSubscription.unsubscribe();
     }

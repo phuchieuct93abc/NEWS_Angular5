@@ -4,11 +4,12 @@ import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 import {ScrollEvent, StoryListService} from "../../shared/story-list.service";
 import {VirtualScrollerComponent} from "ngx-virtual-scroller";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-story-list',
     templateUrl: './story-list.component.html',
-    styleUrls: ['./story-list.component.css']
+    styleUrls: ['./story-list.component.scss']
 })
 export class StoryListComponent implements OnInit {
 
@@ -23,20 +24,29 @@ export class StoryListComponent implements OnInit {
     isShowFixedCloseIcon = false;
 
     openStory: Story;
+    isSmallScreen: boolean;
+    isShowMoveTop: boolean;
 
-    constructor(private storyService: StoryService, private route: ActivatedRoute, private storyListService: StoryListService) {
+    currentScrollStartPosition: number = 0;
+
+    hideMoveTopTimeout;
+
+    constructor(private storyService: StoryService,
+                private route: ActivatedRoute,
+                private storyListService: StoryListService,
+                private breakpointService: BreakpointDetectorService) {
     }
 
     ngOnInit() {
-        this.route.params.subscribe(params => {
-            this.category = params['category'];
-            this.scrollToTop();
-            this.storyService.resetPageNumber();
-            this.storyService.getStories(this.category).subscribe(value => {
-                this.stories = value;
-            });
-        });
+        this.updateStoryList();
         this.registerScrollTo();
+        this.handleCloseIcon();
+        this.isSmallScreen = this.breakpointService.isSmallScreen;
+
+
+    }
+
+    private handleCloseIcon() {
         this.storyListService.onShowFixedCloseIcon.subscribe(isShow => {
             if (isShow) {
                 this.isShowFixedCloseIcon = true;
@@ -45,8 +55,21 @@ export class StoryListComponent implements OnInit {
                 this.isShowFixedCloseIcon = false;
             }
         })
+    }
 
+    private updateStoryList() {
+        this.route.params.subscribe(params => {
+            this.category = params['category'];
+            this.loadFirstPage();
+        });
+    }
 
+    private loadFirstPage() {
+        this.scrollToTop();
+        this.storyService.resetPageNumber();
+        this.storyService.getStories(this.category).subscribe(value => {
+            this.stories = value;
+        });
     }
 
     private scrollToTop() {
@@ -64,12 +87,18 @@ export class StoryListComponent implements OnInit {
         this.onLoadMore(event)
     }
 
-    vsChange(event: ScrollEvent) {
-        //this.storyListService.onScroll.next(event)
-
-    }
     vsUpdate(event: ScrollEvent) {
         this.storyListService.onScroll.next(event)
+
+    }
+
+    vsChange(event: ScrollEvent) {
+        this.isShowMoveTop = this.currentScrollStartPosition > event.scrollStartPosition;
+        this.currentScrollStartPosition = event.scrollStartPosition;
+        clearTimeout(this.hideMoveTopTimeout)
+        this.hideMoveTopTimeout = setTimeout(() => {
+            this.isShowMoveTop = false;
+        }, 5000)
 
     }
 
@@ -77,7 +106,7 @@ export class StoryListComponent implements OnInit {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
-            this.virtualScroller.scrollInto(this.stories[index],true,0,1000);
+            this.virtualScroller.scrollInto(this.stories[index], true, 0, 1000);
         })
     }
 
@@ -96,4 +125,9 @@ export class StoryListComponent implements OnInit {
     }
 
 
+    moveTop(event: MouseEvent) {
+        event.stopPropagation();
+        this.loadFirstPage();
+
+    }
 }

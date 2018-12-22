@@ -1,14 +1,23 @@
-<virtual-scroller #scroll (vsChange)="vsChange($event)" (vsUpdate)="vsUpdate($event)" (vsEnd)="vsEnd($event)" *ngIf="stories"
-                  [enableUnequalChildrenSizes]="true"
-                  [items]="stories" class="h-100 w-100">
+<div class="h-100 w-100 story-list">
 
-    <app-story *ngFor="let item of scroll.viewPortItems" [story]="item" class="d-block"></app-story>
+    <virtual-scroller #scroll (vsChange)="vsChange($event)" (vsUpdate)="vsUpdate($event)" (vsEnd)="vsEnd($event)"
+                      *ngIf="stories"
+                      [enableUnequalChildrenSizes]="true"
+
+                      [items]="stories" class="h-100 w-100">
+
+        <app-story *ngFor="let item of scroll.viewPortItems" [story]="item" class="d-block"></app-story>
 
 
-</virtual-scroller>
-<div class="fixed-close-icon" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
-    <mat-icon>close</mat-icon>
+    </virtual-scroller>
+    <div class="fixed-close-icon" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
+        <mat-icon>close</mat-icon>
+    </div>
+    <div class="move-to-top rounded-circle" *ngIf="isSmallScreen && isShowMoveTop" (click)="moveTop($event)">
+        <mat-icon class="text-light">keyboard_arrow_up</mat-icon>
+    </div>
+
+
+
 
 </div>
-
-

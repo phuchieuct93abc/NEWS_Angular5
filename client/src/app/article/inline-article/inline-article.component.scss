@@ -2,10 +2,14 @@
 
 .article-body {
   padding: 5px;
-  background-color: white;
+  //background-color: white;
   margin: 0;
+
+  ::ng-deep img {
+    transform: scale(1) !important;
+  }
 }
 
-.close-icon{
- // color: white;
+.close-icon {
+  // color: white;
 }

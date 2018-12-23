@@ -45,7 +45,7 @@ export class StoryListComponent implements OnInit {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.storyListService.onScrollUp.subscribe(() => {
             this.isShowMoveTop = true;
-            clearTimeout(this.hideMoveTopTimeout)
+            clearTimeout(this.hideMoveTopTimeout);
             this.hideMoveTopTimeout = setTimeout(() => {
                 this.isShowMoveTop = false;
             }, 5000)
@@ -113,6 +113,7 @@ export class StoryListComponent implements OnInit {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
             this.virtualScroller.scrollInto(this.stories[index], true, 0, 1000);
+            this.virtualScroller.invalidateCachedMeasurementAtIndex(index)
         })
     }
 
@@ -143,7 +144,6 @@ export class StoryListComponent implements OnInit {
 
     onSelectedStory(story: Story) {
         setTimeout(() => {
-            console.log('invalid cache')
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         }, 2000)
     }

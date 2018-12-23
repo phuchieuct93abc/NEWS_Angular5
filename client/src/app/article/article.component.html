@@ -1,9 +1,9 @@
 <div #articleView class="w-100 article" class="scrollable">
     <div *ngIf="article;else loading">
-        <h5>
+        <div class="mat-title">
             {{article.header}}
 
-        </h5>
+        </div>
         <p [innerHTML]="article.body" class="article-body fadein">
         </p>
     </div>

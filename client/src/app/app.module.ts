@@ -20,6 +20,7 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {VirtualScrollerModule} from "ngx-virtual-scroller";
 import {InlineArticleComponent} from "./article/inline-article/inline-article.component";
 import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component";
+import {LoadingComponent} from "./article/loading/loading.component";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component"
         ArticleHeaderComponent,
         MainComponent,
         InlineArticleComponent,
-        ImageViewerComponent
+        ImageViewerComponent,
+        LoadingComponent
     ],
     bootstrap: [AppComponent],
     providers: []

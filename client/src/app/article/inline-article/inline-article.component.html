@@ -3,16 +3,12 @@
         <mat-icon>close</mat-icon>
     </div>
     <div  #articleBodyWrapper>
-
         <div *ngIf="article;else loading">
             <p [innerHTML]="article.body" class="article-body fadein ">
             </p>
         </div>
     </div>
     <ng-template #loading>
-        <div class="text-center">
-            Đợi tí nhe, tớ đang kéo về
-
-        </div>
+        <app-loading></app-loading>
     </ng-template>
 </div>

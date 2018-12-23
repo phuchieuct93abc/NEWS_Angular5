@@ -7,3 +7,12 @@ a.active {
     display: inline;
 }
 
+:host {
+    display: block;
+    height: 50px;
+    overflow: visible;
+}
+.navbar{
+    z-index: 1;
+
+}

@@ -1,49 +1,45 @@
 import {Component, OnInit} from '@angular/core';
 import {Categories} from "../../../../model/Categories";
 import {StoryListService} from "../shared/story-list.service";
-import {NavigatorService} from "./navigator.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'app-navigator',
     templateUrl: './navigator.component.html',
-    styleUrls: ['./navigator.component.scss']
+    styleUrls: ['./navigator.component.scss'],
+    animations: [
+        trigger('openHide', [
+            // ...
+            state('hide', style({
+                height: '0',
+                overflow: 'hidden'
+            })),
+            transition('* => *', [
+                animate('0.5s')
+            ]),
+
+        ]),
+    ]
 })
 export class NavigatorComponent implements OnInit {
     categories: any;
     isHide: boolean = false;
-    isHiding: boolean = false;
 
-    constructor(private storyListService: StoryListService, private navigatorService: NavigatorService) {
+    constructor(private storyListService: StoryListService) {
     }
 
     ngOnInit() {
         this.categories = Categories;
         setTimeout(() => {
 
-
             this.storyListService.onScrollUp.subscribe(() => {
                 this.isHide = false
-                setTimeout(() => {
-                    this.isHiding = false
-
-                }, 300)
             })
             this.storyListService.onScrollDown.subscribe(() => {
-                this.isHiding = true;
-                setTimeout(() => {
-
-                    this.isHide = true;
-                }, 300)
+                this.isHide = true;
             })
 
         }, 5000)
-        // this.navigatorService.onShowHeader.subscribe(() => {
-        //     setTimeout(()=>{
-        //
-        //         this.isHiding = false;
-        //         this.isHide = false;
-        //     })
-        // })
 
     }
 

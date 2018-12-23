@@ -16,17 +16,9 @@ a.active {
 
 nav {
   z-index: 1;
-
-
   &.hide {
     height: 0;
     overflow: hidden;
   }
 
 }
-
-.hiding {
-  height: $nav-height;
-  transition: height linear .3s;
-}
-

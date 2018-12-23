@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding:0 0 0 10px">
+<nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding:0 0 0 10px" [ngClass]="[isHide?'hide':'',isHiding?'hiding':'']">
     <a class="navbar-brand" href="#">Báo mới</a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">

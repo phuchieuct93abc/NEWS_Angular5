@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ScrollEvent, StoryListService} from "../../shared/story-list.service";
 import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import {NavigatorService} from "../../navigator/navigator.service";
 
 @Component({
     selector: 'app-story-list',
@@ -27,14 +28,14 @@ export class StoryListComponent implements OnInit {
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
 
-    currentScrollStartPosition: number = 0;
 
     hideMoveTopTimeout;
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
                 private storyListService: StoryListService,
-                private breakpointService: BreakpointDetectorService) {
+                private breakpointService: BreakpointDetectorService,
+                private navigatorService: NavigatorService) {
     }
 
     ngOnInit() {
@@ -42,7 +43,7 @@ export class StoryListComponent implements OnInit {
         this.registerScrollTo();
         this.handleCloseIcon();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.storyListService.onScrollUp.subscribe(()=>{
+        this.storyListService.onScrollUp.subscribe(() => {
             this.isShowMoveTop = true;
             clearTimeout(this.hideMoveTopTimeout)
             this.hideMoveTopTimeout = setTimeout(() => {
@@ -68,6 +69,7 @@ export class StoryListComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.category = params['category'];
             this.loadFirstPage();
+
         });
     }
 
@@ -76,6 +78,8 @@ export class StoryListComponent implements OnInit {
         this.storyService.resetPageNumber();
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
+
+            this.navigatorService.onShowHeader.next();
         });
     }
 

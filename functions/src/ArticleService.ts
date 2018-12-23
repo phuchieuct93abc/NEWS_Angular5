@@ -28,13 +28,23 @@ export abstract class ArticleService {
 
     public crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {
         return new Promise(resolver => {
-            console.log("article");
-            this.crawnArticleById(idPath).then(article => {
-                this.saveArticle(article).then(value => {
-                    console.log(`success store article ${article.header}`);
-                    resolver(article)
-                });
+
+            FirebaseService.findArticle(idPath).then(article => {
+
+                if (article.exists) {
+                    resolver((<Article>article.data()));
+                } else {
+                    this.crawnArticleById(idPath).then(article => {
+                        this.saveArticle(article).then(value => {
+                            console.log(`success store article ${article.header}`);
+                            resolver(article)
+                        });
+                    })
+                }
             })
+
+
+
         })
 
 

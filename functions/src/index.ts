@@ -54,7 +54,8 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 
 exports.app = functions.runWith({
-    timeoutSeconds: 540, memory: '1GB'
+    timeoutSeconds: 540,
+    memory: '1GB'
 
-}).https.onRequest(app);
+}).region("asia-northeast1").https.onRequest(app);
 

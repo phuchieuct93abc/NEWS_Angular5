@@ -19,7 +19,23 @@ export class StoryListService {
     public scrollTo = new Subject<Story>();
     public onShowFixedCloseIcon = new Subject<Story>();
     public onFixedCloseClicked = new Subject();
+    public onScrollUp = new Subject();
+    public onScrollDown = new Subject();
+    public vsScroll = new Subject();
+
+    private currentScrollEvent: ScrollEvent;
 
     constructor() {
+        this.vsScroll.subscribe((event: ScrollEvent) => {
+            if (this.currentScrollEvent && this.currentScrollEvent.scrollStartPosition > event.scrollStartPosition) {
+                this.onScrollUp.next();
+            } else {
+                this.onScrollDown.next();
+            }
+            this.currentScrollEvent = event;
+
+        })
     }
+
+
 }

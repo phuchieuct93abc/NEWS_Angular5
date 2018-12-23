@@ -42,7 +42,14 @@ export class StoryListComponent implements OnInit {
         this.registerScrollTo();
         this.handleCloseIcon();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
+        this.storyListService.onScrollUp.subscribe(()=>{
+            this.isShowMoveTop = true;
+            clearTimeout(this.hideMoveTopTimeout)
+            this.hideMoveTopTimeout = setTimeout(() => {
+                this.isShowMoveTop = false;
+            }, 5000)
 
+        })
 
     }
 
@@ -93,12 +100,7 @@ export class StoryListComponent implements OnInit {
     }
 
     vsChange(event: ScrollEvent) {
-        this.isShowMoveTop = this.currentScrollStartPosition > event.scrollStartPosition;
-        this.currentScrollStartPosition = event.scrollStartPosition;
-        clearTimeout(this.hideMoveTopTimeout)
-        this.hideMoveTopTimeout = setTimeout(() => {
-            this.isShowMoveTop = false;
-        }, 5000)
+        this.storyListService.vsScroll.next(event)
 
     }
 

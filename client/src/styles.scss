@@ -28,13 +28,13 @@ html {
 
 @include media-breakpoint-up(xs) {
     html {
-        font-size: 1.2rem;
+      //  font-size: 1.2rem;
     }
 }
 
 @include media-breakpoint-up(md) {
     html {
-        font-size: 1.4rem;
+       // font-size: 1.4rem;
     }
 }
 .scrollable{

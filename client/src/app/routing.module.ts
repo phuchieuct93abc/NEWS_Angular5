@@ -3,10 +3,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ArticleComponent} from "./article/article.component";
 import {MainComponent} from "./main/main.component";
+import {ContentComponent} from "./content/content.component";
 
 const routes: Routes = [
     {
-        path: ':category', component: MainComponent, children: [
+        path: ':category', component: ContentComponent, children: [
             {path: ':id', component: ArticleComponent}
 
         ]

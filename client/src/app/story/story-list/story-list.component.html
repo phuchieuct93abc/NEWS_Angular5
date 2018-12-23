@@ -1,12 +1,19 @@
 <div class="h-100 w-100 story-list">
 
-    <virtual-scroller #scroll (vsChange)="vsChange($event)" (vsUpdate)="vsUpdate($event)" (vsEnd)="vsEnd($event)"
-                      *ngIf="stories"
+    <virtual-scroller #scroll
+                      (vsChange)="vsChange($event)"
+                      (vsUpdate)="vsUpdate($event)"
+                      (vsEnd)="vsEnd($event)"
                       [enableUnequalChildrenSizes]="true"
+                      [checkResizeInterval]="5000"
+                      [scrollDebounceTime]="0"
+                      [compareItems]="compare"
+                      [items]="stories"
+                      *ngIf="stories"
+                      class="h-100 w-100">
 
-                      [items]="stories" class="h-100 w-100">
-
-        <app-story *ngFor="let item of scroll.viewPortItems" [story]="item" class="d-block"></app-story>
+        <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems" [story]="item"
+                   class="d-block"></app-story>
 
 
     </virtual-scroller>
@@ -14,10 +21,8 @@
         <mat-icon>close</mat-icon>
     </div>
     <div class="move-to-top rounded-circle" *ngIf="isSmallScreen && isShowMoveTop" (click)="moveTop($event)">
-        <mat-icon class="text-dark">keyboard_arrow_up</mat-icon>
+        <mat-icon class="mat-primary">keyboard_arrow_up</mat-icon>
     </div>
-
-
 
 
 </div>

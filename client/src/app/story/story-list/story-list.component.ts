@@ -136,4 +136,15 @@ export class StoryListComponent implements OnInit {
         this.loadFirstPage();
 
     }
+
+    compare(a: Story, b: Story): boolean {
+        return a.id === b.id;
+    }
+
+    onSelectedStory(story: Story) {
+        setTimeout(() => {
+            console.log('invalid cache')
+            this.virtualScroller.invalidateCachedMeasurementForItem(story);
+        }, 2000)
+    }
 }

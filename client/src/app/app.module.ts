@@ -21,6 +21,8 @@ import {VirtualScrollerModule} from "ngx-virtual-scroller";
 import {InlineArticleComponent} from "./article/inline-article/inline-article.component";
 import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component";
 import {LoadingComponent} from "./article/loading/loading.component";
+import {Content} from "@angular/compiler/src/render3/r3_ast";
+import {ContentComponent} from "./content/content.component";
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import {LoadingComponent} from "./article/loading/loading.component";
         MainComponent,
         InlineArticleComponent,
         ImageViewerComponent,
-        LoadingComponent
+        LoadingComponent,
+        ContentComponent
     ],
     bootstrap: [AppComponent],
     providers: []

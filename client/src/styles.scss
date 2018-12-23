@@ -67,3 +67,6 @@ html {
     font-family: 'Material Icons Outline';
 }
 
+button:focus{
+    outline: none;
+}

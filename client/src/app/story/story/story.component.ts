@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
@@ -13,6 +13,8 @@ export class StoryComponent implements OnInit {
     story: Story;
     @Input()
     scrollContainer: ElementRef;
+    @Output()
+    onSelectedStory = new EventEmitter<Story>();
     scrollTarget: any;
 
     selected: boolean = false;
@@ -24,18 +26,12 @@ export class StoryComponent implements OnInit {
     onSelectStory() {
 
         this.selected = true;
+        this.onSelectedStory.emit(this.story);
     }
 
     ngOnInit(): void {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
-
-        // this.router.events.subscribe((event) => {
-        //     if (event instanceof NavigationEnd) {
-        //         this.selected = this.route.firstChild.snapshot.params['id'] === this.story.id;
-        //
-        //     }
-        // });
 
     }
 

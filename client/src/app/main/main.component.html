@@ -1,10 +1,25 @@
-<div class="row main-content h-100">
-    <div class="col-md-5 col-12 h-100">
-        <app-story-list></app-story-list>
-    </div>
-    <mat-divider vertical></mat-divider>
+<mat-sidenav-container class="example-sidenav-container h-100"
+                       [style.marginTop.px]="false? 56 : 0">
+    <mat-sidenav [mode]="'over'" [(opened)]="isOpenSidebar"
+                 [fixedInViewport]="false" fixedTopGap="56">
+        <mat-nav-list>
 
-    <div *ngIf="!isSmallScreen" class="col">
+            <div class="categories">
+                <mat-list role="list">
+                    <mat-list-item *ngFor="let category of categories | keyvalue" role="listitem"
+                                   [routerLink]="category.key" routerLinkActive="active">
+                        {{ category.value.name }}
+                    </mat-list-item>
+                </mat-list>
+
+            </div>
+            <mat-divider></mat-divider>
+
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
         <router-outlet></router-outlet>
-    </div>
-</div>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

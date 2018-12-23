@@ -1,8 +1,13 @@
-p {
-  font-family: Lato;
-}
+.app{
+  display: flex;
+  flex-direction: column;
 
-.header {
-    /*height: 50px;*/
+}
+.header{
+  height: 50px;
+}
+.main-content{
+  flex: 1;
+  overflow: hidden;
 }
 

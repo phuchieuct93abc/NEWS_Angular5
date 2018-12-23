@@ -1,23 +1,3 @@
-<!--<nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding: 10px">-->
-<!--<a class="navbar-brand" href="#">Báo Mới</a>-->
-<!--<button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"-->
-<!--class="navbar-toggler"-->
-<!--data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">-->
-<!--<span class="navbar-toggler-icon"></span>-->
-<!--</button>-->
-<!--<div class="collapse navbar-collapse " id="navbarNavAltMarkup">-->
-<!--<div class="navbar-nav">-->
-<!---->
-
-<!--&lt;!&ndash;<mat-chip-list>&ndash;&gt;-->
-<!--&lt;!&ndash;<mat-chip *ngFor="let category of categories | keyvalue" [routerLink]="category.key"&ndash;&gt;-->
-<!--&lt;!&ndash;routerLinkActive="active">{{ category.value.name }}</mat-chip>&ndash;&gt;-->
-<!--&lt;!&ndash;</mat-chip-list>&ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-<!--</nav>-->
-
-
 <nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding:0 0 0 10px">
     <a class="navbar-brand" href="#">Báo mới</a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
@@ -36,7 +16,7 @@
                 >
                     {{ category.value.name }}
                 </a>
-                <mat-divider [vertical]="true"></mat-divider>
+                <mat-divider [vertical]="true" class="d-none d-sm-inline"></mat-divider>
             </li>
         </ul>
     </div>

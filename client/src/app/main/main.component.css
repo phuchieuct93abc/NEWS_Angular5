@@ -1,3 +1,7 @@
 .main-content {
-    height: calc(100% - 56px);
+    /*height: calc(100% - 56px);*/
+}
+:host{
+    height: 100%;
+    display: block;
 }

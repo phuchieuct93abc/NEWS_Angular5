@@ -1,13 +1,10 @@
+@import '~@angular/material/theming';
 
 .mat-card {
   cursor: pointer;
   margin: 0 1px;
 
-  img {
-    transition: all linear 0.2s;
-    object-fit: contain;
-    max-height: 300px;
-  }
+
 
   .last-child {
     margin-bottom: 0;
@@ -24,13 +21,17 @@
   }
 
 
-  &:hover {
-    img {
-      transform: scale(1.1);
-    }
+  &:hover, &.active {
+    @include mat-elevation(5);
+
   }
 
   &.active {
     background-color: #e5e5e5;
   }
+}
+
+.mat-card:hover /deep/ img {
+
+  transform: scale(1.1);
 }

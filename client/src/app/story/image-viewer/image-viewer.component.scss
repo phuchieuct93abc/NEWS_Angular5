@@ -1,4 +1,7 @@
 img{
   width: 100%;
   height: auto;
+  transition: all linear 0.2s;
+  object-fit: contain;
+  max-height: 300px;
 }

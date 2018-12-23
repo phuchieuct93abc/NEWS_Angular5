@@ -5,6 +5,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {SidebarService} from "../main/sidebar.service";
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
+import {ConfigService} from "../shared/config.service";
 
 @Component({
     selector: 'app-navigator',
@@ -29,8 +30,11 @@ export class NavigatorComponent implements OnInit {
     isHide: boolean = false;
 
 
-    constructor(private storyListService: StoryListService, media: MediaMatcher, private sidebarService: SidebarService,
-                public breakpointService: BreakpointDetectorService) {
+    constructor(private storyListService: StoryListService,
+                private media: MediaMatcher,
+                private sidebarService: SidebarService,
+                public breakpointService: BreakpointDetectorService,
+                public configService: ConfigService) {
 
     }
 
@@ -56,5 +60,14 @@ export class NavigatorComponent implements OnInit {
 
     toggle() {
         this.sidebarService.onSideBarToogle.next()
+    }
+
+    darkTheme() {
+        this.configService.updateConfig({darkTheme: true})
+    }
+
+    lightTheme() {
+        this.configService.updateConfig({darkTheme: false})
+
     }
 }

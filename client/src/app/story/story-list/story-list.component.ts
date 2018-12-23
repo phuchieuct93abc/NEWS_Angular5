@@ -6,6 +6,7 @@ import {ScrollEvent, StoryListService} from "../../shared/story-list.service";
 import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {NavigatorService} from "../../navigator/navigator.service";
+import {ConfigService} from "../../shared/config.service";
 
 @Component({
     selector: 'app-story-list',
@@ -35,7 +36,8 @@ export class StoryListComponent implements OnInit {
                 private route: ActivatedRoute,
                 private storyListService: StoryListService,
                 private breakpointService: BreakpointDetectorService,
-                private navigatorService: NavigatorService) {
+                private navigatorService: NavigatorService,
+                private configService: ConfigService) {
     }
 
     ngOnInit() {
@@ -68,7 +70,9 @@ export class StoryListComponent implements OnInit {
     private updateStoryList() {
         this.route.params.subscribe(params => {
             this.category = params['category'];
+
             this.loadFirstPage();
+            this.configService.updateConfig({category: this.category})
 
         });
     }

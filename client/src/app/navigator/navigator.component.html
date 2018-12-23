@@ -1,31 +1,4 @@
 <div [@openHide]="isHide ? 'hide' : 'open'">
-
-    <!--<nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding:0 0 0 10px"-->
-
-
-    <!--&gt;-->
-    <!--<a class="navbar-brand" href="#">Báo mới</a>-->
-    <!--<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"-->
-    <!--class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">-->
-    <!--<span class="navbar-toggler-icon"></span>-->
-    <!--</button>-->
-
-    <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-    <!--<ul class="navbar-nav mr-auto">-->
-    <!--<li *ngFor="let category of categories | keyvalue" class="nav-item">-->
-    <!--<a [routerLink]="category.key"-->
-
-    <!--class="mr-1 ml-1"-->
-    <!--mat-button-->
-    <!--routerLinkActive="active"-->
-    <!--&gt;-->
-    <!--{{ category.value.name }}-->
-    <!--</a>-->
-    <!--<mat-divider [vertical]="true" class="d-none d-sm-inline"></mat-divider>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</nav>-->
     <mat-toolbar color="primary" class="example-toolbar">
         <button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">
             <mat-icon>menu</mat-icon>
@@ -44,6 +17,12 @@
 
                 </mat-chip>
             </mat-chip-list>
+        </div>
+        <mat-divider [vertical]="true" ></mat-divider>
+        <div class="theme">
+            <button mat-icon-button [class.mat-button-toggle-checked]="!configService.getConfig().darkTheme"> <mat-icon (click)="lightTheme()">flash_on</mat-icon></button>
+            <button mat-icon-button [class.mat-button-toggle-checked]="configService.getConfig().darkTheme"> <mat-icon (click)="darkTheme()">flash_off</mat-icon></button>
+
         </div>
     </mat-toolbar>
 

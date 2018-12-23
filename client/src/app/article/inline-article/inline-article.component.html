@@ -1,6 +1,6 @@
 <div class="w-100 article" #articleView>
     <div  class="close-icon text-right" (click)="close($event)" #closeIcon>
-        <mat-icon>close</mat-icon>
+        <mat-icon class="mat-primary">close</mat-icon>
     </div>
     <div  #articleBodyWrapper>
         <div *ngIf="article;else loading">

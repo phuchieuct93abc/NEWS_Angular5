@@ -1,29 +1,28 @@
-.story-list {
-
-  padding: 0 1px;
-  max-height: 100%;
-}
-
-.fixed-close-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
+@import "~@angular/material/theming";
 .story-list {
   position: relative;
+  padding: 0 1px;
+  max-height: 100%;
+
+  .fixed-close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
 
   .move-to-top {
 
     position: absolute;
     bottom: 0px;
     right: 0px;
-    border: 3px solid black;
-    width: 50px;
-    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    mat-icon{
+      width: auto;
+      height: auto;
+      font-size: 3rem;
+      transform: rotate(270deg);
+    }
   }
 }

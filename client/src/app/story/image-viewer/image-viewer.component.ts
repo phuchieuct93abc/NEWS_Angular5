@@ -6,10 +6,12 @@ import StoryImage from "../../../../../model/StoryImage";
     templateUrl: './image-viewer.component.html',
     styleUrls: ['./image-viewer.component.scss']
 })
-export class ImageViewerComponent implements OnInit,OnDestroy {
+export class ImageViewerComponent implements OnInit, OnDestroy {
 
     @Input()
     images: StoryImage[];
+    @Input()
+    hasVideo: boolean;
     imagePath: string;
     height: number = 0;
     @ViewChild("imageViewer")
@@ -44,7 +46,6 @@ export class ImageViewerComponent implements OnInit,OnDestroy {
     ngOnDestroy(): void {
         clearInterval(this.interval);
     }
-
 
 
 }

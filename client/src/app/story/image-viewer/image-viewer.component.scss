@@ -1,7 +1,22 @@
-img{
-  width: 100%;
-  height: auto;
-  transition: all linear 0.2s;
-  object-fit: contain;
-  max-height: 300px;
+
+:host {
+  >div{
+    position: relative;
+
+    img {
+      width: 100%;
+      height: auto;
+      transition: all linear 0.2s;
+      object-fit: contain;
+      max-height: 300px;
+    }
+
+    .videocam {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  }
+
+
 }

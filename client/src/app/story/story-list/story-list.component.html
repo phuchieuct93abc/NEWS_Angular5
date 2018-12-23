@@ -18,11 +18,10 @@
 
     </virtual-scroller>
     <div class="fixed-close-icon" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
-        <mat-icon>close</mat-icon>
+        <mat-icon class="mat-primary">close</mat-icon>
     </div>
-    <div class="move-to-top rounded-circle" *ngIf="isSmallScreen && isShowMoveTop" (click)="moveTop($event)">
-        <mat-icon class="mat-primary">keyboard_arrow_up</mat-icon>
+    <div class="move-to-top fadein"  *ngIf="isSmallScreen && isShowMoveTop"
+         (click)="moveTop($event)">
+        <mat-icon class="mat-primary">play_circle_filled</mat-icon>
     </div>
-
-
 </div>

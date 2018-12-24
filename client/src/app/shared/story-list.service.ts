@@ -27,7 +27,9 @@ export class StoryListService {
 
     constructor() {
         this.vsScroll.subscribe((event: ScrollEvent) => {
-            if (this.currentScrollEvent && this.currentScrollEvent.scrollStartPosition > event.scrollStartPosition) {
+            if (this.currentScrollEvent
+                && this.currentScrollEvent.scrollStartPosition > event.scrollStartPosition
+                && this.currentScrollEvent.startIndex > 0) {
                 this.onScrollUp.next();
             } else {
                 this.onScrollDown.next();

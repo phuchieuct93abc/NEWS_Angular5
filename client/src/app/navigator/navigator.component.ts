@@ -11,24 +11,12 @@ import {ConfigService} from "../shared/config.service";
     selector: 'app-navigator',
     templateUrl: './navigator.component.html',
     styleUrls: ['./navigator.component.scss'],
-    animations: [
-        trigger('openHide', [
-            // ...
-            state('hide', style({
-                height: '0',
-                overflow: 'hidden'
-            })),
-            transition('* => *', [
-                animate('0.5s')
-            ]),
-
-        ]),
-    ]
 })
 export class NavigatorComponent implements OnInit {
     categories: any;
     isHide: boolean = false;
-
+    isListeningScrollUp = true;
+    isListeningScrollDown = true;
 
     constructor(private storyListService: StoryListService,
                 private media: MediaMatcher,
@@ -41,19 +29,30 @@ export class NavigatorComponent implements OnInit {
     ngOnInit() {
         this.categories = Categories;
 
+
+        window.scrollTo(0,0);
         setTimeout(() => {
+
+            window.scrollTo(0,10);
+
             if (this.breakpointService.isSmallScreen) {
 
                 this.storyListService.onScrollUp.subscribe(() => {
+                    if (this.isListeningScrollUp) {
+                        this.isHide = false;
+                        this.unsubscribeScrollUp();
+                    }
 
-                    this.isHide = false
-                })
+                });
                 this.storyListService.onScrollDown.subscribe(() => {
-                    this.isHide = true;
-                })
+                    if (this.isListeningScrollDown) {
+                        this.isHide = true;
+                        this.unsubscribeScrollDown();
+                    }
+                });
             }
 
-        }, 5000)
+        }, 0)
 
 
     }
@@ -69,5 +68,15 @@ export class NavigatorComponent implements OnInit {
     lightTheme() {
         this.configService.updateConfig({darkTheme: false})
 
+    }
+
+    private unsubscribeScrollUp() {
+        this.isListeningScrollUp = false;
+        setTimeout(() => this.isListeningScrollUp = true, 5000)
+    }
+
+    private unsubscribeScrollDown() {
+        this.isListeningScrollDown = false;
+        setTimeout(() => this.isListeningScrollDown = true, 5000)
     }
 }

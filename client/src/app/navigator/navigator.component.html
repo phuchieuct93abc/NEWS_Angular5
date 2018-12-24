@@ -1,4 +1,4 @@
-<div [@openHide]="isHide ? 'hide' : 'open'">
+<div [ngClass]="isHide ? 'hide' : 'open'" class="navigator">
     <mat-toolbar color="primary" class="example-toolbar">
         <button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">
             <mat-icon>menu</mat-icon>

@@ -21,7 +21,6 @@ export class MainComponent implements OnInit {
         this.categories = Categories
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.sidebarService.onSideBarToogle.subscribe(() => {
-            console.log('open')
             this.isOpenSidebar = !this.isOpenSidebar
         })
     }

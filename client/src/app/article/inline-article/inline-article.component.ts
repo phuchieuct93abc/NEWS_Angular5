@@ -65,12 +65,12 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
             event && event.stopPropagation();
         }
         this.storyListService.onShowFixedCloseIcon.next(null);
+        this.storyListService.scrollTo.next(this.story);
 
-        this.onClosed.emit();
 
         setTimeout(() => {
-            this.storyListService.scrollTo.next(this.story);
-        }, 0)
+            this.onClosed.emit();
+        }, 500);
     }
 
     afterGetArticle() {

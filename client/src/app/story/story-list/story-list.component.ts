@@ -28,9 +28,8 @@ export class StoryListComponent implements OnInit {
     openStory: Story;
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
-
-
     hideMoveTopTimeout;
+    isListeningScroll = true;
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
@@ -90,7 +89,7 @@ export class StoryListComponent implements OnInit {
     private scrollToTop() {
         if (this.virtualScroller) {
 
-            this.virtualScroller.scrollToIndex(0);
+            this.scrollTo(this.stories[0]);
         }
     }
 
@@ -108,7 +107,9 @@ export class StoryListComponent implements OnInit {
     }
 
     vsChange(event: ScrollEvent) {
-        this.storyListService.vsScroll.next(event)
+        if (this.isListeningScroll) {
+            this.storyListService.vsScroll.next(event)
+        }
 
     }
 
@@ -116,7 +117,7 @@ export class StoryListComponent implements OnInit {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
-            this.virtualScroller.scrollInto(this.stories[index], true, 0, 1000);
+            this.scrollTo(this.stories[index],500);
             this.virtualScroller.invalidateCachedMeasurementAtIndex(index)
         })
     }
@@ -133,6 +134,13 @@ export class StoryListComponent implements OnInit {
         }
 
 
+    }
+
+    private scrollTo(story: Story, animation = 0) {
+        this.isListeningScroll = false;
+        this.virtualScroller.scrollInto(story, true, 0, 500, () => {
+            setTimeout(() => this.isListeningScroll = true, 2000)
+        })
     }
 
 

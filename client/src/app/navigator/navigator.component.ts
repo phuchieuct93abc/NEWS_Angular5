@@ -30,10 +30,8 @@ export class NavigatorComponent implements OnInit {
         this.categories = Categories;
 
 
-        window.scrollTo(0,0);
         setTimeout(() => {
 
-            window.scrollTo(0,10);
 
             if (this.breakpointService.isSmallScreen) {
 

@@ -4,8 +4,8 @@
 }
 
 mat-list-item.active{
-    background-color: rgba(66, 133, 244, 0.149);
-    color: #1a73e8;
+    background-color: rgba(66, 133, 244, 0.149) !important;
+    color: #1a73e8 !important;
 }
 
 mat-sidenav {

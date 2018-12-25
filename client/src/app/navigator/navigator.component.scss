@@ -15,17 +15,18 @@ a.active {
   display: block;
   overflow: visible;
 
-  .hide {
-    height: 0 !important;
-    overflow: hidden;
-  }
 
   @media (max-width: 599px) {
 
     .navigator {
-      height: $nav-xs-height;
+      height: $nav-xs-height !important;
 
+      &.hide {
+        height: 0 !important;
+        overflow: hidden;
+      }
     }
+
   }
 
   .navigator {

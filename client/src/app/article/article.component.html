@@ -1,6 +1,6 @@
 <div #articleView class="w-100 article scrollable p-1">
-    <div *ngIf="article;else loading" class="article-content">
-        <div class="mat-title">
+    <div *ngIf="article;else loading" class="article-content p-2">
+        <div class="mat-h1">
             {{article.header}}
         </div>
         <p [innerHTML]="article.body" class="article-body fadein"></p>

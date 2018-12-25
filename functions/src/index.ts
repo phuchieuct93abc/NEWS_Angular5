@@ -30,7 +30,7 @@ app.get('/cachestory', (req, res) => {
     let allPromise = [];
     StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => {
         var promise = cacheArticle(stories[0].originalUrl);
-        for (var i = 1; i < stories.length; i++) {
+        for (var i = 1; i < (stories.length/2); i++) {
             promise = (function (story: Story) {
                 return promise.then(() => {
                     return cacheArticle(story.originalUrl)

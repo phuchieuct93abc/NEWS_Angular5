@@ -2,10 +2,10 @@ import {ArticleComponent} from "../article.component";
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../../shared/article.service";
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from "@angular/core";
-import {StoryListService} from "../../shared/story-list.service";
 import {Story} from "../../../../../model/Story";
 import {StoryService} from "../../shared/story.service";
 import {UtilityService} from "../../shared/utility.service";
+import {StoryListService} from "../../story/story-list/story-list.service";
 
 @Component({
     selector: 'app-inline-article',

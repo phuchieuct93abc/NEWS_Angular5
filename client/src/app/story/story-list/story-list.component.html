@@ -20,8 +20,13 @@
     <div class="fixed-close-icon" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
         <mat-icon class="mat-primary">close</mat-icon>
     </div>
-    <div class="move-to-top fadein"  *ngIf="isSmallScreen && isShowMoveTop"
-         (click)="moveTop($event)">
-        <mat-icon class="mat-primary">play_circle_filled</mat-icon>
-    </div>
+
+
+    <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)" *ngIf="isSmallScreen && isShowMoveTop">
+        <mat-icon class="mat-primary" >play_circle_filled</mat-icon>
+    </button>
+
+    <!--<div class="move-to-top fadein"  -->
+         <!--(>-->
+    <!--</div>-->
 </div>

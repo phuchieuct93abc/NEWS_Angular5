@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Categories} from "../../../../model/Categories";
-import {StoryListService} from "../shared/story-list.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {SidebarService} from "../main/sidebar.service";
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
 import {ConfigService} from "../shared/config.service";
+import {StoryListService} from "../story/story-list/story-list.service";
 
 @Component({
     selector: 'app-navigator',
@@ -38,14 +37,14 @@ export class NavigatorComponent implements OnInit {
                 this.storyListService.onScrollUp.subscribe(() => {
                     if (this.isListeningScrollUp) {
                         this.isHide = false;
-                        this.unsubscribeScrollUp();
+                      //  this.unsubscribeScrollUp();
                     }
 
                 });
                 this.storyListService.onScrollDown.subscribe(() => {
                     if (this.isListeningScrollDown) {
                         this.isHide = true;
-                        this.unsubscribeScrollDown();
+                      //  this.unsubscribeScrollDown();
                     }
                 });
             }
@@ -70,11 +69,11 @@ export class NavigatorComponent implements OnInit {
 
     private unsubscribeScrollUp() {
         this.isListeningScrollUp = false;
-        setTimeout(() => this.isListeningScrollUp = true, 5000)
+        setTimeout(() => this.isListeningScrollUp = true, 1000)
     }
 
     private unsubscribeScrollDown() {
         this.isListeningScrollDown = false;
-        setTimeout(() => this.isListeningScrollDown = true, 5000)
+        setTimeout(() => this.isListeningScrollDown = true, 1000)
     }
 }

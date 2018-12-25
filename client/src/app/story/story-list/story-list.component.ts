@@ -2,11 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
-import {ScrollEvent, StoryListService} from "../../shared/story-list.service";
 import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {NavigatorService} from "../../navigator/navigator.service";
 import {ConfigService} from "../../shared/config.service";
+import {ScrollEvent, StoryListService} from "./story-list.service";
 
 @Component({
     selector: 'app-story-list',
@@ -35,7 +34,6 @@ export class StoryListComponent implements OnInit {
                 private route: ActivatedRoute,
                 private storyListService: StoryListService,
                 private breakpointService: BreakpointDetectorService,
-                private navigatorService: NavigatorService,
                 private configService: ConfigService) {
     }
 
@@ -44,15 +42,22 @@ export class StoryListComponent implements OnInit {
         this.registerScrollTo();
         this.handleCloseIcon();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.storyListService.onScrollUp.subscribe(() => {
-            this.isShowMoveTop = true;
-            clearTimeout(this.hideMoveTopTimeout);
-            this.hideMoveTopTimeout = setTimeout(() => {
-                this.isShowMoveTop = false;
-            }, 5000)
+        this.registerShowingMoveToTop();
+
+    }
+
+    private registerShowingMoveToTop() {
+        this.storyListService.onScrollUp.subscribe((value) => {
+            if (value.startIndex > 0) {
+
+                this.isShowMoveTop = true;
+                clearTimeout(this.hideMoveTopTimeout);
+                this.hideMoveTopTimeout = setTimeout(() => {
+                    this.isShowMoveTop = false;
+                }, 5000)
+            }
 
         })
-
     }
 
     private handleCloseIcon() {
@@ -67,28 +72,33 @@ export class StoryListComponent implements OnInit {
     }
 
     private updateStoryList() {
+        this.isListeningScroll = false;
         this.route.params.subscribe(params => {
             this.category = params['category'];
 
             this.loadFirstPage();
             this.configService.updateConfig({category: this.category})
 
+            setTimeout(() => this.isListeningScroll = true, 1000)
         });
     }
 
-    private loadFirstPage() {
-        this.scrollToTop();
-        this.storyService.resetPageNumber();
-        this.storyService.getStories(this.category).subscribe(value => {
-            this.stories = value;
+    private loadFirstPage(): Promise<any> {
 
-            this.navigatorService.onShowHeader.next();
-        });
+        return new Promise(resolver => {
+
+            this.scrollToTop();
+            this.storyService.resetPageNumber();
+            this.storyService.getStories(this.category).subscribe(value => {
+                this.stories = value;
+                resolver();
+            });
+        })
+
     }
 
     private scrollToTop() {
         if (this.virtualScroller) {
-
             this.scrollTo(this.stories[0]);
         }
     }
@@ -107,9 +117,7 @@ export class StoryListComponent implements OnInit {
     }
 
     vsChange(event: ScrollEvent) {
-        if (this.isListeningScroll) {
-            this.storyListService.vsScroll.next(event)
-        }
+        this.storyListService.vsScroll.next(event)
 
     }
 
@@ -117,7 +125,7 @@ export class StoryListComponent implements OnInit {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
-            this.scrollTo(this.stories[index],500);
+            this.scrollTo(this.stories[index], 500);
             this.virtualScroller.invalidateCachedMeasurementAtIndex(index)
         })
     }
@@ -137,16 +145,16 @@ export class StoryListComponent implements OnInit {
     }
 
     private scrollTo(story: Story, animation = 0) {
-        this.isListeningScroll = false;
         this.virtualScroller.scrollInto(story, true, 0, 500, () => {
-            setTimeout(() => this.isListeningScroll = true, 2000)
         })
     }
 
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.loadFirstPage();
+        this.loadFirstPage().then(() => {
+            setTimeout(() => this.isShowMoveTop = false, 100)
+        });
 
     }
 

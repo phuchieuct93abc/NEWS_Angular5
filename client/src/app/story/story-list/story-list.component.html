@@ -1,4 +1,4 @@
-<div class="h-100 w-100 story-list">
+<div class="h-100 w-100 story-list" #scrollingBlock>
 
     <virtual-scroller #scroll
                       (vsChange)="vsChange($event)"
@@ -12,14 +12,19 @@
                       *ngIf="stories"
                       class="h-100 w-100">
 
+
         <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems" [story]="item"
                    class="d-block"></app-story>
 
 
     </virtual-scroller>
-    <div class="fixed-close-icon" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
-        <mat-icon class="mat-primary">close</mat-icon>
+    <div >
     </div>
+
+    <button mat-icon-button class="fixed-close-icon fadein" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
+        <mat-icon class="mat-primary">cancel</mat-icon>
+    </button>
+
 
 
     <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)" *ngIf="isSmallScreen && isShowMoveTop">

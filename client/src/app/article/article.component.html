@@ -1,13 +1,15 @@
-<div #articleView class="w-100 article scrollable p-1">
-    <div *ngIf="article;else loading" class="article-content p-2">
-        <div class="mat-h1">
-            {{article.header}}
+<div #articleView class="w-100 h-100 article  p-1">
+    <div class="scrollable">
+        <div *ngIf="article;else loading" class="article-content p-2">
+            <div class="mat-display-1">
+                {{article.header}}
+            </div>
+            <p [innerHTML]="article.body" class="article-body fadein"></p>
         </div>
-        <p [innerHTML]="article.body" class="article-body fadein"></p>
+        <ng-template #loading>
+            <app-loading></app-loading>
+        </ng-template>
     </div>
-    <ng-template #loading>
-    <app-loading></app-loading>
-    </ng-template>
 
 
 </div>

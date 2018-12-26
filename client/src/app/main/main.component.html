@@ -1,7 +1,7 @@
 <mat-sidenav-container class="example-sidenav-container h-100"
                        [style.marginTop.px]="false? 56 : 0">
-    <mat-sidenav [mode]="'over'" [(opened)]="isOpenSidebar"
-                 [fixedInViewport]="false" fixedTopGap="56">
+    <mat-sidenav mode="push" [(opened)]="isOpenSidebar" [autoFocus]="false"
+                 [fixedInViewport]="true" fixedTopGap="56">
         <mat-nav-list>
 
             <div class="categories">

@@ -27,14 +27,18 @@ app.get('/article', (req, res) => {
 });
 
 app.get('/cachestory', (req, res) => {
-    let allPromise = [];
     StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => {
-        var promise = cacheArticle(stories[0].originalUrl);
-        for (var i = 1; i < (stories.length/2); i++) {
+        let promise = cacheArticle(stories[0].originalUrl);
+        for (let i = 1; i < (stories.length/2); i++) {
             promise = (function (story: Story) {
-                return promise.then(() => {
-                    return cacheArticle(story.originalUrl)
-                });
+                return promise.then((value) => {
+                    if(value){
+
+                        return cacheArticle(story.originalUrl)
+                    }else{
+                        return Promise.resolve(null);
+                    }
+                })
             })(stories[i]);
         }
 

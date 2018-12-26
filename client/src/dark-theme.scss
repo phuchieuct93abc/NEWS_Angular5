@@ -33,7 +33,7 @@ $dark-background-gray: #303030;
   @include angular-material-theme($dark-theme);
   background-color: $dark-background-gray !important;
 
-  .article-content {
+  .article > div {
     color: rgba(255, 255, 255, 0.78) !important;
     background-color: $dark-background-light !important;
 

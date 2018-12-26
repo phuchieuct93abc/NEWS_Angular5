@@ -12,7 +12,6 @@ import {AppRoutingModule} from "./routing.module";
 import {ArticleComponent} from "./article/article.component";
 import {NavigatorComponent} from "./navigator/navigator.component";
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {ArticleHeaderComponent} from "./article/article-header/article-header.component";
 import {MainComponent} from "./main/main.component";
 import {MomentModule} from 'ngx-moment';
 
@@ -21,7 +20,6 @@ import {VirtualScrollerModule} from "ngx-virtual-scroller";
 import {InlineArticleComponent} from "./article/inline-article/inline-article.component";
 import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component";
 import {LoadingComponent} from "./article/loading/loading.component";
-import {Content} from "@angular/compiler/src/render3/r3_ast";
 import {ContentComponent} from "./content/content.component";
 
 
@@ -44,7 +42,6 @@ import {ContentComponent} from "./content/content.component";
         StoryComponent,
         ArticleComponent,
         NavigatorComponent,
-        ArticleHeaderComponent,
         MainComponent,
         InlineArticleComponent,
         ImageViewerComponent,

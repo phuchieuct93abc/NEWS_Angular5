@@ -58,12 +58,8 @@ export class NavigatorComponent implements OnInit {
         this.sidebarService.onSideBarToogle.next()
     }
 
-    darkTheme() {
-        this.configService.updateConfig({darkTheme: true})
-    }
-
-    lightTheme() {
-        this.configService.updateConfig({darkTheme: false})
+    changeTheme(){
+        this.configService.updateConfig({darkTheme: !this.configService.getConfig().darkTheme})
 
     }
 

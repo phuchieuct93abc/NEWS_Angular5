@@ -4,6 +4,7 @@
             <mat-icon>menu</mat-icon>
         </button>
         <h1 class="example-app-name">Báo mới</h1>
+        
         <div class="ml-3" *ngIf="!breakpointService.isSmallScreen">
 
             <mat-chip-list>
@@ -12,16 +13,18 @@
                           color="accent"
 
                           class="mr-1 ml-1"
-                          routerLinkActive="mat-chip-selected" >
+                          routerLinkActive="mat-chip-selected">
                     {{ category.value.name }}
 
                 </mat-chip>
             </mat-chip-list>
         </div>
-        <mat-divider [vertical]="true" ></mat-divider>
+        <mat-divider [vertical]="true"></mat-divider>
+
         <div class="theme">
-            <button mat-icon-button [class.mat-button-toggle-checked]="!configService.getConfig().darkTheme"> <mat-icon (click)="lightTheme()">flash_on</mat-icon></button>
-            <button mat-icon-button [class.mat-button-toggle-checked]="configService.getConfig().darkTheme"> <mat-icon (click)="darkTheme()">flash_off</mat-icon></button>
+            <button mat-icon-button (click)="changeTheme()">
+                <mat-icon >{{configService.getConfig().darkTheme?'flash_on':'flash_off'}}</mat-icon>
+            </button>
 
         </div>
     </mat-toolbar>

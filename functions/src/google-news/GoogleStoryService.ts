@@ -1,5 +1,4 @@
 import {Story} from "../../../model/Story";
-import {CONFIG} from "../const";
 import {StoryService} from "../StoryService";
 import GoogleStoryParser from "./GoogleStoryParser";
 
@@ -7,8 +6,22 @@ const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 const axios = require('axios');
 
+export interface GoogleArticle {
+    "source": {
+        "id": string,
+        "name": string
+    },
+    "author": string,
+    "title": string,
+    "description": string,
+    "url": string,
+    "urlToImage": string,
+    "publishedAt": string,
+    "content": string
+}
 
 export default class GoogleStoryService extends StoryService {
+    private APIKEY = "e60f99befdf44b02b7472b0cc82cb7d4"
 
     constructor() {
         super();
@@ -17,17 +30,19 @@ export default class GoogleStoryService extends StoryService {
 
     getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
-            const url = CONFIG.baomoiUrl + `${category}/trang${pageNumber}.epi?loadmore=1`;
-            axios.get(url).then(response => {
-                const dom = new JSDOM(response.data);
-                const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-                let stories = Array.from(result)
-                    .map(r => {
-                        return this.storyParser.setHtml(r).parseStory();
+            const url = "https://newsapi.org/v2/top-headlines?apiKey=e60f99befdf44b02b7472b0cc82cb7d4&category=technology&country=us";
+            axios.get(url, {
+                data: {
+                    country: 'us',
+                    category: "technology",
+                    "apiKey": this.APIKEY
+                }
+            }).then(response => {
+                const data: GoogleArticle[] = response.data.articles;
 
-                    })
-                    .filter(r => r != null);
-                resolve(stories)
+                resolve(data.map(d => this.storyParser.setRawData(d).parseStory()))
+            }, error => {
+                console.log(error)
             })
         })
 

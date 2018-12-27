@@ -14,7 +14,6 @@ export default class BaomoiStoryParser extends StoryParser {
         if (!this.html.getElementsByClassName('story__thumb')[0]) {
             return null;
         }
-        const imagePath = this.html.getElementsByTagName('img')[0].getAttribute('data-src');
 
         const title = this.html.getElementsByClassName('story__heading')[0].textContent;
         const hasVideo = this.html.classList.contains('story--video');

@@ -1,5 +1,8 @@
 import {Story} from "../../../model/Story";
 import {StoryParser} from "../parsers/StoryParser";
+import {GoogleArticle} from "./GoogleStoryService";
+import StoryImage from "../../../model/StoryImage";
+import StoryMeta from "../../../model/StoryMeta";
 
 export default class GoogleStoryParser extends StoryParser {
 
@@ -9,26 +12,12 @@ export default class GoogleStoryParser extends StoryParser {
 
 
     parseStory(): Story {
-        if (!this.html.getElementsByClassName('story__thumb')[0]) {
-            return null;
-        }
-        const imagePath = this.html.getElementsByTagName('img')[0].getAttribute('data-src');
-
-        const title = this.html.getElementsByClassName('story__heading')[0].textContent;
-        return new Story(this.extractId(), title, '1', null, null, null, null)
-    }
-
-    private extractId(): string {
-        const regex = /(\d)+(.epi)+$/gm;
-        const id = this.html.getElementsByTagName('a')[0].getAttribute('href').trim();
-
-        const m = regex.exec(id);
-        return m[0].replace('.epi', '');
-    }
-
-    private extractUrl() {
-        return this.html.getElementsByTagName('a')[0].getAttribute('href').trim();
+        const article = <GoogleArticle>this.rawData;
+        const image = new StoryImage(article.urlToImage, null, null, null)
+        return new Story(article.source.id,
+            article.title, article.description, [image], article.url, new StoryMeta(article.source.name, article.publishedAt), null)
 
     }
+
 
 }

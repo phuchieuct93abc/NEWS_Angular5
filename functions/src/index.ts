@@ -5,20 +5,20 @@ import Article from "../../model/Article";
 import {Story} from "../../model/Story";
 
 const express = require('express');
-var compression = require('compression');
+const compression = require('compression');
 
 
 const app = express();
 const port = 3000;
 const cors = require('cors');
-var timeout = require('connect-timeout');
+const timeout = require('connect-timeout');
 
 app.use(timeout('300s'));
 
 app.use(compression());
 app.use(cors());
 app.get('/story', (req, res) => {
-    StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
+    StoryServiceFactory.get(req.query.lang).getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
 });
 
 
@@ -27,6 +27,7 @@ app.get('/article', (req, res) => {
 });
 
 app.get('/cachestory', (req, res) => {
+
     StoryServiceFactory.get('vi').getStories(req.query.pageNumber, req.query.category).then(stories => {
         let promise = cacheArticle(stories[0].originalUrl);
         for (let i = 1; i < (stories.length/2); i++) {

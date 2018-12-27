@@ -1,13 +1,17 @@
 <div class="w-100 article" #articleView>
-    <div  class="close-icon text-right" (click)="close($event)" #closeIcon>
-        <mat-icon class="mat-primary">close</mat-icon>
+    <div class="text-right">
+        <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
+            <mat-icon class="mat-primary">cancel</mat-icon>
+        </button>
     </div>
-    <div  #articleBodyWrapper>
+
+    <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
             <p [innerHTML]="article.body" class="article-body fadein ">
             </p>
         </div>
     </div>
+
     <ng-template #loading>
         <app-loading></app-loading>
     </ng-template>

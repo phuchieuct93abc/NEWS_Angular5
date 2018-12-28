@@ -40,7 +40,9 @@ export class StoryService {
             map(
                 result => {
                     let results = result as any[];
-                    let stories: Story[] = results.map(this.storyConverter);
+                    let stories: Story[] = results.map(this.storyConverter).filter(result => {
+                        return this.stories.findIndex(story => story.id == result.id) == -1;
+                    });
                     this.stories.push(...stories);
 
 

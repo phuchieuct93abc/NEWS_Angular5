@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
-import {VirtualScrollerComponent} from "ngx-virtual-scroller";
+import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {ConfigService} from "../../shared/config.service";
 import {ScrollEvent, StoryListService} from "./story-list.service";
@@ -29,6 +29,8 @@ export class StoryListComponent implements OnInit {
     isShowMoveTop: boolean;
     hideMoveTopTimeout;
     isListeningScroll = true;
+
+    viewPortInfo:IPageInfo
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
@@ -112,14 +114,12 @@ export class StoryListComponent implements OnInit {
     }
 
     vsUpdate(event: ScrollEvent) {
-        this.storyListService.onScroll.next(event)
+        this.storyListService.onScroll.next()
+        this.storyListService.vsScroll.next(this.virtualScroller.viewPortInfo)
 
     }
 
-    vsChange(event: ScrollEvent) {
-        this.storyListService.vsScroll.next(event)
 
-    }
 
     private registerScrollTo() {
         this.storyListService.scrollTo.subscribe(item => {

@@ -14,9 +14,6 @@ import {IPageInfo} from "ngx-virtual-scroller";
 })
 export class NavigatorComponent implements OnInit {
     categories: any;
-    isHide: boolean = false;
-    isListeningScrollUp = true;
-    isListeningScrollDown = true;
 
     isHidding = false;
     isShowing = false;
@@ -27,8 +24,7 @@ export class NavigatorComponent implements OnInit {
 
     height = this.maxHeight;
     heightScale = 5;
-
-
+    currentToolbarHeight = this.height;
 
     constructor(private storyListService: StoryListService,
                 private media: MediaMatcher,
@@ -40,60 +36,63 @@ export class NavigatorComponent implements OnInit {
 
     ngOnInit() {
         this.categories = Categories;
-
-
         setTimeout(() => {
-
-
             if (this.breakpointService.isSmallScreen) {
+                this.height = 56;
+                this.registerScrollUp();
+                this.registerScrollDown();
 
-                let currentToolbarHeight;
-                this.storyListService.onScrollUp.subscribe((event: IPageInfo) => {
-                    if (!this.isShowing) {
-                        this.isShowing = true;
-                        this.isHidding = false;
-                        this.showingScrollEvent = event;
-                        this.hiddingScrollEvent = event;
-                        currentToolbarHeight = this.height;
-
-                    }
-                    if (this.showingScrollEvent) {
+            } else {
+                this.height = 63;
+            }
+        })
 
 
-                        const height = (this.showingScrollEvent.scrollStartPosition - event.scrollStartPosition) ;
+    }
 
-                        this.height = Math.min(this.maxHeight, (height  / this.heightScale) + currentToolbarHeight)
-                        console.log(this.height)
+    private registerScrollDown() {
+        this.storyListService.onScrollDown.subscribe((event: IPageInfo) => {
 
-                    }
+            if (this.height == 0) return;
 
-
-                });
-                this.storyListService.onScrollDown.subscribe((event: IPageInfo) => {
-                    if (!this.isHidding) {
-                        this.isHidding = true;
-                        this.isShowing = false;
-                        this.hiddingScrollEvent = event;
-                        this.showingScrollEvent = event;
-                        currentToolbarHeight = this.height;
+            if (!this.isHidding) {
+                this.isHidding = true;
+                this.isShowing = false;
+                this.hiddingScrollEvent = event;
+                this.showingScrollEvent = event;
+                this.currentToolbarHeight = this.height;
 
 
-                    }
-                    if (this.hiddingScrollEvent) {
+            }
+            if (this.hiddingScrollEvent) {
 
-                        const height = event.scrollStartPosition - this.hiddingScrollEvent.scrollStartPosition;
-                        this.height = Math.max(0, currentToolbarHeight - (height / this.heightScale) )
-                        console.log(this.height)
+                const height = event.scrollStartPosition - this.hiddingScrollEvent.scrollStartPosition;
+                this.height = Math.max(0, this.currentToolbarHeight - (height / this.heightScale))
 
-                    }
-
-                    //  this.unsubscribeScrollDown();
-                });
             }
 
-        }, 3000)
+            //  this.unsubscribeScrollDown();
+        });
+    }
 
+    private registerScrollUp() {
+        this.storyListService.onScrollUp.subscribe((event: IPageInfo) => {
+            if (this.height == this.maxHeight) return;
 
+            if (!this.isShowing) {
+                this.isShowing = true;
+                this.isHidding = false;
+                this.showingScrollEvent = event;
+                this.hiddingScrollEvent = event;
+                this.currentToolbarHeight = this.height;
+
+            }
+            if (this.showingScrollEvent) {
+                const height = (this.showingScrollEvent.scrollStartPosition - event.scrollStartPosition);
+                this.height = Math.min(this.maxHeight, (height / this.heightScale) + this.currentToolbarHeight)
+            }
+
+        });
     }
 
     toggle() {
@@ -105,13 +104,6 @@ export class NavigatorComponent implements OnInit {
 
     }
 
-    private unsubscribeScrollUp() {
-        this.isListeningScrollUp = false;
-        setTimeout(() => this.isListeningScrollUp = true, 1000)
-    }
-
-    private unsubscribeScrollDown() {
-        this.isListeningScrollDown = false;
-        setTimeout(() => this.isListeningScrollDown = true, 1000)
+    ngAfterViewChecked(): void {
     }
 }

@@ -1,6 +1,6 @@
-import Article from "../../../model/Article";
-import {ArticleService} from "../ArticleService";
 import GoogleArticleParser from "./GoogleArticleParser";
+import {ArticleService} from "../ArticleService";
+import Article from "../../../../model/Article";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;

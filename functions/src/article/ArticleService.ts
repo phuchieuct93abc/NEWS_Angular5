@@ -1,6 +1,6 @@
-import Article from "../../model/Article";
-import {ArticleParser} from "./parsers/ArticleParser";
-import FirebaseService from "./FirebaseService";
+import Article from "../../../model/Article";
+import {ArticleParser} from "./ArticleParser";
+import FirebaseService from "../FirebaseService";
 
 export abstract class ArticleService {
     protected parser: ArticleParser;

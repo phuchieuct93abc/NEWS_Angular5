@@ -1,5 +1,5 @@
 import {Story} from "../../../model/Story";
-import {StoryParser} from "../parsers/StoryParser";
+import {StoryParser} from "../story/StoryParser";
 import Utility from "../Utility";
 import StoryMeta from "../../../model/StoryMeta";
 import StoryImage from "../../../model/StoryImage";

@@ -33,6 +33,12 @@
                 </button>
 
             </div>
+            <div class="search">
+                <mat-form-field>
+                    <input matInput (keyup)="onKeyup(searchInput.value)" #searchInput>
+                </mat-form-field>
+
+            </div>
 
         </div>
 

@@ -1,15 +1,17 @@
-import Article from "../../../model/Article";
-import {ArticleParser} from "../parsers/ArticleParser";
+import {ArticleParser} from "../ArticleParser";
+import Article from "../../../../model/Article";
+import Utility from "../../Utility";
 
 export default class BaomoiArticleParser extends ArticleParser {
 
     constructor() {
         super();
     }
+
     private convertHtmlBody() {
         let body = this.html.getElementsByClassName('article__body')[0].innerHTML;
-        body = this.replaceAll(body, "data-", "");
-        return this.replaceAll(body, "<video", "<video controls")
+        body = Utility.replaceAll(body, "data-", "");
+        return Utility.replaceAll(body, "<video", "<video controls")
 
     }
 
@@ -19,8 +21,5 @@ export default class BaomoiArticleParser extends ArticleParser {
         return new Article(id, header, null, this.convertHtmlBody(), null);
     }
 
-    private replaceAll(str: string, placeholder: string, replacement: string): string {
-        return str.replace(new RegExp(placeholder, 'g'), replacement);
 
-    }
 }

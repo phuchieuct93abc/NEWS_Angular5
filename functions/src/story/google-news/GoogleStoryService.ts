@@ -1,5 +1,5 @@
 import { Story } from "../../../model/Story";
-import { StoryService } from "../StoryService";
+import { StoryService } from "../story/StoryService";
 import GoogleStoryParser from "./GoogleStoryParser";
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI("e60f99befdf44b02b7472b0cc82cb7d4");

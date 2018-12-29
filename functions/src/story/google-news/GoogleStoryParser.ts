@@ -1,5 +1,5 @@
 import { Story } from "../../../model/Story";
-import { StoryParser } from "../parsers/StoryParser";
+import { StoryParser } from "../story/StoryParser";
 import { GoogleArticle } from "./GoogleStoryService";
 import StoryImage from "../../../model/StoryImage";
 import StoryMeta from "../../../model/StoryMeta";

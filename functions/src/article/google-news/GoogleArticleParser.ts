@@ -1,5 +1,6 @@
-import Article from "../../../model/Article";
-import {ArticleParser} from "../parsers/ArticleParser";
+import Article from "../../../../model/Article";
+import {ArticleParser} from "../ArticleParser";
+
 
 export default class GoogleArticleParser extends ArticleParser {
     constructor() {

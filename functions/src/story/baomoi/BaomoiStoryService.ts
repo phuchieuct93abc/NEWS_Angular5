@@ -1,8 +1,7 @@
 import {Story} from "../../../model/Story";
 import BaomoiStoryParser from "./BaomoiStoryParser";
 import {CONFIG} from "../const";
-import {StoryService} from "../StoryService";
-import ArticleServiceFactory from "../ArticleServiceFactory";
+import {StoryService} from "../story/StoryService";
 import {Categories} from "../../../model/Categories";
 
 const jsdom = require("jsdom");
@@ -20,7 +19,7 @@ export default class BaomoiStoryService extends StoryService {
     getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
             const categoryUrl = Categories[category].url != null ? Categories[category].url : category + "/";
-            let url = CONFIG.baomoiUrl + `${categoryUrl}trang${pageNumber}.epi?loadmore=1`;
+            let url = `${CONFIG.baomoiUrl}${categoryUrl}trang${pageNumber}.epi?loadmore=1`;
 
             axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
@@ -36,6 +35,21 @@ export default class BaomoiStoryService extends StoryService {
         })
 
 
+    }
+
+    search(pageNumber: string, keyword: string): Promise<Story[]> {
+        let searchUrl = `${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`
+        axios.get(searchUrl).then(response => {
+            const dom = new JSDOM(response.data);
+            const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
+            let stories = Array.from(result)
+                .map(r => {
+                    return this.storyParser.setHtml(r).parseStory();
+
+                })
+                .filter(r => r != null);
+            resolve(stories);
+        })
     }
 
 

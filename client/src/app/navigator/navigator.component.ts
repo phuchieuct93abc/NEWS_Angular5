@@ -6,6 +6,9 @@ import {BreakpointDetectorService} from "../shared/breakpoint.service";
 import {ConfigService} from "../shared/config.service";
 import {StoryListService} from "../story/story-list/story-list.service";
 import {IPageInfo} from "ngx-virtual-scroller";
+import {interval, Subject} from "rxjs";
+import {debounce} from "rxjs/operators";
+import {StoryService} from "../shared/story.service";
 
 @Component({
     selector: 'app-navigator',
@@ -26,11 +29,14 @@ export class NavigatorComponent implements OnInit {
     heightScale = 5;
     currentToolbarHeight = this.height;
 
+    private keyupSubject = new Subject<string>();
+
     constructor(private storyListService: StoryListService,
                 private media: MediaMatcher,
                 private sidebarService: SidebarService,
                 public breakpointService: BreakpointDetectorService,
-                public configService: ConfigService) {
+                public configService: ConfigService,
+                private storyService: StoryService) {
 
     }
 
@@ -46,6 +52,10 @@ export class NavigatorComponent implements OnInit {
                 this.height = 63;
             }
         })
+        this.keyupSubject.pipe(debounce(() => interval(1000))).subscribe(searchTextValue => {
+            console.log(searchTextValue)
+            this.storyService.onSearch.next(searchTextValue);
+        });
 
 
     }
@@ -104,6 +114,7 @@ export class NavigatorComponent implements OnInit {
 
     }
 
-    ngAfterViewChecked(): void {
+    onKeyup($event) {
+        this.keyupSubject.next($event)
     }
 }

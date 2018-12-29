@@ -2,10 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
-import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
+import {VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {ConfigService} from "../../shared/config.service";
 import {ScrollEvent, StoryListService} from "./story-list.service";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-story-list',
@@ -30,7 +31,7 @@ export class StoryListComponent implements OnInit {
     hideMoveTopTimeout;
     isListeningScroll = true;
 
-    viewPortInfo:IPageInfo
+    searchKeyword: string;
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
@@ -45,6 +46,12 @@ export class StoryListComponent implements OnInit {
         this.handleCloseIcon();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.registerShowingMoveToTop();
+
+        this.storyService.onSearch.subscribe(keyword => {
+            this.searchKeyword = keyword;
+            this.storyService.resetPageNumber();
+            this.storyService.search(keyword).subscribe(values => this.stories = values)
+        })
 
     }
 
@@ -120,7 +127,6 @@ export class StoryListComponent implements OnInit {
     }
 
 
-
     private registerScrollTo() {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
@@ -135,7 +141,7 @@ export class StoryListComponent implements OnInit {
 
         if (!this.isLoadingMore) {
             this.isLoadingMore = true;
-            this.storyService.getStories(this.category).subscribe(value => {
+            this.getLoadmoreObservable().subscribe(value => {
                 this.isLoadingMore = false;
                 this.stories = value;
             });
@@ -144,8 +150,14 @@ export class StoryListComponent implements OnInit {
 
     }
 
+    private getLoadmoreObservable() {
+        let loadMorePromise: Observable<Story[]>;
+        loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(this.category);
+        return loadMorePromise;
+    }
+
     private scrollTo(story: Story, animation = 0) {
-        this.virtualScroller.scrollInto(story, true, 0, 500, () => {
+        this.virtualScroller.scrollInto(story, true, 0, animation, () => {
         })
     }
 

@@ -1,7 +1,7 @@
 <div class="h-100 w-100 story-list" #scrollingBlock>
 
     <virtual-scroller #scroll
-                      (vsUpdate)="vsUpdate($event)"
+                      (vsUpdate)="vsUpdate()"
                       (vsEnd)="vsEnd($event)"
                       [enableUnequalChildrenSizes]="true"
                       [checkResizeInterval]="5000"

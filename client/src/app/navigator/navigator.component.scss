@@ -19,7 +19,6 @@ a.active {
   @media (max-width: 599px) {
 
     .navigator {
-   //   height: $nav-xs-height !important;
       overflow: hidden;
       position: fixed;
       top: 0;
@@ -38,7 +37,14 @@ a.active {
   .navigator {
     height: $nav-height;
 
+    .search {
+      flex: 1;
 
+
+      //::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+      //  padding-bottom: 0;
+      //}
+    }
   }
 }
 

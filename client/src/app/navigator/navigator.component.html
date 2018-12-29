@@ -33,10 +33,11 @@
                 </button>
 
             </div>
-            <div class="search">
-                <mat-form-field>
-                    <input matInput (keyup)="onKeyup(searchInput.value)" #searchInput>
-                </mat-form-field>
+            <mat-divider [vertical]="true"></mat-divider>
+
+            <div class="search ">
+                <app-search></app-search>
+
 
             </div>
 

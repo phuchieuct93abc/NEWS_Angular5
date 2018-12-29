@@ -1,0 +1,26 @@
+<!--<button mat-icon-button (click)="isSearching=true">-->
+<!--<mat-icon>search</mat-icon>-->
+<!--</button>-->
+
+
+<!--<mat-form-field *ngIf="isSearching" class="w-100">-->
+<!--<input matInput (keyup)="onKeyup(searchInput.value)" #searchInput>-->
+<!--<button mat-icon-button (click)="isSearching=false;onKeyup(null)">-->
+<!--<mat-icon>cancel</mat-icon>-->
+<!--</button>-->
+<!--</mat-form-field>-->
+
+
+<div class="w-100 h-100" [ngClass]="config.getConfig().darkTheme?'dark':'light'" >
+    <div class="d-flex justify-content-start h-100" (mouseover)="searchInput.focus()">
+        <div class="searchbar" [class.isSearching]="searchInput.value.length>0">
+            <input class="search_input" type="text" name="" placeholder="Tìm kiếm..."
+                   (keyup)="onKeyup(searchInput.value)" #searchInput>
+            <a class="search_icon">
+                <mat-icon>search</mat-icon>
+
+
+            </a>
+        </div>
+    </div>
+</div>

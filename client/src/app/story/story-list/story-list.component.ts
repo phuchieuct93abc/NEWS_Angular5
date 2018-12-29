@@ -48,9 +48,15 @@ export class StoryListComponent implements OnInit {
         this.registerShowingMoveToTop();
 
         this.storyService.onSearch.subscribe(keyword => {
+            if (keyword) {
+
+                this.storyService.resetPageNumber();
+                this.storyService.search(keyword).subscribe(values => this.stories = values)
+            }else{
+                this.updateStoryList();
+            }
             this.searchKeyword = keyword;
-            this.storyService.resetPageNumber();
-            this.storyService.search(keyword).subscribe(values => this.stories = values)
+
         })
 
     }
@@ -120,7 +126,7 @@ export class StoryListComponent implements OnInit {
         this.onLoadMore(event)
     }
 
-    vsUpdate(event: ScrollEvent) {
+    vsUpdate() {
         this.storyListService.onScroll.next()
         this.storyListService.vsScroll.next(this.virtualScroller.viewPortInfo)
 

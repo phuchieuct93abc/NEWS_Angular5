@@ -27,7 +27,6 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/normalize.css/normalize.css",
               "./src/dark-theme.scss",
               "src/styles.scss"

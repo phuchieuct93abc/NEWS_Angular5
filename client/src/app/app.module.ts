@@ -21,6 +21,7 @@ import {InlineArticleComponent} from "./article/inline-article/inline-article.co
 import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component";
 import {LoadingComponent} from "./article/loading/loading.component";
 import {ContentComponent} from "./content/content.component";
+import {SearchComponent} from "./navigator/search/search.component";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {ContentComponent} from "./content/content.component";
         InlineArticleComponent,
         ImageViewerComponent,
         LoadingComponent,
-        ContentComponent
+        ContentComponent,
+        SearchComponent
     ],
     bootstrap: [AppComponent],
     providers: []

@@ -1,8 +1,8 @@
-import {Story} from "../../../model/Story";
+import {Story} from "../../../../model/Story";
 import BaomoiStoryParser from "./BaomoiStoryParser";
-import {CONFIG} from "../const";
-import {StoryService} from "../story/StoryService";
-import {Categories} from "../../../model/Categories";
+import {CONFIG} from "../../const";
+import {StoryService} from "../StoryService";
+import {Categories} from "../../../../model/Categories";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -39,17 +39,20 @@ export default class BaomoiStoryService extends StoryService {
 
     search(pageNumber: string, keyword: string): Promise<Story[]> {
         let searchUrl = `${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`
-        axios.get(searchUrl).then(response => {
-            const dom = new JSDOM(response.data);
-            const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-            let stories = Array.from(result)
-                .map(r => {
-                    return this.storyParser.setHtml(r).parseStory();
 
-                })
-                .filter(r => r != null);
-            resolve(stories);
+        return new Promise(resolver => {
+            axios.get(searchUrl).then(response => {
+                const dom = new JSDOM(response.data);
+                const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
+                let stories = Array.from(result)
+                    .map(r => this.storyParser.setHtml(r).parseStory())
+                    .filter(r => r != null);
+                resolver(stories);
+            })
+
+
         })
+
     }
 
 

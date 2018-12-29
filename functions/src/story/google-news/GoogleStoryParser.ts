@@ -1,8 +1,8 @@
-import { Story } from "../../../model/Story";
-import { StoryParser } from "../story/StoryParser";
+import { Story } from "../../../../model/Story";
+import { StoryParser } from "../StoryParser";
 import { GoogleArticle } from "./GoogleStoryService";
-import StoryImage from "../../../model/StoryImage";
-import StoryMeta from "../../../model/StoryMeta";
+import StoryImage from "../../../../model/StoryImage";
+import StoryMeta from "../../../../model/StoryMeta";
 
 export default class GoogleStoryParser extends StoryParser {
   constructor() {

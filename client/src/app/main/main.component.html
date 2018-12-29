@@ -5,15 +5,31 @@
         <mat-nav-list>
 
             <div class="categories">
-                <mat-list role="list">
+                <label class="mat-h2 mb-0 pl-1">Chủ đề</label>
+
+                <mat-list role="list" class="pl-2">
                     <mat-list-item *ngFor="let category of categories | keyvalue" role="listitem"
                                    [routerLink]="category.key" routerLinkActive="active">
                         {{ category.value.name }}
                     </mat-list-item>
                 </mat-list>
+                <mat-divider></mat-divider>
 
             </div>
-            <mat-divider></mat-divider>
+            <div class="theme">
+                <label class="mat-h2 mb-0 pl-1">Giao diện</label>
+                <mat-list role="list" class="pl-2">
+                    <mat-list-item (click)="changeLightTheme()" [class.active]="!configService.getConfig().darkTheme ">
+                        Sáng
+                    </mat-list-item>
+                    <mat-list-item (click)="changeDardTheme()" [class.active]="configService.getConfig().darkTheme ">
+                        Tối
+                    </mat-list-item>
+                </mat-list>
+
+                <mat-divider></mat-divider>
+
+            </div>
 
         </mat-nav-list>
     </mat-sidenav>

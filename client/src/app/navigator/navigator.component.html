@@ -1,8 +1,4 @@
-<div
-        [style.height.px]="height"
-
-        class="navigator"
->
+<div [style.height.px]="height" class="navigator">
     <mat-toolbar color="primary" class="example-toolbar" [style.padding-bottom.px]="(maxHeight - height)/2">
         <button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">
             <mat-icon>menu</mat-icon>
@@ -11,7 +7,7 @@
 
             <h1 class="example-app-name">Báo mới</h1>
 
-            <div class="ml-3" *ngIf="!breakpointService.isSmallScreen">
+            <div class="ml-3" class="d-none d-sm-inline-block">
 
                 <mat-chip-list>
                     <mat-chip *ngFor="let category of categories | keyvalue"
@@ -25,9 +21,10 @@
                     </mat-chip>
                 </mat-chip-list>
             </div>
-            <mat-divider [vertical]="true"></mat-divider>
 
-            <div class="theme">
+            <div class="theme" class="d-none d-sm-inline-block">
+                <mat-divider [vertical]="true"></mat-divider>
+
                 <button mat-icon-button (click)="changeTheme()">
                     <mat-icon>{{configService.getConfig().darkTheme ? 'flash_on' : 'flash_off'}}</mat-icon>
                 </button>

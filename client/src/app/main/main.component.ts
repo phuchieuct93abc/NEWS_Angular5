@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
 import {Categories} from "../../../../model/Categories";
 import {SidebarService} from "./sidebar.service";
+import {ConfigService} from "../shared/config.service";
 
 @Component({
     selector: 'app-main',
@@ -14,7 +15,7 @@ export class MainComponent implements OnInit {
     categories: any;
     isOpenSidebar = false;
 
-    constructor(private breakpointService: BreakpointDetectorService, private sidebarService: SidebarService) {
+    constructor(private breakpointService: BreakpointDetectorService, private sidebarService: SidebarService, public configService: ConfigService) {
     }
 
     ngOnInit() {
@@ -25,4 +26,14 @@ export class MainComponent implements OnInit {
         })
     }
 
+    changeLightTheme() {
+        this.configService.updateConfig({darkTheme: false})
+
+
+    }
+
+    changeDardTheme() {
+        this.configService.updateConfig({darkTheme: true})
+
+    }
 }

@@ -1,0 +1,55 @@
+img {
+  height: 50px;
+  width: auto;
+  display: inline-block;
+  transform: scale(1) !important;;
+  border: none;
+  animation: run 4s linear infinite;
+
+
+}
+
+@media (min-width: 576px) {
+  img {
+    height: 100px;
+
+  }
+}
+
+.host {
+  border: none;
+  overflow: hidden;
+
+  &.dark {
+    background-color: #303030 !important;
+  }
+
+  &.light {
+    background-color: #fafafa !important;
+  }
+}
+
+
+@keyframes run {
+  0%, 100% {
+    margin-left: 0;
+    transform: scaleX(1);
+
+
+  }
+
+  49% {
+    transform: scaleX(1);
+
+  }
+  50% {
+    transform: scaleX(-1);
+    margin-left: calc(100%);
+  }
+  99% {
+    transform: scaleX(-1);
+
+  }
+
+
+}

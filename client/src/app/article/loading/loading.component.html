@@ -1,4 +1,5 @@
-<div class="text-center">
-  {{msg.msg}} <mat-icon>{{msg.icon}}</mat-icon>
+<div class=" w-100 host" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
+    <img [src]="config.getConfig().darkTheme?'../../../assets/fox_dark.gif':'../../../assets/fox_light.gif'"/>
+
 
 </div>

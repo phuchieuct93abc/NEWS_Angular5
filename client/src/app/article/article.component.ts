@@ -29,7 +29,7 @@ export class ArticleComponent implements OnInit {
         if (id) {
             this.article = null;
             this.articleService.getById(id).subscribe(article => {
-               // this.article = article;
+               this.article = article;
                 this.afterGetArticle();
             });
         }

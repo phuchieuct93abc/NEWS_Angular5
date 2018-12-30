@@ -6,7 +6,6 @@ import {BreakpointDetectorService} from "../shared/breakpoint.service";
 import {ConfigService} from "../shared/config.service";
 import {StoryListService} from "../story/story-list/story-list.service";
 import {IPageInfo} from "ngx-virtual-scroller";
-import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-navigator',
@@ -21,7 +20,7 @@ export class NavigatorComponent implements OnInit {
 
     hiddingScrollEvent: IPageInfo;
     showingScrollEvent: IPageInfo;
-    maxHeight = 56;
+    maxHeight = 60;
 
     height = this.maxHeight;
     heightScale = 1;
@@ -40,7 +39,7 @@ export class NavigatorComponent implements OnInit {
         this.categories = Categories;
         setTimeout(() => {
             if (this.breakpointService.isSmallScreen) {
-                this.height = 56;
+                this.height = 60;
                 this.registerScrollUp();
                 this.registerScrollDown();
 
@@ -56,7 +55,6 @@ export class NavigatorComponent implements OnInit {
         this.storyListService.onScrollDown.subscribe((event: IPageInfo) => {
 
             if (this.height == 0) return;
-
             if (!this.isHidding) {
                 this.isHidding = true;
                 this.isShowing = false;
@@ -73,7 +71,6 @@ export class NavigatorComponent implements OnInit {
 
             }
 
-            //  this.unsubscribeScrollDown();
         });
     }
 

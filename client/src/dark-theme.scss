@@ -17,7 +17,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 
 // Define an alternate dark theme.
 $dark-primary: mat-palette($mat-deep-purple);
-$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-accent: mat-palette($mat-blue, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
@@ -39,7 +39,7 @@ $dark-background-gray: #303030;
 
   }
 
-  mat-card{
+  mat-card {
     &.active {
       background-color: $dark-background-light !important;
     }
@@ -49,12 +49,29 @@ $dark-background-gray: #303030;
     background-color: $dark-background-gray !important;
   }
 
-  .border{
+  .border {
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
+
+
 }
 
 .unicorn-light-theme {
   @include angular-material-theme($candy-app-theme);
 
+
+}
+
+.unicorn-dark-theme, .unicorn-light-theme {
+  mat-toolbar {
+    @include mat-elevation(5);
+    position: relative;
+    z-index: 2;
+  }
+
+  mat-list-item.active {
+
+    background-color: #448aff !important;
+    color: white !important;
+  }
 }

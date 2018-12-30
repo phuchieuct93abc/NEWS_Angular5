@@ -18,9 +18,8 @@ export default class BaomoiStoryService extends StoryService {
 
     getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
-            const categoryUrl = Categories[category].url != null ? Categories[category].url : category + "/";
-            let url = `${CONFIG.baomoiUrl}${categoryUrl}trang${pageNumber}.epi?loadmore=1`;
-
+            let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
+            console.log(url)
             axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
@@ -53,6 +52,12 @@ export default class BaomoiStoryService extends StoryService {
 
         })
 
+    }
+
+    private getCategoryUrl(name: string): string {
+
+        const category = Categories.find(category => category.name == name);
+        return category.url!=null ? category.url : category.name + "/";
     }
 
 

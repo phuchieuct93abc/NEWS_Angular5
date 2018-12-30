@@ -13,13 +13,13 @@
                 <div class="ml-3" class="d-none d-sm-inline-block pl-3">
 
                     <mat-chip-list>
-                        <mat-chip *ngFor="let category of categories | keyvalue"
-                                  [routerLink]="category.key"
+                        <mat-chip *ngFor="let category of categories "
+                                  [routerLink]="category.name"
                                   color="accent"
 
                                   class="mr-1 ml-1"
                                   routerLinkActive="mat-chip-selected">
-                            {{ category.value.name }}
+                            <span>{{ category.title }}</span>
 
                         </mat-chip>
                     </mat-chip-list>

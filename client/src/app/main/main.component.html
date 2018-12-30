@@ -8,11 +8,11 @@
             <mat-list role="list">
                 <h3 mat-subheader>Chủ đề</h3>
 
-                <mat-list-item *ngFor="let category of categories | keyvalue"
+                <mat-list-item *ngFor="let category of categories"
                                role="listitem"
-                               [routerLink]="category.key"
+                               [routerLink]="category.name"
                                routerLinkActive="active">
-                    {{ category.value.name }}
+                    {{ category.title }}
                 </mat-list-item>
                 <mat-divider></mat-divider>
 

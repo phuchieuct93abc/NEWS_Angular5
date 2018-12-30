@@ -1,22 +1,34 @@
-export const Categories = {
-    'tin-nong': {
-        name: 'Tin Nóng',
-        url:""
-    },
-    "xa-hoi": {
-        name: 'Xã hội'
-    },
-    'thoi-su': {
-        name: 'Thời sự'
-    },
-    'the-thao': {
-        name: "Thể Thao"
-    },
-    "khoa-hoc-cong-nghe": {
-        name: "Công Nghệ"
-    }
+export interface Category {
+    name: string,
+    title: string,
+    url?: string
+}
 
-};
+export const Categories: Category[] =
+    [
+        {
+            name: 'tin-nong',
+            title: 'Tin nóng',
+            url: ''
+        },
+        {
+            name: 'xa-hoi',
+            title: 'Xã hội',
+        },
+        {
+            name: 'thoi-su',
+            title: 'Thời sự',
+        },
+        {
+            name: 'the-thao',
+            title: 'Thể thao',
+        },
+        {
+            name: 'khoa-hoc-cong-nghe',
+            title: 'Công nghệ',
+        }
+    ]
+
 // XÃ HỘI
 // THỜI SỰ
 // GIAO THÔNG

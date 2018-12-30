@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
-import {Categories} from "../../../../model/Categories";
+import {Categories, Category} from "../../../../model/Categories";
 import {SidebarService} from "./sidebar.service";
 import {ConfigService} from "../shared/config.service";
 
@@ -12,7 +12,7 @@ import {ConfigService} from "../shared/config.service";
 export class MainComponent implements OnInit {
 
     isSmallScreen: boolean;
-    categories: any;
+    categories: Category[];
     isOpenSidebar = false;
 
     constructor(private breakpointService: BreakpointDetectorService, private sidebarService: SidebarService, public configService: ConfigService) {

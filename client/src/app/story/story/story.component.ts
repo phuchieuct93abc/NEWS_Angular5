@@ -24,6 +24,7 @@ export class StoryComponent implements OnInit {
     }
 
     onSelectStory() {
+
         this.selected = true;
         this.onSelectedStory.emit(this.story);
     }

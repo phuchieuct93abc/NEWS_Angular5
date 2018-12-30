@@ -181,6 +181,7 @@ export class StoryListComponent implements OnInit {
     }
 
     onSelectedStory(story: Story) {
+        story.isRead = true;
         setTimeout(() => {
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         }, 2000)

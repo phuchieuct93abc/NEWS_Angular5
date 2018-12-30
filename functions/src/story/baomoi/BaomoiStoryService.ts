@@ -19,7 +19,6 @@ export default class BaomoiStoryService extends StoryService {
     getStories(pageNumber: string, category: string): Promise<Story[]> {
         return new Promise((resolve) => {
             let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
-            console.log(url)
             axios.get(url).then(response => {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");

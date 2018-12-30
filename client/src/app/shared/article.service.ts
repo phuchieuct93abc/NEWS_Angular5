@@ -5,6 +5,8 @@ import {EMPTY, Observable} from "rxjs";
 import {map, retry} from "rxjs/operators";
 import Article from "../../../../model/Article";
 import CONFIG from "../../environments/environment";
+import {Story} from "../../../../model/Story";
+
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +17,13 @@ export class ArticleService {
     }
 
     getById(id: string): Observable<Article> {
-        const story = this.storyService.getById(id);
+
+        const story: Story = this.storyService.getById(id);
+
         if (story == null) {
             return EMPTY;
         }
+        this.storyService.saveReadStory(story);
         const options = {
             params: {
                 url: story.originalUrl
@@ -30,4 +35,6 @@ export class ArticleService {
                 new Article(result['id'], result['header'], null, result['body'], null)
             ))
     }
+
+
 }

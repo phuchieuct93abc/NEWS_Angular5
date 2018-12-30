@@ -4,9 +4,11 @@ import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
 import {map, retry} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
+import {LocalStorageService} from "./storage.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
+const readId = "read"
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +17,11 @@ export class StoryService {
     private currentStoryPage = 0;
 
     private stories: Story[] = [];
-    public onSearch = new Subject<string>()
+    public onSearch = new Subject<string>();
+    private readStory: Story[];
 
-    constructor(private httpClient: HttpClient) {
-
+    constructor(private httpClient: HttpClient, private storage: LocalStorageService) {
+        this.readStory = <Story[]>storage.getItem(readId);
     }
 
     resetPageNumber() {
@@ -45,7 +48,7 @@ export class StoryService {
                         return this.stories.findIndex(story => story.id == result.id) == -1;
                     });
                     this.stories.push(...stories);
-
+                    this.checkReadStory();
 
                     return this.stories
                 }
@@ -70,7 +73,7 @@ export class StoryService {
                         return this.stories.findIndex(story => story.id == result.id) == -1;
                     });
                     this.stories.push(...stories);
-
+                    this.checkReadStory();
 
                     return this.stories
                 }
@@ -82,7 +85,21 @@ export class StoryService {
         return new Story(id, title, desc, images, originalUrl, storyMeta, hasVideo);
     }
 
+
+    saveReadStory(story: Story) {
+        let item = <Story[]>this.storage.getItem(readId);
+        item = item ? item : [];
+        item.push(story);
+        this.storage.setItem(readId, item);
+
+    }
+
     getById(id: string) {
         return this.stories.find(s => s.id === id)
+    }
+
+    checkReadStory() {
+        this.stories.filter(story => this.readStory.findIndex(readStory => readStory.id === story.id) >= 0)
+            .forEach(read => read.isRead = true)
     }
 }

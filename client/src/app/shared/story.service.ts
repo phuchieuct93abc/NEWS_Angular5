@@ -21,7 +21,8 @@ export class StoryService {
     private readStory: Story[];
 
     constructor(private httpClient: HttpClient, private storage: LocalStorageService) {
-        this.readStory = <Story[]>storage.getItem(readId);
+        this.readStory = <Story[]>storage.getItem(readId, []);
+
     }
 
     resetPageNumber() {
@@ -87,8 +88,7 @@ export class StoryService {
 
 
     saveReadStory(story: Story) {
-        let item = <Story[]>this.storage.getItem(readId);
-        item = item ? item : [];
+        let item = <Story[]>this.storage.getItem(readId, []);
         item.push(story);
         this.storage.setItem(readId, item);
 

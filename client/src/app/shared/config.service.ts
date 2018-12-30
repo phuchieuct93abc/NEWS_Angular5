@@ -21,7 +21,7 @@ export class ConfigService {
 
 
     constructor(private storage: LocalStorageService) {
-        this.config = {...this.config, ...storage.getItem(id)}
+        this.config = {...this.config, ...storage.getItem(id,{})}
     }
 
     public updateConfig(config: Config) {

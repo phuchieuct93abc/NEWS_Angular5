@@ -39,8 +39,10 @@ $dark-background-gray: #303030;
 
   }
 
-  mat-card.active {
-    background-color: $dark-background-light !important;
+  mat-card{
+    &.active {
+      background-color: $dark-background-light !important;
+    }
   }
 
   .mat-toolbar.mat-primary {

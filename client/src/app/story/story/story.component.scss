@@ -5,17 +5,16 @@
   margin: 0 1px;
 
 
-
   .last-child {
     margin-bottom: 0;
   }
-
 
 
   &:hover, &.active {
     @include mat-elevation(5);
 
   }
+
 
   &.active {
     background-color: #e5e5e5;

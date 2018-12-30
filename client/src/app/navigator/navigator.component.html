@@ -19,7 +19,9 @@
 
                                   class="mr-1 ml-1"
                                   routerLinkActive="mat-chip-selected">
-                            <span>{{ category.title }}</span>
+                            <mat-icon class="mr-2">{{category.icon}}</mat-icon>
+
+                            <span class="mat-h3 mb-0">{{ category.title }}</span>
 
                         </mat-chip>
                     </mat-chip-list>
@@ -30,6 +32,7 @@
 
 
                     <button mat-icon-button (click)="changeTheme()">
+
                         <mat-icon>{{configService.getConfig().darkTheme ? 'flash_on' : 'flash_off'}}</mat-icon>
                     </button>
 

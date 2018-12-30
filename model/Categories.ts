@@ -1,7 +1,8 @@
 export interface Category {
     name: string,
     title: string,
-    url?: string
+    url?: string,
+    icon: string
 }
 
 export const Categories: Category[] =
@@ -9,23 +10,32 @@ export const Categories: Category[] =
         {
             name: 'tin-nong',
             title: 'Tin nóng',
-            url: ''
+            url: '',
+            icon: 'whatshot'
         },
         {
             name: 'xa-hoi',
             title: 'Xã hội',
+            icon: 'people'
+
         },
         {
             name: 'thoi-su',
             title: 'Thời sự',
+            icon: 'list_alt'
+
         },
         {
             name: 'the-thao',
             title: 'Thể thao',
+            icon: 'directions_bike'
+
         },
         {
             name: 'khoa-hoc-cong-nghe',
             title: 'Công nghệ',
+            icon: 'phone_iphone'
+
         }
     ]
 

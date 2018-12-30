@@ -1,68 +1,92 @@
 
 .searchbar {
-  margin-bottom: auto;
-  margin-top: auto;
-  height: 50px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  padding: 0.3em;
-
-
-  &:hover, &.isSearching {
-
-    .search_input {
-      width: 100px;
-      caret-color: red;
-      transition: width 0.4s linear;
-      padding-left: 10px;
-
-    }
-
-    .search_icon {
-      background: white;
-      color: #e74c3c;
-    }
-  }
-
-  .search_input {
-    color: white;
-    border: 0;
-    outline: 0;
-    background: none;
-    width: 0;
-    caret-color: transparent;
-    line-height: 40px;
-    transition: width 0.4s linear;
-  }
-
+  position: relative;
 
   .search_icon {
-    height: 40px;
-    width: 40px;
-    float: right;
+    position: absolute;
+    top: 0;
+    left: 0.5em;
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    height: 100%;
+
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+
+  input {
+    width: 100%;
+    max-width: 300px;
+    padding-left: 1.8em;
+    border: none;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .29), 0 4px 8px 3px rgba(0, 0, 0, .12);
     color: white;
-  }
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 0.8em;
 
-}
-
-.light {
-  .searchbar {
-    &:hover, &.isSearching {
-      border: 1px solid rgba(0, 0, 0, 0.12);
-
+    &::placeholder {
+      color: white;
     }
-
   }
+
+  //
+  //&:hover, &.isSearching {
+  //
+  //  .search_input {
+  //    width: 100px;
+  //    caret-color: red;
+  //    transition: width 0.4s linear;
+  //    padding-left: 10px;
+  //
+  //  }
+  //
+  //  .search_icon {
+  //    background: white;
+  //    color: #e74c3c;
+  //  }
+  //}
+
+  //.search_input {
+  //  color: white;
+  //  border: 0;
+  //  outline: 0;
+  //  background: none;
+  //  width: 0;
+  //  caret-color: transparent;
+  //  line-height: 40px;
+  //  transition: width 0.4s linear;
+  //}
+  //
+  //
+  //.search_icon {
+  //  height: 40px;
+  //  width: 40px;
+  //  float: right;
+  //  display: flex;
+  //  justify-content: center;
+  //  align-items: center;
+  //  border-radius: 50%;
+  //  color: white;
+  //}
+
 }
 
-.dark {
-
-}
-
+//.light {
+//  .searchbar {
+//    &:hover, &.isSearching {
+//      border: 1px solid rgba(0, 0, 0, 0.12);
+//
+//    }
+//
+//  }
+//}
+//
+//.dark {
+//
+//}
+//
 
 

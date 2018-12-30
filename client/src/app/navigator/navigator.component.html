@@ -1,13 +1,13 @@
 <div [style.height.px]="height" class="navigator">
-    <mat-toolbar color="primary" class="example-toolbar" >
+    <mat-toolbar color="primary">
         <button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">
             <mat-icon>menu</mat-icon>
         </button>
-        <div class="container mat-toolbar-single-row">
+        <div class="container mat-toolbar-single-row pr-0">
 
             <h1 class="example-app-name">Báo mới</h1>
 
-            <div class="ml-3" class="d-none d-sm-inline-block">
+            <div class="ml-3" class="d-none d-sm-inline-block pl-3">
 
                 <mat-chip-list>
                     <mat-chip *ngFor="let category of categories | keyvalue"

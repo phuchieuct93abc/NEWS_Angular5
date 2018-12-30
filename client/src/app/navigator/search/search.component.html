@@ -1,11 +1,8 @@
-<div class="w-100 h-100" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
-    <div class="d-flex justify-content-start h-100" (mouseover)="searchInput.focus()" (mousedown)="searchInput.focus()">
-        <div class="searchbar" [class.isSearching]="searchInput.value.length>0">
-            <input class="search_input" type="text" name="" placeholder="Tìm kiếm..."
-                   (keyup)="onKeyup(searchInput.value)" #searchInput>
-            <a class="search_icon">
-                <mat-icon>search</mat-icon>
-            </a>
-        </div>
-    </div>
+<div class="w-100 h-100 searchbar" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
+    <button class="search_icon" mat-icon-button>
+        <mat-icon>search</mat-icon>
+    </button>
+    <input class="search_input" type="text" name="" placeholder="Tìm kiếm..."
+           (keyup)="onKeyup(searchInput.value)" #searchInput>
+
 </div>

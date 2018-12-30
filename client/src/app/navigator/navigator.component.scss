@@ -7,8 +7,8 @@ a.active {
 
 .mat-divider {
   display: inline;
-  height: 40px;
-  margin: 1em 0.5em;
+  height: 100%;
+  margin: 0 0.5em;
 }
 
 :host {
@@ -37,14 +37,22 @@ a.active {
   .navigator {
     height: $nav-height;
 
-    .search {
-      flex: 1;
+    .toolbar-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      height: 40px;
 
+      .search {
+        flex: 1;
+        display: flex;
+        height: 100%;
+        align-items: center;
 
-      //::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-      //  padding-bottom: 0;
-      //}
+      }
     }
+
+
   }
 }
 

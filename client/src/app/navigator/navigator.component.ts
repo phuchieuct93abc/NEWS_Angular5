@@ -24,7 +24,7 @@ export class NavigatorComponent implements OnInit {
     maxHeight = 56;
 
     height = this.maxHeight;
-    heightScale = 5;
+    heightScale = 1;
     currentToolbarHeight = this.height;
 
     constructor(private storyListService: StoryListService,

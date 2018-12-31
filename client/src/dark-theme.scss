@@ -74,4 +74,12 @@ $dark-background-gray: #303030;
     background-color: #448aff !important;
     color: white !important;
   }
+
+  @media (min-width: 1500px) {
+    .container {
+      max-width: 1400px;
+    }
+  }
+
 }
+

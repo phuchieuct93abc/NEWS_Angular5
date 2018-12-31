@@ -65,9 +65,12 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
 .unicorn-light-theme {
   @include angular-material-theme($candy-app-theme);
 
-  .article > div {
-    background-color: #fafafa;
+  &:not(.small-device) {
 
+    .article > div {
+      background-color: #fafafa;
+
+    }
   }
 
 

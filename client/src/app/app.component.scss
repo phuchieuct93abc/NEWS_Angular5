@@ -1,15 +1,28 @@
-.app{
+.app {
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
 }
 
-.header{
+.header {
   /*height: 50px;*/
 }
-.main-content{
+
+.main-content {
   flex: 1;
   overflow: hidden;
+}
+
+.backdrop {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  filter: blur(10px) opacity(0.5);
+  background-repeat: no-repeat;
+
+  background-size: cover;
 }
 

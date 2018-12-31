@@ -1,4 +1,7 @@
-<div class="h-100 app w-100  mat-app-background" [ngClass]="config.darkTheme?'unicorn-dark-theme':'unicorn-light-theme'">
+<div class="h-100 app w-100  mat-app-background" [ngClass]="config.darkTheme?'unicorn-dark-theme':'unicorn-light-theme'"
+     [class.small-device]="isSmallDevice"
+     >
+    <div class="backdrop" [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice"></div>
     <div class="navigator">
 
         <app-navigator class="w-100"></app-navigator>

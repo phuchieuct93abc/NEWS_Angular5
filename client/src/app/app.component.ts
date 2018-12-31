@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Config, ConfigService} from "./shared/config.service";
+import {ArticleService} from "./shared/article.service";
+import {BreakpointDetectorService} from "./shared/breakpoint.service";
 
 @Component({
     selector: 'my-app',
@@ -10,8 +12,10 @@ import {Config, ConfigService} from "./shared/config.service";
 export class AppComponent implements OnInit {
     name = 'Angular';
     config: Config;
+    image: string;
+    isSmallDevice: boolean
 
-    constructor(private router: Router, private configService: ConfigService) {
+    constructor(private router: Router, private configService: ConfigService, private articleService: ArticleService, private breakpointService: BreakpointDetectorService) {
     }
 
     ngOnInit(): void {
@@ -20,7 +24,12 @@ export class AppComponent implements OnInit {
         this.configService.configUpdated.subscribe((config) => {
             this.config = config
         })
+        this.articleService.onStorySelected.subscribe(article => this.image = article.story.images[0].imageUrl)
 
+        setTimeout(()=>{
+
+            this.isSmallDevice = this.breakpointService.isSmallScreen
+        })
     }
 
 }

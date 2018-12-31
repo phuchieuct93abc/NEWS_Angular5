@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {StoryService} from "./story.service";
-import {EMPTY, Observable} from "rxjs";
+import {EMPTY, Observable, Subject} from "rxjs";
 import {map, retry} from "rxjs/operators";
 import Article from "../../../../model/Article";
 import CONFIG from "../../environments/environment";
@@ -12,6 +12,8 @@ import {Story} from "../../../../model/Story";
     providedIn: 'root'
 })
 export class ArticleService {
+
+    public onStorySelected = new Subject<Article>();
 
     constructor(private httpClient: HttpClient, private storyService: StoryService) {
     }
@@ -32,7 +34,7 @@ export class ArticleService {
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result =>
-                new Article(result['id'], result['header'], null, result['body'], null)
+                new Article(result['id'], result['header'], null, result['body'], null,story)
             ))
     }
 

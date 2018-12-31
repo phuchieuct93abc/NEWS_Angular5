@@ -1,5 +1,8 @@
 <mat-sidenav-container class="example-sidenav-container h-100"
-                       [style.marginTop.px]="false? 56 : 0">
+                       [style.marginTop.px]="false? 56 : 0"
+                       >
+    <div class="filter h-100 w-100"></div>
+
     <mat-sidenav mode="push" [(opened)]="isOpenSidebar" [autoFocus]="false"
                  [fixedInViewport]="true" fixedTopGap="56">
         <mat-nav-list>

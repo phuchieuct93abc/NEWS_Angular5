@@ -26,7 +26,8 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme.
 
 $dark-background-light: rgb(74, 74, 77);
-$dark-background-gray: #303030;
+$dark-background-gray: rgba(48, 48, 48, 1);
+$dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
 
 
 .unicorn-dark-theme {
@@ -53,11 +54,21 @@ $dark-background-gray: #303030;
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
+  &:not(.small-device) {
+    .mat-toolbar.mat-primary {
+      background-color: $dark-background-gray-transparent !important;
+    }
+  }
 
 }
 
 .unicorn-light-theme {
   @include angular-material-theme($candy-app-theme);
+
+  .article > div {
+    background-color: #fafafa;
+
+  }
 
 
 }
@@ -80,6 +91,7 @@ $dark-background-gray: #303030;
       max-width: 1400px;
     }
   }
+
 
 }
 

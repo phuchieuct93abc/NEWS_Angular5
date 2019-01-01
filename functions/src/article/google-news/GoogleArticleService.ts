@@ -25,4 +25,11 @@ export default class GoogleArticleService extends ArticleService {
 
 
     }
+
+    getSource(url: string) : Promise<string> {
+        return new Promise(resolver=>{
+            console.log(url);
+            resolver(url)
+        })
+    }
 }

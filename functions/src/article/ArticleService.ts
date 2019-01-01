@@ -49,6 +49,8 @@ export abstract class ArticleService {
 
     }
 
+    public abstract getSource(url:string);
+
     protected saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
         return FirebaseService.saveArticle(article);
     }

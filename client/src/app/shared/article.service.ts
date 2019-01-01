@@ -34,8 +34,16 @@ export class ArticleService {
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result =>
-                new Article(result['id'], result['header'], null, result['body'], null,story)
+                new Article(result['id'], result['header'], null, result['body'], null, story)
             ))
+    }
+
+    getSource(url: string): Observable<string> {
+        return this.httpClient.get(CONFIG.baseUrl + "getSource", {
+            params: {
+                url: url
+            }
+        }).pipe(retry(3),map(source=>source['url']))
     }
 
 

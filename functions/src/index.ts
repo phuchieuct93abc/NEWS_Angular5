@@ -42,6 +42,13 @@ app.get('/search', (req, res) => {
 
     })
 });
+app.get('/getSource', (req, res) => {
+
+    ArticleServiceFactory.get('vi').getSource(req.query.url).then((value) => {
+        res.send({url:value});
+
+    })
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 

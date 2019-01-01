@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {Config, ConfigService} from "./shared/config.service";
 import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
+import CONFIG from "../environments/environment";
 
 @Component({
     selector: 'my-app',
@@ -24,12 +25,16 @@ export class AppComponent implements OnInit {
         this.configService.configUpdated.subscribe((config) => {
             this.config = config
         })
-        this.articleService.onStorySelected.subscribe(article => this.image = article.story.images[0].imageUrl)
+        this.articleService.onStorySelected.subscribe(article => this.image = this.getBlurImageUrl(article.story.images[0].imageUrl))
 
         setTimeout(()=>{
 
             this.isSmallDevice = this.breakpointService.isSmallScreen
         })
+    }
+    getBlurImageUrl(url){
+        console.log( CONFIG.baseUrl + "blur?url="+url)
+        return CONFIG.baseUrl + "blur?url="+url;
     }
 
 }

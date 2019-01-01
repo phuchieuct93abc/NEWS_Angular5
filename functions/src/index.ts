@@ -5,11 +5,14 @@ import ArticleServiceFactory from "./article/ArticleServiceFactory";
 const express = require('express');
 const compression = require('compression');
 
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
 const cors = require('cors');
 const timeout = require('connect-timeout');
+const sharp = require('sharp')
+const request = require('request')
 
 app.use(timeout('300s'));
 
@@ -45,10 +48,22 @@ app.get('/search', (req, res) => {
 app.get('/getSource', (req, res) => {
 
     ArticleServiceFactory.get('vi').getSource(req.query.url).then((value) => {
-        res.send({url:value});
+        res.send({url: value});
 
     })
 });
+app.get('/blur', (req, res) => {
+
+    request({url: req.query.url, encoding: null}, function (err2, res2, bodyBuffer) {
+        sharp(bodyBuffer).blur(5).jpeg().toBuffer().then(output => {
+            res.set('Content-Type', 'image/jpeg');
+            res.send(output)
+        })
+    });
+
+
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 

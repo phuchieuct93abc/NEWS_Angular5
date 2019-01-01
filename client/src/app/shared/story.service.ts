@@ -5,6 +5,7 @@ import {Story} from "../../../../model/Story";
 import {map, retry} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
+import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -20,7 +21,7 @@ export class StoryService {
     public onSearch = new Subject<string>();
     private readStory: Story[];
 
-    constructor(private httpClient: HttpClient, private storage: LocalStorageService) {
+    constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
     }
@@ -59,7 +60,7 @@ export class StoryService {
     }
 
     search(keyword: string): Observable<any> {
-        console.log('seach')
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING})
         return this.httpClient.get(searchUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
@@ -75,6 +76,10 @@ export class StoryService {
                     });
                     this.stories.push(...stories);
                     this.checkReadStory();
+                    this.loadingService.onLoading.next({
+                        type: LoadingEventType.FINISH,
+                        name: LoadingEventName.SEARCHING
+                    })
 
                     return this.stories
                 }

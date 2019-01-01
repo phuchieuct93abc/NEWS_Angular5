@@ -3,6 +3,7 @@ import {debounce} from "rxjs/operators";
 import {interval, Subject} from "rxjs";
 import {StoryService} from "../../shared/story.service";
 import {ConfigService} from "../../shared/config.service";
+import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
 
 @Component({
     selector: 'app-search',
@@ -11,10 +12,11 @@ import {ConfigService} from "../../shared/config.service";
 })
 export class SearchComponent implements OnInit {
     isSearching = false;
+    isLoading = false;
 
     private keyupSubject = new Subject<string>();
 
-    constructor(private storyService: StoryService, public config: ConfigService) {
+    constructor(private storyService: StoryService, public config: ConfigService, private loadingService: LoadingService) {
     }
 
     ngOnInit() {
@@ -24,6 +26,12 @@ export class SearchComponent implements OnInit {
             }
             this.storyService.onSearch.next(searchTextValue);
         });
+
+        this.loadingService.onLoading.subscribe(event => {
+            if (event.name == LoadingEventName.SEARCHING) {
+                this.isLoading = event.type == LoadingEventType.START;
+            }
+        })
     }
 
     onKeyup($event) {

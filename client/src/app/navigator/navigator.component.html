@@ -32,8 +32,9 @@
 
 
                     <button mat-icon-button (click)="changeTheme()">
+                        <mat-icon *ngIf="configService.getConfig().darkTheme ">flash_off</mat-icon>
+                        <mat-icon *ngIf="!configService.getConfig().darkTheme ">flash_on</mat-icon>
 
-                        <mat-icon>{{configService.getConfig().darkTheme ? 'flash_on' : 'flash_off'}}</mat-icon>
                     </button>
 
                 </div>

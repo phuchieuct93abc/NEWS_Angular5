@@ -2,17 +2,26 @@
 .searchbar {
   position: relative;
 
-  .search_icon {
+  .icon {
     position: absolute;
-    top: 0;
-    left: 0.5em;
-    display: flex;
-    align-items: center;
     height: 100%;
 
     line-height: 30px;
     display: flex;
-    align-items: center;
+  }
+
+  .search_icon {
+
+    top: 0;
+    left: 0.5em;
+
+  }
+
+  .loading_icon {
+
+    top: 0;
+    right: -1em;
+
   }
 
 
@@ -29,7 +38,8 @@
     &::placeholder {
       color: white;
     }
-    &:focus{
+
+    &:focus {
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .29), 0 4px 8px 3px rgba(0, 0, 0, .12);
 
     }

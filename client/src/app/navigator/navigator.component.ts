@@ -67,7 +67,7 @@ export class NavigatorComponent implements OnInit {
             if (this.hiddingScrollEvent) {
 
                 const height = event.scrollStartPosition - this.hiddingScrollEvent.scrollStartPosition;
-                this.height = Math.max(0, this.currentToolbarHeight - (height / this.heightScale))
+                this.height = Math.max(0, Math.min(this.currentToolbarHeight - (height / this.heightScale), this.maxHeight))
 
             }
 

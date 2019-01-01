@@ -25,16 +25,23 @@ export class AppComponent implements OnInit {
         this.configService.configUpdated.subscribe((config) => {
             this.config = config
         })
-        this.articleService.onStorySelected.subscribe(article => this.image = this.getBlurImageUrl(article.story.images[0].imageUrl))
+        this.articleService.onStorySelected.subscribe(article => this.getBlurImageUrl(article.story.images[0].imageUrl))
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
             this.isSmallDevice = this.breakpointService.isSmallScreen
         })
     }
-    getBlurImageUrl(url){
-        console.log( CONFIG.baseUrl + "blur?url="+url)
-        return CONFIG.baseUrl + "blur?url="+url;
+
+    getBlurImageUrl(url) {
+        var img= new Image();
+
+        const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
+        img.src = blurUrl;
+        img.onload=()=>{
+            this.image = blurUrl;
+
+        }
     }
 
 }

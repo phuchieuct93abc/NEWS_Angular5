@@ -15,10 +15,10 @@ import {IPageInfo} from "ngx-virtual-scroller";
 export class NavigatorComponent implements OnInit {
     categories: any;
 
-    isHidding = false;
+    isHiding = false;
     isShowing = false;
 
-    hiddingScrollEvent: IPageInfo;
+    hidingScrollEvent: IPageInfo;
     showingScrollEvent: IPageInfo;
 
     readonly MIN_TOP = -63;
@@ -58,18 +58,18 @@ export class NavigatorComponent implements OnInit {
             if (event.startIndex == 0) {
                 this.toolbarTop = 0;
             }
-            if (!this.isHidding) {
-                this.isHidding = true;
+            if (!this.isHiding) {
+                this.isHiding = true;
                 this.isShowing = false;
-                this.hiddingScrollEvent = event;
+                this.hidingScrollEvent = event;
                 this.showingScrollEvent = event;
                 this.currentToolbarTOP = this.toolbarTop;
 
 
             }
-            if (this.hiddingScrollEvent) {
+            if (this.hidingScrollEvent) {
 
-                const height = event.scrollStartPosition - this.hiddingScrollEvent.scrollStartPosition;
+                const height = event.scrollStartPosition - this.hidingScrollEvent.scrollStartPosition;
                 this.toolbarTop = this.restrictTop(this.currentToolbarTOP - (height / this.heightScale))
 
             }
@@ -84,9 +84,9 @@ export class NavigatorComponent implements OnInit {
 
             if (!this.isShowing) {
                 this.isShowing = true;
-                this.isHidding = false;
+                this.isHiding = false;
                 this.showingScrollEvent = event;
-                this.hiddingScrollEvent = event;
+                this.hidingScrollEvent = event;
                 this.currentToolbarTOP = this.toolbarTop;
 
             }

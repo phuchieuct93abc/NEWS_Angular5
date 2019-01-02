@@ -55,7 +55,10 @@ app.get('/getSource', (req, res) => {
 app.get('/blur', (req, res) => {
 
     request({url: req.query.url, encoding: null}, function (err2, res2, bodyBuffer) {
-        sharp(bodyBuffer).blur(5).jpeg().toBuffer().then(output => {
+        sharp(bodyBuffer).blur(5).overlayWith(
+            new Buffer([0, 0, 0, 128]),
+            { tile: true, raw: { width: 1, height: 1, channels: 4 } }
+        ).jpeg().toBuffer().then(output => {
             res.set('Content-Type', 'image/jpeg');
             res.send(output)
         })

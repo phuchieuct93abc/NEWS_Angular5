@@ -20,11 +20,12 @@ export class NavigatorComponent implements OnInit {
 
     hiddingScrollEvent: IPageInfo;
     showingScrollEvent: IPageInfo;
-    maxHeight = 60;
 
-    height = this.maxHeight;
+    readonly MIN_TOP = -63;
+    readonly MAX_TOP = 0;
+    toolbarTop = 0;
     heightScale = 1;
-    currentToolbarHeight = this.height;
+    currentToolbarTOP = this.toolbarTop;
 
     constructor(private storyListService: StoryListService,
                 private media: MediaMatcher,
@@ -39,12 +40,9 @@ export class NavigatorComponent implements OnInit {
         this.categories = Categories;
         setTimeout(() => {
             if (this.breakpointService.isSmallScreen) {
-                this.height = 60;
                 this.registerScrollUp();
                 this.registerScrollDown();
 
-            } else {
-                this.height = 63;
             }
         })
 
@@ -53,21 +51,26 @@ export class NavigatorComponent implements OnInit {
 
     private registerScrollDown() {
         this.storyListService.onScrollDown.subscribe((event: IPageInfo) => {
-
-            if (this.height == 0) return;
+            //Hide toolbar
+            if (this.toolbarTop == this.MIN_TOP) {
+                return;
+            }
+            if (event.startIndex == 0) {
+                this.toolbarTop = 0;
+            }
             if (!this.isHidding) {
                 this.isHidding = true;
                 this.isShowing = false;
                 this.hiddingScrollEvent = event;
                 this.showingScrollEvent = event;
-                this.currentToolbarHeight = this.height;
+                this.currentToolbarTOP = this.toolbarTop;
 
 
             }
             if (this.hiddingScrollEvent) {
 
                 const height = event.scrollStartPosition - this.hiddingScrollEvent.scrollStartPosition;
-                this.height = Math.max(0, Math.min(this.currentToolbarHeight - (height / this.heightScale), this.maxHeight))
+                this.toolbarTop = this.restrictTop(this.currentToolbarTOP - (height / this.heightScale))
 
             }
 
@@ -76,19 +79,23 @@ export class NavigatorComponent implements OnInit {
 
     private registerScrollUp() {
         this.storyListService.onScrollUp.subscribe((event: IPageInfo) => {
-            if (this.height == this.maxHeight) return;
+            //Show toolbar
+            if (this.toolbarTop == this.MAX_TOP) return;
 
             if (!this.isShowing) {
                 this.isShowing = true;
                 this.isHidding = false;
                 this.showingScrollEvent = event;
                 this.hiddingScrollEvent = event;
-                this.currentToolbarHeight = this.height;
+                this.currentToolbarTOP = this.toolbarTop;
 
             }
             if (this.showingScrollEvent) {
                 const height = (this.showingScrollEvent.scrollStartPosition - event.scrollStartPosition);
-                this.height = Math.min(this.maxHeight, (height / this.heightScale) + this.currentToolbarHeight)
+                this.toolbarTop = this.restrictTop((height / this.heightScale) + this.currentToolbarTOP)
+            }
+            if (event.startIndex == 0) {
+                this.toolbarTop = 0;
             }
 
         });
@@ -101,6 +108,10 @@ export class NavigatorComponent implements OnInit {
     changeTheme() {
         this.configService.updateConfig({darkTheme: !this.configService.getConfig().darkTheme})
 
+    }
+
+    restrictTop(top: number): number {
+        return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));
     }
 
 }

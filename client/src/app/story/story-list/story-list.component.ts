@@ -52,7 +52,7 @@ export class StoryListComponent implements OnInit {
 
                 this.storyService.resetPageNumber();
                 this.storyService.search(keyword).subscribe(values => this.stories = values)
-            }else{
+            } else {
                 this.updateStoryList();
             }
             this.searchKeyword = keyword;
@@ -163,16 +163,16 @@ export class StoryListComponent implements OnInit {
     }
 
     private scrollTo(story: Story, animation = 0) {
-        this.virtualScroller.scrollInto(story, true, 0, animation, () => {
-        })
+        this.virtualScroller.scrollInto(story, true, 0, animation);
     }
 
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.loadFirstPage().then(() => {
-            setTimeout(() => this.isShowMoveTop = false, 100)
-        });
+        this.scrollToTop();
+        // this.loadFirstPage().then(() => {
+        //     setTimeout(() => this.isShowMoveTop = false, 100)
+        // });
 
     }
 

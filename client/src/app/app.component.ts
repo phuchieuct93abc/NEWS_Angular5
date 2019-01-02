@@ -34,11 +34,11 @@ export class AppComponent implements OnInit {
     }
 
     getBlurImageUrl(url) {
-        var img= new Image();
+        var img = new Image();
 
         const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
         img.src = blurUrl;
-        img.onload=()=>{
+        img.onload = () => {
             this.image = blurUrl;
 
         }

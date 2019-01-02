@@ -27,10 +27,8 @@ export class AppComponent implements OnInit {
         })
         this.articleService.onStorySelected.subscribe(article => this.getBlurImageUrl(article.story.images[0].imageUrl))
 
-        setTimeout(() => {
 
-            this.isSmallDevice = this.breakpointService.isSmallScreen
-        })
+        this.isSmallDevice = this.breakpointService.isSmallScreen
     }
 
     getBlurImageUrl(url) {

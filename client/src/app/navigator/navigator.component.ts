@@ -38,13 +38,11 @@ export class NavigatorComponent implements OnInit {
 
     ngOnInit() {
         this.categories = Categories;
-        setTimeout(() => {
-            if (this.breakpointService.isSmallScreen) {
-                this.registerScrollUp();
-                this.registerScrollDown();
+        if (this.breakpointService.isSmallScreen) {
+            this.registerScrollUp();
+            this.registerScrollDown();
 
-            }
-        })
+        }
 
 
     }

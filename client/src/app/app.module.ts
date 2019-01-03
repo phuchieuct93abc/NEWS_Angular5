@@ -22,7 +22,7 @@ import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component"
 import {LoadingComponent} from "./article/loading/loading.component";
 import {ContentComponent} from "./content/content.component";
 import {SearchComponent} from "./navigator/search/search.component";
-
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
     imports: [
@@ -35,7 +35,8 @@ import {SearchComponent} from "./navigator/search/search.component";
         InfiniteScrollModule,
         MomentModule,
         LazyLoadImageModule,
-        VirtualScrollerModule
+        VirtualScrollerModule,
+        DragDropModule
     ],
     declarations: [
         AppComponent,

@@ -1,4 +1,5 @@
-<div class="w-100 article" #articleView>
+<div class="w-100 article animated" #articleView  (swipeRight)="swiperight($event)" (swipeLeft)="swipeleft($event)"
+     [ngClass]="{fadeOutRight:isFaddingRight,fadeOutLeft:isFaddingLeft}">
     <div class="text-right">
         <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
             <mat-icon class="mat-primary">cancel</mat-icon>

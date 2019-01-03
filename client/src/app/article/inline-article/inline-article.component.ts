@@ -6,6 +6,7 @@ import {Story} from "../../../../../model/Story";
 import {StoryService} from "../../shared/story.service";
 import {UtilityService} from "../../shared/utility.service";
 import {StoryListService} from "../../story/story-list/story-list.service";
+import {CdkDrag} from "@angular/cdk/drag-drop";
 
 @Component({
     selector: 'app-inline-article',
@@ -21,6 +22,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     closeIcon: ElementRef;
     @ViewChild('articleBodyWrapper')
     articleView: ElementRef;
+    @ViewChild(CdkDrag)
+    view: CdkDrag
 
 
     subscription;
@@ -29,7 +32,9 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     story: Story;
 
     currentStoryIndex: number;
-
+    readonly sensitive = 100;
+    isFaddingRight = false;
+    isFaddingLeft = false
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
@@ -42,6 +47,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     ngOnInit() {
 
         this.showArticleById(this.story.id);
+        // Hammer.defaults.touchAction = 'pan-y'
 
 
         this.subscription = this.storyListService.onScroll.subscribe(event => {
@@ -62,6 +68,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     close(event) {
         if (event) {
+
             event && event.stopPropagation();
         }
         this.storyListService.onShowFixedCloseIcon.next(null);
@@ -81,5 +88,40 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         this.storyListService.onShowFixedCloseIcon.next(null);
         this.subscription.unsubscribe();
         this.closeSubscription.unsubscribe();
+    }
+
+    swipeleft($event) {
+        // const position = $event.source._activeTransform.x;
+        // if (Math.abs(position) > this.sensitive) {
+        //     if (position > 0) {
+        //         this.isFaddingRight = true;
+        //     } else {
+        //         this.isFaddingLeft = true;
+        //     }
+        //
+        // } else {
+        //     console.log(this.view.reset())
+        //
+        // }
+        // if($event.deltaX>500){
+
+        this.isFaddingLeft = true;
+        setTimeout(() => {
+
+            this.close(null);
+        }, 500)
+        // }
+
+
+        // console.log('swipe left',$event)
+
+    }
+
+    swiperight($event) {
+        this.isFaddingRight = true;
+        setTimeout(() => {
+
+            this.close(null);
+        }, 500)
     }
 }

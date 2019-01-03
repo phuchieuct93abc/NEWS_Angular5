@@ -1,12 +1,18 @@
 @import "../article.component";
+.article{
+  transition: all linear 0.3s;
+  touch-action: pan-y !important;
+  &.cdk-drag-dragging{
+    transition: none;
+  }
+  .article-body {
+    padding: 5px;
+    //background-color: white;
+    margin: 0;
 
-.article-body {
-  padding: 5px;
-  //background-color: white;
-  margin: 0;
-
-  ::ng-deep img {
-    transform: scale(1) !important;
+    ::ng-deep img {
+      transform: scale(1) !important;
+    }
   }
 }
 

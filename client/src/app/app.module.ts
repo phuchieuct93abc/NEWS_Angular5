@@ -23,6 +23,7 @@ import {LoadingComponent} from "./article/loading/loading.component";
 import {ContentComponent} from "./content/content.component";
 import {SearchComponent} from "./navigator/search/search.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {CapitalizeFirstPipe} from "./shared/capitalizefirst.pipe";
 
 @NgModule({
     imports: [
@@ -49,7 +50,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
         ImageViewerComponent,
         LoadingComponent,
         ContentComponent,
-        SearchComponent
+        SearchComponent,
+        CapitalizeFirstPipe
     ],
     bootstrap: [AppComponent],
     providers: []

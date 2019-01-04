@@ -3,6 +3,7 @@
 .mat-card {
   cursor: pointer;
   margin: 0 1px;
+  padding-bottom: 0.5em;
 
 
   .last-child {
@@ -19,9 +20,34 @@
   &.active {
     background-color: #e5e5e5;
   }
-}
 
-.mat-card:hover /deep/ img {
+  &:hover /deep/ img {
 
-  transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  &.small-image {
+    .image-wrapper {
+      width: 80px;
+      flex: none;
+    }
+
+    .title {
+
+      font-size: 1.3em;
+    }
+
+
+  }
+
+  .title {
+
+    line-height: 1.3em !important;
+  }
+
+
+  &.large-image {
+
+  }
+
 }

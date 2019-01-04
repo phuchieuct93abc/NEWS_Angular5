@@ -1,5 +1,7 @@
 import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import StoryImage from "../../../../../model/StoryImage";
+import {ConfigService} from "../../shared/config.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-image-viewer',
@@ -18,18 +20,29 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     imageViewer: ElementRef;
     interval;
 
-    constructor() {
+    configListener: Subscription
+
+    constructor(private configService: ConfigService) {
     }
 
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
+        this.calculateImageHeight(firstImage);
         this.randomImagePath();
+        this.configListener = this.configService.configUpdated.subscribe(() => {
+            setTimeout(()=>{
+
+                this.calculateImageHeight(this.images[0])
+            })
+        })
 
 
+    }
+
+    private calculateImageHeight(firstImage) {
         const width = this.imageViewer.nativeElement.offsetWidth;
         this.height = firstImage.height / firstImage.width * width;
-
     }
 
     private randomImagePath() {
@@ -45,6 +58,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         clearInterval(this.interval);
+        this.configListener.unsubscribe();
     }
 
 

@@ -1,13 +1,15 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import {Config, ConfigService} from "../../shared/config.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-story',
     templateUrl: './story.component.html',
     styleUrls: ['./story.component.scss'],
 })
-export class StoryComponent implements OnInit {
+export class StoryComponent implements OnInit, OnDestroy {
 
     @Input()
     story: Story;
@@ -20,7 +22,10 @@ export class StoryComponent implements OnInit {
     selected: boolean = false;
     isSmallScreen: boolean;
 
-    constructor(private breakpointService: BreakpointDetectorService) {
+    config: Config;
+    configListener: Subscription;
+
+    constructor(private breakpointService: BreakpointDetectorService, private configService: ConfigService) {
     }
 
     onSelectStory() {
@@ -32,7 +37,19 @@ export class StoryComponent implements OnInit {
     ngOnInit(): void {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
+        this.getConfig();
 
+    }
+
+    private getConfig() {
+        this.config = this.configService.getConfig();
+        this.configListener = this.configService.configUpdated.subscribe(config => {
+            this.config = config
+        })
+    }
+
+    ngOnDestroy(): void {
+        this.configListener.unsubscribe();
     }
 
 

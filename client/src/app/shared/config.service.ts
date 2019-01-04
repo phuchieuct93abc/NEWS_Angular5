@@ -4,7 +4,8 @@ import {LocalStorageService} from "./storage.service";
 
 export interface Config {
     darkTheme?: boolean
-    category?: string
+    category?: string,
+    smallImage?: boolean
 }
 
 const id = 'config'
@@ -16,12 +17,13 @@ export class ConfigService {
     public configUpdated = new Subject<Config>();
     private config: Config = {
         category: 'tin-nong',
-        darkTheme: false
+        darkTheme: false,
+        smallImage:true
     }
 
 
     constructor(private storage: LocalStorageService) {
-        this.config = {...this.config, ...storage.getItem(id,{})}
+        this.config = {...this.config, ...storage.getItem(id, {})}
     }
 
     public updateConfig(config: Config) {

@@ -4,14 +4,14 @@
                       (vsUpdate)="vsUpdate()"
                       (vsEnd)="vsEnd($event)"
                       [enableUnequalChildrenSizes]="true"
-                      [checkResizeInterval]="5000"
+                      [checkResizeInterval]="0"
                       [compareItems]="compare"
                       [items]="stories"
                       *ngIf="stories"
                       class="h-100 w-100">
 
 
-        <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems" [story]="item"
+        <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems;trackBy: trackByFn" [story]="item"
                    class="d-block"></app-story>
 
 

@@ -35,14 +35,11 @@ export class MainComponent implements OnInit {
         })
     }
 
-    changeLightTheme() {
-        this.configService.updateConfig({darkTheme: false})
-
-
+    changeTheme(isDarkTheme: boolean) {
+        this.configService.updateConfig({darkTheme: isDarkTheme})
     }
-
-    changeDardTheme() {
-        this.configService.updateConfig({darkTheme: true})
+    changeDisplay(isSmallImage: boolean) {
+        this.configService.updateConfig({smallImage: isSmallImage})
 
     }
 }

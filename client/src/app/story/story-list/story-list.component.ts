@@ -33,6 +33,10 @@ export class StoryListComponent implements OnInit {
 
     searchKeyword: string;
 
+    trackByFn(index, item: Story) {
+        return item.id;
+    }
+
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
                 private storyListService: StoryListService,
@@ -47,6 +51,22 @@ export class StoryListComponent implements OnInit {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.registerShowingMoveToTop();
 
+        this.search();
+
+        this.configService.configUpdated.subscribe(() => {
+            this.updateScroll();
+        })
+
+    }
+
+    private updateScroll() {
+        setTimeout(() => {
+            this.virtualScroller.invalidateAllCachedMeasurements();
+            // this.virtualScroller.refresh();
+        }, 1000)
+    }
+
+    private search() {
         this.storyService.onSearch.subscribe(keyword => {
             if (keyword) {
 
@@ -58,7 +78,6 @@ export class StoryListComponent implements OnInit {
             this.searchKeyword = keyword;
 
         })
-
     }
 
     private registerShowingMoveToTop() {
@@ -138,7 +157,7 @@ export class StoryListComponent implements OnInit {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
             this.scrollTo(this.stories[index], 500);
-            this.virtualScroller.invalidateCachedMeasurementAtIndex(index)
+            this.virtualScroller.invalidateCachedMeasurementForItem(this.stories[index])
         })
     }
 
@@ -170,9 +189,6 @@ export class StoryListComponent implements OnInit {
     moveTop(event: MouseEvent) {
         event.stopPropagation();
         this.scrollToTop();
-        // this.loadFirstPage().then(() => {
-        //     setTimeout(() => this.isShowMoveTop = false, 100)
-        // });
 
     }
 
@@ -183,7 +199,7 @@ export class StoryListComponent implements OnInit {
     onSelectedStory(story: Story) {
         story.isRead = true;
         setTimeout(() => {
-            this.virtualScroller.invalidateCachedMeasurementForItem(story);
-        }, 2000)
+            this.virtualScroller.invalidateCachedMeasurementForItem(story)
+        }, 3000)
     }
 }

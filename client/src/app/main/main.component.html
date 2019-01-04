@@ -22,16 +22,24 @@
                 <mat-divider></mat-divider>
 
                 <h3 mat-subheader>Giao diện</h3>
-                <mat-list-item (click)="changeLightTheme()" [class.active]="!configService.getConfig().darkTheme ">
+                <mat-list-item (click)="changeTheme(false)" [class.active]="!configService.getConfig().darkTheme ">
                     <mat-icon class="mr-2">flash_on</mat-icon>
                     <span class="mat-h3 mb-0">Sáng</span>
                 </mat-list-item>
-                <mat-list-item (click)="changeDardTheme()" [class.active]="configService.getConfig().darkTheme ">
+                <mat-list-item (click)="changeTheme(true)" [class.active]="configService.getConfig().darkTheme ">
                     <mat-icon class="mr-2">flash_off</mat-icon>
                     <span class="mat-h3 mb-0">Tối</span>
                 </mat-list-item>
                 <mat-divider></mat-divider>
-
+                <h3 mat-subheader>Hiển thị</h3>
+                <mat-list-item (click)="changeDisplay(false)" [class.active]="!configService.getConfig().smallImage ">
+                    <mat-icon class="mr-2">flash_on</mat-icon>
+                    <span class="mat-h3 mb-0">Ảnh to</span>
+                </mat-list-item>
+                <mat-list-item (click)="changeDisplay(true)" [class.active]="configService.getConfig().smallImage ">
+                    <mat-icon class="mr-2">flash_off</mat-icon>
+                    <span class="mat-h3 mb-0">Ảnh nhỏ</span>
+                </mat-list-item>
             </mat-list>
 
 

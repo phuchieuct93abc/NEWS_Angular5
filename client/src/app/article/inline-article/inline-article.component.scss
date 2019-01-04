@@ -1,6 +1,7 @@
 @import "../article.component";
 .article{
   transition: all linear 0.3s;
+  animation-duration: 500ms !important;
   touch-action: pan-y !important;
   &.cdk-drag-dragging{
     transition: none;

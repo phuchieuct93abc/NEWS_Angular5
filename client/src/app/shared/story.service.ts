@@ -36,6 +36,8 @@ export class StoryService {
     }
 
     getStories(category: string): Observable<any> {
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
+
         return this.httpClient.get(storyUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
@@ -45,6 +47,8 @@ export class StoryService {
             retry(3),
             map(
                 result => {
+                    this.loadingService.onLoading.next({type: LoadingEventType.FINISH, name: LoadingEventName.MORE_STORY})
+
                     let results = result as any[];
                     let stories: Story[] = results.map(this.storyConverter).filter(result => {
                         return this.stories.findIndex(story => story.id === result.id) == -1;

@@ -2,11 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
-import {VirtualScrollerComponent} from "ngx-virtual-scroller";
+import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {ConfigService} from "../../shared/config.service";
-import {ScrollEvent, StoryListService} from "./story-list.service";
+import {StoryListService} from "./story-list.service";
 import {Observable} from "rxjs";
+import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
 
 @Component({
     selector: 'app-story-list',
@@ -16,7 +17,6 @@ import {Observable} from "rxjs";
 export class StoryListComponent implements OnInit {
 
     stories: Story[];
-    isLoadingMore = false;
 
     category: string;
     protected buffer: Story[] = [];
@@ -29,9 +29,10 @@ export class StoryListComponent implements OnInit {
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
     hideMoveTopTimeout;
-    isListeningScroll = true;
 
     searchKeyword: string;
+
+    isLoading = false;
 
     trackByFn(index, item: Story) {
         return item.id;
@@ -41,7 +42,8 @@ export class StoryListComponent implements OnInit {
                 private route: ActivatedRoute,
                 private storyListService: StoryListService,
                 private breakpointService: BreakpointDetectorService,
-                private configService: ConfigService) {
+                private configService: ConfigService,
+                private loadingService: LoadingService) {
     }
 
     ngOnInit() {
@@ -53,16 +55,25 @@ export class StoryListComponent implements OnInit {
 
         this.search();
 
-        this.configService.configUpdated.subscribe(() => {
-            this.updateScroll();
+        this.configService.configUpdated.subscribe(this.reloadStoryList.bind(this))
+
+        this.loadingService.onLoading.subscribe(event => {
+            if (event.name == LoadingEventName.MORE_STORY) {
+                if (event.type === LoadingEventType.START) {
+
+                    this.isLoading = true
+                } else {
+                    setTimeout(() => this.isLoading = false, 2000)
+                }
+            }
         })
 
     }
 
-    private updateScroll() {
-        setTimeout(() => {
-            this.virtualScroller.invalidateAllCachedMeasurements();
-        }, 1000)
+
+    private reloadStoryList() {
+        this.stories = [];
+        this.storyService.resetPageNumber();
     }
 
     private search() {
@@ -105,14 +116,13 @@ export class StoryListComponent implements OnInit {
     }
 
     private updateStoryList() {
-        this.isListeningScroll = false;
+        if (this.isLoading) return;
         this.route.params.subscribe(params => {
             this.category = params['category'];
 
             this.loadFirstPage();
             this.configService.updateConfig({category: this.category})
 
-            setTimeout(() => this.isListeningScroll = true, 1000)
         });
     }
 
@@ -132,7 +142,7 @@ export class StoryListComponent implements OnInit {
 
     private scrollToTop() {
         if (this.virtualScroller) {
-            this.scrollTo(this.stories[0]);
+            this.scrollTo(this.stories[0], 500,);
         }
     }
 
@@ -140,8 +150,9 @@ export class StoryListComponent implements OnInit {
         this.storyListService.onFixedCloseClicked.next(this.openStory)
     }
 
-    vsEnd(event: ScrollEvent) {
-        this.onLoadMore(event)
+    vsEnd() {
+        this.onLoadMore(this.virtualScroller.viewPortInfo)
+
     }
 
     vsUpdate() {
@@ -159,34 +170,31 @@ export class StoryListComponent implements OnInit {
         })
     }
 
-    private onLoadMore(event: ScrollEvent) {
-        if (event.end !== this.stories.length - 1) return;
+    private onLoadMore(event: IPageInfo) {
+        if (event.endIndex !== this.stories.length - 1 || this.isLoading) return;
 
-        if (!this.isLoadingMore) {
-            this.isLoadingMore = true;
-            this.getLoadmoreObservable().subscribe(value => {
-                this.isLoadingMore = false;
-                this.stories = value;
-            });
-        }
+        this.getLoadMoreObservable().subscribe(value => {
+            this.stories = value;
+        });
 
 
     }
 
-    private getLoadmoreObservable() {
+    private getLoadMoreObservable() {
         let loadMorePromise: Observable<Story[]>;
         loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(this.category);
         return loadMorePromise;
     }
 
-    private scrollTo(story: Story, animation = 0) {
-        this.virtualScroller.scrollInto(story, true, 0, animation);
+    private scrollTo(story: Story, animation = 0, callback = null) {
+        this.virtualScroller.scrollInto(story, true, 0, animation, callback);
     }
 
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.scrollToTop();
+        this.virtualScroller.scrollToIndex(0, true, 0, 500, );
+        setTimeout(this.reloadStoryList.bind(this),600)
 
     }
 
@@ -196,8 +204,5 @@ export class StoryListComponent implements OnInit {
 
     onSelectedStory(story: Story) {
         story.isRead = true;
-        setTimeout(() => {
-            this.virtualScroller.invalidateCachedMeasurementForItem(story)
-        }, 2000)
     }
 }

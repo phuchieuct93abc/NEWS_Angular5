@@ -75,6 +75,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
     close(event) {
+        console.log('on close')
         if (event) {
 
             event && event.stopPropagation();
@@ -93,7 +94,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     ngOnDestroy(): void {
-        // this.storyListService.onShowFixedCloseIcon.next(null);
+        console.log('destroy')
+        this.storyListService.onShowFixedCloseIcon.next(null);
         this.subscription.unsubscribe();
         this.closeSubscription.unsubscribe();
     }

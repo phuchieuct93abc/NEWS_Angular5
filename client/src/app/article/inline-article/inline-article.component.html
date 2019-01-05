@@ -1,4 +1,5 @@
-<div class="w-100 article animated faster" #articleView  (swipeRight)="swiperight($event)" (swipeLeft)="swipeleft($event)"
+<div class="w-100 article animated faster" #articleView (swipeRight)="swiperight($event)"
+     (swipeLeft)="swipeleft($event)"
      [ngClass]="{fadeOutRight:isFaddingRight,fadeOutLeft:isFaddingLeft}">
     <div class="text-right">
         <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
@@ -8,7 +9,7 @@
 
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
-            <p [innerHTML]="article.body" class="article-body fadein ">
+            <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein ">
             </p>
             <div class="source text-right">
                 <a mat-button [href]="article.externalUrl" target="_blank"

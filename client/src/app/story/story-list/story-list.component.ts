@@ -62,7 +62,6 @@ export class StoryListComponent implements OnInit {
     private updateScroll() {
         setTimeout(() => {
             this.virtualScroller.invalidateAllCachedMeasurements();
-            // this.virtualScroller.refresh();
         }, 1000)
     }
 
@@ -146,8 +145,7 @@ export class StoryListComponent implements OnInit {
     }
 
     vsUpdate() {
-        this.storyListService.onScroll.next()
-        this.storyListService.vsScroll.next(this.virtualScroller.viewPortInfo)
+        this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
 
     }
 
@@ -200,6 +198,6 @@ export class StoryListComponent implements OnInit {
         story.isRead = true;
         setTimeout(() => {
             this.virtualScroller.invalidateCachedMeasurementForItem(story)
-        }, 3000)
+        }, 2000)
     }
 }

@@ -4,7 +4,7 @@
             <div class="mat-display-1">
                 {{article.header}}
             </div>
-            <p [innerHTML]="article.body" class="article-body fadein"></p>
+            <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein"></p>
             <div class="source text-right">
                 <a mat-button [href]="article.externalUrl" target="_blank"
                    color="primary">Nguồn: {{article.story.storyMeta.source}}</a>

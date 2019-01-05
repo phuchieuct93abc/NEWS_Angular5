@@ -7,6 +7,8 @@ import {StoryService} from "../../shared/story.service";
 import {UtilityService} from "../../shared/utility.service";
 import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
+import {throttle} from "rxjs/operators";
+import {interval} from "rxjs";
 
 @Component({
     selector: 'app-inline-article',
@@ -34,7 +36,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     currentStoryIndex: number;
     readonly sensitive = 100;
     isFaddingRight = false;
-    isFaddingLeft = false
+    isFaddingLeft = false;
+    isDisplayingInViewport = false;
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
@@ -50,15 +53,20 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         // Hammer.defaults.touchAction = 'pan-y'
 
 
-        this.subscription = this.storyListService.onScroll.subscribe(event => {
+        this.subscription = this.storyListService.onScroll.pipe(throttle(() => interval(1000)))
+            .subscribe(() => {
+                const onViewport: boolean = UtilityService.isElementInViewport(<HTMLElement>this.articleView.nativeElement);
+                if (this.isDisplayingInViewport !== onViewport) {
+                    if (onViewport) {
+                        this.storyListService.onShowFixedCloseIcon.next(this.story);
 
-            if (UtilityService.isElementInViewport(<HTMLElement>this.articleView.nativeElement)) {
-                this.storyListService.onShowFixedCloseIcon.next(this.story)
+                    } else {
 
-            } else {
-                this.storyListService.onShowFixedCloseIcon.next(null)
-            }
-        });
+                        this.storyListService.onShowFixedCloseIcon.next(null);
+                    }
+                    this.isDisplayingInViewport = onViewport;
+                }
+            });
 
         this.closeSubscription = this.storyListService.onFixedCloseClicked.subscribe(() => {
             this.close(null);
@@ -85,7 +93,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     ngOnDestroy(): void {
-        this.storyListService.onShowFixedCloseIcon.next(null);
+        // this.storyListService.onShowFixedCloseIcon.next(null);
         this.subscription.unsubscribe();
         this.closeSubscription.unsubscribe();
     }

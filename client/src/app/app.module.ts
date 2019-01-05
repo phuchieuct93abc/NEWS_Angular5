@@ -24,6 +24,9 @@ import {ContentComponent} from "./content/content.component";
 import {SearchComponent} from "./navigator/search/search.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {CapitalizeFirstPipe} from "./shared/capitalizefirst.pipe";
+import {ScrollDispatchModule, ScrollingModule} from "@angular/cdk/scrolling";
+import {TruncatePipe} from "./shared/trauncate.pipe";
+import {SanitizeHtmlPipe} from "./shared/sanitize.pipe";
 
 @NgModule({
     imports: [
@@ -37,7 +40,8 @@ import {CapitalizeFirstPipe} from "./shared/capitalizefirst.pipe";
         MomentModule,
         LazyLoadImageModule,
         VirtualScrollerModule,
-        DragDropModule
+        DragDropModule,
+        ScrollingModule,
     ],
     declarations: [
         AppComponent,
@@ -51,7 +55,10 @@ import {CapitalizeFirstPipe} from "./shared/capitalizefirst.pipe";
         LoadingComponent,
         ContentComponent,
         SearchComponent,
-        CapitalizeFirstPipe
+        CapitalizeFirstPipe,
+        TruncatePipe,
+        SanitizeHtmlPipe
+
     ],
     bootstrap: [AppComponent],
     providers: []

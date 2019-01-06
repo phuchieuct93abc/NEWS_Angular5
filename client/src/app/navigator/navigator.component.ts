@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Categories} from "../../../../model/Categories";
+import {Categories, Category} from "../../../../model/Categories";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {SidebarService} from "../main/sidebar.service";
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
@@ -13,19 +13,20 @@ import {IPageInfo} from "ngx-virtual-scroller";
     styleUrls: ['./navigator.component.scss'],
 })
 export class NavigatorComponent implements OnInit {
-    categories: any;
+    toolbarTop = 0;
 
-    isHiding = false;
-    isShowing = false;
+    categories: Category[];
+    private isHiding = false;
 
-    hidingScrollEvent: IPageInfo;
-    showingScrollEvent: IPageInfo;
+    private isShowing = false;
+    private hidingScrollEvent: IPageInfo;
 
+    private showingScrollEvent: IPageInfo;
+    private heightScale = 1;
+
+    private currentToolbarTOP = this.toolbarTop;
     readonly MIN_TOP = -63;
     readonly MAX_TOP = 0;
-    toolbarTop = 0;
-    heightScale = 1;
-    currentToolbarTOP = this.toolbarTop;
 
     constructor(private storyListService: StoryListService,
                 private media: MediaMatcher,
@@ -48,9 +49,10 @@ export class NavigatorComponent implements OnInit {
     }
 
     private registerScrollDown() {
-        this.storyListService.onScrollDown.subscribe((event: IPageInfo) => {
+        this.storyListService.onScrollDown.subscribe(event => {
             //Hide toolbar
             if (this.toolbarTop == this.MIN_TOP) {
+                this.updateCurrentScrollEvent(event);
                 return;
             }
             if (event.startIndex == 0) {
@@ -59,14 +61,12 @@ export class NavigatorComponent implements OnInit {
             if (!this.isHiding) {
                 this.isHiding = true;
                 this.isShowing = false;
-                this.hidingScrollEvent = event;
-                this.showingScrollEvent = event;
+                this.updateCurrentScrollEvent(event);
                 this.currentToolbarTOP = this.toolbarTop;
 
 
             }
             if (this.hidingScrollEvent) {
-
                 const height = event.scrollStartPosition - this.hidingScrollEvent.scrollStartPosition;
                 this.toolbarTop = this.restrictTop(this.currentToolbarTOP - (height / this.heightScale))
 
@@ -75,21 +75,30 @@ export class NavigatorComponent implements OnInit {
         });
     }
 
+    private updateCurrentScrollEvent(event: IPageInfo) {
+        this.hidingScrollEvent = event;
+        this.showingScrollEvent = event;
+    }
+
     private registerScrollUp() {
-        this.storyListService.onScrollUp.subscribe((event: IPageInfo) => {
+        this.storyListService.onScrollUp.subscribe(event => {
             //Show toolbar
-            if (this.toolbarTop == this.MAX_TOP) return;
+            if (this.toolbarTop == this.MAX_TOP) {
+                this.updateCurrentScrollEvent(event);
+                return;
+            }
+            ;
 
             if (!this.isShowing) {
                 this.isShowing = true;
                 this.isHiding = false;
-                this.showingScrollEvent = event;
-                this.hidingScrollEvent = event;
+                this.updateCurrentScrollEvent(event);
                 this.currentToolbarTOP = this.toolbarTop;
 
             }
             if (this.showingScrollEvent) {
-                const height = (this.showingScrollEvent.scrollStartPosition - event.scrollStartPosition);
+                const height = this.showingScrollEvent.scrollStartPosition - event.scrollStartPosition;
+
                 this.toolbarTop = this.restrictTop((height / this.heightScale) + this.currentToolbarTOP)
             }
             if (event.startIndex == 0) {
@@ -111,5 +120,6 @@ export class NavigatorComponent implements OnInit {
     restrictTop(top: number): number {
         return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));
     }
+
 
 }

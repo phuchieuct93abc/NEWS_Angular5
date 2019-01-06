@@ -8,6 +8,14 @@
     transition: none;
   }
 
+  .close-button {
+    position: sticky;
+    top: 60px;
+    right: 10px;
+    z-index: 10;
+    background-color: transparent !important;
+  }
+
   .article-body {
     padding: 5px;
     //background-color: white;

@@ -1,7 +1,5 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import StoryImage from "../../../../../model/StoryImage";
-import {ConfigService} from "../../shared/config.service";
-import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-image-viewer',
@@ -19,10 +17,10 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @ViewChild("imageViewer")
     imageViewer: ElementRef;
     interval;
+    private imageIndex = 0;
 
-    configListener: Subscription
 
-    constructor(private configService: ConfigService) {
+    constructor(private ref: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -30,14 +28,6 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.imagePath = firstImage.imageUrl;
         this.calculateImageHeight(firstImage);
         this.randomImagePath();
-        this.configListener = this.configService.configUpdated.subscribe(() => {
-            setTimeout(()=>{
-
-                this.calculateImageHeight(this.images[0])
-            })
-        })
-
-
     }
 
     private calculateImageHeight(firstImage) {
@@ -49,16 +39,23 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         if (this.images.length > 1) {
 
             this.interval = setInterval(() => {
-
-                const randomIndex = Math.floor(Math.random() * this.images.length);
-                this.imagePath = this.images[randomIndex].imageUrl;
+                this.imageIndex++;
+                if (this.imageIndex == this.images.length) {
+                    this.imageIndex = 0;
+                }
+                this.imagePath = this.images[this.imageIndex].imageUrl;
             }, 3000)
+        } else {
+            this.detach();
         }
+    }
+
+    private detach() {
+        setTimeout(()=>this.ref.detach())
     }
 
     ngOnDestroy(): void {
         clearInterval(this.interval);
-        this.configListener.unsubscribe();
     }
 
 

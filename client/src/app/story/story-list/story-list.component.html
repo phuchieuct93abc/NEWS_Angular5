@@ -5,21 +5,21 @@
                       (vsEnd)="vsEnd($event)"
                       [enableUnequalChildrenSizes]="true"
                       [checkResizeInterval]="0"
-                      [compareItems]="compare"
                       [items]="stories"
+                      [useMarginInsteadOfTranslate]="true"
                       *ngIf="stories"
                       class="h-100 w-100">
 
 
         <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems;trackBy: trackByFn" [story]="item"
-                   class="d-block fadein"></app-story>
+                   class="d-block fadein" ></app-story>
 
 
     </virtual-scroller>
 
-    <button mat-icon-button class="fixed-close-icon fadein" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">
-        <mat-icon class="mat-primary">cancel</mat-icon>
-    </button>
+    <!--<button mat-icon-button class="fixed-close-icon fadein" *ngIf="isShowFixedCloseIcon" (click)="onCloseFn()">-->
+        <!--<mat-icon class="mat-primary">cancel</mat-icon>-->
+    <!--</button>-->
 
     <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)" *ngIf="isSmallScreen && isShowMoveTop">
         <mat-icon class="mat-primary" >play_circle_filled</mat-icon>

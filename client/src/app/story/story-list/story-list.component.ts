@@ -4,7 +4,7 @@ import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {ConfigService} from "../../shared/config.service";
+import {Config, ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
 import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
@@ -23,7 +23,6 @@ export class StoryListComponent implements OnInit {
     @ViewChild(VirtualScrollerComponent)
     private virtualScroller: VirtualScrollerComponent;
 
-    isShowFixedCloseIcon = false;
 
     openStory: Story;
     isSmallScreen: boolean;
@@ -33,6 +32,9 @@ export class StoryListComponent implements OnInit {
     searchKeyword: string;
 
     isLoading = false;
+
+
+    config:Config;
 
     trackByFn(index, item: Story) {
         return item.id;
@@ -49,13 +51,18 @@ export class StoryListComponent implements OnInit {
     ngOnInit() {
         this.updateStoryList();
         this.registerScrollTo();
-        this.handleCloseIcon();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.registerShowingMoveToTop();
 
         this.search();
 
-        this.configService.configUpdated.subscribe(this.reloadStoryList.bind(this))
+        this.config = this.configService.getConfig();
+        this.configService.configUpdated.subscribe((newConfig)=>{
+            if(this.config.smallImage !== newConfig.smallImage){
+
+                this.reloadStoryList()
+            }
+        })
 
         this.loadingService.onLoading.subscribe(event => {
             if (event.name == LoadingEventName.MORE_STORY) {
@@ -104,16 +111,6 @@ export class StoryListComponent implements OnInit {
         })
     }
 
-    private handleCloseIcon() {
-        this.storyListService.onShowFixedCloseIcon.subscribe(isShow => {
-            if (isShow) {
-                this.isShowFixedCloseIcon = true;
-                this.openStory = isShow
-            } else {
-                this.isShowFixedCloseIcon = false;
-            }
-        })
-    }
 
     private updateStoryList() {
         if (this.isLoading) return;
@@ -146,19 +143,6 @@ export class StoryListComponent implements OnInit {
         }
     }
 
-    onCloseFn() {
-        this.storyListService.onFixedCloseClicked.next(this.openStory)
-    }
-
-    vsEnd() {
-        this.onLoadMore(this.virtualScroller.viewPortInfo)
-
-    }
-
-    vsUpdate() {
-        this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
-
-    }
 
 
     private registerScrollTo() {
@@ -193,16 +177,25 @@ export class StoryListComponent implements OnInit {
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.virtualScroller.scrollToIndex(0, true, 0, 500, );
-        setTimeout(this.reloadStoryList.bind(this),600)
+        this.virtualScroller.scrollToIndex(0, true, 0, 500,);
+        setTimeout(this.reloadStoryList.bind(this), 600)
 
     }
 
-    compare(a: Story, b: Story): boolean {
-        return a.id === b.id;
-    }
 
     onSelectedStory(story: Story) {
         story.isRead = true;
+    }
+
+
+
+    vsEnd() {
+        this.onLoadMore(this.virtualScroller.viewPortInfo)
+
+    }
+
+    vsUpdate() {
+        this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
+
     }
 }

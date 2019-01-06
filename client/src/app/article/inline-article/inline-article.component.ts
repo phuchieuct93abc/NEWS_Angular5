@@ -52,30 +52,10 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         this.showArticleById(this.story.id);
         // Hammer.defaults.touchAction = 'pan-y'
 
-
-        this.subscription = this.storyListService.onScroll.pipe(throttle(() => interval(1000)))
-            .subscribe(() => {
-                const onViewport: boolean = UtilityService.isElementInViewport(<HTMLElement>this.articleView.nativeElement);
-                if (this.isDisplayingInViewport !== onViewport) {
-                    if (onViewport) {
-                        this.storyListService.onShowFixedCloseIcon.next(this.story);
-
-                    } else {
-
-                        this.storyListService.onShowFixedCloseIcon.next(null);
-                    }
-                    this.isDisplayingInViewport = onViewport;
-                }
-            });
-
-        this.closeSubscription = this.storyListService.onFixedCloseClicked.subscribe(() => {
-            this.close(null);
-        })
     }
 
 
     close(event) {
-        console.log('on close')
         if (event) {
 
             event && event.stopPropagation();
@@ -94,36 +74,14 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     ngOnDestroy(): void {
-        console.log('destroy')
-        this.storyListService.onShowFixedCloseIcon.next(null);
-        this.subscription.unsubscribe();
-        this.closeSubscription.unsubscribe();
     }
 
     swipeleft($event) {
-        // const position = $event.source._activeTransform.x;
-        // if (Math.abs(position) > this.sensitive) {
-        //     if (position > 0) {
-        //         this.isFaddingRight = true;
-        //     } else {
-        //         this.isFaddingLeft = true;
-        //     }
-        //
-        // } else {
-        //     console.log(this.view.reset())
-        //
-        // }
-        // if($event.deltaX>500){
 
         this.isFaddingLeft = true;
         setTimeout(() => {
-
             this.close(null);
         }, 500)
-        // }
-
-
-        // console.log('swipe left',$event)
 
     }
 

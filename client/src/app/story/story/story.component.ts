@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
@@ -25,7 +25,11 @@ export class StoryComponent implements OnInit, OnDestroy {
     config: Config;
     configListener: Subscription;
 
-    constructor(private breakpointService: BreakpointDetectorService, private configService: ConfigService) {
+
+
+    constructor(private breakpointService: BreakpointDetectorService,
+                private configService: ConfigService,
+                private ref: ChangeDetectorRef) {
     }
 
     onSelectStory() {
@@ -38,6 +42,10 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
+
+        setTimeout(() => {
+            //  this.ref.detach();
+        })
 
     }
 

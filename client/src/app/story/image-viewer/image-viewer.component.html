@@ -1,11 +1,10 @@
 <div #imageViewer class="image-viewer">
 
     <div class="image-wrapper w-100">
-        <img
-                [style.height.px]="height"
-                [src]="imagePath"
-                class="mt-0 mb-0 "
-        >
+        <div
+                [ngStyle]="{'background-image':'url('+imagePath+')','height':height+'px'}"
+                class="mt-0 mb-0 image "
+        ></div>
         <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
     </div>
 

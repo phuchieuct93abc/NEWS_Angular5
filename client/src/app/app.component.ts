@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.config = this.configService.getConfig();
         this.router.navigate([`/${this.config.category}`]);
-        this.configService.configUpdated.subscribe((config) => {
-            this.config = config
+        this.configService.configUpdated.subscribe(data => {
+            this.config = data.new
         })
         this.articleService.onStorySelected.subscribe(article => this.getBlurImageUrl(article.story.images[0].imageUrl))
 

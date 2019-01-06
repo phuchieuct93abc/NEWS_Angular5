@@ -4,7 +4,7 @@ import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {Config, ConfigService} from "../../shared/config.service";
+import {ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
 import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
@@ -34,8 +34,6 @@ export class StoryListComponent implements OnInit {
     isLoading = false;
 
 
-    config:Config;
-
     trackByFn(index, item: Story) {
         return item.id;
     }
@@ -56,9 +54,9 @@ export class StoryListComponent implements OnInit {
 
         this.search();
 
-        this.config = this.configService.getConfig();
-        this.configService.configUpdated.subscribe((newConfig)=>{
-            if(this.config.smallImage !== newConfig.smallImage){
+        this.configService.configUpdated.subscribe(config => {
+
+            if (config.old.smallImage !== config.new.smallImage) {
 
                 this.reloadStoryList()
             }
@@ -144,7 +142,6 @@ export class StoryListComponent implements OnInit {
     }
 
 
-
     private registerScrollTo() {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
@@ -186,7 +183,6 @@ export class StoryListComponent implements OnInit {
     onSelectedStory(story: Story) {
         story.isRead = true;
     }
-
 
 
     vsEnd() {

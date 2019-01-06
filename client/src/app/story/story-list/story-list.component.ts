@@ -34,9 +34,7 @@ export class StoryListComponent implements OnInit {
     isLoading = false;
 
 
-    trackByFn(index, item: Story) {
-        return item.id;
-    }
+
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,

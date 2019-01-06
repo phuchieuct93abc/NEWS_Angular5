@@ -8,11 +8,12 @@
                       [items]="stories"
                       [useMarginInsteadOfTranslate]="true"
                       *ngIf="stories"
+
                       class="h-100 w-100">
 
 
-        <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems;trackBy: trackByFn" [story]="item"
-                   class="d-block fadein" ></app-story>
+        <app-story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of scroll.viewPortItems" [story]="item"
+                   class="d-block" ></app-story>
 
 
     </virtual-scroller>

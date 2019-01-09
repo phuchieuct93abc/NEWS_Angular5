@@ -5,21 +5,21 @@
 
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
-            <div>
-                <div class="text-right  close-button">
-                    <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
-                        <mat-icon class="mat-primary">cancel</mat-icon>
-                    </button>
-                </div>
-                <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
-
+            <div class="text-right  close-button">
+                <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
+                    <mat-icon class="mat-primary">cancel</mat-icon>
+                </button>
             </div>
+            <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
+
             <div class="source text-right">
                 <a mat-button [href]="article.externalUrl" target="_blank"
                    color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
             </div>
+            <app-comments [articleId]="article.id"></app-comments>
         </div>
     </div>
+
 
     <ng-template #loading>
         <app-loading></app-loading>

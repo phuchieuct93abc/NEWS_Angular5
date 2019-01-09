@@ -15,12 +15,11 @@ export class MainComponent implements OnInit {
     isSmallScreen: boolean;
     categories: Category[];
     isOpenSidebar = false;
-    image: string;
 
     constructor(private breakpointService: BreakpointDetectorService,
                 private sidebarService: SidebarService,
                 public configService: ConfigService,
-                private articleService: ArticleService) {
+               ) {
     }
 
     ngOnInit() {
@@ -30,9 +29,7 @@ export class MainComponent implements OnInit {
             this.isOpenSidebar = !this.isOpenSidebar
         })
 
-        this.articleService.onStorySelected.subscribe(article => {
-            this.image = article.story.images[0].imageUrl
-        })
+
     }
 
     changeTheme(isDarkTheme: boolean) {

@@ -32,4 +32,8 @@ export default class GoogleArticleService extends ArticleService {
             resolver(url)
         })
     }
+
+    getComment(id: string): Promise<Comment[]> {
+        return undefined;
+    }
 }

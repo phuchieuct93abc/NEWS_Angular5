@@ -24,9 +24,11 @@ import {ContentComponent} from "./content/content.component";
 import {SearchComponent} from "./navigator/search/search.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {CapitalizeFirstPipe} from "./shared/capitalizefirst.pipe";
-import {ScrollDispatchModule, ScrollingModule} from "@angular/cdk/scrolling";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 import {TruncatePipe} from "./shared/trauncate.pipe";
 import {SanitizeHtmlPipe} from "./shared/sanitize.pipe";
+import {CommentsComponent} from "./article/comments/comments.component";
+import {CommentComponent} from "./article/comments/comment/comment.component";
 
 @NgModule({
     imports: [
@@ -57,7 +59,9 @@ import {SanitizeHtmlPipe} from "./shared/sanitize.pipe";
         SearchComponent,
         CapitalizeFirstPipe,
         TruncatePipe,
-        SanitizeHtmlPipe
+        SanitizeHtmlPipe,
+        CommentComponent,
+        CommentsComponent
 
     ],
     bootstrap: [AppComponent],

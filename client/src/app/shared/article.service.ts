@@ -6,6 +6,7 @@ import {map, retry} from "rxjs/operators";
 import Article from "../../../../model/Article";
 import CONFIG from "../../environments/environment";
 import {Story} from "../../../../model/Story";
+import ArticleComment from "../../../../model/ArticleComment";
 
 
 @Injectable({
@@ -43,7 +44,15 @@ export class ArticleService {
             params: {
                 url: url
             }
-        }).pipe(retry(3),map(source=>source['url']))
+        }).pipe(retry(3), map(source => source['url']))
+    }
+
+    getComment(id: string): Observable<ArticleComment[]> {
+        return this.httpClient.get(CONFIG.baseUrl + "comments", {
+            params: {
+                id: id
+            }
+        }).pipe(retry(3), map(comments => <ArticleComment[]>comments))
     }
 
 

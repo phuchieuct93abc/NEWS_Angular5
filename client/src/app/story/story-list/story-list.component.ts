@@ -4,7 +4,7 @@ import {Story} from '../../../../../model/Story';
 import {ActivatedRoute} from "@angular/router";
 import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {ConfigService} from "../../shared/config.service";
+import {Config, ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
 import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
@@ -24,7 +24,6 @@ export class StoryListComponent implements OnInit {
     private virtualScroller: VirtualScrollerComponent;
 
 
-    openStory: Story;
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
     hideMoveTopTimeout;
@@ -33,8 +32,7 @@ export class StoryListComponent implements OnInit {
 
     isLoading = false;
 
-
-
+    config:Config;
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
@@ -53,7 +51,7 @@ export class StoryListComponent implements OnInit {
         this.search();
 
         this.configService.configUpdated.subscribe(config => {
-
+            this.config = config.new;
             if (config.old.smallImage !== config.new.smallImage) {
 
                 this.reloadStoryList()
@@ -152,7 +150,9 @@ export class StoryListComponent implements OnInit {
     private onLoadMore(event: IPageInfo) {
         if (event.endIndex !== this.stories.length - 1 || this.isLoading) return;
 
+
         this.getLoadMoreObservable().subscribe(value => {
+
             this.stories = value;
         });
 
@@ -166,7 +166,7 @@ export class StoryListComponent implements OnInit {
     }
 
     private scrollTo(story: Story, animation = 0, callback = null) {
-        this.virtualScroller.scrollInto(story, true, 0, animation, callback);
+        this.virtualScroller.scrollInto(story, true, -60, animation, callback);
     }
 
 

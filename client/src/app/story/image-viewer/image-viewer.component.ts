@@ -26,8 +26,13 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
+        this.cacheImage();
         this.calculateImageHeight(firstImage);
         this.randomImagePath();
+    }
+
+    private cacheImage() {
+        this.images.forEach(image => new Image().src = image.imageUrl)
     }
 
     private calculateImageHeight(firstImage) {
@@ -40,9 +45,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
             this.interval = setInterval(() => {
                 this.imageIndex++;
-                if (this.imageIndex == this.images.length) {
-                    this.imageIndex = 0;
-                }
+                this.imageIndex = this.imageIndex == this.images.length ? 0 : this.imageIndex;
                 this.imagePath = this.images[this.imageIndex].imageUrl;
             }, 3000)
         } else {
@@ -51,7 +54,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     private detach() {
-        setTimeout(()=>this.ref.detach())
+        setTimeout(() => this.ref.detach())
     }
 
     ngOnDestroy(): void {

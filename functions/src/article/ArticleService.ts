@@ -6,13 +6,11 @@ export abstract class ArticleService {
     protected parser: ArticleParser;
 
     abstract crawnArticleById(id: string): Promise<Article>
+    abstract getComment(id:string):Promise<Comment[]>
 
     public getArticleById(idPath: string): Promise<Article> {
         return new Promise(resolver => {
-
-
             FirebaseService.findArticle(idPath).then(article => {
-
                 if (article.exists) {
                     resolver((<Article>article.data()));
                 } else {
@@ -22,8 +20,6 @@ export abstract class ArticleService {
                 }
             })
         })
-
-
     }
 
     public crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {

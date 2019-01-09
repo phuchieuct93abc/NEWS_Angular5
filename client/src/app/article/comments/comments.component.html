@@ -1,0 +1,12 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <div class="mat-subtitle">{{comments.length}} bình luận: (đang improve nhe các bạn)</div>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div *ngFor="let comment of comments">
+        <mat-divider></mat-divider>
+        <app-comment [comment]="comment"></app-comment>
+    </div>
+</mat-expansion-panel>

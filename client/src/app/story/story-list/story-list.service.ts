@@ -19,7 +19,6 @@ export class StoryListService {
     public onScroll = new Subject<IPageInfo>();
     public scrollTo = new Subject<Story>();
     public onShowFixedCloseIcon = new Subject<Story>();
-    public onFixedCloseClicked = new Subject();
     public onScrollUp = new Subject<IPageInfo>();
     public onScrollDown = new Subject<IPageInfo>();
 

@@ -28,7 +28,9 @@ app.get('/story', (req, res) => {
 app.get('/article', (req, res) => {
     ArticleServiceFactory.get("vi").getArticleById(req.query.url).then(article => res.send(article))
 });
-
+app.get('/comments', (req, res) => {
+    ArticleServiceFactory.get("vi").getComment(req.query.id).then(article => res.send(article))
+});
 app.get('/cachestory', (req, res) => {
 
 

@@ -34,6 +34,7 @@ export class ArticleComponent implements OnInit {
                 this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
+
             });
         }
     }
@@ -47,6 +48,8 @@ export class ArticleComponent implements OnInit {
             this.article.externalUrl = url;
         })
     }
+
+
 
 
 }

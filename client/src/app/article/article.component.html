@@ -1,6 +1,6 @@
 <div #articleView class="w-100 h-100 article  p-1">
-    <div class="scrollable">
-        <div *ngIf="article;else loading" class="article-content p-2">
+    <div class="scrollable ">
+        <div *ngIf="article;else loading" class="article-content p-2  pb-5">
             <div class="mat-display-1">
                 {{article.header}}
             </div>
@@ -9,6 +9,8 @@
                 <a mat-button [href]="article.externalUrl" target="_blank"
                    color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
             </div>
+            <app-comments [articleId]="article.id"></app-comments>
+
         </div>
 
         <ng-template #loading>

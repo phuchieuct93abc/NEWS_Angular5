@@ -9,10 +9,11 @@ export default class BaomoiArticleParser extends ArticleParser {
     }
 
     private convertHtmlBody() {
+
         let body = this.html.getElementsByClassName('article__body')[0].innerHTML;
         body = Utility.replaceAll(body, "data-", "");
-        return Utility.replaceAll(body, "<video", "<video controls")
-
+        body = Utility.replaceAll(body, "<video", "<video controls");
+        return Utility.replaceAll(body, '</video>', '</video><div class="text-right"><a class="text-right mat-button mat-primary open-video">Mở video</a></div>')
     }
 
     parserArticle(): Article {

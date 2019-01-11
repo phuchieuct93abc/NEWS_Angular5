@@ -10,7 +10,8 @@
     "firebaseserve": "firebase functions:shell",
     "deploy": "npm-run-all build:client firebase:deploy",
     "build:client": "cd client && npm run-script build",
-    "firebase:deploy": "firebase deploy"
+    "firebase:deploy": "firebase deploy",
+    "test":"cd client && npm install && npm run-script build"
   },
   "repository": {
     "type": "git",

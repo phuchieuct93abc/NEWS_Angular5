@@ -1,4 +1,11 @@
 language: node_js
+before_deploy: 
+  - ./build.sh
+deploy:
+  provider: firebase
+  token:
+    secure: "1/zNzt-LWNBd99_WiOHU7Qz_GVIIv-N8ShZNJqnJyOwNr2Sa-JEKBC1LbwScuGcCRr"
+  project: "angularhero-3b066"
 
 script:
    - echo "Deploy!!"

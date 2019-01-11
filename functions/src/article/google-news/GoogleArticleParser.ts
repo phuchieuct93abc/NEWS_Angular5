@@ -8,9 +8,7 @@ export default class GoogleArticleParser extends ArticleParser {
     }
 
     parserArticle(): Article {
-        const header = this.html.getElementsByClassName('article__header')[0].textContent;
-        const id = this.html.getElementsByClassName('article')[0].getAttribute('data-aid');
-        return new Article(id, header, null, this.convertHtmlBody(), null);
+        return null;
     }
 
     private convertHtmlBody() {

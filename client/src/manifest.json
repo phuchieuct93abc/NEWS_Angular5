@@ -1,6 +1,6 @@
 {
-  "name": "Báo mới",
-  "short_name": "Báo mới",
+  "name": "Báo hiếu",
+  "short_name": "Báo hiếu",
   "start_url": "/?homescreen=1",
   "background_color": "#e5e5e5",
   "theme_color": "#673ab7",

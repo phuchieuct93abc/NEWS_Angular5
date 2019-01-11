@@ -7,8 +7,5 @@ deploy:
     secure: "1/zNzt-LWNBd99_WiOHU7Qz_GVIIv-N8ShZNJqnJyOwNr2Sa-JEKBC1LbwScuGcCRr"
   project: "angularhero-3b066"
 
-script:
-   - echo "Deploy!!"
-
 after_success:
    — firebase deploy  --token "1/zNzt-LWNBd99_WiOHU7Qz_GVIIv-N8ShZNJqnJyOwNr2Sa-JEKBC1LbwScuGcCRr"

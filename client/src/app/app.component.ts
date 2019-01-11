@@ -21,11 +21,15 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.config = this.configService.getConfig();
-        this.router.navigate([`/${this.config.category}`]);
+        //  this.router.navigate([`/${this.config.category}`]);
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new
         })
-        this.articleService.onStorySelected.subscribe(article => this.getBlurImageUrl(article.story.images[0].imageUrl))
+        this.articleService.onStorySelected.subscribe(article => {
+            if (article.story != null) {
+                this.getBlurImageUrl(article.story.images[0].imageUrl)
+            }
+        })
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen

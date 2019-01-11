@@ -24,6 +24,7 @@
     "normalize.css": "^8.0.1",
     "popper.js": "^1.14.6",
     "rxjs": "^6.3.3",
+    "speakingurl": "^14.0.1",
     "zone.js": "^0.8.26"
   },
   "scripts": {

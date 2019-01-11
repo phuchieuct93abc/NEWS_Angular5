@@ -1,21 +1,24 @@
 <div #articleView class="w-100 h-100 article  p-1">
     <div class="scrollable ">
-        <div *ngIf="article;else loading" class="article-content p-2  pb-5">
-            <div class="mat-display-1">
-                {{article.header}}
-            </div>
-            <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein"></p>
-            <div class="source text-right">
-                <a mat-button [href]="article.externalUrl" target="_blank"
-                   color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
-            </div>
-            <app-comments [articleId]="article.id"></app-comments>
+        <div *ngIf="articleId">
 
+            <div *ngIf="article;else loading" class="article-content p-2  pb-5">
+                <div class="mat-display-1">
+                    {{article.header}}
+                </div>
+                <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein"></p>
+                <div class="source text-right">
+                    <a mat-button [href]="article.externalUrl" target="_blank"
+                       color="primary">Nguồn: {{article.sourceName}}</a>
+                </div>
+                <app-comments [articleId]="article.id"></app-comments>
+
+            </div>
+
+            <ng-template #loading>
+                <app-loading></app-loading>
+            </ng-template>
         </div>
-
-        <ng-template #loading>
-            <app-loading></app-loading>
-        </ng-template>
     </div>
 
 

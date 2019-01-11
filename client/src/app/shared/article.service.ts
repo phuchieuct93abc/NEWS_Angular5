@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {StoryService} from "./story.service";
-import {EMPTY, Observable, Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {map, retry} from "rxjs/operators";
 import Article from "../../../../model/Article";
 import CONFIG from "../../environments/environment";
@@ -23,26 +23,28 @@ export class ArticleService {
 
         const story: Story = this.storyService.getById(id);
 
-        if (story == null) {
-            return EMPTY;
+        if (story != null) {
+            this.storyService.saveReadStory(story);
+
         }
-        this.storyService.saveReadStory(story);
         const options = {
             params: {
-                url: story.originalUrl
+                url: id
             }
         };
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
-            map(result =>
-                new Article(result['id'], result['header'], null, result['body'], null, story)
-            ))
+            map(result => {
+                let article = <Article>result;
+                article.story = story;
+                return article;
+            }))
     }
 
-    getSource(url: string): Observable<string> {
+    getSource(id: string): Observable<string> {
         return this.httpClient.get(CONFIG.baseUrl + "getSource", {
             params: {
-                url: url
+                id: id
             }
         }).pipe(retry(3), map(source => source['url']))
     }

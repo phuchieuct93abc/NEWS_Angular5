@@ -36,7 +36,7 @@ class FirebaseService {
     findArticle(id: string): Promise<DocumentSnapshot> {
         const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
 
-        return articleCollection.doc(Utility.extractId(id)).get();
+        return articleCollection.doc(id).get();
     }
 }
 

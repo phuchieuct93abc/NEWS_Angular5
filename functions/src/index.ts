@@ -49,7 +49,7 @@ app.get('/search', (req, res) => {
 });
 app.get('/getSource', (req, res) => {
 
-    ArticleServiceFactory.get('vi').getSource(req.query.url).then((value) => {
+    ArticleServiceFactory.get('vi').getSource(req.query.id).then((value) => {
         res.send({url: value});
 
     })

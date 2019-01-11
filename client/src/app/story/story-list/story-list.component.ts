@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
 import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
+import * as url from 'speakingurl';
 
 @Component({
     selector: 'app-story-list',
@@ -32,10 +33,11 @@ export class StoryListComponent implements OnInit {
 
     isLoading = false;
 
-    config:Config;
+    config: Config;
 
     constructor(private storyService: StoryService,
                 private route: ActivatedRoute,
+                private router: Router,
                 private storyListService: StoryListService,
                 private breakpointService: BreakpointDetectorService,
                 private configService: ConfigService,
@@ -117,18 +119,13 @@ export class StoryListComponent implements OnInit {
         });
     }
 
-    private loadFirstPage(): Promise<any> {
-
-        return new Promise(resolver => {
-
-            this.scrollToTop();
-            this.storyService.resetPageNumber();
-            this.storyService.getStories(this.category).subscribe(value => {
-                this.stories = value;
-                resolver();
-            });
-        })
-
+    private loadFirstPage() {
+        this.scrollToTop();
+        this.storyService.resetPageNumber();
+        this.storyService.getStories(this.category).subscribe(value => {
+            this.stories = value;
+            this.autoSelectFirstStory(this.stories[0]);
+        });
     }
 
     private scrollToTop() {
@@ -190,6 +187,14 @@ export class StoryListComponent implements OnInit {
 
     vsUpdate() {
         this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
+
+    }
+
+    private autoSelectFirstStory(story: Story) {
+        if (!this.isSmallScreen) {
+
+            this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
+        }
 
     }
 }

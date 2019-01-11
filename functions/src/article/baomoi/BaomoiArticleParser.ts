@@ -19,7 +19,10 @@ export default class BaomoiArticleParser extends ArticleParser {
     parserArticle(): Article {
         const header = this.html.getElementsByClassName('article__header')[0].textContent;
         const id = this.html.getElementsByClassName('article')[0].getAttribute('data-aid');
-        return new Article(id, header, null, this.convertHtmlBody(), null);
+        const sourceName = this.html.getElementsByClassName('source')[0].textContent;
+        let sourceUrl = this.html.getElementsByClassName('source')[0].getAttribute("href");
+        sourceUrl = `https://m.baomoi.com${sourceUrl}`;
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName);
     }
 
 

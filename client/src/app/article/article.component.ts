@@ -11,6 +11,7 @@ import Article from "../../../../model/Article";
 })
 export class ArticleComponent implements OnInit {
     public article: Article;
+    public articleId: string;
 
     @ViewChild('articleView')
     protected articleView: ElementRef;
@@ -21,15 +22,16 @@ export class ArticleComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
+            this.articleId = params['id']
             this.showArticleById(params['id']);
         });
 
     }
 
-    protected showArticleById(id: string) {
-        if (id) {
+    protected showArticleById(articleId: string) {
+        if (articleId) {
             this.article = null;
-            this.articleService.getById(id).subscribe(article => {
+            this.articleService.getById(articleId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
                 this.afterGetArticle();
@@ -44,12 +46,10 @@ export class ArticleComponent implements OnInit {
     }
 
     private getSourceUrl() {
-        this.articleService.getSource(this.article.story.originalUrl).subscribe(url => {
+        this.articleService.getSource(this.article.id).subscribe(url => {
             this.article.externalUrl = url;
         })
     }
-
-
 
 
 }

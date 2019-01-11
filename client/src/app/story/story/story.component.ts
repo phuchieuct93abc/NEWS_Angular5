@@ -1,19 +1,17 @@
 import {
     Component,
-    DoCheck,
     ElementRef,
     EventEmitter,
     Input,
-    OnChanges,
     OnDestroy,
     OnInit,
     Output,
-    SimpleChanges
 } from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
 import {Subscription} from "rxjs";
+import * as url from 'speakingurl';
 
 @Component({
     selector: 'app-story',
@@ -35,6 +33,7 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     config: Config;
     configListener: Subscription;
+    friendlyUrl:string;
 
 
     constructor(private breakpointService: BreakpointDetectorService,
@@ -52,6 +51,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
+        this.friendlyUrl = url(this.story.title);
 
     }
 

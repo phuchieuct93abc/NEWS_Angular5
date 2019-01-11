@@ -50,7 +50,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     ngOnInit() {
 
         this.showArticleById(this.story.id);
-        // Hammer.defaults.touchAction = 'pan-y'
 
     }
 

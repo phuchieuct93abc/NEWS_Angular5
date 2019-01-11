@@ -6,15 +6,19 @@ export abstract class ArticleService {
     protected parser: ArticleParser;
 
     abstract crawnArticleById(id: string): Promise<Article>
-    abstract getComment(id:string):Promise<Comment[]>
 
-    public getArticleById(idPath: string): Promise<Article> {
+    abstract getComment(id: string): Promise<Comment[]>
+
+    public getArticleById(id: string): Promise<Article> {
         return new Promise(resolver => {
-            FirebaseService.findArticle(idPath).then(article => {
+            FirebaseService.findArticle(id).then(article => {
                 if (article.exists) {
+                    console.log(`get from firebase ${id}`)
                     resolver((<Article>article.data()));
                 } else {
-                    this.crawnArticleById(idPath).then(article => {
+                    this.crawnArticleById(id).then(article => {
+                        console.log(`get from baomoi ${id}`)
+
                         resolver(article)
                     })
                 }
@@ -45,7 +49,7 @@ export abstract class ArticleService {
 
     }
 
-    public abstract getSource(url:string);
+    public abstract getSource(id: string);
 
     protected saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
         return FirebaseService.saveArticle(article);

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" [routerLink]="story.id" class="mb-2 pt-0 pt-sm-2 w-100"
+        <mat-card (click)="onSelectStory()" [routerLink]="[friendlyUrl,story.id]" class="mb-2 pt-0 pt-sm-2 w-100"
                   routerLinkActive="active" [class.read]="story.isRead" [ngClass]="config.smallImage && isSmallScreen?'small-image':'large-image'">
             <mat-card-content class="last-child" >
                 <div class="w-100">

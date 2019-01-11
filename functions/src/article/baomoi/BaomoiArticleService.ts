@@ -1,7 +1,6 @@
 import BaomoiArticleParser from "./BaomoiArticleParser";
 import {ArticleService} from "../ArticleService";
 import Article from "../../../../model/Article";
-import Utility from "../../Utility";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -16,11 +15,9 @@ export default class BaomoiArticleService extends ArticleService {
 
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
-                console.time(`fetch article${id}`);
-                axios.get("https://m.baomoi.com" + id).then(response => {
+                axios.get(`https://m.baomoi.com/a/c/${id}.epi`).then(response => {
                     const dom = new JSDOM(response.data);
                     const article = this.parser.setHtml(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
-                    console.timeEnd(`fetch article${id}`);
                     resolve(article);
 
                 })
@@ -30,11 +27,10 @@ export default class BaomoiArticleService extends ArticleService {
 
     }
 
-    getSource(url: string): Promise<string> {
+    getSource(id: string): Promise<string> {
         return new Promise(resolver => {
 
-            const redirectUrl = Utility.replaceAll(url, '/c/', '/r/');
-            axios.get("https://m.baomoi.com" + redirectUrl).then(response => {
+            axios.get(`https://m.baomoi.com/a/r/${id}.epi`).then(response => {
                 const dom = new JSDOM(response.data);
                 const message: HTMLScriptElement[] = dom.window.document.querySelectorAll('[type="text/javascript"]');
                 var matches = message[0].textContent.match(/\bhttps?:\/\/[^"]+/gi);
@@ -46,10 +42,10 @@ export default class BaomoiArticleService extends ArticleService {
 
     getComment(id: string): Promise<Comment[]> {
         return new Promise((resolve) => {
-               const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
+                const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
                 axios.get(url).then(response => {
 
-                    resolve( <Comment[]>response.data.result)
+                    resolve(<Comment[]>response.data.result)
 
                 })
             }

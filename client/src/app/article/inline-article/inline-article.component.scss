@@ -11,9 +11,14 @@
   .close-button {
     position: sticky;
     top: 60px;
-    right: 10px;
     z-index: 10;
     background-color: transparent !important;
+  }
+  .favorite{
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+
   }
 
   .article-body {

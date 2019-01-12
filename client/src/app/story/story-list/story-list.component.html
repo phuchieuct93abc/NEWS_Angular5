@@ -16,9 +16,9 @@
                           class="w-100">
 
             <div #container>
-                <app-story (onSelectedStory)="onSelectedStory($event)"
-                           *ngFor="let item of scroll.viewPortItems" [story]="item"
-                           class="d-block"></app-story>
+                <app-story
+                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                        class="d-block"></app-story>
             </div>
             <div class="p-2 text-center">
                 <span class="mat-h3">Đang tải</span>

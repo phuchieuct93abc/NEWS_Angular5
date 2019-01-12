@@ -1,15 +1,22 @@
 <div class="w-100 article animated faster" #articleView (swipeRight)="swiperight($event)"
      (swipeLeft)="swipeleft($event)"
-     [ngClass]="{fadeOutRight:isFaddingRight,fadeOutLeft:isFaddingLeft}">
+     [ngClass]="{fadeOutRight:isFadingRight,fadeOutLeft:isFadingLeft}">
 
 
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
             <div class="text-right  close-button">
+                <a mat-icon-button (click)="toggleFavorite()" class="fadein">
+                    <mat-icon color="primary">
+                        {{isFavorite ? 'favorite' : 'favorite_border'}}
+                    </mat-icon>
+
+                </a>
                 <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
                     <mat-icon class="mat-primary">cancel</mat-icon>
                 </button>
             </div>
+
             <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
 
             <div class="source text-right">

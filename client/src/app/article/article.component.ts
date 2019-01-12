@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
+import {FavoriteService} from "../shared/favorite-story.service";
 
 @Component({
     selector: 'app-article',
@@ -12,12 +13,13 @@ import Article from "../../../../model/Article";
 export class ArticleComponent implements OnInit {
     public article: Article;
     public articleId: string;
+    public isFavorite: boolean;
 
     @ViewChild('articleView')
     protected articleView: ElementRef;
 
 
-    constructor(protected route: ActivatedRoute, protected articleService: ArticleService) {
+    constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService) {
     }
 
     ngOnInit() {
@@ -26,16 +28,20 @@ export class ArticleComponent implements OnInit {
             this.showArticleById(params['id']);
         });
 
+
     }
 
     protected showArticleById(articleId: string) {
         if (articleId) {
             this.article = null;
+
             this.articleService.getById(articleId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
+                this.isFavorite = this.favoriteService.findById(article.id) != undefined;
+
 
             });
         }
@@ -52,4 +58,16 @@ export class ArticleComponent implements OnInit {
     }
 
 
+    toggleFavorite() {
+        this.isFavorite = !this.isFavorite;
+        if (this.article.story != null) {
+            if (this.isFavorite) {
+                this.favoriteService.addFavorite(this.article.story);
+            } else {
+                this.favoriteService.removeFavorite(this.article.story)
+            }
+            this.article.story.isFavorite = this.isFavorite
+        }
+
+    }
 }

@@ -5,6 +5,10 @@
   margin: 0 1px;
   padding-bottom: 0;
 
+  &.is-read:not(.active) {
+    opacity: 0.7;
+  }
+
 
   .last-child {
     margin-bottom: 0;

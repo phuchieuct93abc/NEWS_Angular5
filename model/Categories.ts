@@ -36,6 +36,12 @@ export const Categories: Category[] =
             title: 'Công nghệ',
             icon: 'phone_iphone'
 
+        },
+        {
+            name: 'yeu-thich',
+            title: 'Yêu thích',
+            icon: 'favorite'
+
         }
     ]
 

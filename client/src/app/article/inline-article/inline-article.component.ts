@@ -6,6 +6,7 @@ import {Story} from "../../../../../model/Story";
 import {StoryService} from "../../shared/story.service";
 import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
+import {FavoriteService} from "../../shared/favorite-story.service";
 
 @Component({
     selector: 'app-inline-article',
@@ -24,23 +25,19 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     @ViewChild(CdkDrag)
     view: CdkDrag
 
-
-    subscription;
-    closeSubscription;
     @Input()
     story: Story;
 
     currentStoryIndex: number;
-    readonly sensitive = 100;
-    isFaddingRight = false;
-    isFaddingLeft = false;
-    isDisplayingInViewport = false;
+    isFadingRight = false;
+    isFadingLeft = false;
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
                 private storyListService: StoryListService,
-                private storyService: StoryService) {
-        super(route, articleService)
+                private storyService: StoryService,
+                protected  favoriteService: FavoriteService) {
+        super(route, articleService, favoriteService);
     }
 
 
@@ -69,7 +66,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     swipeleft($event) {
 
-        this.isFaddingLeft = true;
+        this.isFadingLeft = true;
         setTimeout(() => {
             this.close(null);
         }, 500)
@@ -77,7 +74,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     swiperight($event) {
-        this.isFaddingRight = true;
+        this.isFadingRight = true;
         setTimeout(() => {
 
             this.close(null);

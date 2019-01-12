@@ -53,7 +53,8 @@ import {CommentComponent} from "./article/comments/comment/comment.component";
         TruncatePipe,
         SanitizeHtmlPipe,
         CommentComponent,
-        CommentsComponent
+        CommentsComponent,
+
 
     ],
     bootstrap: [AppComponent],

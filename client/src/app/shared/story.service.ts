@@ -6,6 +6,7 @@ import {map, retry} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
+import {FavoriteService} from "./favorite-story.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -17,11 +18,11 @@ const readId = "read"
 export class StoryService {
     private currentStoryPage = 0;
 
-    private stories: Story[] = [];
+    protected stories: Story[] = [];
     public onSearch = new Subject<string>();
     private readStory: Story[];
 
-    constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {
+    constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService, private favoriteService: FavoriteService) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
     }
@@ -36,6 +37,9 @@ export class StoryService {
     }
 
     getStories(category: string): Observable<any> {
+        if (category == 'yeu-thich') {
+            return this.favoriteService.getStories();
+        }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
 
         return this.httpClient.get(storyUrl, {
@@ -47,7 +51,10 @@ export class StoryService {
             retry(3),
             map(
                 result => {
-                    this.loadingService.onLoading.next({type: LoadingEventType.FINISH, name: LoadingEventName.MORE_STORY})
+                    this.loadingService.onLoading.next({
+                        type: LoadingEventType.FINISH,
+                        name: LoadingEventName.MORE_STORY
+                    })
 
                     let results = result as any[];
                     let stories: Story[] = results.map(this.storyConverter).filter(result => {
@@ -111,4 +118,6 @@ export class StoryService {
         this.stories.filter(story => this.readStory.findIndex(readStory => readStory.id === story.id) >= 0)
             .forEach(read => read.isRead = true)
     }
+
+
 }

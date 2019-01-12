@@ -4,11 +4,8 @@ import {ArticleService} from "../../shared/article.service";
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from "@angular/core";
 import {Story} from "../../../../../model/Story";
 import {StoryService} from "../../shared/story.service";
-import {UtilityService} from "../../shared/utility.service";
 import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
-import {throttle} from "rxjs/operators";
-import {interval} from "rxjs";
 
 @Component({
     selector: 'app-inline-article',
@@ -65,10 +62,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => {
             this.onClosed.emit();
         }, 500);
-    }
-
-    afterGetArticle() {
-        this.currentStoryIndex = this.storyService.getStorySnapshot().indexOf(this.story);
     }
 
     ngOnDestroy(): void {

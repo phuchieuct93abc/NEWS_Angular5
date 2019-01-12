@@ -1,9 +1,11 @@
-<mat-expansion-panel>
+<mat-expansion-panel [ngClass]="breakpoint.isSmallScreen?'small':'big'" *ngIf="comments && comments.length>0">
     <mat-expansion-panel-header>
         <mat-panel-title>
-            <div class="mat-subtitle">{{comments.length}} bình luận: (đang improve nhe các bạn)</div>
+            <div class="mat-subtitle">{{comments.length}} bình luận</div>
+
         </mat-panel-title>
     </mat-expansion-panel-header>
+
 
     <div *ngFor="let comment of comments">
         <mat-divider></mat-divider>

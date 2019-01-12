@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ArticleService} from "../../shared/article.service";
 import ArticleComment from "../../../../../model/ArticleComment";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-comments',
@@ -11,9 +12,10 @@ export class CommentsComponent implements OnInit {
 
     @Input()
     articleId: string;
-    comments: ArticleComment[] = [];
+    comments: ArticleComment[];
 
-    constructor(private articleService: ArticleService) {
+
+    constructor(private articleService: ArticleService, public breakpoint: BreakpointDetectorService) {
     }
 
     ngOnInit() {

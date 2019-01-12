@@ -12,6 +12,7 @@ import Article from "../../../../model/Article";
 export class ArticleComponent implements OnInit {
     public article: Article;
     public articleId: string;
+    public isFavorite = false;
 
     @ViewChild('articleView')
     protected articleView: ElementRef;
@@ -31,6 +32,7 @@ export class ArticleComponent implements OnInit {
     protected showArticleById(articleId: string) {
         if (articleId) {
             this.article = null;
+
             this.articleService.getById(articleId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
@@ -52,4 +54,7 @@ export class ArticleComponent implements OnInit {
     }
 
 
+    toogeFavorite() {
+        this.isFavorite = !this.isFavorite
+    }
 }

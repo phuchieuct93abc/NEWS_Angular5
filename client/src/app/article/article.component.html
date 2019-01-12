@@ -3,8 +3,17 @@
         <div *ngIf="articleId">
 
             <div *ngIf="article;else loading" class="article-content p-2  pb-5">
-                <div class="mat-display-1">
+                <div class="mat-display-1 mb-2">
                     {{article.header}}
+                </div>
+
+                <div class="favorite text-right">
+                    <a mat-icon-button (click)="toogeFavorite()">
+                        <mat-icon color="primary">
+                            {{isFavorite?'favorite':'favorite_border'}}
+                        </mat-icon>
+
+                    </a>
                 </div>
                 <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein"></p>
                 <div class="source text-right">

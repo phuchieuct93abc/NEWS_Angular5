@@ -36,6 +36,7 @@ export class StoryListComponent implements OnInit {
     config: Config;
 
     constructor(private storyService: StoryService,
+                private activatedRoute: ActivatedRoute,
                 private route: ActivatedRoute,
                 private router: Router,
                 private storyListService: StoryListService,
@@ -191,7 +192,7 @@ export class StoryListComponent implements OnInit {
     }
 
     private autoSelectFirstStory(story: Story) {
-        if (!this.isSmallScreen) {
+        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
 
             this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
         }

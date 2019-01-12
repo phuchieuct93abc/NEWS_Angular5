@@ -11,14 +11,14 @@ export class FavoriteService {
     private favorites: Story[] = [];
 
     constructor(private storageService: LocalStorageService) {
-        storageService.getItem(this.FAVORITE_ID, value => {
-            this.favorites = value;
-        })
+        this.favorites = <Story[]>this.storageService.getItem(this.FAVORITE_ID, []);
 
     }
 
-    isFavorite(story: Story) {
-        return this.favorites.find(favorite => favorite.id === story.id) != null;
+
+    findById(id: string): Story {
+
+        return this.favorites.find(favorite => favorite.id === id);
     }
 
     getStories(): Observable<any> {

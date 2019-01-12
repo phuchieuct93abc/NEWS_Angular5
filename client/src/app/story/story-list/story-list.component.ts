@@ -176,10 +176,6 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    onSelectedStory(story: Story) {
-        story.isRead = true;
-    }
-
 
     vsEnd() {
         this.onLoadMore(this.virtualScroller.viewPortInfo)

@@ -1,17 +1,10 @@
-import {
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
 import {Subscription} from "rxjs";
 import * as url from 'speakingurl';
+import {FavoriteService} from "../../shared/favorite-story.service";
 
 @Component({
     selector: 'app-story',
@@ -33,18 +26,19 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     config: Config;
     configListener: Subscription;
-    friendlyUrl:string;
+    friendlyUrl: string;
 
 
     constructor(private breakpointService: BreakpointDetectorService,
                 private configService: ConfigService,
+                private favoriteService: FavoriteService
     ) {
     }
 
     onSelectStory() {
 
         this.selected = true;
-        this.onSelectedStory.emit(this.story);
+        this.story.isRead = true;
     }
 
     ngOnInit(): void {
@@ -52,6 +46,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
         this.friendlyUrl = url(this.story.title);
+        this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
 
     }
 

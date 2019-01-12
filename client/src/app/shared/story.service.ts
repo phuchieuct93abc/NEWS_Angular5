@@ -101,7 +101,11 @@ export class StoryService {
     }
 
     getById(id: string) {
-        return this.stories.find(s => s.id === id)
+        let story = this.stories.find(s => s.id === id);
+        if(story==null){
+            story = this.favoriteService.findById(id);
+        }
+        return story
     }
 
     checkReadStory() {

@@ -2,6 +2,7 @@ import StoryMeta from "./StoryMeta";
 import StoryImage from "./StoryImage";
 
 export class Story {
+    public isFavorite:boolean;
     constructor(
         public id: string,
         public title: string,

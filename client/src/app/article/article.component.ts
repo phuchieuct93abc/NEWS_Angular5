@@ -40,7 +40,7 @@ export class ArticleComponent implements OnInit {
                 this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
-                this.isFavorite = this.favoriteService.isFavorite(article.story);
+                this.isFavorite = this.favoriteService.findById(article.id) != undefined;
 
 
             });
@@ -59,13 +59,14 @@ export class ArticleComponent implements OnInit {
 
 
     toggleFavorite() {
-        this.isFavorite = !this.isFavorite
+        this.isFavorite = !this.isFavorite;
         if (this.article.story != null) {
             if (this.isFavorite) {
                 this.favoriteService.addFavorite(this.article.story);
             } else {
                 this.favoriteService.removeFavorite(this.article.story)
             }
+            this.article.story.isFavorite = this.isFavorite
         }
 
     }

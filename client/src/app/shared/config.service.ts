@@ -17,7 +17,7 @@ export class ConfigService {
     public configUpdated = new Subject<{ old: Config, new: Config }>();
     private config: Config = {
         category: 'tin-nong',
-        darkTheme: false,
+        darkTheme: true,
         smallImage: true
     }
 

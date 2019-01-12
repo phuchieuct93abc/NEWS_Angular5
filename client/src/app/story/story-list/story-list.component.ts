@@ -198,4 +198,9 @@ export class StoryListComponent implements OnInit {
         }
 
     }
+
+    compareItem(a: Story, b: Story) {
+        return a!=null && b!=null && a.id === b.id
+
+    }
 }

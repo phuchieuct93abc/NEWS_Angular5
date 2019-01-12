@@ -45,7 +45,9 @@ export default class BaomoiArticleService extends ArticleService {
                 const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
                 axios.get(url).then(response => {
 
-                    resolve(<Comment[]>response.data.result)
+                    let result = <Comment[]>response.data.result;
+
+                    resolve(result)
 
                 })
             }

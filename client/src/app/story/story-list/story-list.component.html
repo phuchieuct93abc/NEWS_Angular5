@@ -7,9 +7,10 @@
                           [checkResizeInterval]="0"
                           [items]="stories"
                           [useMarginInsteadOfTranslate]="true"
-                          [bufferAmount]="config.smallImage?10:5"
+                          [bufferAmount]="10"
                           [scrollAnimationTime]="0"
                           [parentScroll]="scrollingBlock"
+                          [compareItems]="compareItem"
                           *ngIf="stories"
 
                           class="w-100">

@@ -61,10 +61,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         }, 500);
     }
 
-    afterGetArticle() {
-        this.currentStoryIndex = this.storyService.getStorySnapshot().indexOf(this.story);
-    }
-
     ngOnDestroy(): void {
     }
 

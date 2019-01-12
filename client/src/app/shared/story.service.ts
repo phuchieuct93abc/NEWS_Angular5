@@ -32,10 +32,6 @@ export class StoryService {
         this.stories = [];
     }
 
-    getStorySnapshot() {
-        return this.stories;
-    }
-
     getStories(category: string): Observable<any> {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
@@ -56,11 +52,7 @@ export class StoryService {
                         name: LoadingEventName.MORE_STORY
                     })
 
-                    let results = result as any[];
-                    let stories: Story[] = results.map(this.storyConverter).filter(result => {
-                        return this.stories.findIndex(story => story.id === result.id) == -1;
-                    });
-                    this.stories.push(...stories);
+                    this.filterStory(result)
                     this.checkReadStory();
 
                     return this.stories
@@ -81,27 +73,25 @@ export class StoryService {
             retry(3),
             map(
                 result => {
-                    let results = result as any[];
-                    let stories: Story[] = results.map(this.storyConverter).filter(result => {
-                        return this.stories.findIndex(story => story.id == result.id) == -1;
-                    });
-                    this.stories.push(...stories);
-                    this.checkReadStory();
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.SEARCHING
                     })
+                    this.filterStory(result);
+                    this.checkReadStory();
+
 
                     return this.stories
                 }
             ));
     }
 
-    private storyConverter(rawData) {
-        let {id, title, desc, images, originalUrl, storyMeta, hasVideo} = rawData;
-        return new Story(id, title, desc, images, originalUrl, storyMeta, hasVideo);
+    private filterStory(result) {
+        let stories: Story[] = (<Story[]>result).filter(result => {
+            return this.stories.findIndex(story => story.id == result.id) == -1;
+        });
+        this.stories.push(...stories);
     }
-
 
     saveReadStory(story: Story) {
         let item = <Story[]>this.storage.getItem(readId, []);

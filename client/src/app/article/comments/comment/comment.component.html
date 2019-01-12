@@ -1,3 +1,19 @@
-<p>
-  <span class="mat-h3">{{comment.displayName}}:</span> {{comment.comment}}
-</p>
+<div class="py-1">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="avatar">
+                <img [src]="comment.avatar" />
+            </div>
+            <div class="commennt col">
+                <span class="mat-body-strong display-name pr-1">{{comment.displayName}}: </span>
+                <span class="comment mat-body pr-1">{{comment.comment}}</span>
+                <span class="mat-small display-name pr-1"> - {{comment.date*1000|amTimeAgo}}:</span>
+
+            </div>
+        </div>
+    </div>
+    <span> </span>
+
+
+</div>
+

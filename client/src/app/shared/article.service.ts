@@ -20,7 +20,6 @@ export class ArticleService {
     }
 
     getById(id: string): Observable<Article> {
-
         const story: Story = this.storyService.getById(id);
 
         if (story != null) {

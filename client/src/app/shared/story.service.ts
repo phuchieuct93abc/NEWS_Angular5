@@ -7,6 +7,7 @@ import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
+import {ArticleService} from "./article.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -22,7 +23,9 @@ export class StoryService {
     public onSearch = new Subject<string>();
     private readStory: Story[];
 
-    constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService, private favoriteService: FavoriteService) {
+    constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService,
+                private favoriteService: FavoriteService,
+               ) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
     }
@@ -112,6 +115,7 @@ export class StoryService {
         this.stories.filter(story => this.readStory.findIndex(readStory => readStory.id === story.id) >= 0)
             .forEach(read => read.isRead = true)
     }
+
 
 
 }

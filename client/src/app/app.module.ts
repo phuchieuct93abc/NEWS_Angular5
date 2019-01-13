@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {StoryListComponent} from "./story/story-list/story-list.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from "./material.module";
@@ -25,6 +25,7 @@ import {TruncatePipe} from "./shared/trauncate.pipe";
 import {SanitizeHtmlPipe} from "./shared/sanitize.pipe";
 import {CommentsComponent} from "./article/comments/comments.component";
 import {CommentComponent} from "./article/comments/comment/comment.component";
+import {CachingInterceptor} from "./shared/caching-interceptor";
 
 @NgModule({
     imports: [
@@ -58,7 +59,10 @@ import {CommentComponent} from "./article/comments/comment/comment.component";
 
     ],
     bootstrap: [AppComponent],
-    providers: []
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true}
+
+    ]
 
 })
 export class AppModule {

@@ -1,5 +1,20 @@
-<div class=" w-100 host" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
-    <img [src]="config.getConfig().darkTheme?'../../../assets/fox_dark.gif':'../../../assets/fox_light.gif'"/>
+<div class="loading"
+     [ngClass]="[breakpointService.isSmallScreen?'small':'big',config.getConfig().darkTheme?'dark':'light']">
+    <!--<div class=" w-100 host" >-->
+    <!--<img [src]="config.getConfig().darkTheme?'../../../assets/fox_dark.gif':'../../../assets/fox_light.gif'"/>-->
+    <!--</div>-->
+    <div class="wrapper type-2">
+        <div class="wrapper-cell">
+            <div class="image-placeholder"></div>
 
+            <div class="text-placeholder">
+                <div class="text-line"></div>
+                <div class="text-line"></div>
+                <div class="text-line"></div>
+                <div class="text-line"></div>
+                <div class="text-line"></div>
+            </div>
+        </div>
 
+    </div>
 </div>

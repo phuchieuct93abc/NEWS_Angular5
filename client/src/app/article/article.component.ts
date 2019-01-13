@@ -34,7 +34,6 @@ export class ArticleComponent implements OnInit {
     protected showArticleById(articleId: string) {
         if (articleId) {
             this.article = null;
-
             this.articleService.getById(articleId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
@@ -44,6 +43,7 @@ export class ArticleComponent implements OnInit {
 
 
             });
+
         }
     }
 

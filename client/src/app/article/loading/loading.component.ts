@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigService} from "../../shared/config.service";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 interface LoadingMessage {
     msg: string,
@@ -21,7 +22,7 @@ const msgs: LoadingMessage[] = [
 export class LoadingComponent implements OnInit {
     msg: LoadingMessage;
 
-    constructor(public config: ConfigService) {
+    constructor(public config: ConfigService,public breakpointService:BreakpointDetectorService) {
     }
 
     ngOnInit() {

@@ -16,6 +16,7 @@ export default class BaomoiArticleService extends ArticleService {
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
                 axios.get(`https://m.baomoi.com/a/c/${id}.epi`).then(response => {
+
                     const dom = new JSDOM(response.data);
                     const article = this.parser.setHtml(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
                     resolve(article);

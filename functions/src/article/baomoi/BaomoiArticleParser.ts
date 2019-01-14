@@ -16,6 +16,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         return Utility.replaceAll(body, '</video>', '</video><div class="text-right"><a class="text-right mat-button mat-primary open-video">Mở video</a></div>')
     }
 
+
     parserArticle(): Article {
         const header = this.html.getElementsByClassName('article__header')[0].textContent;
         const id = this.html.getElementsByClassName('article')[0].getAttribute('data-aid');

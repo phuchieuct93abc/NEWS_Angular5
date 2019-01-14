@@ -33,7 +33,6 @@ app.get('/comments', (req, res) => {
 });
 app.get('/cachestory', (req, res) => {
 
-
     StoryServiceFactory.get('vi').cache(req.query.pageNumber, req.query.category).then(() => {
         res.send("ok");
 

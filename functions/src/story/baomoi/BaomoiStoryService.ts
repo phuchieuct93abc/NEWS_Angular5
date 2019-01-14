@@ -36,7 +36,7 @@ export default class BaomoiStoryService extends StoryService {
     }
 
     search(pageNumber: string, keyword: string): Promise<Story[]> {
-        let searchUrl = `${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`
+        let searchUrl = encodeURI(`${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`);
 
         return new Promise(resolver => {
             axios.get(searchUrl).then(response => {
@@ -56,7 +56,7 @@ export default class BaomoiStoryService extends StoryService {
     private getCategoryUrl(name: string): string {
 
         const category = Categories.find(category => category.name == name);
-        return category.url!=null ? category.url : category.name + "/";
+        return category.url != null ? category.url : category.name + "/";
     }
 
 

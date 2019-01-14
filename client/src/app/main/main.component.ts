@@ -3,7 +3,6 @@ import {BreakpointDetectorService} from "../shared/breakpoint.service";
 import {Categories, Category} from "../../../../model/Categories";
 import {SidebarService} from "./sidebar.service";
 import {ConfigService} from "../shared/config.service";
-import {ArticleService} from "../shared/article.service";
 
 @Component({
     selector: 'app-main',
@@ -19,15 +18,13 @@ export class MainComponent implements OnInit {
     constructor(private breakpointService: BreakpointDetectorService,
                 private sidebarService: SidebarService,
                 public configService: ConfigService,
-               ) {
+    ) {
     }
 
     ngOnInit() {
         this.categories = Categories
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.sidebarService.onSideBarToogle.subscribe(() => {
-            this.isOpenSidebar = !this.isOpenSidebar
-        })
+        this.sidebarService.onSideBarToogle.subscribe(this.toggle.bind(this))
 
 
     }
@@ -35,8 +32,13 @@ export class MainComponent implements OnInit {
     changeTheme(isDarkTheme: boolean) {
         this.configService.updateConfig({darkTheme: isDarkTheme})
     }
+
     changeDisplay(isSmallImage: boolean) {
         this.configService.updateConfig({smallImage: isSmallImage})
 
+    }
+
+    toggle() {
+        this.isOpenSidebar = !this.isOpenSidebar
     }
 }

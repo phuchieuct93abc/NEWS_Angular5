@@ -128,7 +128,7 @@ export class StoryListComponent implements OnInit {
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
             this.autoSelectFirstStory(this.stories[0]);
-            this.cacheArticle();
+           // this.cacheArticle();
         });
     }
 
@@ -155,7 +155,7 @@ export class StoryListComponent implements OnInit {
         this.getLoadMoreObservable().subscribe(value => {
 
             this.stories = value;
-            this.cacheArticle();
+          //  this.cacheArticle();
         });
 
 
@@ -203,15 +203,15 @@ export class StoryListComponent implements OnInit {
 
     }
 
-    cacheArticle() {
-        setTimeout(() => {
-            const ids: string[] = this.stories.map(story => story.id);
-            let cache = id => new Promise(resolver => this.articleService.getById(id).subscribe(() => resolver()));
-            let observable: Promise<any> = cache(ids[0]);
-            ids.forEach(id => {
-                observable = observable.then(() => cache(id));
-            })
-        }, 0)
-    }
+    // cacheArticle() {
+    //     setTimeout(() => {
+    //         const ids: string[] = this.stories.map(story => story.id);
+    //         let cache = id => new Promise(resolver => this.articleService.getById(id).subscribe(() => resolver()));
+    //         let observable: Promise<any> = cache(ids[0]);
+    //         ids.forEach(id => {
+    //             observable = observable.then(() => cache(id));
+    //         })
+    //     }, 0)
+    // }
 
 }

@@ -2,7 +2,6 @@
 
 .article {
   animation-duration: 500ms !important;
-  touch-action: pan-y !important;
 
   &.cdk-drag-dragging {
     transition: none;

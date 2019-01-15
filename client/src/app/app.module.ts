@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
@@ -26,6 +26,9 @@ import {SanitizeHtmlPipe} from "./shared/sanitize.pipe";
 import {CommentsComponent} from "./article/comments/comments.component";
 import {CommentComponent} from "./article/comments/comment/comment.component";
 import {CachingInterceptor} from "./shared/caching-interceptor";
+import {HammerConfig} from "./hammer.config";
+
+
 
 @NgModule({
     imports: [
@@ -60,7 +63,8 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
     ],
     bootstrap: [AppComponent],
     providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true}
+        {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
+        {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
 
     ]
 

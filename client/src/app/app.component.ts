@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {Config, ConfigService} from "./shared/config.service";
 import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
@@ -16,12 +16,15 @@ export class AppComponent implements OnInit {
     image: string;
     isSmallDevice: boolean
 
-    constructor(private router: Router, private configService: ConfigService, private articleService: ArticleService, private breakpointService: BreakpointDetectorService) {
+    constructor(private router: Router,
+                private configService: ConfigService,
+                private articleService: ArticleService,
+                private breakpointService: BreakpointDetectorService,
+    ) {
     }
 
     ngOnInit(): void {
         this.config = this.configService.getConfig();
-        //  this.router.navigate([`/${this.config.category}`]);
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new
         })
@@ -32,12 +35,24 @@ export class AppComponent implements OnInit {
         })
 
 
-        this.isSmallDevice = this.breakpointService.isSmallScreen
+        this.isSmallDevice = this.breakpointService.isSmallScreen;
+
+        this.track();
+
+    }
+
+    private track(): void {
+        this.router.events.subscribe(event => {
+
+            if (event instanceof NavigationEnd) {
+                (<any>window).ga('set', 'page', event.urlAfterRedirects);
+                (<any>window).ga('send', 'pageview');
+            }
+        })
     }
 
     getBlurImageUrl(url) {
-        var img = new Image();
-
+        let img = new Image();
         const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
         img.src = blurUrl;
         img.onload = () => {

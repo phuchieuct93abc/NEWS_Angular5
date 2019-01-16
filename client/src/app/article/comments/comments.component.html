@@ -7,8 +7,11 @@
     </mat-expansion-panel-header>
 
 
-    <div *ngFor="let comment of comments">
-        <mat-divider></mat-divider>
-        <app-comment [comment]="comment"></app-comment>
-    </div>
+    <ng-template matExpansionPanelContent>
+        <div *ngFor="let comment of comments">
+            <mat-divider></mat-divider>
+            <app-comment [comment]="comment"></app-comment>
+        </div>
+    </ng-template>
+
 </mat-expansion-panel>

@@ -1,5 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import StoryImage from "../../../../../model/StoryImage";
+import {ConfigService} from "../../shared/config.service";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-image-viewer',
@@ -19,8 +21,13 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     interval;
     private imageIndex = 0;
 
+    private maxImageSize: number;
 
-    constructor(private ref: ChangeDetectorRef) {
+    readonly SMALL_IMAGE = 100;
+    readonly BIG_IMAGE = 300;
+
+    constructor(private config: ConfigService, private ref: ChangeDetectorRef, private breakpointService: BreakpointDetectorService) {
+
     }
 
     ngOnInit() {
@@ -29,10 +36,11 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.cacheImage();
         this.calculateImageHeight(firstImage);
         this.randomImagePath();
+
     }
 
     private cacheImage() {
-        this.images.forEach(image => new Image().src = image.imageUrl)
+        this.images.forEach(image => new Image().src = this.getImage(image.imageUrl));
     }
 
     private calculateImageHeight(firstImage) {
@@ -61,5 +69,13 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         clearInterval(this.interval);
     }
 
+    getImage(imagePath: string) {
+        this.maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
+
+        let result = imagePath;
+        result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize)
+        result = result + ".webp";
+        return result;
+    }
 
 }

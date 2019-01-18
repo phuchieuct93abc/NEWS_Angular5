@@ -27,6 +27,7 @@ import {CommentsComponent} from "./article/comments/comments.component";
 import {CommentComponent} from "./article/comments/comment/comment.component";
 import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
+import {VideoDirective} from "./article/video.directive";
 
 
 
@@ -58,6 +59,7 @@ import {HammerConfig} from "./hammer.config";
         SanitizeHtmlPipe,
         CommentComponent,
         CommentsComponent,
+        VideoDirective
 
 
     ],

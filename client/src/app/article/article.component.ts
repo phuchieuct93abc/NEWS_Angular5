@@ -3,6 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
 import {FavoriteService} from "../shared/favorite-story.service";
+import {HttpClient} from "@angular/common/http";
+import ArticleContentParser from "./article-parser";
 
 @Component({
     selector: 'app-article',
@@ -15,11 +17,15 @@ export class ArticleComponent implements OnInit {
     public articleId: string;
     public isFavorite: boolean;
 
+    @ViewChild('articleContent')
+    articleContent: ElementRef;
+
     @ViewChild('articleView')
     protected articleView: ElementRef;
 
 
-    constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService) {
+    constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
+                protected httpClient: HttpClient) {
     }
 
     ngOnInit() {
@@ -48,7 +54,8 @@ export class ArticleComponent implements OnInit {
     }
 
     protected afterGetArticle(): void {
-        (<HTMLElement>this.articleView.nativeElement).scroll({top: 0})
+        (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+        this.parseHtml();
     }
 
     private getSourceUrl() {
@@ -70,4 +77,18 @@ export class ArticleComponent implements OnInit {
         }
 
     }
+
+    private parseHtml() {
+        setTimeout(() => {
+            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+            for (let i = 0; i < videos.length; i++) {
+                new ArticleContentParser(videos[i]).parse();
+
+
+            }
+        }, 0)
+    }
+
+
 }

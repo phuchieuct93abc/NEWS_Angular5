@@ -5,7 +5,7 @@ import ArticleServiceFactory from "../article/ArticleServiceFactory";
 
 
 export abstract class StoryService {
-    readonly MAX_CACHE_NUMBER: 50;
+    readonly MAX_CACHE_NUMBER = 50;
     protected storyParser: StoryParser;
 
     abstract getStories(pageNumber: string, category: string): Promise<Story[]>;

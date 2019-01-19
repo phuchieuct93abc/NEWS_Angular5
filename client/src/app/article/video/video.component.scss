@@ -1,0 +1,7 @@
+.video-component {
+  ::ng-deep {
+    video {
+      width: 100%;
+    }
+  }
+}

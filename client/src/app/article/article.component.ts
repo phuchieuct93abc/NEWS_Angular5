@@ -1,10 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
 import {FavoriteService} from "../shared/favorite-story.service";
 import {HttpClient} from "@angular/common/http";
 import ArticleContentParser from "./article-parser";
+import {DomService} from "./dom.service";
 
 @Component({
     selector: 'app-article',
@@ -25,7 +26,9 @@ export class ArticleComponent implements OnInit {
 
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
-                protected httpClient: HttpClient) {
+
+                protected domService:DomService) {
+
     }
 
     ngOnInit() {
@@ -83,7 +86,7 @@ export class ArticleComponent implements OnInit {
             let element = <HTMLParagraphElement>this.articleContent.nativeElement;
             let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
             for (let i = 0; i < videos.length; i++) {
-                new ArticleContentParser(videos[i]).parse();
+                new ArticleContentParser(videos[i],this.domService).parse();
 
 
             }

@@ -27,7 +27,7 @@ import {CommentsComponent} from "./article/comments/comments.component";
 import {CommentComponent} from "./article/comments/comment/comment.component";
 import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
-import {VideoDirective} from "./article/video.directive";
+import {VideoComponent} from "./article/video/video.component";
 
 
 
@@ -59,7 +59,7 @@ import {VideoDirective} from "./article/video.directive";
         SanitizeHtmlPipe,
         CommentComponent,
         CommentsComponent,
-        VideoDirective
+        VideoComponent
 
 
     ],
@@ -68,6 +68,9 @@ import {VideoDirective} from "./article/video.directive";
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
 
+    ],
+    entryComponents:[
+        VideoComponent
     ]
 
 })

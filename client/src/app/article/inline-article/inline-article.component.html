@@ -17,7 +17,7 @@
                 </button>
             </div>
 
-            <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
+            <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
 
             <div class="source text-right">
                 <a mat-button [href]="article.externalUrl" target="_blank"

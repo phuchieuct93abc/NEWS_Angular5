@@ -1,11 +1,21 @@
+import {DomService} from "./dom.service";
+import {VideoComponent} from "./video/video.component";
+
 export default class ArticleContentParser {
     video: HTMLVideoElement;
     source: HTMLSourceElement;
 
-    constructor(private videoBody: Element) {
+    sourceUrl: string;
+
+    posterUrl: string;
+
+    constructor(private videoBody: Element, private domService: DomService) {
 
         this.video = <HTMLVideoElement>videoBody.firstElementChild;
         this.source = <HTMLSourceElement>this.video.firstElementChild
+        this.sourceUrl = this.source.getAttribute('src');
+        this.posterUrl = this.video.getAttribute('poster');
+
     }
 
     public parse() {
@@ -20,7 +30,7 @@ export default class ArticleContentParser {
 
         let openVideoLink: HTMLAnchorElement = <HTMLAnchorElement>(document.createElement('a'));
         openVideoLink.textContent = 'Mở video';
-        openVideoLink.setAttribute('href', this.source.getAttribute('src'));
+        openVideoLink.setAttribute('href', this.sourceUrl);
         openVideoLink.setAttribute('target', '_blank');
         openVideoLink.setAttribute('rel', 'noreferrer');
 
@@ -28,6 +38,22 @@ export default class ArticleContentParser {
 
         openVideo.append(openVideoLink)
         this.videoBody.append(openVideo);
+
+        let frame: HTMLElement = document.createElement('app-video')
+        frame.setAttribute('referrerpolicy', "no-referrer");
+        frame.setAttribute('src', this.sourceUrl);
+        this.domService.appendComponent(VideoComponent, this.videoBody, {
+            url: this.sourceUrl,
+            poster: this.posterUrl,
+            width: this.video.getAttribute('width'),
+            height: this.video.getAttribute('height')
+        });
+        // const player = new playerjs.Player(frame);
+        //
+        // player.on('play', () => console.log('play'));
+        this.videoBody.append(frame);
+        this.video.remove();
+
     }
 
     private updateVideoAttributes() {

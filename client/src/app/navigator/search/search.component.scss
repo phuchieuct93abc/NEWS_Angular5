@@ -1,105 +1,55 @@
+:host {
+  height: 40px;
+  display: inline-block;
+  width: 200px;
 
-.searchbar {
-  position: relative;
+  .searchbar {
+    position: relative;
 
-  .icon {
-    position: absolute;
-    height: 100%;
+    .icon {
+      position: absolute;
+      height: 100%;
 
-    line-height: 30px;
-    display: flex;
-  }
-
-  .search_icon {
-
-    top: 0;
-    left: 0.5em;
-
-  }
-
-  .loading_icon {
-
-    top: 0;
-    right: -1em;
-
-  }
-
-
-  input {
-    width: 100%;
-    max-width: 300px;
-    padding-left: 1.8em;
-    border: none;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    font-size: 0.8em;
-
-    &::placeholder {
+      line-height: 30px;
+      display: flex;
       color: white;
     }
 
-    &:focus {
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .29), 0 4px 8px 3px rgba(0, 0, 0, .12);
+    .search_icon {
+
+      top: 0;
+      left: 0.5em;
 
     }
+
+    .loading_icon {
+
+      top: 0;
+      right: -1em;
+
+    }
+
+
+    input {
+      width: 100%;
+      height: 100%;
+      padding-left: 30px;
+      border: none;
+      color: white;
+      //background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      font-size: 0.8em;
+
+      &::placeholder {
+        color: white;
+      }
+
+      &:focus {
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .29), 0 4px 8px 3px rgba(0, 0, 0, .12);
+
+      }
+    }
+
   }
-
-  //
-  //&:hover, &.isSearching {
-  //
-  //  .search_input {
-  //    width: 100px;
-  //    caret-color: red;
-  //    transition: width 0.4s linear;
-  //    padding-left: 10px;
-  //
-  //  }
-  //
-  //  .search_icon {
-  //    background: white;
-  //    color: #e74c3c;
-  //  }
-  //}
-
-  //.search_input {
-  //  color: white;
-  //  border: 0;
-  //  outline: 0;
-  //  background: none;
-  //  width: 0;
-  //  caret-color: transparent;
-  //  line-height: 40px;
-  //  transition: width 0.4s linear;
-  //}
-  //
-  //
-  //.search_icon {
-  //  height: 40px;
-  //  width: 40px;
-  //  float: right;
-  //  display: flex;
-  //  justify-content: center;
-  //  align-items: center;
-  //  border-radius: 50%;
-  //  color: white;
-  //}
-
 }
-
-//.light {
-//  .searchbar {
-//    &:hover, &.isSearching {
-//      border: 1px solid rgba(0, 0, 0, 0.12);
-//
-//    }
-//
-//  }
-//}
-//
-//.dark {
-//
-//}
-//
-
 

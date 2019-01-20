@@ -25,6 +25,19 @@ export default class ArticleContentParser {
     }
 
     private appendOpenVideo() {
+
+        this.domService.appendComponent(VideoComponent, this.videoBody, {
+            url: this.sourceUrl,
+            poster: this.posterUrl,
+            width: this.video.getAttribute('width'),
+            height: this.video.getAttribute('height')
+        });
+        this.videoBody.append(this.createOpenVideoLink());
+        this.video.remove();
+
+    }
+
+    private createOpenVideoLink() {
         let openVideo: HTMLDivElement = document.createElement('div');
         openVideo.classList.add('text-right');
 
@@ -37,23 +50,7 @@ export default class ArticleContentParser {
         openVideoLink.classList.add('mat-button', 'mat-primary');
 
         openVideo.append(openVideoLink)
-        this.videoBody.append(openVideo);
-
-        let frame: HTMLElement = document.createElement('app-video')
-        frame.setAttribute('referrerpolicy', "no-referrer");
-        frame.setAttribute('src', this.sourceUrl);
-        this.domService.appendComponent(VideoComponent, this.videoBody, {
-            url: this.sourceUrl,
-            poster: this.posterUrl,
-            width: this.video.getAttribute('width'),
-            height: this.video.getAttribute('height')
-        });
-        // const player = new playerjs.Player(frame);
-        //
-        // player.on('play', () => console.log('play'));
-        this.videoBody.append(frame);
-        this.video.remove();
-
+        return openVideo;
     }
 
     private updateVideoAttributes() {

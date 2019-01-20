@@ -7,25 +7,10 @@
         <div class="container mat-toolbar-single-row p-0">
             <div class="toolbar-item">
 
-                <h1 class="example-app-name pl-2">Báo hiếu</h1>
+                <h1 class="example-app-name pl-2 mr-2">Báo hiếu</h1>
 
+                <app-category></app-category>
 
-                <div class="ml-3" class="d-none d-sm-inline-block pl-3">
-
-                    <mat-chip-list>
-                        <mat-chip *ngFor="let category of categories "
-                                  [routerLink]="category.name"
-                                  color="accent"
-
-                                  class="mr-1 ml-1"
-                                  routerLinkActive="mat-chip-selected">
-                            <mat-icon class="mr-2">{{category.icon}}</mat-icon>
-
-                            <span class="mat-h3 mb-0">{{ category.title }}</span>
-
-                        </mat-chip>
-                    </mat-chip-list>
-                </div>
 
                 <div class="theme d-none d-sm-flex h-100">
                     <mat-divider [vertical]="true"></mat-divider>

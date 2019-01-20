@@ -37,6 +37,13 @@ export const Categories: Category[] =
             icon: 'phone_iphone'
 
         },
+
+        {
+            name: 'tin-video',
+            title: 'Video',
+            icon: 'videocam'
+
+        },
         {
             name: 'yeu-thich',
             title: 'Yêu thích',

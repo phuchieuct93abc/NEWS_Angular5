@@ -32,13 +32,13 @@ export class NavigatorComponent implements OnInit {
                 private media: MediaMatcher,
                 private sidebarService: SidebarService,
                 public breakpointService: BreakpointDetectorService,
-                public configService: ConfigService
+                public configService: ConfigService,
+
     ) {
 
     }
 
     ngOnInit() {
-        this.categories = Categories;
         if (this.breakpointService.isSmallScreen) {
             this.registerScrollUp();
             this.registerScrollDown();
@@ -120,6 +120,7 @@ export class NavigatorComponent implements OnInit {
     restrictTop(top: number): number {
         return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));
     }
+
 
 
 }

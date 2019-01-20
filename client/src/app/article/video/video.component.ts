@@ -1,5 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-video',
@@ -14,12 +15,12 @@ export class VideoComponent implements OnInit {
     @Input()
     poster: string;
     @Input()
-    width: number
+    width: number;
     @Input()
-    height: number
+    height: number;
 
     safeUrl: SafeResourceUrl;
-    playVideo = false
+    playVideo = false;
 
     @ViewChild('videoComponent')
     videoComponent: ElementRef;
@@ -29,7 +30,7 @@ export class VideoComponent implements OnInit {
     @ViewChild('videoFrame')
     videoFrame: ElementRef;
 
-    constructor(private _sanitizer: DomSanitizer) {
+    constructor(private _sanitizer: DomSanitizer, private breakpointDetector: BreakpointDetectorService) {
     }
 
     ngOnInit() {
@@ -37,8 +38,6 @@ export class VideoComponent implements OnInit {
             this.widthIframe = (<HTMLDivElement>this.videoComponent.nativeElement).clientWidth;
             this.heightIframe = this.height / this.width * this.widthIframe;
             this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.parseUrl());
-
-
         })
     }
 
@@ -48,7 +47,13 @@ export class VideoComponent implements OnInit {
     }
 
     parseUrl(): string {
-        return `https://m.baomoi.com/player.epi#${this.url}|desktop-video|${this.poster}|0|Hiện trường lửa cháy ngùn ngụt, người bị cháy đen do nổ đường ống ở Mexico - Báo Tin Tức TTXVN|${this.widthIframe}|${this.heightIframe}|an-ninh-trat-tu|29404726|vf0|true|https://m.baomoi.com/hien-truong-lua-chay-ngun-ngut-nguoi-bi-chay-den-do-no-duong-ong-o-mexico/c/29404726.epi`
+        const mode = this.breakpointDetector.isSmallScreen ? 'mobile-video' : 'desktop-video';
+
+        return `https://m.baomoi.com/player.epi#${this.url}|${mode}|${this.poster}|0|
+        Hiện trường lửa cháy ngùn ngụt, người bị cháy đen do nổ đường ống ở Mexico - Báo Tin Tức TTXVN|
+        ${this.widthIframe}|${this.heightIframe}|
+        an-ninh-trat-tu|29404726|vf0|true|
+        https://m.baomoi.com/hien-truong-lua-chay-ngun-ngut-nguoi-bi-chay-den-do-no-duong-ong-o-mexico/c/29404726.epi`
     }
 
 

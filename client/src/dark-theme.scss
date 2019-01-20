@@ -61,6 +61,10 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
     }
   }
 
+  input{
+    background-color: #424242;
+
+  }
 
 }
 
@@ -73,6 +77,9 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
       background-color:$light-background-dark ;
 
     }
+  }
+  input{
+    background-color: #9b73d3;
   }
 
 

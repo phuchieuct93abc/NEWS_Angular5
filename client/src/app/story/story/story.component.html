@@ -2,8 +2,8 @@
     <div class="row">
         <mat-card (click)="onSelectStory()" [routerLink]="[friendlyUrl,story.id]" class="mb-2 pt-0 pt-sm-2 w-100"
                   routerLinkActive="active" [class.read]="story.isRead"
-                  [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read',
-                  selected?'disable-ripple':'']" [matRippleDisabled]="breakpointService.isSmallScreen && selected"
+                  [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
+                  [matRippleDisabled]="breakpointService.isSmallScreen && selected"
                   matRipple
                    >
             <mat-card-content class="last-child" >

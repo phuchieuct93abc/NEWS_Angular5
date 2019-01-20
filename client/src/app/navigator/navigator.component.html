@@ -1,31 +1,18 @@
 <div class="navigator" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}">
     <mat-toolbar color="primary" role="heading">
-        <button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">
-            <mat-icon>menu</mat-icon>
-        </button>
+        <!--<button mat-icon-button (click)="toggle()" *ngIf="breakpointService.isSmallScreen">-->
+            <!--<mat-icon>menu</mat-icon>-->
+        <!--</button>-->
 
         <div class="container mat-toolbar-single-row p-0">
             <div class="toolbar-item">
 
                 <h1 class="example-app-name pl-2 mr-2">Báo hiếu</h1>
 
-                <app-category></app-category>
+                <app-category style="flex: 1"></app-category>
 
 
-                <div class="theme d-none d-sm-flex h-100">
-                    <mat-divider [vertical]="true"></mat-divider>
-
-
-                    <button mat-icon-button (click)="changeTheme()">
-                        <mat-icon *ngIf="configService.getConfig().darkTheme ">flash_off</mat-icon>
-                        <mat-icon *ngIf="!configService.getConfig().darkTheme ">flash_on</mat-icon>
-
-                    </button>
-
-                </div>
-
-
-                <div class="search d-flex h-100">
+                <div class="search d-flex h-100 " *ngIf="!breakpointService.isSmallScreen">
                     <mat-divider [vertical]="true"></mat-divider>
 
 

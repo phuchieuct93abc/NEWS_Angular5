@@ -41,11 +41,6 @@ export class VideoComponent implements OnInit {
         })
     }
 
-    play() {
-        this.playVideo = true;
-
-    }
-
     parseUrl(): string {
         const mode = this.breakpointDetector.isSmallScreen ? 'mobile-video' : 'desktop-video';
 

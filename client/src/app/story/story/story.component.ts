@@ -29,7 +29,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     friendlyUrl: string;
 
 
-    constructor(private breakpointService: BreakpointDetectorService,
+    constructor(public breakpointService: BreakpointDetectorService,
                 private configService: ConfigService,
                 private favoriteService: FavoriteService
     ) {

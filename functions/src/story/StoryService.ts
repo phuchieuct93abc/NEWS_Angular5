@@ -42,4 +42,19 @@ export abstract class StoryService {
     private cacheArticle = function (url): Promise<Article> {
         return ArticleServiceFactory.get("vi").crawnArticleByIdAndSaveArticle(url)
     };
+
+    protected uniqueBy(stories): Story[] {
+        // return stories.reduce(
+        //     (acc, cur: Story) => acc.some(x => (x.id === cur.id) ? acc : acc.concat(cur), [])
+        // );
+        const result = []
+        stories.forEach(story => {
+            if (!result.some(x => x.id === story.id)) {
+                result.push(story)
+            }
+        });
+        return result;
+
+
+    }
 }

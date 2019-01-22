@@ -128,7 +128,7 @@ export class StoryListComponent implements OnInit {
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
             this.autoSelectFirstStory(this.stories[0]);
-           // this.cacheArticle();
+            // this.cacheArticle();
         });
     }
 
@@ -144,7 +144,7 @@ export class StoryListComponent implements OnInit {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
             this.scrollTo(this.stories[index], 500);
-            this.virtualScroller.invalidateCachedMeasurementForItem(this.stories[index])
+            //   this.virtualScroller.invalidateCachedMeasurementForItem(this.stories[index])
         })
     }
 
@@ -155,7 +155,7 @@ export class StoryListComponent implements OnInit {
         this.getLoadMoreObservable().subscribe(value => {
 
             this.stories = value;
-          //  this.cacheArticle();
+            //  this.cacheArticle();
         });
 
 
@@ -174,8 +174,8 @@ export class StoryListComponent implements OnInit {
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.virtualScroller.scrollToIndex(0, true, 0, 500,);
-        setTimeout(this.reloadStoryList.bind(this), 600)
+        this.virtualScroller.scrollToIndex(0, true, -60, 500,);
+        setTimeout(this.reloadStoryList.bind(this))
 
     }
 
@@ -202,16 +202,5 @@ export class StoryListComponent implements OnInit {
         return a != null && b != null && a.id === b.id
 
     }
-
-    // cacheArticle() {
-    //     setTimeout(() => {
-    //         const ids: string[] = this.stories.map(story => story.id);
-    //         let cache = id => new Promise(resolver => this.articleService.getById(id).subscribe(() => resolver()));
-    //         let observable: Promise<any> = cache(ids[0]);
-    //         ids.forEach(id => {
-    //             observable = observable.then(() => cache(id));
-    //         })
-    //     }, 0)
-    // }
 
 }

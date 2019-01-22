@@ -28,7 +28,7 @@ export default class BaomoiStoryService extends StoryService {
 
                     })
                     .filter(r => r != null);
-                resolve(stories);
+                resolve(this.uniqueBy(stories));
             })
         })
 

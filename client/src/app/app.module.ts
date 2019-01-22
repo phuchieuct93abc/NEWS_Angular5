@@ -29,6 +29,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/video/video.component";
 import {CategoryComponent} from "./navigator/category/category.component";
+import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
 
 
 
@@ -61,7 +62,8 @@ import {CategoryComponent} from "./navigator/category/category.component";
         CommentComponent,
         CommentsComponent,
         VideoComponent,
-        CategoryComponent
+        CategoryComponent,
+        MobileStoryComponent
 
 
     ],

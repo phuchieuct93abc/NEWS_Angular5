@@ -7,7 +7,6 @@
                           [checkResizeInterval]="0"
                           [items]="stories"
                           [useMarginInsteadOfTranslate]="true"
-                          [bufferAmount]="10"
                           [scrollAnimationTime]="0"
                           [parentScroll]="scrollingBlock"
                           [compareItems]="compareItem"
@@ -15,11 +14,21 @@
 
                           class="w-100">
 
-            <div #container>
-                <app-story
-                        *ngFor="let item of scroll.viewPortItems" [story]="item"
-                        class="d-block"></app-story>
-            </div>
+
+
+                <div #container *ngIf="!isSmallScreen;else mobileStory">
+                    <app-story
+                            *ngFor="let item of scroll.viewPortItems" [story]="item"
+                            class="d-block"></app-story>
+                </div>
+
+                <ng-template #mobileStory>
+                    <app-mobile-story
+                            *ngFor="let item of scroll.viewPortItems" [story]="item"
+                            class="d-block"></app-mobile-story>
+                </ng-template>
+
+
             <div class="p-2 text-center">
                 <span class="mat-h3">Đang tải</span>
                 <button class="loading_icon icon spin-icon" mat-icon-button>

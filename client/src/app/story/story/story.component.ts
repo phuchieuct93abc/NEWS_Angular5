@@ -14,24 +14,24 @@ import {FavoriteService} from "../../shared/favorite-story.service";
 export class StoryComponent implements OnInit, OnDestroy {
 
     @Input()
-    story: Story;
+    protected story: Story;
     @Input()
-    scrollContainer: ElementRef;
+    protected scrollContainer: ElementRef;
     @Output()
-    onSelectedStory = new EventEmitter<Story>();
-    scrollTarget: any;
+    protected onSelectedStory = new EventEmitter<Story>();
+    protected scrollTarget: any;
 
-    selected: boolean = false;
-    isSmallScreen: boolean;
+    protected selected: boolean = false;
+    protected isSmallScreen: boolean;
 
-    config: Config;
-    configListener: Subscription;
-    friendlyUrl: string;
+    protected config: Config;
+    protected configListener: Subscription;
+    protected friendlyUrl: string;
 
 
     constructor(public breakpointService: BreakpointDetectorService,
-                private configService: ConfigService,
-                private favoriteService: FavoriteService
+                protected configService: ConfigService,
+                protected favoriteService: FavoriteService
     ) {
     }
 

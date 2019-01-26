@@ -3,7 +3,8 @@
 .mat-card {
   cursor: pointer;
   margin: 0 1px;
-  padding-bottom: 0;
+  padding: 1em;
+  height: 8em;
 
   &.is-read:not(.active) {
     opacity: 0.7;

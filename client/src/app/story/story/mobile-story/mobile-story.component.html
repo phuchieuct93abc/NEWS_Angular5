@@ -1,34 +1,31 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" class="mb-2 pt-0 pt-sm-2 w-100"
+        <mat-card (click)="onSelectStory()" class="mb-2 w-100"
                   [class.read]="story.isRead"
+
                   [class.active]="selected"
                   [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
 
         >
-            <mat-card-content class="last-child">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col-12 col-xl-3 image-wrapper p-0 pl-sm-1 pr-sm-1" style="overflow: hidden">
-                            <app-image-viewer [images]="story.images" [hasVideo]="story.hasVideo"></app-image-viewer>
+            <mat-card-content>
+                <div class="w-100 content-story d-flex">
+                    <div class="image-wrapper p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
+                        <app-image-viewer [images]="story.images" [hasVideo]="story.hasVideo"></app-image-viewer>
 
+                    </div>
+                    <div class="h-100 d-flex flex-column flex-fill">
+                        <div class="col title-wrapper">
+                            <div class=" mat-title mb-0 title">{{story.title | truncate:[75]}}</div>
                         </div>
-                        <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mt-sm-0 mt-1 mat-title mb-0 title">{{story.title}}</div>
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col">
-                                    <footer class="blockquote-footer text-right">
-                                        <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                                        <span class="time ml-1">        {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
-                                        <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-                                        </mat-icon>
+                        <div class=" p-1 flex-fill justify-content-end d-flex align-items-end">
+                            <div class="">
+                                <footer class="blockquote-footer text-right">
+                                    <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                                    <span class="time ml-1">        {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+                                    <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
+                                    </mat-icon>
 
-                                    </footer>
-                                </div>
+                                </footer>
                             </div>
                         </div>
                     </div>
@@ -36,7 +33,7 @@
                 </div>
 
 
-                <div *ngIf="selected" class="d-block d-sm-none row" (click)="$event.stopPropagation()">
+                <div *ngIf="selected" class="d-block content-article" (click)="$event.stopPropagation()">
                     <app-inline-article (onClosed)="selected=false" [story]="story"
                                         class="w-100 d-block"></app-inline-article>
 

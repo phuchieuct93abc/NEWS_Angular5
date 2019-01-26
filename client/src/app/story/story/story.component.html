@@ -1,26 +1,26 @@
 <div class="container-fluid">
     <div class="row">
-        <mat-card (click)="onSelectStory()" [routerLink]="[friendlyUrl,story.id]" class="mb-2 pt-0 pt-sm-2 w-100"
+        <mat-card (click)="onSelectStory()" [routerLink]="[friendlyUrl,story.id]" class="mb-2 w-100"
                   routerLinkActive="active" [class.read]="story.isRead"
                   [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
                   [matRippleDisabled]="breakpointService.isSmallScreen && selected"
                   matRipple
                    >
-            <mat-card-content class="last-child" >
+            <mat-card-content class="h-100" >
                 <div class="w-100">
                     <div class="row">
                         <div class="col-12 col-xl-3 image-wrapper p-0 pl-sm-1 pr-sm-1" style="overflow: hidden">
                             <app-image-viewer [images]="story.images" [hasVideo]="story.hasVideo"></app-image-viewer>
 
                         </div>
-                        <div class="col">
+                        <div class="col d-flex flex-column">
                             <div class="row">
                                 <div class="col">
                                     <div class="mt-sm-0 mt-1 mat-title mb-0 title">{{story.title}}</div>
                                 </div>
                             </div>
                             <div class="row p-1">
-                                <div class="col">
+                                <div class="col ">
                                     <footer class="blockquote-footer text-right">
                                         <cite title="Source Title"> {{story.storyMeta.source}} </cite>
                                         <span class="time ml-1">        {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>

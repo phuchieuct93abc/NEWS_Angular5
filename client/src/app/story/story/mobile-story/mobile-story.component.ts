@@ -17,5 +17,5 @@ export class MobileStoryComponent extends StoryComponent {
     ) {
         super(breakpointService, configService, favoriteService)
     }
-
+m
 }

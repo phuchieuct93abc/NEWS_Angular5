@@ -4,7 +4,12 @@
   cursor: pointer;
   margin: 0 1px;
   padding: 1em;
-  height: 8em;
+  height: 9em;
+
+  .image-wrapper{
+    width: 12em;
+    height: 7em;
+  }
 
   &.is-read:not(.active) {
     opacity: 0.7;
@@ -31,19 +36,7 @@
     transform: scale(1.1);
   }
 
-  &.small-image {
-    .image-wrapper {
-      width: 80px;
-      flex: none;
-    }
 
-    .title {
-
-      font-size: 1.3em;
-    }
-
-
-  }
 
   .title {
 

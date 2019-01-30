@@ -25,7 +25,7 @@ $dark-accent: mat-palette($mat-blue, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-
+$dark-background-selected:#696969;
 $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
 $dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
@@ -58,6 +58,12 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0.7);
   &:not(.small-device) {
     .mat-toolbar.mat-primary {
       background-color: $dark-background-gray-transparent !important;
+    }
+
+    mat-card {
+      &.active {
+        background-color: $dark-background-selected !important;
+      }
     }
   }
 

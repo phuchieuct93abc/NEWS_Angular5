@@ -7,6 +7,8 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {AppModule} from './app/app.module';
 import CONFIG from "./environments/environment";
 import * as moment from 'moment';
+import 'intersection-observer';
+
 
 if (CONFIG.production) {
     enableProdMode();

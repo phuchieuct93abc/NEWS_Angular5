@@ -3,9 +3,9 @@
         <div class="col-md-5 col-12 h-100 p-1">
             <app-story-list></app-story-list>
         </div>
-        <mat-divider vertical></mat-divider>
+        <mat-divider vertical *ngIf="!breakpointService.isSmallScreen" class="h-100"></mat-divider>
 
-        <div *ngIf="!breakpointService.isSmallScreen" style="flex:1">
+        <div *ngIf="!breakpointService.isSmallScreen" style="flex:1" class="h-100">
             <router-outlet></router-outlet>
         </div>
     </div>

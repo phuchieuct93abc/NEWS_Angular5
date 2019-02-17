@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, View
 import StoryImage from "../../../../../model/StoryImage";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import {Observable} from "rxjs";
+import {StoryListService} from "../story-list/story-list.service";
 
 @Component({
     selector: 'app-image-viewer',
@@ -18,6 +20,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     height: number = 0;
     @ViewChild("imageViewer")
     imageViewer: ElementRef;
+    convertedImagePath:string;
     interval;
     private imageIndex = 0;
 
@@ -26,7 +29,10 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     readonly SMALL_IMAGE = 100;
     readonly BIG_IMAGE = 300;
 
-    constructor(private config: ConfigService, private ref: ChangeDetectorRef, private breakpointService: BreakpointDetectorService) {
+    scrollObservable:Observable<any>
+
+    constructor(private config: ConfigService, private ref: ChangeDetectorRef, private breakpointService: BreakpointDetectorService,
+                private storyListService:StoryListService) {
 
     }
 
@@ -35,7 +41,10 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.imagePath = firstImage.imageUrl;
         this.cacheImage();
         this.calculateImageHeight(firstImage);
-        this.randomImagePath();
+        this.convertedImagePath = this.getImage(this.imagePath);
+
+        this.scrollObservable = this.storyListService.onScroll;
+      //  this.randomImagePath();
 
     }
 

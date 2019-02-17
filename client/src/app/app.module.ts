@@ -30,6 +30,7 @@ import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/video/video.component";
 import {CategoryComponent} from "./navigator/category/category.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
+import {LazyLoadImageModule} from "ng-lazyload-image";
 
 
 
@@ -43,6 +44,7 @@ import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.comp
         AppRoutingModule,
         MomentModule,
         VirtualScrollerModule,
+        LazyLoadImageModule
     ],
     declarations: [
         AppComponent,

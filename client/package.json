@@ -30,7 +30,7 @@
     "zone.js": "^0.8.26"
   },
   "scripts": {
-    "setup": "npm install && npm build",
+    "setup": "npm install && npm run build",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod --aot",

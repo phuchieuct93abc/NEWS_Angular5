@@ -58,7 +58,6 @@ export class StoryListComponent implements OnInit {
         this.configService.configUpdated.subscribe(config => {
             this.config = config.new;
             if (config.old.smallImage !== config.new.smallImage) {
-
                 this.reloadStoryList()
             }
         })
@@ -80,6 +79,7 @@ export class StoryListComponent implements OnInit {
     private reloadStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
+        this.loadFirstPage();
     }
 
     private search() {

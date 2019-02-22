@@ -1,9 +1,7 @@
 {
   "functions": {
-    "predeploy": "npm --prefix \"functions\" run build"
   },
   "hosting": {
-    "predeploy": "npm --prefix \"client\" run-script build",
 
     "public": "client/dist",
     "ignore": [

@@ -8,8 +8,8 @@
     "client": "cd client && npm start",
     "server": "cd functions && npm run-script serve",
     "deploy": "firebase deploy",
-    "build:func": "npm --prefix \"functions\" run build",
-    "build:client": "npm --prefix \"client\" run-script build",
+    "build:func": "npm --prefix \"functions\" run setup",
+    "build:client": "npm --prefix \"client\" run-script setup",
     "test": "npm run build:func && npm run build:client"
   },
   "repository": {

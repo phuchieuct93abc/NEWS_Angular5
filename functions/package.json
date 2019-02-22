@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "scripts": {
+    "setup": "npm install && npm build",
     "build": "tsc",
     "watch": "tsc --watch",
     "server": "nodemon dist/functions/src/index.js",

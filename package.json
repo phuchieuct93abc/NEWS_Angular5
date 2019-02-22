@@ -10,7 +10,7 @@
     "deploy": "npm test && firebase deploy",
     "build:func": "npm --prefix \"functions\" run setup",
     "build:client": "npm --prefix \"client\" run-script setup",
-    "test": "npm-run-all --parallel  build:func build:client"
+    "test": "npm-run-all build:func build:client"
   },
   "repository": {
     "type": "git",

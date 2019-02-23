@@ -3,6 +3,7 @@
 .article {
   animation-duration: 500ms !important;
 
+
   &.cdk-drag-dragging {
     transition: none;
   }
@@ -13,7 +14,8 @@
     z-index: 10;
     background-color: transparent !important;
   }
-  .favorite{
+
+  .favorite {
     position: sticky;
     top: 100px;
     z-index: 10;
@@ -32,4 +34,18 @@
 
 
 }
+
+.font-size-1 {
+  font-size: 14px;
+}
+
+.font-size-2 {
+  font-size: 16px;
+}
+
+.font-size-3 {
+  font-size: 18px;
+
+}
+
 

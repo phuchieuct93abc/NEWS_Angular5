@@ -1,6 +1,6 @@
-<mat-menu #menu="matMenu">
+<mat-menu #menu="matMenu" [class]="isDarkMode?'unicorn-dark-theme':'unicorn-light-theme'">
     <button mat-menu-item (click)="$event.stopPropagation()">
-        <mat-slide-toggle class="w-100 h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()"
+        <mat-slide-toggle class="w-100 h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" color="primary"
                           labelPosition="before">
             Chế độ ban đêm
         </mat-slide-toggle>
@@ -8,15 +8,13 @@
     </button>
 
     <div mat-menu-item (click)="$event.stopPropagation()" [disableRipple]="true">
-        <label class="mr-1">Cỡ chữ {{fontSize}}</label>
-        <mat-button-toggle-group name="fontSize" aria-label="Cỡ chữ" [ngModel]="fontSize"  (change)="changeFontSize($event)">
-
+        <label class="mr-1">Cỡ chữ</label>
+        <mat-button-toggle-group [ngModel]="fontSize" (change)="changeFontSize($event)">
             <mat-button-toggle (click)="$event.stopPropagation()" value="1">Nhỏ</mat-button-toggle>
             <mat-button-toggle (click)="$event.stopPropagation()" value="2">Vừa</mat-button-toggle>
             <mat-button-toggle (click)="$event.stopPropagation()" value="3">To</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
-
 
 
 </mat-menu>

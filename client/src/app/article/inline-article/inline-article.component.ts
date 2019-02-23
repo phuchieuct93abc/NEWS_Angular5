@@ -43,7 +43,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
     ngOnInit() {
-
+        super.ngOnInit();
         this.showArticleById(this.story.id);
 
     }

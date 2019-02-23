@@ -1,6 +1,12 @@
 <div class="w-100 article animated faster" #articleView (swipeRight)="swiperight($event)"
      (swipeLeft)="swipeleft($event)"
-     [ngClass]="{fadeOutRight:isFadingRight,fadeOutLeft:isFadingLeft}">
+     [ngClass]="{
+         fadeOutRight:isFadingRight,fadeOutLeft:isFadingLeft,
+         'font-size-1':fontSize==1,
+         'font-size-2':fontSize==2,
+         'font-size-3':fontSize==3
+     }"
+>
 
 
     <div #articleBodyWrapper>
@@ -12,6 +18,7 @@
                     </mat-icon>
 
                 </a>
+                <app-display></app-display>
                 <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
                     <mat-icon class="mat-primary">cancel</mat-icon>
                 </button>

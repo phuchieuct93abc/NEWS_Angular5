@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Category} from "../../../../../../model/Categories";
 
 @Component({
     selector: 'app-category',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CategoryComponent implements OnInit {
 
     @Input()
-    category: CategoryComponent
+    category: Category
 
     constructor() {
     }

@@ -5,7 +5,8 @@ import {LocalStorageService} from "./storage.service";
 export interface Config {
     darkTheme?: boolean
     category?: string,
-    smallImage?: boolean
+    smallImage?: boolean,
+    fontSize?: number;
 }
 
 const id = 'config'
@@ -18,7 +19,8 @@ export class ConfigService {
     private config: Config = {
         category: 'tin-nong',
         darkTheme: true,
-        smallImage: true
+        smallImage: true,
+        fontSize: 2
     }
 
 

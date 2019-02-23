@@ -31,6 +31,7 @@ import {VideoComponent} from "./article/video/video.component";
 import {CategoryComponent} from "./navigator/category/category.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
 import {LazyLoadImageModule} from "ng-lazyload-image";
+import {DisplayComponent} from "./article/display/display.component";
 
 
 
@@ -65,7 +66,8 @@ import {LazyLoadImageModule} from "ng-lazyload-image";
         CommentsComponent,
         VideoComponent,
         CategoryComponent,
-        MobileStoryComponent
+        MobileStoryComponent,
+        DisplayComponent
 
 
     ],

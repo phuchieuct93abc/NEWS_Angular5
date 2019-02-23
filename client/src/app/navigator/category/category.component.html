@@ -14,7 +14,7 @@
 
     <!--Chế độ -->
     <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen">
-        <mat-slide-toggle class="w-100 h-100" [(ngModel)]="isSmallImage" (change)="toogleDisplay()">
+        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage" (change)="toogleDisplay()">
             Chế độ ảnh nhỏ
         </mat-slide-toggle>
 
@@ -22,7 +22,7 @@
 
     <!--Theme-->
     <button mat-menu-item (click)="$event.stopPropagation()">
-        <mat-slide-toggle class="w-100 h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()">
+        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()">
             Chế độ ban đêm
         </mat-slide-toggle>
 

@@ -1,4 +1,4 @@
-<div #articleView class="w-100 h-100 article  p-1">
+<div #articleView class="w-100 h-100 article  p-1" [ngClass]="'font-size-'+fontSize">
     <div class="scrollable ">
         <div *ngIf="articleId">
 
@@ -7,15 +7,15 @@
                     {{article.header}}
                 </div>
 
-                <div class="favorite text-right">
+                <div class="sticky text-right">
                     <a mat-icon-button (click)="toggleFavorite()">
                         <mat-icon color="primary">
                             {{isFavorite?'favorite':'favorite_border'}}
                         </mat-icon>
-
                     </a>
+                    <app-display></app-display>
                 </div>
-                <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent></p>
+                <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent ></p>
                 <div class="source text-right">
                     <a mat-button [href]="article.externalUrl" target="_blank"
                        color="primary">Nguồn: {{article.sourceName}}</a>

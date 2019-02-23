@@ -3,7 +3,6 @@
     padding: 0 0.5em;
   }
 }
-
-.big {
-
+::ng-deep.mat-expansion-panel-content{
+  font-size: inherit;
 }

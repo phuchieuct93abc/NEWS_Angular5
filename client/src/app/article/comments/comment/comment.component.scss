@@ -1,7 +1,15 @@
-.avatar{
-  width: 30px;
-  padding-top:0.5em;
-  img{
-    width: 100%;
+.comment {
+  font-size: 1em;
+
+  .mat-body-strong{
+    font-size: 1.2em;
+  }
+  .avatar {
+    width: 30px;
+    padding-top: 1em;
+
+    img {
+      width: 100%;
+    }
   }
 }

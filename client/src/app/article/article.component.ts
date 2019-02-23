@@ -5,6 +5,7 @@ import Article from "../../../../model/Article";
 import {FavoriteService} from "../shared/favorite-story.service";
 import ArticleContentParser from "./article-parser";
 import {DomService} from "./dom.service";
+import {ConfigService} from "../shared/config.service";
 
 @Component({
     selector: 'app-article',
@@ -23,9 +24,11 @@ export class ArticleComponent implements OnInit {
     @ViewChild('articleView')
     protected articleView: ElementRef;
 
+    public fontSize: number;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
-                protected domService: DomService) {
+                protected domService: DomService,
+                private configService: ConfigService) {
 
     }
 
@@ -34,6 +37,10 @@ export class ArticleComponent implements OnInit {
             this.articleId = params['id']
             this.showArticleById(params['id']);
         });
+
+        this.configService.configUpdated.subscribe((config) => {
+            this.fontSize = config.new.fontSize
+        })
 
 
     }

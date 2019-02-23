@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.config = this.configService.getConfig();
-        this.redirectToLastCategory();
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new
         });
@@ -40,6 +39,7 @@ export class AppComponent implements OnInit {
         this.isSmallDevice = this.breakpointService.isSmallScreen;
 
         this.track();
+        this.redirectToLastCategory();
 
     }
 
@@ -64,10 +64,12 @@ export class AppComponent implements OnInit {
     }
 
     redirectToLastCategory() {
-        if (this.route.firstChild == null) {
+        setTimeout(() => {
 
-            this.router.navigate([this.config.category || 'tin-nong']);
-        }
+            if (this.route.firstChild == null) {
+
+                this.router.navigate([this.config.category || 'tin-nong']);
+            }
+        })
     }
-
 }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
@@ -28,11 +28,10 @@ import {CommentComponent} from "./article/comments/comment/comment.component";
 import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/video/video.component";
-import {CategoryComponent} from "./navigator/category/category.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
 import {LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
-
+import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 
 
 @NgModule({
@@ -65,7 +64,7 @@ import {DisplayComponent} from "./article/display/display.component";
         CommentComponent,
         CommentsComponent,
         VideoComponent,
-        CategoryComponent,
+        CategorySelectorComponent,
         MobileStoryComponent,
         DisplayComponent
 
@@ -77,7 +76,7 @@ import {DisplayComponent} from "./article/display/display.component";
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
 
     ],
-    entryComponents:[
+    entryComponents: [
         VideoComponent
     ]
 

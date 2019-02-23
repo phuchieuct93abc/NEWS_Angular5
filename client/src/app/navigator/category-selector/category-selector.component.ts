@@ -5,11 +5,11 @@ import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
-    selector: 'app-category',
-    templateUrl: './category.component.html',
-    styleUrls: ['./category.component.scss']
+    selector: 'app-category-selector',
+    templateUrl: './category-selector.component.html',
+    styleUrls: ['./category-selector.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategorySelectorComponent implements OnInit {
 
 
     categories: Category[];

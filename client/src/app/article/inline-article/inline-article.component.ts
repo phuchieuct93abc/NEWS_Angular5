@@ -37,7 +37,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
                 private storyListService: StoryListService,
                 protected  favoriteService: FavoriteService,
                 protected domService: DomService,
-                private configService: ConfigService) {
+                protected configService: ConfigService) {
         super(route, articleService, favoriteService, domService, configService);
     }
 

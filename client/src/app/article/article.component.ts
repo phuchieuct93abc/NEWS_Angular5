@@ -28,7 +28,7 @@ export class ArticleComponent implements OnInit {
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
                 protected domService: DomService,
-                private configService: ConfigService) {
+                protected configService: ConfigService) {
 
     }
 

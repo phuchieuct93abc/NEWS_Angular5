@@ -22,7 +22,7 @@ export class MainComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.categories = Categories
+        this.categories = Categories;
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.sidebarService.onSideBarToogle.subscribe(this.toggle.bind(this))
 

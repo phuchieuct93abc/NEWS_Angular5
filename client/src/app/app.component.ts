@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Config, ConfigService} from "./shared/config.service";
 import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
@@ -14,25 +14,27 @@ export class AppComponent implements OnInit {
     name = 'Angular';
     config: Config;
     image: string;
-    isSmallDevice: boolean
+    isSmallDevice: boolean;
 
     constructor(private router: Router,
                 private configService: ConfigService,
                 private articleService: ArticleService,
                 private breakpointService: BreakpointDetectorService,
+                private route: ActivatedRoute
     ) {
     }
 
     ngOnInit(): void {
         this.config = this.configService.getConfig();
+        this.redirectToLastCategory();
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new
-        })
+        });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
                 this.getBlurImageUrl(article.story.images[0].imageUrl)
             }
-        })
+        });
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
@@ -58,6 +60,13 @@ export class AppComponent implements OnInit {
         img.onload = () => {
             this.image = blurUrl;
 
+        }
+    }
+
+    redirectToLastCategory() {
+        if (this.route.firstChild == null) {
+
+            this.router.navigate([this.config.category || 'tin-nong']);
         }
     }
 

@@ -11,10 +11,6 @@ const routes: Routes = [
             {path: ':id', component: ArticleComponent},
             {path: '', component: ArticleComponent}
         ]
-    },
-    {
-        path: '', redirectTo: '/tin-nong', pathMatch: 'full'
-
     }
 ];
 

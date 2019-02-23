@@ -33,6 +33,7 @@ export class ArticleComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fontSize = this.configService.getConfig().fontSize;
         this.route.params.subscribe(params => {
             this.articleId = params['id']
             this.showArticleById(params['id']);

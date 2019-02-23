@@ -1,13 +1,14 @@
 <div class="w-100 article animated faster" #articleView (swipeRight)="swiperight($event)"
      (swipeLeft)="swipeleft($event)"
      [ngClass]="{
-         fadeOutRight:isFadingRight,fadeOutLeft:isFadingLeft,
+         fadeOutRight:isFadingRight,
+         fadeOutLeft:isFadingLeft,
          'font-size-1':fontSize==1,
          'font-size-2':fontSize==2,
          'font-size-3':fontSize==3
      }"
 >
-
+    {{fontSize}}
 
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">

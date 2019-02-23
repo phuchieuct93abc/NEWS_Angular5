@@ -32,7 +32,12 @@ export class AppComponent implements OnInit {
         });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
+
                 this.getBlurImageUrl(article.story.images[0].imageUrl)
+            }
+            if (article.images.length > 0) {
+                this.getBlurImageUrl(article.images[0])
+
             }
         });
 

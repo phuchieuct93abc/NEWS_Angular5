@@ -35,9 +35,8 @@
     <button mat-menu-item *ngFor="let category of categories " class="mat-button"
             [routerLink]="category.name" routerLinkActive="mat-accent"
     >
-        <mat-icon class="mr-2">{{category.icon}}</mat-icon>
+        <app-category [category]="category"></app-category>
 
-        <span class="mat-h3 mb-0">{{ category.title }}</span>
     </button>
 
 

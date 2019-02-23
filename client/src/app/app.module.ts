@@ -32,6 +32,7 @@ import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.comp
 import {LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
+import {CategoryComponent} from "./navigator/category-selector/category/category.component";
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {CategorySelectorComponent} from "./navigator/category-selector/category-
         VideoComponent,
         CategorySelectorComponent,
         MobileStoryComponent,
-        DisplayComponent
+        DisplayComponent,
+        CategoryComponent
 
 
     ],

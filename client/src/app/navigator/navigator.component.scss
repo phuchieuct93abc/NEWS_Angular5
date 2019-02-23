@@ -1,5 +1,5 @@
-$nav-height: 64px;
-$nav-xs-height: 56px;
+$nav-height: 50px;
+$nav-xs-height: 50px;
 a.active {
   background-color: rgba(66, 133, 244, 0.149);
   color: #1a73e8;
@@ -37,21 +37,24 @@ a.active {
 
   .navigator {
     height: $nav-height;
-
-    .toolbar-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      height: 40px;
-
-      .search {
-        flex: 3;
+    .mat-toolbar-single-row{
+    height: $nav-height;
+      .toolbar-item {
+        width: 100%;
         display: flex;
-        height: 100%;
         align-items: center;
+        height: 40px;
 
+        .search {
+          flex: 3;
+          display: flex;
+          height: 100%;
+          align-items: center;
+
+        }
       }
     }
+
 
 
   }

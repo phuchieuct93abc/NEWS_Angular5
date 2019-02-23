@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -6,6 +6,7 @@ import {FavoriteService} from "../shared/favorite-story.service";
 import ArticleContentParser from "./article-parser";
 import {DomService} from "./dom.service";
 import {ConfigService} from "../shared/config.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-article',
@@ -13,7 +14,7 @@ import {ConfigService} from "../shared/config.service";
     styleUrls: ['./article.component.scss'],
 
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
     public article: Article;
     public articleId: string;
     public isFavorite: boolean;
@@ -23,6 +24,8 @@ export class ArticleComponent implements OnInit {
 
     @ViewChild('articleView')
     protected articleView: ElementRef;
+    routeParamSubscription: Subscription
+    configSubsription: Subscription
 
     public fontSize: number;
 
@@ -34,12 +37,12 @@ export class ArticleComponent implements OnInit {
 
     ngOnInit() {
         this.fontSize = this.configService.getConfig().fontSize;
-        this.route.params.subscribe(params => {
+        this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = params['id']
             this.showArticleById(params['id']);
         });
 
-        this.configService.configUpdated.subscribe((config) => {
+        this.configSubsription = this.configService.configUpdated.subscribe((config) => {
             this.fontSize = config.new.fontSize
         })
 
@@ -97,6 +100,11 @@ export class ArticleComponent implements OnInit {
 
             }
         }, 1000)
+    }
+
+    ngOnDestroy(): void {
+        this.routeParamSubscription.unsubscribe();
+        this.configSubsription.unsubscribe();
     }
 
 

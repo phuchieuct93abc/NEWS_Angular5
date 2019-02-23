@@ -62,10 +62,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         }, 500);
     }
 
-    ngOnDestroy(): void {
-    }
-
-    swipeleft($event) {
+    swipeleft() {
 
         this.isFadingLeft = true;
         setTimeout(() => {
@@ -74,11 +71,15 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     }
 
-    swiperight($event) {
+    swiperight() {
         this.isFadingRight = true;
         setTimeout(() => {
 
             this.close(null);
         }, 500)
+    }
+
+    ngOnDestroy(): void {
+        super.ngOnDestroy();
     }
 }

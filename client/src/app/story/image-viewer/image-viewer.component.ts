@@ -39,7 +39,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
-        this.cacheImage();
+       // this.cacheImage();
         this.calculateImageHeight(firstImage);
         this.convertedImagePath = this.getImage(this.imagePath);
 

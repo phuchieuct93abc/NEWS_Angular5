@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Categories, Category} from "../../../../model/Categories";
 import {MediaMatcher} from "@angular/cdk/layout";
 import {SidebarService} from "../main/sidebar.service";
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
@@ -15,7 +14,6 @@ import {IPageInfo} from "ngx-virtual-scroller";
 export class NavigatorComponent implements OnInit {
     toolbarTop = 0;
 
-    categories: Category[];
     private isHiding = false;
 
     private isShowing = false;
@@ -108,14 +106,6 @@ export class NavigatorComponent implements OnInit {
         });
     }
 
-    toggle() {
-        this.sidebarService.onSideBarToogle.next()
-    }
-
-    changeTheme() {
-        this.configService.updateConfig({darkTheme: !this.configService.getConfig().darkTheme})
-
-    }
 
     restrictTop(top: number): number {
         return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));

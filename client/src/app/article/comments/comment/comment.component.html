@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="row comment">
             <div class="avatar">
-                <img [src]="comment.avatar" />
+                <img [src]="comment.avatar"/>
             </div>
             <div class="commennt col">
                 <span class="mat-body-strong display-name pr-1">{{comment.displayName}}: </span>
                 <span class="comment mat-body pr-1">{{comment.comment}}</span>
-                <span class="mat-small display-name pr-1"> - {{comment.date*1000|amTimeAgo}}:</span>
+                <span class="mat-small display-name pr-1"> - {{comment.date * 1000|amTimeAgo}}:</span>
 
             </div>
         </div>

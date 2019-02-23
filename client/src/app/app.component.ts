@@ -27,7 +27,8 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.config = this.configService.getConfig();
         this.configService.configUpdated.subscribe(data => {
-            this.config = data.new
+            this.config = data.new;
+
         });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
@@ -67,8 +68,10 @@ export class AppComponent implements OnInit {
         setTimeout(() => {
 
             if (this.route.firstChild == null) {
+                let url = this.config.category == null || this.config.category == 'null' ? 'tin-nong' : this.config.category;
+                console.log('run', url)
 
-                this.router.navigate([this.config.category || 'tin-nong']);
+                this.router.navigate([url]);
             }
         })
     }

@@ -7,6 +7,7 @@ import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {DomService} from "../dom.service";
+import {ConfigService} from "../../shared/config.service";
 
 @Component({
     selector: 'app-inline-article',
@@ -35,8 +36,9 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
                 protected articleService: ArticleService,
                 private storyListService: StoryListService,
                 protected  favoriteService: FavoriteService,
-                protected domService: DomService) {
-        super(route, articleService, favoriteService, domService);
+                protected domService: DomService,
+                private configService: ConfigService) {
+        super(route, articleService, favoriteService, domService, configService);
     }
 
 

@@ -149,16 +149,13 @@ export class StoryListComponent implements OnInit {
     }
 
     private onLoadMore(event: IPageInfo) {
-        if (event.endIndex !== this.stories.length - 2 || this.isLoading) return;
-
-
+        console.log(event,this.stories.length)
+        if (event.endIndex < this.stories.length - 20 || this.isLoading) return;
+        this.isLoading = true;
         this.getLoadMoreObservable().subscribe(value => {
-
             this.stories = value;
-            //  this.cacheArticle();
+            this.isLoading = false;
         });
-
-
     }
 
     private getLoadMoreObservable() {

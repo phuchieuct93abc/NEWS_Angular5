@@ -149,7 +149,6 @@ export class StoryListComponent implements OnInit {
     }
 
     private onLoadMore(event: IPageInfo) {
-        console.log(event,this.stories.length)
         if (event.endIndex < this.stories.length - 20 || this.isLoading) return;
         this.isLoading = true;
         this.getLoadMoreObservable().subscribe(value => {

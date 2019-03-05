@@ -19,9 +19,6 @@ export class VideoComponent implements OnInit {
     @Input()
     height: number;
 
-    safeUrl: SafeResourceUrl;
-    playVideo = false;
-
     @ViewChild('videoComponent')
     videoComponent: ElementRef;
 
@@ -38,13 +35,13 @@ export class VideoComponent implements OnInit {
         setTimeout(() => {
             this.widthIframe = (<HTMLDivElement>this.videoComponent.nativeElement).clientWidth;
             this.heightIframe = this.height / this.width * this.widthIframe;
-            this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.parseUrl());
+            this.videoFrame.nativeElement.setAttribute('src',this.parseUrl());
+
         })
     }
 
     parseUrl(): string {
         const mode = this.breakpointDetector.isSmallScreen ? 'mobile-video' : 'desktop-video';
-
         return `https://m.baomoi.com/player.epi#${this.url}|${mode}|${this.poster}|0|
         Hiện trường lửa cháy ngùn ngụt, người bị cháy đen do nổ đường ống ở Mexico - Báo Tin Tức TTXVN|
         ${this.widthIframe}|${this.heightIframe}|

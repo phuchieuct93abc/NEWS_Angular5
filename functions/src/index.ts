@@ -5,7 +5,6 @@ import ArticleServiceFactory from "./article/ArticleServiceFactory";
 const express = require('express');
 const compression = require('compression');
 
-const axios = require('axios');
 
 const app = express();
 const port = 3000;
@@ -78,3 +77,7 @@ exports.app = functions.runWith({
 
 }).region("asia-northeast1").https.onRequest(app);
 
+app.get('/proxy', function(req,res) {
+    //modify the url in any way you want
+    request(req.query.url).pipe(res);
+});

@@ -7,10 +7,12 @@
     "start": "npm-run-all --parallel client server",
     "client": "cd client && npm start",
     "server": "cd functions && npm run-script serve",
-    "deploy": "npm test && firebase deploy",
-    "build:func": "npm --prefix \"functions\" run setup",
-    "build:client": "npm --prefix \"client\" run-script setup",
-    "test": "npm-run-all build:func build:client"
+    "setup:func": "npm --prefix \"functions\" run setup",
+    "setup:client": "npm --prefix \"client\" run-script setup",
+    "build:func": "npm --prefix \"functions\" run build",
+    "build:client": "npm --prefix \"client\" run-script build",
+    "test": "npm-run-all setup:func build:func setup:client build:client",
+    "deploy": "npm-run-all --parallel build:func build:client && firebase deploy"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   "homepage": "https://github.com/phuchieuct93abc/NEWS_Angular5#readme",
   "dependencies": {
     "connect-timeout": "^1.9.0",
+    "http-proxy": "^1.17.0",
     "nodemon": "^1.18.10",
     "npm-run-all": "^4.1.5"
   }

@@ -5,12 +5,11 @@
                 [ngStyle]="{'height':height+'px'}"
                 [lazyLoad]="convertedImagePath"
                 [scrollObservable]="scrollObservable"
+                [offset]="500"
                 class="mt-0 mb-0 image"
-        ></div>
+        >
 
-
+        </div>
         <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
     </div>
-
-
 </div>

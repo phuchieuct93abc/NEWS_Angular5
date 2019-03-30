@@ -1,0 +1,13 @@
+
+.menu-panel {
+  width: 350px;
+  max-width: none;
+
+  .mat-icon {
+    color: inherit !important;
+  }
+
+  app-search {
+    width: 100%;
+  }
+}

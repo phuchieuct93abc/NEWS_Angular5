@@ -34,11 +34,12 @@ export class AppComponent implements OnInit {
             if (article.story != null) {
 
                 this.getBlurImageUrl(article.story.images[0].imageUrl)
-            }
-            if (article.images.length > 0) {
+            } else if (article.images.length > 0) {
                 this.getBlurImageUrl(article.images[0])
 
             }
+
+
         });
 
 

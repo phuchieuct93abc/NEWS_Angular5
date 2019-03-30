@@ -1,4 +1,10 @@
 <div class="video-component w-100" #videoComponent>
-    <iframe #videoFrame allowfullscreen frameborder="0" scrolling="no" [src]="safeUrl" referrerpolicy="no-referrer"
+    <a class="cover" (click)="play()" *ngIf="!isPlaying"
+       [style.background-image]="'url(' +  poster + ')'"
+    >
+        <mat-icon color="primary">play_circle_filled</mat-icon>
+    </a>
+    <iframe #videoFrame allowfullscreen frameborder="0" scrolling="no" referrerpolicy="no-referrer"
+
             [style.height.px]="heightIframe"></iframe>
 </div>

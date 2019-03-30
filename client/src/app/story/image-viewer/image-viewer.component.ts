@@ -20,7 +20,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     height: number = 0;
     @ViewChild("imageViewer")
     imageViewer: ElementRef;
-    convertedImagePath:string;
+    convertedImagePath: string;
     interval;
     private imageIndex = 0;
 
@@ -29,22 +29,23 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     readonly SMALL_IMAGE = 100;
     readonly BIG_IMAGE = 300;
 
-    scrollObservable:Observable<any>
+    scrollObservable: Observable<any>;
 
     constructor(private config: ConfigService, private ref: ChangeDetectorRef, private breakpointService: BreakpointDetectorService,
-                private storyListService:StoryListService) {
+                private storyListService: StoryListService) {
 
     }
 
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
-       // this.cacheImage();
+        // this.cacheImage();
         this.calculateImageHeight(firstImage);
         this.convertedImagePath = this.getImage(this.imagePath);
 
         this.scrollObservable = this.storyListService.onScroll;
-      //  this.randomImagePath();
+
+        //  this.randomImagePath();
 
     }
 
@@ -82,8 +83,11 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
 
         let result = imagePath;
-        result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize)
-        result = result + ".webp";
+        result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize);
+        const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        if (isChrome) {
+            result = result + ".webp";
+        }
         return result;
     }
 

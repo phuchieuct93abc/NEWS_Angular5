@@ -37,7 +37,7 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
 
 @NgModule({
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,

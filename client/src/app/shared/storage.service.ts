@@ -11,12 +11,11 @@ export interface Storage {
 })
 export class LocalStorageService implements Storage {
     getItem(id: string,fallbackValue:object): object {
-        const item = JSON.parse(localStorage.getItem(id));
-        return item?item:fallbackValue;
+     return fallbackValue;
     }
 
     setItem(id: string, item: object) {
-        localStorage.setItem(id, JSON.stringify(item))
+        // localStorage.setItem(id, JSON.stringify(item))
 
     }
 

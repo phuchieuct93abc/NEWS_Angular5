@@ -14,7 +14,7 @@
     "test": "nodemon --ext ts --exec 'jasmine-ts \"spec/**/*.spec.ts\"'",
     "compile": "webpack --config webpack.server.config.js --progress --colors"
   },
-  "main": "dist/functions/src/index.js",
+  "main": "dist/server.js",
   "dependencies": {
     "@angular/animations": "^7.2.6",
     "@angular/cdk": "^7.3.3",

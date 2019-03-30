@@ -1,3 +1,4 @@
+
 import 'zone.js/dist/zone-node';
 import {enableProdMode} from '@angular/core';
 // Express Engine
@@ -43,7 +44,87 @@ app.get('*', (req, res) => {
   res.render('index', { req });
 });
 
+
 // Start up the Node server
-app.listen(PORT, () => {
-  console.log(`Node Express server listening on http://localhost:${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Node Express server listening on http://localhost:${PORT}`);
+// });
+
+import * as functions from 'firebase-functions';
+import StoryServiceFactory from "./src/story/StoryServiceFactory";
+import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
+const api = express();
+
+const compression = require('compression');
+
+
+const cors = require('cors');
+const timeout = require('connect-timeout');
+const sharp = require('sharp')
+const request = require('request')
+
+api.use(timeout('300s'));
+
+api.use(compression());
+api.use(cors());
+
+
+api.get('/story', (req, res) => {
+    StoryServiceFactory.get(req.query.lang).getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
 });
+
+
+api.get('/article', (req, res) => {
+    ArticleServiceFactory.get("vi").getArticleById(req.query.url).then(article => res.send(article))
+});
+api.get('/comments', (req, res) => {
+    ArticleServiceFactory.get("vi").getComment(req.query.id).then(article => res.send(article))
+});
+api.get('/cachestory', (req, res) => {
+
+    StoryServiceFactory.get('vi').cache(req.query.pageNumber, req.query.category).then(() => {
+        res.send("ok");
+
+    })
+});
+
+api.get('/search', (req, res) => {
+
+    StoryServiceFactory.get('vi').search(req.query.pageNumber, req.query.keyword).then((value) => {
+        res.send(value);
+
+    })
+});
+api.get('/getSource', (req, res) => {
+
+    ArticleServiceFactory.get('vi').getSource(req.query.id).then((value) => {
+        res.send({url: value});
+
+    })
+});
+api.get('/blur', (req, res) => {
+
+    request({url: req.query.url, encoding: null}, function (err2, res2, bodyBuffer) {
+        sharp(bodyBuffer).blur(5).overlayWith(
+            new Buffer([0, 0, 0, 128]),
+            { tile: true, raw: { width: 1, height: 1, channels: 4 } }
+        ).jpeg().toBuffer().then(output => {
+            res.set('Content-Type', 'image/jpeg');
+            res.send(output)
+        })
+    });
+
+
+});
+
+
+
+
+exports.app = functions.https.onRequest(app);
+
+exports.api = functions.runWith({
+    timeoutSeconds: 540,
+    memory: '1GB'
+
+}).region("asia-northeast1").https.onRequest(api);
+

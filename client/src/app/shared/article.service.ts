@@ -32,14 +32,16 @@ export class ArticleService {
                 url: id
             }
         };
+        console.time("api" + id);
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {
-                console.log("Get article")
                 let article = <Article>result;
                 article.story = story;
                 this.meta.updateMeta(article);
-                console.error("update meta")
+                console.error("update meta");
+                console.timeEnd("api" + id);
+
                 return article;
             }))
     }

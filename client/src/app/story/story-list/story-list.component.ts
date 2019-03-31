@@ -64,16 +64,19 @@ export class StoryListComponent implements OnInit {
             }
         })
 
-        this.loadingService.onLoading.subscribe(event => {
-            if (event.name == LoadingEventName.MORE_STORY) {
-                if (event.type === LoadingEventType.START) {
+        if(typeof window !== 'undefined'){
 
-                    this.isLoading = true
-                } else {
-                    setTimeout(() => this.isLoading = false, 2000)
+            this.loadingService.onLoading.subscribe(event => {
+                if (event.name == LoadingEventName.MORE_STORY) {
+                    if (event.type === LoadingEventType.START) {
+
+                        this.isLoading = true
+                    } else {
+                        setTimeout(() => this.isLoading = false, 2000)
+                    }
                 }
-            }
-        })
+            })
+        }
 
     }
 

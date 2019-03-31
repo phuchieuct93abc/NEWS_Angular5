@@ -19,9 +19,10 @@ export default class ArticleContentParser {
     }
 
     public parse() {
-        this.updateVideoAttributes();
-        this.appendOpenVideo();
-        this.source.remove();
+            this.updateVideoAttributes();
+            this.appendOpenVideo();
+            this.source.remove();
+
     }
 
     private appendOpenVideo() {
@@ -51,6 +52,7 @@ export default class ArticleContentParser {
 
         openVideo.append(openVideoLink)
         return openVideo;
+
     }
 
     private updateVideoAttributes() {

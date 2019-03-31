@@ -1,4 +1,3 @@
-
 import 'zone.js/dist/zone-node';
 import {enableProdMode} from '@angular/core';
 // Express Engine
@@ -8,6 +7,9 @@ import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
 
 import * as express from 'express';
 import {join} from 'path';
+import * as functions from 'firebase-functions';
+import StoryServiceFactory from "./src/story/StoryServiceFactory";
+import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
@@ -23,10 +25,10 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./dist/server/main'
 
 // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
 app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
-  providers: [
-    provideModuleMap(LAZY_MODULE_MAP)
-  ]
+    bootstrap: AppServerModuleNgFactory,
+    providers: [
+        provideModuleMap(LAZY_MODULE_MAP)
+    ]
 }));
 
 app.set('view engine', 'html');
@@ -36,11 +38,12 @@ app.set('views', DIST_FOLDER);
 // app.get('/api/**', (req, res) => { });
 // Serve static files from /browser
 
-app.get('*.*', express.static(DIST_FOLDER));
-
+app.get('*.*', express.static(DIST_FOLDER,{
+    maxAge:'1y'
+}));
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-    res.render('index', { req });
+    res.render('index', {req});
 });
 
 
@@ -48,10 +51,6 @@ app.get('*', (req, res) => {
 // app.listen(PORT, () => {
 //   console.log(`Node Express server listening on http://localhost:${PORT}`);
 // });
-
-import * as functions from 'firebase-functions';
-import StoryServiceFactory from "./src/story/StoryServiceFactory";
-import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
 const api = express();
 
 const compression = require('compression');
@@ -106,7 +105,7 @@ api.get('/blur', (req, res) => {
     request({url: req.query.url, encoding: null}, function (err2, res2, bodyBuffer) {
         sharp(bodyBuffer).blur(5).overlayWith(
             new Buffer([0, 0, 0, 128]),
-            { tile: true, raw: { width: 1, height: 1, channels: 4 } }
+            {tile: true, raw: {width: 1, height: 1, channels: 4}}
         ).jpeg().toBuffer().then(output => {
             res.set('Content-Type', 'image/jpeg');
             res.send(output)
@@ -117,13 +116,13 @@ api.get('/blur', (req, res) => {
 });
 
 
-
-
 exports.app = functions.runWith({
     timeoutSeconds: 540,
-    memory: '1GB'
+    memory: '2GB'
 
 }).https.onRequest(app);
+
+
 
 exports.api = functions.runWith({
     timeoutSeconds: 540,

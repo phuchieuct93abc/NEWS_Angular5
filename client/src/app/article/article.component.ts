@@ -66,7 +66,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     protected afterGetArticle(): void {
-        if(typeof this.articleView.nativeElement.scroll === 'function' ){
+        if (typeof this.articleView.nativeElement.scroll === 'function') {
 
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
@@ -94,15 +94,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     private parseHtml() {
-        setTimeout(() => {
-            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-            for (let i = 0; i < videos.length; i++) {
-                new ArticleContentParser(videos[i], this.domService).parse();
+        if (typeof window !== 'undefined') {
 
-
-            }
-        }, 1000)
+            setTimeout(() => {
+                let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+                let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+                for (let i = 0; i < videos.length; i++) {
+                    new ArticleContentParser(videos[i], this.domService).parse();
+                }
+            }, 1000)
+        }
     }
 
     ngOnDestroy(): void {

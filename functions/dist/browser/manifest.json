@@ -1,0 +1,14 @@
+{
+  "name": "Báo hiếu",
+  "short_name": "Báo hiếu",
+  "start_url": "/?homescreen=1",
+  "background_color": "#e5e5e5",
+  "theme_color": "#673ab7",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "icons": [{
+    "src": "assests/newspaper.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  }]
+}

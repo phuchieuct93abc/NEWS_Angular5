@@ -12,7 +12,7 @@
     "logs": "firebase functions:log",
     "test-init": "./node_modules/jasmine/bin/jasmine.js init",
     "test": "nodemon --ext ts --exec 'jasmine-ts \"spec/**/*.spec.ts\"'",
-    "compile": "webpack --config webpack.server.config.js --progress --colors"
+    "compile": "node copy-index && webpack --config webpack.server.config.js --progress --colors"
   },
   "main": "dist/server.js",
   "dependencies": {

@@ -23,6 +23,7 @@
                         <mat-icon class="mat-primary">cancel</mat-icon>
                     </button>
                 </div>
+                <p  [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
 
                 <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
 

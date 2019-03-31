@@ -35,6 +35,7 @@ export class StoryListComponent implements OnInit {
     isLoading = false;
 
     config: Config;
+    isBrowser;
 
     constructor(private storyService: StoryService,
                 private activatedRoute: ActivatedRoute,
@@ -48,6 +49,7 @@ export class StoryListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBrowser = typeof window !== 'undefined'
         this.updateStoryList();
         this.registerScrollTo();
         this.isSmallScreen = this.breakpointService.isSmallScreen;

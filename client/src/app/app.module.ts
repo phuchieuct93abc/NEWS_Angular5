@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG,Title,Meta} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
@@ -37,7 +37,7 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
 
 @NgModule({
     imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        BrowserModule.withServerTransition({appId: 'serverApp'}),
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -76,6 +76,8 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
+        Title,
+        Meta
 
     ],
     entryComponents: [

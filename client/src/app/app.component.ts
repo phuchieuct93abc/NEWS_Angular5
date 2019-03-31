@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
                 private configService: ConfigService,
                 private articleService: ArticleService,
                 private breakpointService: BreakpointDetectorService,
-                private route: ActivatedRoute
+                private route: ActivatedRoute,
     ) {
     }
 
@@ -53,21 +53,27 @@ export class AppComponent implements OnInit {
     private track(): void {
         this.router.events.subscribe(event => {
 
-            if (event instanceof NavigationEnd) {
-                (<any>window).ga('set', 'page', event.urlAfterRedirects);
-                (<any>window).ga('send', 'pageview');
+            if (typeof window !== 'undefined') {
+
+                if (event instanceof NavigationEnd) {
+                    (<any>window).ga('set', 'page', event.urlAfterRedirects);
+                    (<any>window).ga('send', 'pageview');
+                }
             }
         })
     }
 
     getBlurImageUrl(url) {
-        let img = new Image();
-        const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
-        img.src = blurUrl;
-        img.onload = () => {
-            this.image = blurUrl;
+        if (typeof window !== 'undefined') {
+            let img = new Image();
+            const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
+            img.src = blurUrl;
+            img.onload = () => {
+                this.image = blurUrl;
 
+            }
         }
+
     }
 
     redirectToLastCategory() {

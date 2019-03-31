@@ -36,14 +36,10 @@ app.set('views', DIST_FOLDER);
 // app.get('/api/**', (req, res) => { });
 // Serve static files from /browser
 
-app.get('*.*', express.static(DIST_FOLDER, {
-  maxAge: '1y'
-}));
+app.get('*.*', express.static(DIST_FOLDER));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-    res.set('Cache-Control', 'public, max-age=31557600'); // one year
-
     res.render('index', { req });
 });
 
@@ -123,11 +119,15 @@ api.get('/blur', (req, res) => {
 
 
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions.runWith({
+    timeoutSeconds: 540,
+    memory: '1GB'
+
+}).https.onRequest(app);
 
 exports.api = functions.runWith({
     timeoutSeconds: 540,
-    memory: '1GB'
+    memory: '2GB'
 
 }).region("asia-northeast1").https.onRequest(api);
 

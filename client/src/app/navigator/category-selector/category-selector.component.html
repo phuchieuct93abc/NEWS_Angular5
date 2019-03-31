@@ -1,6 +1,6 @@
 <button mat-raised-button [matMenuTriggerFor]="menu" color="accent" class="w-100">
-    <mat-icon class="mr-2">{{selectedCategory.icon}}</mat-icon>
-    <span class="mat-h3 mb-0">{{ selectedCategory.title}}</span>
+    <mat-icon class="mr-2">{{selectedCategory?selectedCategory.icon:""}}</mat-icon>
+    <span class="mat-h3 mb-0">{{ selectedCategory?selectedCategory.title:""}}</span>
 
     <mat-icon>expand_more</mat-icon>
 </button>

@@ -34,8 +34,10 @@ export class DomService {
         const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
             .rootNodes[0] as HTMLElement;
 
-        // Append DOM element to the body
-        parentElement.append(domElem);
+        if(typeof parentElement.append === 'function' ){
+            // Append DOM element to the body
+            parentElement.append(domElem);
+        }
 
         // Wait some time and remove it from the component tree and from the DOM
         // setTimeout(() => {

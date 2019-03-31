@@ -66,7 +66,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     protected afterGetArticle(): void {
-        (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+        if(typeof this.articleView.nativeElement.scroll === 'function' ){
+
+            (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+        }
         this.parseHtml();
     }
 

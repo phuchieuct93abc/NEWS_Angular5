@@ -12,7 +12,8 @@
     "build:func": "npm --prefix \"functions\" run compile",
     "build:client": "npm --prefix \"client\" run-script build:ssr",
     "test": "npm-run-all setup:func build:func setup:client build:client",
-    "deploy": "npm run build:client && npm run build:func && firebase deploy"
+    "deploy": "npm run build:client && npm run build:func && firebase deploy",
+    "serve": "npm run build:client && npm run build:func &&  firebase serve"
   },
   "repository": {
     "type": "git",

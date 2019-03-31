@@ -11,8 +11,8 @@
     ],
     "rewrites": [
       {
-        "source": "**/**",
-        "function": "app"      
+        "source": "**/**/**",
+        "function": "app"
       }
     ]
   }

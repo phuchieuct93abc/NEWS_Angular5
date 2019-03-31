@@ -116,11 +116,7 @@ api.get('/blur', (req, res) => {
 });
 
 
-exports.app = functions.runWith({
-    timeoutSeconds: 540,
-    memory: '2GB'
-
-}).https.onRequest(app);
+exports.app = functions.https.onRequest(app);
 
 
 

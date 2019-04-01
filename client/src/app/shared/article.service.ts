@@ -39,9 +39,6 @@ export class ArticleService {
                 let article = <Article>result;
                 article.story = story;
                 this.meta.updateMeta(article);
-                console.error("update meta");
-                console.timeEnd("api" + id);
-
                 return article;
             }))
     }

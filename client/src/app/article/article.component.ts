@@ -22,10 +22,18 @@ export class ArticleComponent implements OnInit, OnDestroy {
     @ViewChild('articleContent')
     articleContent: ElementRef;
 
+    @ViewChild('articleDescription')
+    articleDescription: ElementRef;
+
+    @ViewChild('articleHeader')
+    articleHeader: ElementRef;
+
+
     @ViewChild('articleView')
     protected articleView: ElementRef;
-    routeParamSubscription: Subscription
-    configSubsription: Subscription
+    routeParamSubscription: Subscription;
+    configSubsription: Subscription;
+    isFirstLoad = true;
 
     public fontSize: number;
 
@@ -38,27 +46,40 @@ export class ArticleComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
-            this.articleId = params['id']
+            this.articleId = params['id'];
             this.showArticleById(params['id']);
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
             this.fontSize = config.new.fontSize
-        })
+        });
+
+        if (this.isFirstLoad) {
+            if (typeof window !== 'undefined') {
+                let body = (<HTMLDivElement>this.articleContent.nativeElement).innerHTML;
+                let desciption = (<HTMLDivElement>this.articleDescription.nativeElement).innerHTML;
+                let header = (<HTMLDivElement>this.articleHeader.nativeElement).innerHTML;
+                this.article = new Article(null, header, null, body, null, null, null, null, null, null, desciption);
+
+            }
+
+        }
 
 
     }
 
     protected showArticleById(articleId: string) {
         if (articleId) {
-            this.article = null;
+            if (!this.isFirstLoad) {
+                this.article = null;
+            }
             this.articleService.getById(articleId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
-
+                this.isFirstLoad = false;
 
             });
 

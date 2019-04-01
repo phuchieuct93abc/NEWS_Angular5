@@ -65,6 +65,7 @@ node_modules/
 .env
 
 client/dist/
+functions/dist/
 
 **/\.DS_Store
 

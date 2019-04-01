@@ -3,7 +3,7 @@
         <div *ngIf="articleId">
 
             <div *ngIf="article;else loading" class="article-content p-2  pb-5">
-                <div class="mat-display-1 mb-2">
+                <div #articleHeader class="mat-display-1 mb-2">
                     {{article.header}}
                 </div>
 
@@ -15,7 +15,7 @@
                     </a>
                     <app-display></app-display>
                 </div>
-                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" ></p>
+                <p #articleDescription [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
 
                 <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent ></p>
                 <div class="source text-right">

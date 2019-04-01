@@ -17,7 +17,6 @@ enableProdMode();
 // Express server
 const app = express();
 
-const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
@@ -57,11 +56,9 @@ const compression = require('compression');
 
 
 const cors = require('cors');
-const timeout = require('connect-timeout');
-const sharp = require('sharp')
-const request = require('request')
+const sharp = require('sharp');
+const request = require('request');
 
-api.use(timeout('300s'));
 
 api.use(compression());
 api.use(cors());
@@ -117,15 +114,15 @@ api.get('/blur', (req, res) => {
 
 
 exports.app = functions.runWith({
-    timeoutSeconds: 540,
-    memory: '2GB'
+    timeoutSeconds: 15,
+    memory: '512MB'
 
 }).https.onRequest(app);
 
 
 
 exports.api = functions.runWith({
-    timeoutSeconds: 540,
+    timeoutSeconds: 15,
     memory: '512MB'
 
 }).region("asia-northeast1").https.onRequest(api);

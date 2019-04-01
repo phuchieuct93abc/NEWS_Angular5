@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {delay, tap} from "rxjs/operators";
+import {delay, tap, timeout} from "rxjs/operators";
 
 
 @Injectable({
@@ -51,30 +51,28 @@ export class CachingInterceptor implements HttpInterceptor {
 
         if (typeof window === "undefined") {
             if (req.url.indexOf("/article") >= 0) {
-                return next.handle(req).pipe(
-                    tap(event => {
-                        if (event instanceof HttpResponse) {
-                            console.log("CALL API"+req.url)
-                            cache.put(req, event);
-                        }
-                    })
-                );
+                return this.call(next, req, cache);
             } else {
                 return of(null);
             }
 
         } else {
-            return next.handle(req).pipe(
-                tap(event => {
-                    if (event instanceof HttpResponse) {
-                        console.log("CALL API"+req.url)
+            return this.call(next, req, cache);
 
-                        cache.put(req, event);
-                    }
-                })
-            );
         }
 
 
+    }
+
+    private call(next: HttpHandler, req: HttpRequest<any>, cache: RequestCache) {
+        return next.handle(req).pipe(
+            timeout(5000),
+            tap(event => {
+                if (event instanceof HttpResponse) {
+                    console.log("CALL API", req.url)
+                    cache.put(req, event);
+                }
+            })
+        );
     }
 }

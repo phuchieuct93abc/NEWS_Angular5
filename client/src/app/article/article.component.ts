@@ -54,21 +54,40 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.fontSize = config.new.fontSize
         });
 
-        if (this.isFirstLoad) {
-            if (typeof window !== 'undefined') {
-                let body = (<HTMLDivElement>this.articleContent.nativeElement).innerHTML;
-                let desciption = (<HTMLDivElement>this.articleDescription.nativeElement).innerHTML;
-                let header = (<HTMLDivElement>this.articleHeader.nativeElement).innerHTML;
-                this.article = new Article(null, header, null, body, null, null, null, null, null, null, desciption);
 
-            }
+    }
+
+    // ngAfterViewChecked(): void {
+    //     setTimeout(()=>{
+    //
+    //         if (this.isFirstLoad) {
+    //             if (typeof window !== 'undefined') {
+    //                 let body = (<HTMLDivElement>this.articleContent.nativeElement).innerHTML;
+    //                 let desciption = (<HTMLDivElement>this.articleDescription.nativeElement).innerHTML;
+    //                 let header = (<HTMLDivElement>this.articleHeader.nativeElement).innerHTML;
+    //                 this.article = new Article(null, header, null, body, null, null, null, null, null, null, desciption);
+    //
+    //             }
+    //
+    //         }
+    //     })
+    //
+    // }
+
+    protected showArticleById(articleId: string) {
+        if (this.isFirstLoad && typeof window !== 'undefined') {
+            setTimeout(() => {
+                    let body = (<HTMLDivElement>this.articleContent.nativeElement).innerHTML;
+                    let desciption = (<HTMLDivElement>this.articleDescription.nativeElement).innerHTML;
+                    let header = (<HTMLDivElement>this.articleHeader.nativeElement).innerHTML;
+                    this.article = new Article(null, header, null, body, null, null, null, null, null, null, desciption);
+
+                }
+            )
 
         }
 
 
-    }
-
-    protected showArticleById(articleId: string) {
         if (articleId) {
             if (!this.isFirstLoad) {
                 this.article = null;
@@ -88,7 +107,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     protected afterGetArticle(): void {
         if (typeof this.articleView.nativeElement.scroll === 'function') {
-
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
         this.parseHtml();
@@ -131,6 +149,5 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
     }
-
 
 }

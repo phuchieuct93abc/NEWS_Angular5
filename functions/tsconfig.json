@@ -9,9 +9,7 @@
   "include": [
     "src"
   ],
-  "files": [
-    "./node_modules/@types/node/index.d.ts"
-  ],
+
   "exclude": [
     "node_modules"
   ]

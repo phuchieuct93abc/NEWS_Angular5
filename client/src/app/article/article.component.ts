@@ -22,10 +22,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
     @ViewChild('articleContent')
     articleContent: ElementRef;
 
+
     @ViewChild('articleView')
     protected articleView: ElementRef;
-    routeParamSubscription: Subscription
-    configSubsription: Subscription
+    routeParamSubscription: Subscription;
+    configSubsription: Subscription;
 
     public fontSize: number;
 
@@ -38,13 +39,13 @@ export class ArticleComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
-            this.articleId = params['id']
+            this.articleId = params['id'];
             this.showArticleById(params['id']);
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
             this.fontSize = config.new.fontSize
-        })
+        });
 
 
     }
@@ -58,15 +59,15 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
-
-
             });
 
         }
     }
 
     protected afterGetArticle(): void {
-        (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+        if (typeof this.articleView.nativeElement.scroll === 'function') {
+            (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+        }
         this.parseHtml();
     }
 
@@ -91,21 +92,21 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     private parseHtml() {
-        setTimeout(() => {
-            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-            for (let i = 0; i < videos.length; i++) {
-                new ArticleContentParser(videos[i], this.domService).parse();
+        if (typeof window !== 'undefined') {
 
-
-            }
-        }, 1000)
+            setTimeout(() => {
+                let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+                let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+                for (let i = 0; i < videos.length; i++) {
+                    new ArticleContentParser(videos[i], this.domService).parse();
+                }
+            }, 1000)
+        }
     }
 
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
     }
-
 
 }

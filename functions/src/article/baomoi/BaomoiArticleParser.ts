@@ -11,9 +11,7 @@ export default class BaomoiArticleParser extends ArticleParser {
     private convertHtmlBody() {
 
         let body = this.html.getElementsByClassName('article__body')[0].innerHTML;
-        body = Utility.replaceAll(body, "data-", "");
-        return body;
-        //   return Utility.replaceAll(body, '</video>', '</video><div class="text-right"><a class="text-right mat-button mat-primary open-video">Mở video</a></div>')
+        return Utility.replaceAll(body, "data-", "");
     }
 
 
@@ -29,8 +27,9 @@ export default class BaomoiArticleParser extends ArticleParser {
         for (let index = 0; index < imageElements.length; index++) {
             images.push(imageElements[index].getAttribute('src'))
         }
-
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images);
+        const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
+        console.log(description)
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description);
     }
 
 

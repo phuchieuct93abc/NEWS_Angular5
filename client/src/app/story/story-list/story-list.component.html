@@ -1,5 +1,5 @@
 <div class="h-100 w-100 story-list">
-    <div #scrollingBlock class="h-100 scrollable">
+    <div #scrollingBlock class="h-100 scrollable" *ngIf="isBrowser">
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd($event)"
@@ -13,6 +13,10 @@
                           [compareItems]="compareItem"
                           [bufferAmount]="30"
                           *ngIf="stories"
+                          ssrChildWidth="460"
+                          ssrChildHeight="144"
+                          ssrViewportHeight="798"
+                          ssrViewportWidth="1444"
 
                           class="w-100">
 

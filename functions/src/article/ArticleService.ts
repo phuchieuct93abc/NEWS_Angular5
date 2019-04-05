@@ -13,11 +13,11 @@ export abstract class ArticleService {
         return new Promise(resolver => {
             FirebaseService.findArticle(id).then(article => {
                 if (article.exists) {
-                    console.log(`get from firebase ${id}`)
+                    console.error(`get from firebase ${id}`)
                     resolver((<Article>article.data()));
                 } else {
                     this.crawnArticleById(id).then(article => {
-                        console.log(`get from baomoi ${id}`)
+                        console.error(`get from baomoi ${id}`)
 
                         resolver(article)
                     })

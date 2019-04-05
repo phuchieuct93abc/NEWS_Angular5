@@ -49,9 +49,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     }
 
-    private cacheImage() {
-        this.images.forEach(image => new Image().src = this.getImage(image.imageUrl));
-    }
+
 
     private calculateImageHeight(firstImage) {
         const width = this.imageViewer.nativeElement.offsetWidth;

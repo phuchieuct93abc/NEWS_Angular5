@@ -7,6 +7,7 @@ import Article from "../../../../model/Article";
 import CONFIG from "../../environments/environment";
 import {Story} from "../../../../model/Story";
 import ArticleComment from "../../../../model/ArticleComment";
+import {MetaService} from "./meta.service";
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class ArticleService {
 
     public onStorySelected = new Subject<Article>();
 
-    constructor(private httpClient: HttpClient, private storyService: StoryService) {
+    constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService) {
     }
 
     getById(id: string): Observable<Article> {
@@ -31,11 +32,13 @@ export class ArticleService {
                 url: id
             }
         };
+        console.time("api" + id);
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {
                 let article = <Article>result;
                 article.story = story;
+                this.meta.updateMeta(article);
                 return article;
             }))
     }

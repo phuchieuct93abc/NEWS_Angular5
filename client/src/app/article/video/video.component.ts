@@ -55,8 +55,11 @@ export class VideoComponent implements OnInit {
 
 
     play() {
-        this.isPlaying = true;
-        this.videoFrame.nativeElement.setAttribute('src',this.parseUrl());
+        if(typeof window !== 'undefined'){
+
+            this.isPlaying = true;
+            this.videoFrame.nativeElement.setAttribute('src',this.parseUrl());
+        }
 
     }
 }

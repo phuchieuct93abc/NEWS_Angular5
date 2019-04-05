@@ -35,6 +35,7 @@ export class StoryListComponent implements OnInit {
     isLoading = false;
 
     config: Config;
+    isBrowser;
 
     constructor(private storyService: StoryService,
                 private activatedRoute: ActivatedRoute,
@@ -48,6 +49,7 @@ export class StoryListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBrowser = typeof window !== 'undefined'
         this.updateStoryList();
         this.registerScrollTo();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
@@ -62,16 +64,19 @@ export class StoryListComponent implements OnInit {
             }
         })
 
-        this.loadingService.onLoading.subscribe(event => {
-            if (event.name == LoadingEventName.MORE_STORY) {
-                if (event.type === LoadingEventType.START) {
+        if(typeof window !== 'undefined'){
 
-                    this.isLoading = true
-                } else {
-                    setTimeout(() => this.isLoading = false, 2000)
+            this.loadingService.onLoading.subscribe(event => {
+                if (event.name == LoadingEventName.MORE_STORY) {
+                    if (event.type === LoadingEventType.START) {
+
+                        this.isLoading = true
+                    } else {
+                        setTimeout(() => this.isLoading = false, 2000)
+                    }
                 }
-            }
-        })
+            })
+        }
 
     }
 

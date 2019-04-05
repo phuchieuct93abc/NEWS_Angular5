@@ -8,12 +8,13 @@ export default class Article {
     public moreStory: string;
     public story: Story;
     public externalUrl: string;
-    public sourceUrl:string;
+    public sourceUrl: string;
     public sourceName;
-    public images:string[]
+    public images: string[];
+    public description: string;
 
 
-    constructor(id: string, header: string, meta: string, body: string, moreStory: string, story: Story = null, externalUr: string = null,sourceUrl:string,sourceName:string,images:string[]) {
+    constructor(id: string, header: string, meta: string, body: string, moreStory: string, story: Story = null, externalUr: string = null, sourceUrl: string, sourceName: string, images: string[], description: string) {
         this.id = id;
         this.header = header;
         this.meta = meta;
@@ -24,10 +25,11 @@ export default class Article {
         this.sourceUrl = sourceUrl;
         this.sourceName = sourceName;
         this.images = images;
+        this.description = description;
     }
 
     toJSON() {
-        let {id, header, meta, body, moreStory,sourceName,sourceUrl,images} = this;
-        return {id, header, meta, body, moreStory,sourceName,sourceUrl,images}
+        let {id, header, meta, body, moreStory, sourceName, sourceUrl, images,description} = this;
+        return {id, header, meta, body, moreStory, sourceName, sourceUrl, images,description}
     }
 }

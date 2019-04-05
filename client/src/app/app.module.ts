@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
@@ -33,11 +33,13 @@ import {LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
+import {RouterModule} from "@angular/router";
+import {MatButtonModule} from "@angular/material";
 
 
 @NgModule({
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({appId: 'serverApp'}),
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -45,7 +47,9 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
         AppRoutingModule,
         MomentModule,
         VirtualScrollerModule,
-        LazyLoadImageModule
+        LazyLoadImageModule,
+        RouterModule,
+        MatButtonModule
     ],
     declarations: [
         AppComponent,
@@ -76,6 +80,8 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
+        Title,
+        Meta
 
     ],
     entryComponents: [

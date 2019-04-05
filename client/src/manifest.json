@@ -7,7 +7,7 @@
   "display": "fullscreen",
   "orientation": "portrait",
   "icons": [{
-    "src": "assests/newspaper.png",
+    "src": "assets/newspaper.png",
     "sizes": "256x256",
     "type": "image/png"
   }]

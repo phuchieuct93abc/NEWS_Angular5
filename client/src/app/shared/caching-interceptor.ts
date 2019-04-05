@@ -1,19 +1,14 @@
 import {Injectable} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {delay, tap} from "rxjs/operators";
+import {delay, tap, timeout} from "rxjs/operators";
 
-const maxAge = 30000;
 
 @Injectable({
     providedIn: 'root'
 })
 export class RequestCache {
     cache: Map<string, HttpResponse<any>> = new Map();
-
-    // constructor(private localStorage: LocalStorageService) {
-    //     // this.cache = <Map<string, HttpResponse<any>>>this.objToStrMap(localStorage.getItem('cache-http', {}));
-    // };
 
 
     get(req: HttpRequest<any>): HttpResponse<any> | undefined {
@@ -30,29 +25,9 @@ export class RequestCache {
 
         const url = req.urlWithParams;
         this.cache.set(url, response);
-        this.update();
 
     }
 
-    private update() {
-   //     this.localStorage.setItem('cache-http', this.strMapToObj(this.cache));
-    }
-
-    private strMapToObj(strMap) {
-        const obj = {};
-        strMap.forEach((v, k) => {
-            obj[k] = v
-        });
-        return obj;
-    }
-
-    private objToStrMap(obj) {
-        const mp: Map<string, HttpResponse<any>> = new Map;
-        Object.keys(obj).forEach(k => {
-            mp.set(k, <HttpResponse<any>>obj[k])
-        });
-        return mp;
-    }
 }
 
 @Injectable({
@@ -66,18 +41,35 @@ export class CachingInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
+
         const isNeedCache = this.noCacheUri.find(noCache => req.url.includes(noCache)) == undefined;
         const cachedResponse = this.cache.get(req);
         return cachedResponse && isNeedCache ? of(cachedResponse).pipe(delay(500)) : this.sendRequest(req, next, this.cache);
     }
 
-    sendRequest(
-        req: HttpRequest<any>,
-        next: HttpHandler,
-        cache: RequestCache): Observable<HttpEvent<any>> {
+    sendRequest(req: HttpRequest<any>, next: HttpHandler, cache: RequestCache): Observable<HttpEvent<any>> {
+
+        if (typeof window === "undefined") {
+            if (req.url.indexOf("/article") >= 0) {
+                return this.call(next, req, cache);
+            } else {
+                return of(null);
+            }
+
+        } else {
+            return this.call(next, req, cache);
+
+        }
+
+
+    }
+
+    private call(next: HttpHandler, req: HttpRequest<any>, cache: RequestCache) {
         return next.handle(req).pipe(
+            timeout(5000),
             tap(event => {
                 if (event instanceof HttpResponse) {
+                    console.log("CALL API", req.url)
                     cache.put(req, event);
                 }
             })

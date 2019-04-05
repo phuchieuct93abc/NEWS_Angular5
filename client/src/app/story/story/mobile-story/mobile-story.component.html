@@ -13,7 +13,7 @@
                         <app-image-viewer [images]="story.images" [hasVideo]="story.hasVideo"></app-image-viewer>
 
                     </div>
-                    <div class="h-100 d-flex flex-column flex-fill">
+                    <div class="mh-100 d-flex flex-column flex-fill">
                         <div class="col title-wrapper">
                             <div class=" mat-title mb-0 title">{{story.title | truncate:[75]}}</div>
                         </div>
@@ -21,7 +21,7 @@
                             <div class="">
                                 <footer class="blockquote-footer text-right">
                                     <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                                    <span class="time ml-1">        {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+                                    <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
                                     <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
                                     </mat-icon>
 

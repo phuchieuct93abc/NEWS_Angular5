@@ -5,14 +5,11 @@ img {
   transform: scale(1) !important;;
   border: none;
   animation: run 4s linear infinite;
-
-
 }
 
 @media (min-width: 576px) {
   img {
     height: 100px;
-
   }
 }
 
@@ -87,7 +84,6 @@ img {
 
         .text-line {
           height: $height-line;
-          width: 100%;
           @extend .animated-background;
         }
       }
@@ -116,13 +112,21 @@ img {
     @include type2(50px, 10px, #F6F6F6, #e5e5e5);
 
     &.dark {
-      @include type2(50px, 10px,#303030, #4a4a4d);
+      @include type2(50px, 10px, #303030, #4a4a4d);
 
     }
 
-    .text-line:last-child {
-      display: none;
+    .text-line{
+
+      &:nth-child(4) {
+        display: none;
+      }
+
+      &:nth-child(5) {
+        display: none;
+      }
     }
+
   }
 
   &.big {
@@ -133,5 +137,29 @@ img {
 
     }
   }
+
+}
+
+.text-line {
+  &:nth-child(1) {
+    width: 100%;
+  }
+
+  &:nth-child(2) {
+    width: 90%;
+  }
+
+  &:nth-child(3) {
+    width: 95%;
+  }
+
+  &:nth-child(4) {
+    width: 85%;
+  }
+
+  &:nth-child(5) {
+    width: 70%;
+  }
+
 
 }

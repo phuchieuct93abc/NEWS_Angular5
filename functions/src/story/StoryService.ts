@@ -3,19 +3,46 @@ import {StoryParser} from "./StoryParser";
 import Article from "../../../model/Article";
 import ArticleServiceFactory from "../article/ArticleServiceFactory";
 
+const jsdom = require("jsdom");
+const {JSDOM} = jsdom;
+const axios = require('axios');
+
 
 export abstract class StoryService {
     readonly MAX_CACHE_NUMBER = 50;
-    protected storyParser: StoryParser;
 
-    abstract getStories(pageNumber: string, category: string): Promise<Story[]>;
+
+    constructor(protected url: string, protected storyParser: StoryParser) {
+
+    }
+
+
+    public getStories(): Promise<Story[]> {
+        return new Promise((resolve) => {
+            axios.get(this.url).then(response => {
+                const dom = new JSDOM(response.data);
+                const result: HTMLCollection = this.queryStories(dom.window.document);
+                let stories = Array.from(result)
+                    .map(r => {
+                        return this.storyParser.setHtml(r).parseStory();
+
+                    })
+                    .filter(r => r != null);
+                resolve(this.uniqueBy(stories));
+            })
+        })
+
+
+    };
+
+    abstract queryStories(dom: Document): HTMLCollection;
 
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 
-    public cache(pageNumber: string, category: string): Promise<string> {
+    public cache(): Promise<string> {
         return new Promise(resolver => {
-            this.getStories(pageNumber, category).then(stories =>
+            this.getStories().then(stories =>
                 this.cacheArticles(stories).then(() => resolver("ok"))
             )
 
@@ -44,9 +71,6 @@ export abstract class StoryService {
     };
 
     protected uniqueBy(stories): Story[] {
-        // return stories.reduce(
-        //     (acc, cur: Story) => acc.some(x => (x.id === cur.id) ? acc : acc.concat(cur), [])
-        // );
         const result = []
         stories.forEach(story => {
             if (!result.some(x => x.id === story.id)) {

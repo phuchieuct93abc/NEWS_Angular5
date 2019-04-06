@@ -10,28 +10,17 @@ const axios = require('axios');
 
 
 export default class BaomoiStoryService extends StoryService {
-
-    constructor() {
-        super();
-        this.storyParser = new BaomoiStoryParser();
+    queryStories(dom: Document): HTMLCollection {
+        return dom.getElementsByClassName("story")
     }
 
-    getStories(pageNumber: string, category: string): Promise<Story[]> {
-        return new Promise((resolve) => {
-            let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
-            axios.get(url).then(response => {
-                const dom = new JSDOM(response.data);
-                const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-                let stories = Array.from(result)
-                    .map(r => {
-                        return this.storyParser.setHtml(r).parseStory();
+    constructor(protected url: string) {
+        super(url, new BaomoiStoryParser())
+    }
 
-                    })
-                    .filter(r => r != null);
-                resolve(this.uniqueBy(stories));
-            })
-        })
-
+    static createInstance(pageNumber: string, category: string) {
+        let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
+        return new BaomoiStoryService(url);
 
     }
 
@@ -53,7 +42,7 @@ export default class BaomoiStoryService extends StoryService {
 
     }
 
-    private getCategoryUrl(name: string): string {
+    private static getCategoryUrl(name: string): string {
         const category = Categories.find(category => category.name == name);
         if (category == null) {
             console.error(`Name null: ${name}`)

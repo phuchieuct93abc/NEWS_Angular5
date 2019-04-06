@@ -19,29 +19,12 @@ export interface GoogleArticle {
 }
 
 export default class GoogleStoryService extends StoryService {
-  private APIKEY = "";
-
-  constructor() {
-    super();
-    this.storyParser = new GoogleStoryParser();
-  }
-
-  getStories(pageNumber: string, category: string): Promise<Story[]> {
-    return new Promise(resolve => {
-      newsapi.v2
-        .topHeadlines({
-          category: "technology",
-          language: "en",
-          country: "us"
-        })
-        .then(response => {
-          const data: GoogleArticle[] = response.articles;
-          resolve(data.map(d => this.storyParser.setRawData(d).parseStory()));
-        });
-    });
+  queryStories(dom: Document): HTMLCollection {
+    return undefined;
   }
 
   search(pageNumber: string, keyword: string): Promise<Story[]> {
     return undefined;
   }
+
 }

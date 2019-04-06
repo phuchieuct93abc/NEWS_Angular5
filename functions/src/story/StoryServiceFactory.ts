@@ -3,12 +3,12 @@ import GoogleStoryService from "./google-news/GoogleStoryService";
 import {StoryService} from "./StoryService";
 
 export default class StoryServiceFactory {
-    public static get(lang = 'vi'): StoryService {
-        if (lang === 'en') {
+    public static get(req): StoryService {
+        if (req.query.lang === 'en') {
 
-            return new GoogleStoryService();
+            return new GoogleStoryService(req.query.pageNumber,req.query.category);
         } else {
-            return new BaomoiStoryService();
+            return  BaomoiStoryService.createInstance(req.query.pageNumber,req.query.category);
         }
         return null
     }

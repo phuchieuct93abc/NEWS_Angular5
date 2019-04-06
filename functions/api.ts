@@ -21,7 +21,7 @@ api.use(cors());
 
 
 api.get('/story', (req, res) => {
-    StoryServiceFactory.get(req.query.lang).getStories(req.query.pageNumber, req.query.category).then(stories => res.send(stories))
+    StoryServiceFactory.get(req).getStories().then(stories => res.send(stories))
 });
 
 
@@ -33,7 +33,7 @@ api.get('/comments', (req, res) => {
 });
 api.get('/cachestory', (req, res) => {
 
-    StoryServiceFactory.get('vi').cache(req.query.pageNumber, req.query.category).then(() => {
+    StoryServiceFactory.get(req).cache().then(() => {
         res.send("ok");
 
     })
@@ -41,7 +41,7 @@ api.get('/cachestory', (req, res) => {
 
 api.get('/search', (req, res) => {
 
-    StoryServiceFactory.get('vi').search(req.query.pageNumber, req.query.keyword).then((value) => {
+    StoryServiceFactory.get(req).search(req.query.pageNumber, req.query.keyword).then((value) => {
         res.send(value);
 
     })

@@ -47,7 +47,7 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseDescription(): string {
-        throw new Error("Method not implemented.");
+        return this.html.querySelector(".story__summary").textContent;
     }
 
 

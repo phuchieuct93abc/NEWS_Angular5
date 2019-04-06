@@ -19,6 +19,7 @@ export default class BaomoiStoryService extends StoryService {
     }
 
     static createInstance(pageNumber: string, category: string) {
+
         let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
         return new BaomoiStoryService(url);
 
@@ -46,6 +47,7 @@ export default class BaomoiStoryService extends StoryService {
         const category = Categories.find(category => category.name == name);
         if (category == null) {
             console.error(`Name null: ${name}`)
+            return ""
         }
         return category.url != null ? category.url : category.name + "/";
     }

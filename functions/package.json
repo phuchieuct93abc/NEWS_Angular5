@@ -2,12 +2,12 @@
   "name": "functions",
   "scripts": {
     "setup": "npm install",
-    "serve": "npm-run-all --parallel webpack:watch run",
     "deploy": "firebase deploy --only functions",
     "compile": "node copy-index && npm run webpack:build",
     "webpack:watch": "webpack --watch --progress --colors",
     "webpack:build": "webpack --progress --colors",
-    "run": "nodemon dist/server"
+    "run": "nodemon dist/server",
+    "serve": "npm-run-all --parallel webpack:watch run"
   },
   "main": "dist/server.js",
   "dependencies": {

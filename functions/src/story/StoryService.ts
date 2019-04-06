@@ -20,8 +20,7 @@ export abstract class StoryService {
     public getStories(): Promise<Story[]> {
         return new Promise((resolve) => {
             axios.get(this.url).then(response => {
-                const dom = new JSDOM(response.data);
-                const result: HTMLCollection = this.queryStories(dom.window.document);
+                const result: HTMLCollection = this.queryStories(response.data);
                 let stories = Array.from(result)
                     .map(r => {
                         return this.storyParser.setHtml(r).parseStory();

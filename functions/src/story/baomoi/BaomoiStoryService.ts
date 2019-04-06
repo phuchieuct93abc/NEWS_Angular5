@@ -10,7 +10,9 @@ const axios = require('axios');
 
 
 export default class BaomoiStoryService extends StoryService {
-    queryStories(dom: Document): HTMLCollection {
+    queryStories(response): HTMLCollection {
+        const dom = new JSDOM(response);
+
         return dom.getElementsByClassName("story")
     }
 

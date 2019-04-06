@@ -4,11 +4,11 @@ import {StoryService} from "./StoryService";
 
 export default class StoryServiceFactory {
     public static get(req): StoryService {
-        if (req.query.lang === 'en') {
+        if (req.query.lang !== 'en') {
 
-            return new GoogleStoryService(req.query.pageNumber,req.query.category);
+            return GoogleStoryService.createInstance(req.query.pageNumber, req.query.category);
         } else {
-            return  BaomoiStoryService.createInstance(req.query.pageNumber,req.query.category);
+            return BaomoiStoryService.createInstance(req.query.pageNumber, req.query.category);
         }
         return null
     }

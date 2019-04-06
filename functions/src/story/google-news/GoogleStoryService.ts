@@ -31,12 +31,12 @@ export default class GoogleStoryService extends StoryService {
     getStories(): Promise<Story[]> {
 
         return new Promise<Story[]>(resolver => {
-            axios.get("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e60f99befdf44b02b7472b0cc82cb7d4")
+            axios.get("https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=e60f99befdf44b02b7472b0cc82cb7d4")
                 .then(response => {
                     let result = (<NEWS[]>response.data.articles).map(news => {
 
                         let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
-                        return new Story(news.title, news.title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
+                        return new Story(news.url, news.title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
                     })
                     resolver(result);
                 })

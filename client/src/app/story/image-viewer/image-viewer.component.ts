@@ -39,16 +39,10 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
-        // this.cacheImage();
         this.calculateImageHeight(firstImage);
         this.convertedImagePath = this.getImage(this.imagePath);
-
         this.scrollObservable = this.storyListService.onScroll;
-
-        //  this.randomImagePath();
-
     }
-
 
 
     private calculateImageHeight(firstImage) {
@@ -56,37 +50,26 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.height = firstImage.height / firstImage.width * width;
     }
 
-    private randomImagePath() {
-        if (this.images.length > 1) {
-
-            this.interval = setInterval(() => {
-                this.imageIndex++;
-                this.imageIndex = this.imageIndex == this.images.length ? 0 : this.imageIndex;
-                this.imagePath = this.images[this.imageIndex].imageUrl;
-            }, 3000)
-        } else {
-            this.detach();
-        }
-    }
-
-    private detach() {
-        setTimeout(() => this.ref.detach())
-    }
 
     ngOnDestroy(): void {
         clearInterval(this.interval);
     }
 
     getImage(imagePath: string) {
-        this.maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
+        if (imagePath.indexOf("baomoi") > 0) {
+            this.maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
 
-        let result = imagePath;
-        result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize);
-        const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-        if (isChrome) {
-            result = result + ".webp";
+            let result = imagePath;
+
+            result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize);
+            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+            if (isChrome) {
+                result = result + ".webp";
+            }
+            return result;
         }
-        return result;
+
+        return imagePath;
     }
 
 }

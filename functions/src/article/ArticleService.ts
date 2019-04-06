@@ -12,7 +12,7 @@ export abstract class ArticleService {
     public getArticleById(id: string): Promise<Article> {
         return new Promise(resolver => {
             FirebaseService.findArticle(id).then(article => {
-                if (article.exists) {
+                if (article && article.exists) {
                     console.error(`get from firebase ${id}`)
                     resolver((<Article>article.data()));
                 } else {
@@ -31,7 +31,7 @@ export abstract class ArticleService {
 
             FirebaseService.findArticle(idPath).then(article => {
 
-                if (article.exists) {
+                if (article && article.exists) {
                     resolver(null);
                 } else {
                     this.crawnArticleById(idPath).then(article => {

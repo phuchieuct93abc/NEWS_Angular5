@@ -2,7 +2,6 @@ import * as admin from 'firebase-admin';
 import {ServiceAccount} from 'firebase-admin';
 import Article from "../../model/Article";
 import {DocumentSnapshot} from "firebase-functions/lib/providers/firestore";
-import Utility from "./Utility";
 
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 
@@ -34,9 +33,15 @@ class FirebaseService {
     }
 
     findArticle(id: string): Promise<DocumentSnapshot> {
-        const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
+        try {
+            const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
 
-        return articleCollection.doc(id).get();
+            return articleCollection.doc(id).get();
+        } catch (e) {
+            // console.error(e);
+            return Promise.resolve(null);
+        }
+
     }
 }
 

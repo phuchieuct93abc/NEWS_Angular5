@@ -6,8 +6,15 @@
     width: 100% !important;
   }
 
-  ::ng-deep iframe {
-    width: 100%;
+  ::ng-deep {
+    img {
+      width: 100% !important;
+      height: auto;
+    }
+
+    iframe {
+      width: 100%;
+    }
   }
 
 }

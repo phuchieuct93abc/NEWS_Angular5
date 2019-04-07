@@ -4,7 +4,6 @@ import * as express from 'express';
 
 import StoryServiceFactory from "./src/story/StoryServiceFactory";
 import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
-import DiffbotService from "./utils/diffbot.service";
 
 const api = express();
 
@@ -64,7 +63,7 @@ api.get('/blur', (req, res) => {
                 res.send(output)
             })
         } catch (e) {
-            console.log(err2, res2, bodyBuffer)
+            console.log(err2, res2, bodyBuffer);
 
             res.send(null);
 
@@ -77,14 +76,7 @@ api.get('/blur', (req, res) => {
 
 // regular function
 
-api.get('/pocket', (req, res) => {
-    new DiffbotService(req.query.url).get().then(result => {
 
-        res.send(result.objects[0].html)
-    })
-
-
-});
 
 api.listen(3000, () => {
     console.log(`Node Express server listening on http://localhost:${3000}`);

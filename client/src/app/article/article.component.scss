@@ -1,19 +1,16 @@
 
 .article-body {
   font-size: 1.3em;
+  line-height: 30px;
 
   img {
     width: 100% !important;
   }
 
   ::ng-deep {
-    img {
+    iframe, video, img {
       width: 100% !important;
       height: auto;
-    }
-
-    iframe {
-      width: 100%;
     }
   }
 

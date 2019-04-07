@@ -15,8 +15,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 @include angular-material-theme($candy-app-theme);
 
 
-
-$light-background-dark:#e5e5e5;
+$light-background-dark: #e5e5e5;
 
 
 // Define an alternate dark theme.
@@ -25,7 +24,7 @@ $dark-accent: mat-palette($mat-blue, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-$dark-background-selected:#696969;
+$dark-background-selected: #696969;
 $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
 $dark-background-gray-transparent: rgba(48, 48, 48, 0);
@@ -68,9 +67,13 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
     }
   }
 
-  input{
+  input {
     background-color: #424242;
 
+  }
+
+  .primary-text {
+    color: rgba(255, 255, 255, 0.78);
   }
 
 }
@@ -84,13 +87,19 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
       background-color: $dark-background-gray-transparent !important;
       box-shadow: none;
     }
+
     .article > div {
-      background-color:$light-background-dark ;
+      background-color: $light-background-dark;
 
     }
   }
-  input{
+
+  input {
     background-color: #9b73d3;
+  }
+
+  .primary-text {
+    color: rgba(0, 0, 0, 0.87)
   }
 
 
@@ -114,7 +123,6 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
       max-width: 1400px;
     }
   }
-
 
 
 }

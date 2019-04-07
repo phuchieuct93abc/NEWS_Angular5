@@ -26,10 +26,10 @@ api.get('/story', (req, res) => {
 
 
 api.get('/article', (req, res) => {
-    ArticleServiceFactory.get("vi").getArticleById(req.query.url).then(article => res.send(article))
+    ArticleServiceFactory.get(req).getArticleById(req.query.url).then(article => res.send(article))
 });
 api.get('/comments', (req, res) => {
-    ArticleServiceFactory.get("vi").getComment(req.query.id).then(article => res.send(article))
+    ArticleServiceFactory.get(req).getComment(req.query.id).then(article => res.send(article))
 });
 api.get('/cachestory', (req, res) => {
 
@@ -48,7 +48,7 @@ api.get('/search', (req, res) => {
 });
 api.get('/getSource', (req, res) => {
 
-    ArticleServiceFactory.get('vi').getSource(req.query.id).then((value) => {
+    ArticleServiceFactory.get(req).getSource(req.query.id).then((value) => {
         res.send({url: value});
 
     })

@@ -17,6 +17,7 @@ import {Subscription} from "rxjs";
 export class ArticleComponent implements OnInit, OnDestroy {
     public article: Article;
     public articleId: string;
+    public categoryId:string;
     public isFavorite: boolean;
 
     @ViewChild('articleContent')
@@ -40,7 +41,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = params['id'];
-            this.showArticleById(params['id']);
+            this.categoryId = params['category'];
+            this.showArticleById();
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
@@ -50,10 +52,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     }
 
-    protected showArticleById(articleId: string) {
-        if (articleId) {
+    protected showArticleById() {
+        if (this.articleId) {
             this.article = null;
-            this.articleService.getById(articleId).subscribe(article => {
+            this.articleService.getById(this.articleId,this.categoryId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();
                 this.afterGetArticle();

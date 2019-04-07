@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Categories, Category} from "../../../../../model/Categories";
+import CategoryHelper, {Category} from "../../../../../model/Categories";
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
@@ -12,8 +12,9 @@ import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 export class CategorySelectorComponent implements OnInit {
 
 
-    categories: Category[];
-    selectedCategory: Category = Categories[0];
+    vietnameseCategories: Category[];
+    englishCategories: Category[];
+    selectedCategory: Category;
     isDarkMode: boolean;
     isSmallImage: boolean;
 
@@ -22,12 +23,14 @@ export class CategorySelectorComponent implements OnInit {
 
 
     ngOnInit() {
-        this.categories = Categories;
+        this.vietnameseCategories = CategoryHelper.vietnameseCategories();
+        this.englishCategories = CategoryHelper.englishCategories();
+        this.selectedCategory = this.vietnameseCategories[0];
         this.isDarkMode = this.configService.getConfig().darkTheme
         this.isSmallImage = this.configService.getConfig().smallImage;
         setTimeout(() => {
             this.route.firstChild.params.subscribe(params => {
-                this.selectedCategory = Categories.find(category => category.name === params['category'])
+                this.selectedCategory = CategoryHelper.findByName(params['category'])
             })
         })
 

@@ -20,7 +20,7 @@ export class ArticleService {
     constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService) {
     }
 
-    getById(id: string): Observable<Article> {
+    getById(id: string,category:string): Observable<Article> {
         const story: Story = this.storyService.getById(id);
 
         if (story != null) {
@@ -29,10 +29,10 @@ export class ArticleService {
         }
         const options = {
             params: {
-                url: id
+                url: id,
+                category:category
             }
         };
-        console.time("api" + id);
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {

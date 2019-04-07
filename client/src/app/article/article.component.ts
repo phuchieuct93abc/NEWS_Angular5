@@ -17,7 +17,7 @@ import {Subscription} from "rxjs";
 export class ArticleComponent implements OnInit, OnDestroy {
     public article: Article;
     public articleId: string;
-    public categoryId:string;
+    public categoryId: string;
     public isFavorite: boolean;
 
     @ViewChild('articleContent')
@@ -55,11 +55,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected showArticleById() {
         if (this.articleId) {
             this.article = null;
-            console.log("get article", this.articleId, this.categoryId);
 
-            this.articleService.getById(this.articleId,this.categoryId).subscribe(article => {
+            this.articleService.getById(this.articleId, this.categoryId).subscribe(article => {
                 this.article = article;
-                this.getSourceUrl();
+                // this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
@@ -76,9 +75,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     private getSourceUrl() {
-        this.articleService.getSource(this.article.id).subscribe(url => {
-            this.article.externalUrl = url;
-        })
+        if (this.article.sourceUrl.indexOf("http") == 0) {
+            this.article.externalUrl = this.article.sourceUrl;
+        } else {
+
+            this.articleService.getSource(this.article.id).subscribe(url => {
+                this.article.externalUrl = url;
+            })
+        }
     }
 
 

@@ -19,7 +19,7 @@
 
                 <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent ></p>
                 <div class="source text-right">
-                    <a mat-button [href]="article.externalUrl" target="_blank"
+                    <a mat-button [href]="article.sourceUrl" target="_blank"
                        color="primary">Nguồn: {{article.sourceName}}</a>
                 </div>
                 <app-comments [articleId]="article.id"></app-comments>

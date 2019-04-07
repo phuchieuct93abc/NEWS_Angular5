@@ -53,7 +53,7 @@ export default class GoogleStoryService extends StoryService {
                     let result = (<NEWS[]>response.data.articles).map(news => {
 
                         let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
-                        return new Story(news.url, news.title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
+                        return new Story(news.url, news.title.split("-")[0], news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
                     })
                     resolver(result);
                 })

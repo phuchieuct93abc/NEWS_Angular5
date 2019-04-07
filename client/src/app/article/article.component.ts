@@ -55,6 +55,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected showArticleById() {
         if (this.articleId) {
             this.article = null;
+            console.log("get article",this.articleId,this.categoryId)
+
             this.articleService.getById(this.articleId,this.categoryId).subscribe(article => {
                 this.article = article;
                 this.getSourceUrl();

@@ -18,8 +18,10 @@ export abstract class ArticleService {
                 } else {
                     this.crawnArticleById(id).then(article => {
                         console.error(`get from baomoi ${id}`)
+                        FirebaseService.saveArticle(article).then(()=>{
 
-                        resolver(article)
+                            resolver(article)
+                        })
                     })
                 }
             })

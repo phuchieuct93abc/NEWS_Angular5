@@ -11,6 +11,7 @@ import {FavoriteService} from "../../../shared/favorite-story.service";
 })
 export class MobileStoryComponent extends StoryComponent{
 
+
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService

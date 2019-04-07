@@ -63,10 +63,40 @@ const categories: Categories[] = [
         language: "en",
         categories: [
             {
+                name: 'general',
+                title: 'General',
+                icon: 'whatshot'
+            },
+            {
+                name: 'business',
+                title: 'Business',
+                icon: 'business'
+            },       {
                 name: 'technology',
                 title: 'Technology',
+                icon: 'phone_iphone'
+            },       {
+                name: 'entertainment',
+                title: 'Entertainment',
+                icon: 'movie'
+            },       {
+                name: 'health',
+                title: 'Health',
                 icon: 'people'
-            }
+            },       {
+                name: 'science',
+                title: 'Science',
+                icon: 'people'
+            },       {
+                name: 'sports',
+                title: 'Sports',
+                icon: 'directions_bike'
+            },
+
+
+
+
+
         ]
     }
 ];

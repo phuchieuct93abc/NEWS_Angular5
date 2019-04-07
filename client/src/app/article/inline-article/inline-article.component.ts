@@ -37,14 +37,20 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
                 private storyListService: StoryListService,
                 protected  favoriteService: FavoriteService,
                 protected domService: DomService,
-                protected configService: ConfigService) {
+                protected configService: ConfigService,
+                ) {
         super(route, articleService, favoriteService, domService, configService);
     }
 
 
     ngOnInit() {
         super.ngOnInit();
-        this.showArticleById(this.story.id);
+
+        this.categoryId = this.route.snapshot.params["category"];
+        this.articleId = this.story.id;
+
+        console.log(this.categoryId,this.articleId)
+        super.showArticleById();
 
     }
 

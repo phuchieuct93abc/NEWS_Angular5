@@ -26,21 +26,36 @@ class FirebaseService {
     }
 
     saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
+        console.time("write" + this.encodeUrl(article.id))
         const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
 
-        let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(article.id);
-        return documentFireStore.set(article.toJSON());
+        let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(this.encodeUrl(article.id));
+        return new Promise(resolver => {
+            documentFireStore.set(article.toJSON()).then(value => {
+                console.timeEnd("write" + this.encodeUrl(article.id))
+                resolver(value);
+            })
+        });
+
     }
 
     findArticle(id: string): Promise<DocumentSnapshot> {
-        try {
-            const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
+        console.time("read" + this.encodeUrl(id))
 
-            return articleCollection.doc(id).get();
-        } catch (e) {
-            // console.error(e);
-            return Promise.resolve(null);
-        }
+        const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
+        return new Promise(resolver => {
+            articleCollection.doc(this.encodeUrl(id)).get().then(value => {
+                console.timeEnd("read" + this.encodeUrl(id))
+
+                resolver(value)
+            });
+        })
+
+
+    }
+
+    private encodeUrl(id): string {
+        return id.replace(/\//g, "");
 
     }
 }

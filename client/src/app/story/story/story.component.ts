@@ -31,7 +31,8 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
-                protected favoriteService: FavoriteService
+                protected favoriteService: FavoriteService,
+
     ) {
     }
 

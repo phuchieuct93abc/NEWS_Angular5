@@ -9,9 +9,14 @@ import StoryMeta from "../../../../model/StoryMeta";
 
 
 export default class GoogleStoryService extends StoryService {
+    public pageNumber: number;
+    public category: string;
+    private headline = "https://newsapi.org/v2/top-headlines";
+
     constructor(protected url: string) {
         super(url, new GoogleStoryParser())
     }
+
 
     queryStories(dom: Document): HTMLCollection {
         return undefined;
@@ -21,17 +26,29 @@ export default class GoogleStoryService extends StoryService {
         return undefined;
     }
 
-    static createInstance(pageNumber: string, category: string) {
+    static createInstance(pageNumber: number, category: string) {
 
-        let url = `https://news.google.com/?hl=en-US&gl=US&ceid=US%3Aen`;
-        return new GoogleStoryService(url);
+        const googleStoryService = new GoogleStoryService("url");
+        googleStoryService.pageNumber = pageNumber;
+        googleStoryService.category = category;
+        return googleStoryService;
 
     }
 
     getStories(): Promise<Story[]> {
 
         return new Promise<Story[]>(resolver => {
-            axios.get("https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=e60f99befdf44b02b7472b0cc82cb7d4")
+            if(this.pageNumber>5){
+                resolver([])
+            }
+            axios.get(this.headline, {
+                params: {
+                    category: this.category,
+                    page: this.pageNumber,
+                    apiKey: "e60f99befdf44b02b7472b0cc82cb7d4",
+                    country: "us"
+                }
+            })
                 .then(response => {
                     let result = (<NEWS[]>response.data.articles).map(news => {
 

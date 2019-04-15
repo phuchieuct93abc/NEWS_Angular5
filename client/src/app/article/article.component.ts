@@ -9,6 +9,8 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 
+const animateTime = 500
+
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -19,12 +21,6 @@ import {animate, style, transition, trigger} from "@angular/animations";
                     style({opacity: 0}),
                     animate('0.5s', style({opacity: 1})),
                 ]),
-                transition(':leave', [
-                    style({opacity: 1}),
-                    animate('0.5s', style({
-                        opacity: 0
-                    }))
-                ])
             ]
         )
     ],
@@ -80,11 +76,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
             });
 
+
         }
     }
 
     protected afterGetArticle(): void {
+
         if (typeof this.articleView.nativeElement.scroll === 'function') {
+            console.log("scroll", <HTMLElement>this.articleView.nativeElement);
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
         this.parseHtml();

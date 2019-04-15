@@ -14,22 +14,28 @@
     </div>
 
     <!--Chế độ -->
-    <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen">
-        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage"
-                          (change)="toogleDisplay()">
-            Chế độ ảnh nhỏ
-        </mat-slide-toggle>
+    <div class="container-fluid">
+        <div class="row">
+            <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen" class="col-12">
+                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage"
+                                  (change)="toogleDisplay()">
+                    Chế độ ảnh nhỏ
+                </mat-slide-toggle>
 
-    </button>
+            </button>
 
-    <!--Theme-->
-    <button mat-menu-item (click)="$event.stopPropagation()">
-        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode"
-                          (change)="toggleDarkMode()">
-            Chế độ ban đêm
-        </mat-slide-toggle>
+            <!--Theme-->
+            <button mat-menu-item (click)="$event.stopPropagation()" class="col-12">
+                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode"
+                                  (change)="toggleDarkMode()">
+                    Chế độ ban đêm
+                </mat-slide-toggle>
 
-    </button>
+            </button>
+        </div>
+
+    </div>
+
 
     <!--Categories-->
 

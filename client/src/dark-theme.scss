@@ -27,23 +27,17 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 $dark-background-selected: #696969;
 $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
-$dark-background-gray-transparent: rgba(48, 48, 48, 0);
+$transparent: transparent;
 
 
 .unicorn-dark-theme {
   @include angular-material-theme($dark-theme);
   background-color: $dark-background-gray !important;
 
-  .article > div {
+  .panel-primary {
     color: rgba(255, 255, 255, 0.78) !important;
     background-color: $dark-background-light !important;
-
-  }
-
-  mat-card {
-    &.active {
-      background-color: $dark-background-light !important;
-    }
+    opacity: 1 !important;
   }
 
   .mat-toolbar.mat-primary {
@@ -56,15 +50,14 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
 
   &:not(.small-device) {
     .mat-toolbar.mat-primary {
-      background-color: $dark-background-gray-transparent !important;
+      background-color: $transparent !important;
       box-shadow: none;
     }
 
-    mat-card {
-      &.active {
-        background-color: $dark-background-selected !important;
-      }
-    }
+  }
+
+  mat-card.active{
+    @extend .panel-primary;
   }
 
   input {
@@ -84,14 +77,22 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
   &:not(.small-device) {
 
     .mat-toolbar.mat-primary {
-      background-color: $dark-background-gray-transparent !important;
+      background-color: $transparent !important;
       box-shadow: none;
     }
 
-    .article > div {
-      background-color: $light-background-dark;
 
+  }
+
+  mat-card {
+    &.active {
+      @extend .panel-primary;
     }
+  }
+
+  .panel-primary {
+    background-color: $light-background-dark;
+
   }
 
   input {
@@ -121,6 +122,14 @@ $dark-background-gray-transparent: rgba(48, 48, 48, 0);
   @media (min-width: 1500px) {
     .container {
       max-width: 1400px;
+    }
+  }
+
+  &:not(.small-device) {
+
+    .mat-toolbar.mat-primary {
+      background-color: $transparent !important;
+      box-shadow: none;
     }
   }
 

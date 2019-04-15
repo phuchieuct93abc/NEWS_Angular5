@@ -1,8 +1,8 @@
 <div #articleView class="w-100 h-100 article  p-1" [ngClass]="'font-size-'+fontSize">
     <div class="scrollable ">
-        <div *ngIf="articleId">
+        <div *ngIf="articleId" style="position: relative">
 
-            <div *ngIf="article;else loading" class="article-content p-2  pb-5">
+            <div *ngIf="article" class="article-content p-2  pb-5" @showArticle>
                 <div #articleHeader class="mat-display-1 mb-2">
                     {{article.header}}
                 </div>
@@ -25,9 +25,10 @@
                 <app-comments [articleId]="article.id"></app-comments>
 
             </div>
-            <ng-template #loading>
+            <div *ngIf="!article" class="loading" @showArticle>
                 <app-loading></app-loading>
-            </ng-template>
+
+            </div>
         </div>
     </div>
 

@@ -123,7 +123,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 for (let i = 0; i < videos.length; i++) {
                     new ArticleContentParser(videos[i], this.domService).parse();
                 }
-            }, 1000)
+            }, 0)
         }
     }
 

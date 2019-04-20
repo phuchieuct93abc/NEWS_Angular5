@@ -33,8 +33,8 @@ api.get('/comments', (req, res) => {
 });
 api.get('/cachestory', (req, res) => {
 
-    StoryServiceFactory.get(req).cache().then(() => {
-        res.send("ok");
+    StoryServiceFactory.get(req).cache().then((result) => {
+        res.send(`Cached article ${result}`);
 
     })
 });

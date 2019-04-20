@@ -1,18 +1,17 @@
 import {Story} from "../../../model/Story";
 import {StoryParser} from "./StoryParser";
 import Article from "../../../model/Article";
-import ArticleServiceFactory from "../article/ArticleServiceFactory";
+import BaomoiArticleService from "../article/baomoi/BaomoiArticleService";
+import NotificationService from "../notification/notification.service";
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
 const axios = require('axios');
 
 
 export abstract class StoryService {
-    readonly MAX_CACHE_NUMBER = 50;
+    readonly MAX_CACHE_NUMBER = 2;
 
 
-    constructor(protected url: string, protected storyParser: StoryParser) {
+    constructor(protected url: string, protected storyParser: StoryParser,protected category:string) {
 
     }
 
@@ -40,34 +39,41 @@ export abstract class StoryService {
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 
-    public cache(): Promise<string> {
+    public cache(): Promise<number> {
         return new Promise(resolver => {
             this.getStories().then(stories =>
-                this.cacheArticles(stories).then(() => resolver("ok"))
+                this.cacheArticles(stories).then((value) => resolver(value))
             )
 
         })
 
     }
 
-    private cacheArticles(stories): Promise<any> {
-        let promise = this.cacheArticle(stories[0].id);
-        for (let i = 1; i < this.MAX_CACHE_NUMBER; i++) {
-            promise = (function (story: Story) {
-                return promise.then((value) => {
-                    if (value) {
-                        return this.cacheArticle(story.id)
-                    } else {
-                        return Promise.resolve(null);
-                    }
-                })
-            }).bind(this)(stories[i]);
+    private async cacheArticles(stories): Promise<number> {
+        var times: number = 1;
+        let cacheResult: Article;
+        for (let i = 0; i < this.MAX_CACHE_NUMBER; i++) {
+            let story = stories[i];
+            cacheResult = await this.cacheArticle(story.id);
+            if (!cacheResult) {
+                break;
+            }
+            times++;
         }
-        return promise;
+
+        if(cacheResult){
+            let noticationService = new NotificationService();
+            await noticationService.send(cacheResult,this.category);
+        }
+
+        return times;
+
+
     }
 
     private cacheArticle = function (url): Promise<Article> {
-        return ArticleServiceFactory.get("vi").crawnArticleByIdAndSaveArticle(url)
+
+        return new BaomoiArticleService().crawnArticleByIdAndSaveArticle(url)
     };
 
     protected uniqueBy(stories): Story[] {

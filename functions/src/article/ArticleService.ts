@@ -1,6 +1,7 @@
 import Article from "../../../model/Article";
 import {ArticleParser} from "./ArticleParser";
 import FirebaseService from "../FirebaseService";
+import {reject} from "q";
 
 export abstract class ArticleService {
     protected parser: ArticleParser;
@@ -29,11 +30,12 @@ export abstract class ArticleService {
     }
 
     public crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {
-        return new Promise((resolver) => {
+        return new Promise((resolver,reject) => {
 
             FirebaseService.findArticle(idPath).then(article => {
-
                 if (article && article.exists) {
+                    console.log("reject roi",idPath)
+
                     resolver(null);
                 } else {
                     this.crawnArticleById(idPath).then(article => {

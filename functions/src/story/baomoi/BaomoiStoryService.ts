@@ -16,14 +16,14 @@ export default class BaomoiStoryService extends StoryService {
         return dom.window.document.getElementsByClassName("story")
     }
 
-    constructor(protected url: string) {
-        super(url, new BaomoiStoryParser())
+    constructor(protected url: string,category:string) {
+        super(url, new BaomoiStoryParser(),category)
     }
 
     static createInstance(pageNumber: string, category: string) {
 
         let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi?loadmore=1`;
-        return new BaomoiStoryService(url);
+        return new BaomoiStoryService(url,category);
 
     }
 

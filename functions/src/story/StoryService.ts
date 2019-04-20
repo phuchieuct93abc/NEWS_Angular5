@@ -8,10 +8,10 @@ const axios = require('axios');
 
 
 export abstract class StoryService {
-    readonly MAX_CACHE_NUMBER = 2;
+    readonly MAX_CACHE_NUMBER = 50;
 
 
-    constructor(protected url: string, protected storyParser: StoryParser,protected category:string) {
+    constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
 
     }
 
@@ -52,18 +52,22 @@ export abstract class StoryService {
     private async cacheArticles(stories): Promise<number> {
         var times: number = 1;
         let cacheResult: Article;
+        let mostLikesArticles: Article;
         for (let i = 0; i < this.MAX_CACHE_NUMBER; i++) {
             let story = stories[i];
             cacheResult = await this.cacheArticle(story.id);
             if (!cacheResult) {
                 break;
             }
+            if (cacheResult.likes > 10 && mostLikesArticles == undefined) {
+                mostLikesArticles = cacheResult;
+            }
             times++;
         }
 
-        if(cacheResult){
+        if (mostLikesArticles) {
             let noticationService = new NotificationService();
-            await noticationService.send(cacheResult,this.category);
+            await noticationService.send(mostLikesArticles, this.category);
         }
 
         return times;

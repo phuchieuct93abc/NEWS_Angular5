@@ -28,8 +28,9 @@ export default class BaomoiArticleParser extends ArticleParser {
             images.push(imageElements[index].getAttribute('src'))
         }
         const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
-        console.log(description)
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description);
+
+        let likes = parseInt(this.html.querySelector(".like").textContent);
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description,likes);
     }
 
 

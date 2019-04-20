@@ -13,6 +13,7 @@
     "build:client": "npm --prefix \"client\" run-script build:ssr",
     "test": "npm-run-all setup:func build:func setup:client build:client",
     "deploy": "npm run build:client && npm run build:func && firebase deploy",
+    "deploy:func": " npm run build:func && firebase deploy --only functions",
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",
     "serve:func": "npm --prefix \"functions\" run serve",

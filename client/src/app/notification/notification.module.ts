@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY} from "../../../../model/firebase.config";
-import * as firebase from "firebase";
+import * as firebaseApp from "firebase";
 import {NotificationService} from "./notification.service";
 
 @NgModule({
@@ -11,11 +11,11 @@ import {NotificationService} from "./notification.service";
     ]
 })
 export class NotificationModule {
-    message: firebase.messaging.Messaging;
+    message: any;
 
     constructor(private notificationService: NotificationService) {
         try {
-            const firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
+            firebaseApp.initializeApp(FIREBASE_CONFIG);
             this.message = firebaseApp.messaging()
 
             this.initFirebase();

@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const externals = [
     'firebase-admin',
     'firebase-functions',
+    'firebase-app',
     'sharp'
 ];
 module.exports = {

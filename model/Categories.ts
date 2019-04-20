@@ -110,7 +110,6 @@ export default class CategoryHelper {
         let categories = [];
         categories = categories.concat(vietnameCategory);
         categories = categories.concat(englishCategory);
-        console.log(categories)
         return categories.find(category => category.name === name)
     }
 

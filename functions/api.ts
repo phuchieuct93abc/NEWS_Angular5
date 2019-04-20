@@ -4,6 +4,7 @@ import * as express from 'express';
 
 import StoryServiceFactory from "./src/story/StoryServiceFactory";
 import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
+import notifyHandler from "./src/notification/notification.service";
 
 const api = express();
 
@@ -73,11 +74,12 @@ api.get('/blur', (req, res) => {
 
 });
 
-
 // regular function
+api.use(express.json());       // to support JSON-encoded bodies
+api.use(express.urlencoded());
 
 
-
+notifyHandler(api);
 api.listen(3000, () => {
     console.log(`Node Express server listening on http://localhost:${3000}`);
 });

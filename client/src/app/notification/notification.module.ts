@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY} from "./firebase.config";
+import {FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY} from "../../../../model/firebase.config";
 import * as firebase from "firebase";
+import {NotificationService} from "./notification.service";
 
 @NgModule({
     declarations: [],
@@ -12,35 +13,52 @@ import * as firebase from "firebase";
 export class NotificationModule {
     message: firebase.messaging.Messaging;
 
-    constructor() {
-        const firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
-        this.message = firebaseApp.messaging()
+    constructor(private notificationService: NotificationService) {
+        try {
+            const firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
+            this.message = firebaseApp.messaging()
+
+            this.initFirebase();
+
+
+            this.message.onTokenRefresh(() => {
+                this.getToken();
+            });
+        } catch (e) {
+            console.error(e);
+        }
 
     }
 
     initFirebase() {
 
         this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
-        this.message.requestPermission().then(function () {
-            console.log('Notification permission granted.');
+        this.message.requestPermission().then(() => {
+                console.log('Notification permission granted.');
+                this.getToken();
 
-
-        }).catch(function (err) {
+            }
+        ).catch(function (err) {
             console.log('Unable to get permission to notify.', err);
         });
 
-        this.getToken();
-        this.message.onMessage(function (payload) {
-            alert("get message");
-            console.log('Message received. ', payload);
-            // ...
-        });
+
+        this.message.onMessage((payload) => {
+                alert("get message");
+                console.log('Message received. ', payload);
+                // ...
+            }
+        )
+        ;
     }
 
+
     private getToken() {
-        this.message.getToken().then(function (currentToken) {
+        this.message.getToken().then((currentToken) => {
             if (currentToken) {
                 console.log(currentToken);
+                this.notificationService.subscribeToken(currentToken);
+
             } else {
                 console.log(`No token`);
 

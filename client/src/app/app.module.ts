@@ -35,6 +35,7 @@ import {CategorySelectorComponent} from "./navigator/category-selector/category-
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
 import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material";
+import {NotificationModule} from "./notification/notification.module";
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {MatButtonModule} from "@angular/material";
         VirtualScrollerModule,
         LazyLoadImageModule,
         RouterModule,
-        MatButtonModule
+        MatButtonModule,
+        NotificationModule
     ],
     declarations: [
         AppComponent,

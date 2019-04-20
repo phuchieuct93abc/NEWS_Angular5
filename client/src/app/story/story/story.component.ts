@@ -46,6 +46,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
+
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
 

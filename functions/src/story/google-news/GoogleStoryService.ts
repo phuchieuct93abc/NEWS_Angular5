@@ -14,7 +14,7 @@ export default class GoogleStoryService extends StoryService {
     private headline = "https://newsapi.org/v2/top-headlines";
 
     constructor(protected url: string) {
-        super(url, new GoogleStoryParser())
+        super(url, new GoogleStoryParser(),null)
     }
 
 

@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import Article from "../../../model/Article";
+import * as url from 'speakingurl';
 
 export default class NotificationService {
     constructor() {
@@ -7,16 +8,15 @@ export default class NotificationService {
 
     topic = "BaoHieu";
 
-    send(article: Article,category:string): Promise<string> {
+    send(article: Article, category: string): Promise<string> {
         let message = {
             data: {
-                url: `https://news.phuchieu.cf/${category}/${article.header}/${article.id}`,
+                url: `https://news.phuchieu.cf/${category}/${url(article.header)}/${article.id}`,
                 title: "Tin nóng",
                 body: article.header
             },
             topic: this.topic
         };
-        console.log("send notification", message)
         return admin.messaging().send(message);
 
     }

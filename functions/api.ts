@@ -4,7 +4,7 @@ import * as express from 'express';
 
 import StoryServiceFactory from "./src/story/StoryServiceFactory";
 import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
-import notifyHandler from "./src/notification/notification.service";
+import notifyHandler from "./src/notification/notificationHandler";
 
 const api = express();
 

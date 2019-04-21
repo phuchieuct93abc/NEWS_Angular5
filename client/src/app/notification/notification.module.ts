@@ -43,13 +43,6 @@ export class NotificationModule {
         });
 
 
-        this.message.onMessage((payload) => {
-                alert("get message");
-                console.log('Message received. ', payload);
-                // ...
-            }
-        )
-        ;
     }
 
 

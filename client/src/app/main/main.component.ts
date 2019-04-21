@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
-import {Categories, Category} from "../../../../model/Categories";
+import CategoryHelper, {Category} from "../../../../model/Categories";
 import {SidebarService} from "./sidebar.service";
 import {ConfigService} from "../shared/config.service";
 
@@ -22,7 +22,7 @@ export class MainComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.categories = Categories;
+        this.categories = CategoryHelper.vietnameseCategories();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.sidebarService.onSideBarToogle.subscribe(this.toggle.bind(this))
 

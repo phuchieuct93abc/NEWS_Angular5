@@ -1,15 +1,25 @@
 
 .article-body {
   font-size: 1.3em;
+  line-height: 30px;
 
   img {
     width: 100% !important;
   }
 
-  ::ng-deep iframe {
-    width: 100%;
+  ::ng-deep {
+    iframe, video, img {
+      width: 100% !important;
+      height: auto;
+    }
   }
 
+}
+.loading{
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .sticky {
@@ -31,3 +41,4 @@
   font-size: 18px;
 
 }
+

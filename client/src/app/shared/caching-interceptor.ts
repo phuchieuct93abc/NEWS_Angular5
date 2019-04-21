@@ -66,7 +66,7 @@ export class CachingInterceptor implements HttpInterceptor {
 
     private call(next: HttpHandler, req: HttpRequest<any>, cache: RequestCache) {
         return next.handle(req).pipe(
-            timeout(5000),
+            timeout(15000),
             tap(event => {
                 if (event instanceof HttpResponse) {
                     console.log("CALL API", req.url)

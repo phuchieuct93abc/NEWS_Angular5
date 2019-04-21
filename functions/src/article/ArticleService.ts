@@ -1,6 +1,7 @@
 import Article from "../../../model/Article";
 import {ArticleParser} from "./ArticleParser";
 import FirebaseService from "../FirebaseService";
+import {reject} from "q";
 
 export abstract class ArticleService {
     protected parser: ArticleParser;
@@ -12,14 +13,16 @@ export abstract class ArticleService {
     public getArticleById(id: string): Promise<Article> {
         return new Promise(resolver => {
             FirebaseService.findArticle(id).then(article => {
-                if (article.exists) {
+                if (article && article.exists) {
                     console.error(`get from firebase ${id}`)
                     resolver((<Article>article.data()));
                 } else {
                     this.crawnArticleById(id).then(article => {
                         console.error(`get from baomoi ${id}`)
+                        FirebaseService.saveArticle(article).then(()=>{
 
-                        resolver(article)
+                            resolver(article)
+                        })
                     })
                 }
             })
@@ -27,11 +30,12 @@ export abstract class ArticleService {
     }
 
     public crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {
-        return new Promise((resolver) => {
+        return new Promise((resolver,reject) => {
 
             FirebaseService.findArticle(idPath).then(article => {
+                if (article && article.exists) {
+                    console.log("reject roi",idPath)
 
-                if (article.exists) {
                     resolver(null);
                 } else {
                     this.crawnArticleById(idPath).then(article => {

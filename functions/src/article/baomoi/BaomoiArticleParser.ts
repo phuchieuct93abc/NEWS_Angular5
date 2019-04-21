@@ -19,7 +19,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         const header = this.html.getElementsByClassName('article__header')[0].textContent;
         const id = this.html.getElementsByClassName('article')[0].getAttribute('data-aid');
         const sourceName = this.html.getElementsByClassName('source')[0].textContent;
-        let sourceUrl = this.html.getElementsByClassName('source')[0].getAttribute("href");
+        let sourceUrl = this.html.querySelector(".article__action .plsh").getAttribute("href");
         sourceUrl = `https://m.baomoi.com${sourceUrl}`;
 
         let images = [];
@@ -28,8 +28,9 @@ export default class BaomoiArticleParser extends ArticleParser {
             images.push(imageElements[index].getAttribute('src'))
         }
         const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
-        console.log(description)
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description);
+
+        let likes = parseInt(this.html.querySelector(".like").textContent);
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description,likes);
     }
 
 

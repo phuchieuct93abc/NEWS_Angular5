@@ -2,12 +2,11 @@
 
 const path = require('path');
 const webpack = require('webpack');
-var nodeExternals = require('webpack-node-externals');
 
 const externals = [
     'firebase-admin',
     'firebase-functions',
-    'jsdom',
+    'firebase-app',
     'sharp'
 ];
 module.exports = {

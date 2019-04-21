@@ -1,6 +1,6 @@
 <button mat-raised-button [matMenuTriggerFor]="menu" color="accent" class="w-100">
-    <mat-icon class="mr-2">{{selectedCategory?selectedCategory.icon:""}}</mat-icon>
-    <span class="mat-h3 mb-0">{{ selectedCategory?selectedCategory.title:""}}</span>
+    <mat-icon class="mr-2">{{selectedCategory ? selectedCategory.icon : ""}}</mat-icon>
+    <span class="mat-h3 mb-0">{{ selectedCategory ? selectedCategory.title : ""}}</span>
 
     <mat-icon>expand_more</mat-icon>
 </button>
@@ -14,22 +14,28 @@
     </div>
 
     <!--Chế độ -->
-    <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen">
-        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage"
-                          (change)="toogleDisplay()">
-            Chế độ ảnh nhỏ
-        </mat-slide-toggle>
+    <div class="container-fluid">
+        <div class="row">
+            <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen" class="col-12">
+                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage"
+                                  (change)="toogleDisplay()">
+                    Chế độ ảnh nhỏ
+                </mat-slide-toggle>
 
-    </button>
+            </button>
 
-    <!--Theme-->
-    <button mat-menu-item (click)="$event.stopPropagation()">
-        <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode"
-                          (change)="toggleDarkMode()">
-            Chế độ ban đêm
-        </mat-slide-toggle>
+            <!--Theme-->
+            <button mat-menu-item (click)="$event.stopPropagation()" class="col-12">
+                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode"
+                                  (change)="toggleDarkMode()">
+                    Chế độ ban đêm
+                </mat-slide-toggle>
 
-    </button>
+            </button>
+        </div>
+
+    </div>
+
 
     <!--Categories-->
 
@@ -38,10 +44,34 @@
     <div class="container category-container">
         <div class="row">
 
-            <div class="col-6" *ngFor="let category of categories "
-            >
-                <app-category [category]="category" class="pt-2 d-block"></app-category>
 
+            <div class="container-fluid">
+                <div class="primary-text mat-h2">Vietname</div>
+
+                <div class="row">
+
+
+                    <div *ngFor="let category of vietnameseCategories " class="col-6">
+
+                        <app-category [category]="category" class="pt-2 d-block"></app-category>
+
+                    </div>
+                </div>
+            </div>
+
+            <mat-divider class="w-100 mt-2"></mat-divider>
+            <div class="container-fluid">
+                <div class="primary-text mat-h2">English</div>
+
+                <div class="row">
+
+
+                    <div *ngFor="let category of englishCategories " class="col-6">
+
+                        <app-category [category]="category" class="pt-2 d-block"></app-category>
+
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -6,6 +6,8 @@
   "theme_color": "#673ab7",
   "display": "fullscreen",
   "orientation": "portrait",
+  "gcm_sender_id": "103953800507",
+
   "icons": [{
     "src": "assets/newspaper.png",
     "sizes": "256x256",

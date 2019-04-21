@@ -7,16 +7,29 @@ import ArticleContentParser from "./article-parser";
 import {DomService} from "./dom.service";
 import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
+import {animate, style, transition, trigger} from "@angular/animations";
+
+const animateTime = 500
 
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
     styleUrls: ['./article.component.scss'],
+    animations: [
+        trigger('showArticle', [
+                transition(':enter', [
+                    style({opacity: 0}),
+                    animate('0.5s', style({opacity: 1})),
+                ]),
+            ]
+        )
+    ],
 
 })
 export class ArticleComponent implements OnInit, OnDestroy {
     public article: Article;
     public articleId: string;
+    public categoryId: string;
     public isFavorite: boolean;
 
     @ViewChild('articleContent')
@@ -40,7 +53,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = params['id'];
-            this.showArticleById(params['id']);
+            this.categoryId = params['category'];
+            this.showArticleById();
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
@@ -50,31 +64,40 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     }
 
-    protected showArticleById(articleId: string) {
-        if (articleId) {
+    protected showArticleById() {
+        if (this.articleId) {
             this.article = null;
-            this.articleService.getById(articleId).subscribe(article => {
+
+            this.articleService.getById(this.articleId, this.categoryId).subscribe(article => {
                 this.article = article;
-                this.getSourceUrl();
+                // this.getSourceUrl();
                 this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
             });
 
+
         }
     }
 
     protected afterGetArticle(): void {
+
         if (typeof this.articleView.nativeElement.scroll === 'function') {
+            console.log("scroll", <HTMLElement>this.articleView.nativeElement);
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
         this.parseHtml();
     }
 
     private getSourceUrl() {
-        this.articleService.getSource(this.article.id).subscribe(url => {
-            this.article.externalUrl = url;
-        })
+        if (this.article.sourceUrl.indexOf("http") == 0) {
+            this.article.externalUrl = this.article.sourceUrl;
+        } else {
+
+            this.articleService.getSource(this.article.id).subscribe(url => {
+                this.article.externalUrl = url;
+            })
+        }
     }
 
 
@@ -100,7 +123,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 for (let i = 0; i < videos.length; i++) {
                     new ArticleContentParser(videos[i], this.domService).parse();
                 }
-            }, 1000)
+            }, 0)
         }
     }
 

@@ -5,52 +5,123 @@ export interface Category {
     icon: string
 }
 
-export const Categories: Category[] =
-    [
-        {
-            name: 'tin-nong',
-            title: 'Tin nóng',
-            url: '',
-            icon: 'whatshot'
-        },
-        {
-            name: 'xa-hoi',
-            title: 'Xã hội',
-            icon: 'people'
+interface Categories {
+    language: string
+    categories: Category[]
+}
 
-        },
-        {
-            name: 'thoi-su',
-            title: 'Thời sự',
-            icon: 'list_alt'
+const categories: Categories[] = [
+    {
+        language: "vi",
+        categories: [
+            {
+                name: 'tin-nong',
+                title: 'Tin nóng',
+                url: '',
+                icon: 'whatshot'
+            },
+            {
+                name: 'xa-hoi',
+                title: 'Xã hội',
+                icon: 'people'
 
-        },
-        {
-            name: 'the-thao',
-            title: 'Thể thao',
-            icon: 'directions_bike'
+            },
+            {
+                name: 'thoi-su',
+                title: 'Thời sự',
+                icon: 'list_alt'
 
-        },
-        {
-            name: 'khoa-hoc-cong-nghe',
-            title: 'Công nghệ',
-            icon: 'phone_iphone'
+            },
+            {
+                name: 'the-thao',
+                title: 'Thể thao',
+                icon: 'directions_bike'
 
-        },
+            },
+            {
+                name: 'khoa-hoc-cong-nghe',
+                title: 'Công nghệ',
+                icon: 'phone_iphone'
 
-        {
-            name: 'tin-video',
-            title: 'Video',
-            icon: 'videocam'
+            },
 
-        },
-        {
-            name: 'yeu-thich',
-            title: 'Yêu thích',
-            icon: 'favorite'
+            {
+                name: 'tin-video',
+                title: 'Video',
+                icon: 'videocam'
 
-        }
-    ]
+            },
+            {
+                name: 'yeu-thich',
+                title: 'Yêu thích',
+                icon: 'favorite'
+
+            }
+        ]
+    },
+    {
+        language: "en",
+        categories: [
+            {
+                name: 'general',
+                title: 'General',
+                icon: 'whatshot'
+            },
+            {
+                name: 'business',
+                title: 'Business',
+                icon: 'business'
+            },       {
+                name: 'technology',
+                title: 'Technology',
+                icon: 'phone_iphone'
+            },       {
+                name: 'entertainment',
+                title: 'Entertainment',
+                icon: 'movie'
+            },       {
+                name: 'health',
+                title: 'Health',
+                icon: 'people'
+            },       {
+                name: 'science',
+                title: 'Science',
+                icon: 'people'
+            },       {
+                name: 'sports',
+                title: 'Sports',
+                icon: 'directions_bike'
+            },
+
+
+
+
+
+        ]
+    }
+];
+
+export default class CategoryHelper {
+
+    static findByName(name: string): Category {
+
+        let vietnameCategory = this.vietnameseCategories();
+        let englishCategory = this.englishCategories();
+        let categories = [];
+        categories = categories.concat(vietnameCategory);
+        categories = categories.concat(englishCategory);
+        return categories.find(category => category.name === name)
+    }
+
+    static vietnameseCategories(): Category[] {
+        return categories.find(c => c.language === 'vi').categories;
+    }
+
+    static englishCategories(): Category[] {
+        return categories.find(c => c.language === 'en').categories;
+    }
+}
+
 
 // XÃ HỘI
 // THỜI SỰ

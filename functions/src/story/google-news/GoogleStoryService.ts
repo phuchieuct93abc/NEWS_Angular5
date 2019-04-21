@@ -1,47 +1,64 @@
-import { Story } from "../../../../model/Story";
-import { StoryService } from "../StoryService";
+import {Story} from "../../../../model/Story";
+import {StoryService} from "../StoryService";
 import GoogleStoryParser from "./GoogleStoryParser";
-const NewsAPI = require("newsapi");
-const newsapi = new NewsAPI("e60f99befdf44b02b7472b0cc82cb7d4");
 
-export interface GoogleArticle {
-  source: {
-    id: string;
-    name: string;
-  };
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  content: string;
-}
+import axios from 'axios';
+import {NEWS} from "./NEWS";
+import StoryImage from "../../../../model/StoryImage";
+import StoryMeta from "../../../../model/StoryMeta";
+
 
 export default class GoogleStoryService extends StoryService {
-  private APIKEY = "";
+    public pageNumber: number;
+    public category: string;
+    private headline = "https://newsapi.org/v2/top-headlines";
 
-  constructor() {
-    super();
-    this.storyParser = new GoogleStoryParser();
-  }
+    constructor(protected url: string) {
+        super(url, new GoogleStoryParser(),null)
+    }
 
-  getStories(pageNumber: string, category: string): Promise<Story[]> {
-    return new Promise(resolve => {
-      newsapi.v2
-        .topHeadlines({
-          category: "technology",
-          language: "en",
-          country: "us"
-        })
-        .then(response => {
-          const data: GoogleArticle[] = response.articles;
-          resolve(data.map(d => this.storyParser.setRawData(d).parseStory()));
+
+    queryStories(dom: Document): HTMLCollection {
+        return undefined;
+    }
+
+    search(pageNumber: string, keyword: string): Promise<Story[]> {
+        return undefined;
+    }
+
+    static createInstance(pageNumber: number, category: string) {
+
+        const googleStoryService = new GoogleStoryService("url");
+        googleStoryService.pageNumber = pageNumber;
+        googleStoryService.category = category;
+        return googleStoryService;
+
+    }
+
+    getStories(): Promise<Story[]> {
+
+        return new Promise<Story[]>(resolver => {
+            if(this.pageNumber>5){
+                resolver([])
+            }
+            axios.get(this.headline, {
+                params: {
+                    category: this.category,
+                    page: this.pageNumber,
+                    apiKey: "e60f99befdf44b02b7472b0cc82cb7d4",
+                    country: "us"
+                }
+            })
+                .then(response => {
+                    let result = (<NEWS[]>response.data.articles).map(news => {
+
+                        let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
+                        return new Story(news.url, news.title.split("-")[0], news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
+                    })
+                    resolver(result);
+                })
+
         });
-    });
-  }
+    }
 
-  search(pageNumber: string, keyword: string): Promise<Story[]> {
-    return undefined;
-  }
 }

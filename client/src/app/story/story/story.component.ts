@@ -5,6 +5,7 @@ import {Config, ConfigService} from "../../shared/config.service";
 import {Subscription} from "rxjs";
 import * as url from 'speakingurl';
 import {FavoriteService} from "../../shared/favorite-story.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-story',
@@ -32,6 +33,8 @@ export class StoryComponent implements OnInit, OnDestroy {
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService,
+                protected route:Router,
+                protected activatedRoute:ActivatedRoute
 
     ) {
     }
@@ -49,6 +52,12 @@ export class StoryComponent implements OnInit, OnDestroy {
 
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
+
+        if(this.story.isAutoOpen){
+            this.onSelectStory();
+            this.route.navigate([this.friendlyUrl,this.story.id],{relativeTo:this.activatedRoute})
+            this.story.isAutoOpen = false;
+        }
 
     }
 

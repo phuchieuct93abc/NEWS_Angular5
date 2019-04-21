@@ -65,7 +65,6 @@ export class StoryListComponent implements OnInit {
         this.registerSpinner();
 
         this.getFirstStory().then(firstStory => {
-            console.log("Set value")
             this.firstStory = firstStory;
 
         }).finally(() => {
@@ -79,21 +78,21 @@ export class StoryListComponent implements OnInit {
 
     private getFirstStory(): Promise<Story> {
         return new Promise((resolve, reject) => {
-            if (this.isSmallScreen) {
-                this.route.children[0].params.subscribe(params => {
-                    let articleId = params["id"];
-                    this.articleService.getById(articleId, params['category']).subscribe(article => {
+            let params =  this.route.children[0].snapshot.params;
+            if(params["id"]){
+                let articleId = params["id"];
+                this.articleService.getById(articleId, params['category']).subscribe(article => {
 
-                        let storyImage: StoryImage = new StoryImage(article.images[0]);
-                        let storyMeta = new StoryMeta(article.sourceName, new Date().toDateString())
-                        let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true);
-                        resolve(story)
-                    })
-                });
-            } else {
-                reject();
-
+                    let storyImage: StoryImage = new StoryImage(article.images[0]);
+                    let storyMeta = new StoryMeta(article.sourceName, new Date().toDateString())
+                    let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    resolve(story)
+                })
+            }else {
+                reject()
             }
+
+
         })
 
     }
@@ -174,9 +173,9 @@ export class StoryListComponent implements OnInit {
         this.storyService.resetPageNumber();
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
-            console.log(this.firstStory)
             if (this.firstStory) {
                 this.stories.unshift(this.firstStory)
+                this.firstStory=null;
             }
             this.autoSelectFirstStory(this.stories[0]);
             // this.cacheArticle();

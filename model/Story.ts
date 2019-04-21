@@ -11,7 +11,8 @@ export class Story {
         public originalUrl: string,
         public storyMeta: StoryMeta,
         public hasVideo: boolean,
-        public isRead: boolean = false
+        public isRead: boolean = false,
+        public isAutoOpen = false
     ) {
     }
 }

@@ -31,7 +31,7 @@ class FirebaseService {
 
         let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(this.encodeUrl(article.id));
         return new Promise(resolver => {
-            documentFireStore.set(article.toJSON()).then(value => {
+            documentFireStore.set(article.toA()).then(value => {
                 console.timeEnd("write" + this.encodeUrl(article.id))
                 resolver(value);
             })

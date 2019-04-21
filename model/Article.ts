@@ -14,11 +14,11 @@ export default class Article {
                 public   sourceName: string,
                 public  images: string[],
                 public   description: string,
-                public likes = 1) {
+                public likes = 1,
+                public time = new Date().toISOString()) {
     }
 
-    toJSON() {
-        let {id, header, meta, body, moreStory,externalUrl, sourceName, sourceUrl, images, description, likes} = this;
-        return {id, header, meta, body, moreStory,externalUrl, sourceName, sourceUrl, images, description, likes};
+    toA() {
+        return JSON.parse(JSON.stringify(this));
     }
 }

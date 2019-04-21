@@ -84,7 +84,7 @@ export class StoryListComponent implements OnInit {
                 this.articleService.getById(articleId, params['category']).subscribe(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName, new Date().toDateString())
+                    let storyMeta = new StoryMeta(article.sourceName, article.time);
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })

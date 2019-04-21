@@ -11,7 +11,7 @@ import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/l
 import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
-import {reject} from "q";
+import StoryMeta from "../../../../../model/StoryMeta";
 
 @Component({
     selector: 'app-story-list',
@@ -39,7 +39,8 @@ export class StoryListComponent implements OnInit {
     config: Config;
     isBrowser;
 
-    firstStory:Story;
+    firstStory: Story;
+
     constructor(private storyService: StoryService,
                 private activatedRoute: ActivatedRoute,
                 private route: ActivatedRoute,
@@ -48,7 +49,7 @@ export class StoryListComponent implements OnInit {
                 private breakpointService: BreakpointDetectorService,
                 private configService: ConfigService,
                 private loadingService: LoadingService,
-                private articleService:ArticleService) {
+                private articleService: ArticleService) {
     }
 
     async ngOnInit() {
@@ -63,34 +64,33 @@ export class StoryListComponent implements OnInit {
 
         this.registerSpinner();
 
-        this.getFirstStory().then(firstStory=>{
+        this.getFirstStory().then(firstStory => {
             console.log("Set value")
-          this.firstStory = firstStory;
+            this.firstStory = firstStory;
 
-        }).finally(()=>{
+        }).finally(() => {
             this.updateStoryList();
 
         });
 
 
-
     }
 
 
-    private getFirstStory():Promise<Story> {
-        return new Promise((resolve,reject)=>{
+    private getFirstStory(): Promise<Story> {
+        return new Promise((resolve, reject) => {
             if (this.isSmallScreen) {
                 this.route.children[0].params.subscribe(params => {
                     let articleId = params["id"];
                     this.articleService.getById(articleId, params['category']).subscribe(article => {
 
-                        let storyImage: StoryImage = new StoryImage(article.images[0], null, null, null);
-                        let S
-                        let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, null, false, true);
+                        let storyImage: StoryImage = new StoryImage(article.images[0]);
+                        let storyMeta = new StoryMeta(article.sourceName, new Date().toDateString())
+                        let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true);
                         resolve(story)
                     })
                 });
-            }else{
+            } else {
                 reject();
 
             }
@@ -175,7 +175,7 @@ export class StoryListComponent implements OnInit {
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
             console.log(this.firstStory)
-            if(this.firstStory){
+            if (this.firstStory) {
                 this.stories.unshift(this.firstStory)
             }
             this.autoSelectFirstStory(this.stories[0]);

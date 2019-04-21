@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY} from "../../../../model/firebase.config";
-import * as firebaseApp from "firebase";
+import * as firebaseApp from "firebase/app";
 import {NotificationService} from "./notification.service";
+import "firebase/messaging"
 
 @NgModule({
     declarations: [],
@@ -16,11 +17,8 @@ export class NotificationModule {
     constructor(private notificationService: NotificationService) {
         try {
             firebaseApp.initializeApp(FIREBASE_CONFIG);
-            this.message = firebaseApp.messaging()
-
+            this.message = firebaseApp.messaging();
             this.initFirebase();
-
-
             this.message.onTokenRefresh(() => {
                 this.getToken();
             });
@@ -34,31 +32,16 @@ export class NotificationModule {
 
         this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
         this.message.requestPermission().then(() => {
-                console.log('Notification permission granted.');
-                this.getToken();
-
-            }
-        ).catch(function (err) {
-            console.log('Unable to get permission to notify.', err);
-        });
-
-
+            this.getToken();
+        })
     }
 
 
     private getToken() {
         this.message.getToken().then((currentToken) => {
             if (currentToken) {
-                console.log(currentToken);
                 this.notificationService.subscribeToken(currentToken);
-
-            } else {
-                console.log(`No token`);
-
             }
-        }).catch(function (err) {
-            console.log(`error ${err}`);
-
         });
     }
 

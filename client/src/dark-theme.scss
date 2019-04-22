@@ -69,6 +69,11 @@ $transparent: transparent;
     color: rgba(255, 255, 255, 0.78);
   }
 
+  .blur-top{
+    background: linear-gradient(to bottom, $dark-background-light 20%, rgba(255, 255, 255, 0) 100%)
+
+  }
+
 }
 
 .unicorn-light-theme {
@@ -102,7 +107,10 @@ $transparent: transparent;
   .primary-text {
     color: rgba(0, 0, 0, 0.87)
   }
+  .blur-top{
+    background: linear-gradient(to bottom, $light-background-dark 20%, rgba(255, 255, 255, 0) 100%)
 
+  }
 
 }
 

@@ -1,4 +1,5 @@
 @import "animations";
+
 html, body {
   height: 100%;
 }
@@ -50,6 +51,15 @@ html {
 
 button:focus {
   outline: none;
+}
+
+.blur-top{
+  height: 30px;
+  z-index: 999;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
 }
 
 .app:not(.small-device) {

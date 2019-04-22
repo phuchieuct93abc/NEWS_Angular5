@@ -1,5 +1,6 @@
 <div class="h-100 w-100 story-list">
     <div #scrollingBlock class="h-100 scrollable" *ngIf="isBrowser">
+        <div class="blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd($event)"
@@ -21,18 +22,17 @@
                           class="w-100">
 
 
+            <div #container *ngIf="!isSmallScreen;else mobileStory">
+                <app-story
+                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                        class="d-block"></app-story>
+            </div>
 
-                <div #container *ngIf="!isSmallScreen;else mobileStory">
-                    <app-story
-                            *ngFor="let item of scroll.viewPortItems" [story]="item"
-                            class="d-block"></app-story>
-                </div>
-
-                <ng-template #mobileStory>
-                    <app-mobile-story
-                            *ngFor="let item of scroll.viewPortItems" [story]="item"
-                            class="d-block"></app-mobile-story>
-                </ng-template>
+            <ng-template #mobileStory>
+                <app-mobile-story
+                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                        class="d-block"></app-mobile-story>
+            </ng-template>
 
 
             <div class="p-2 text-center">

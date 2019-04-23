@@ -13,7 +13,8 @@ export default class NotificationService {
             data: {
                 url: `https://news.phuchieu.cf/${category}/${url(article.header)}/${article.id}`,
                 title: "Tin nóng",
-                body: article.header
+                body: article.header,
+                image:article.images[0]
             },
             topic: this.topic
         };

@@ -10,6 +10,8 @@ import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
 import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
+import StoryImage from "../../../../../model/StoryImage";
+import StoryMeta from "../../../../../model/StoryMeta";
 
 @Component({
     selector: 'app-story-list',
@@ -37,6 +39,8 @@ export class StoryListComponent implements OnInit {
     config: Config;
     isBrowser;
 
+    firstStory: Story;
+
     constructor(private storyService: StoryService,
                 private activatedRoute: ActivatedRoute,
                 private route: ActivatedRoute,
@@ -48,23 +52,53 @@ export class StoryListComponent implements OnInit {
                 private articleService: ArticleService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.isBrowser = typeof window !== 'undefined'
-        this.updateStoryList();
         this.registerScrollTo();
         this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.registerShowingMoveToTop();
 
         this.search();
 
-        this.configService.configUpdated.subscribe(config => {
-            this.config = config.new;
-            if (config.old.smallImage !== config.new.smallImage) {
-                this.reloadStoryList()
+        this.registerConfigChange();
+
+        this.registerSpinner();
+
+        this.getFirstStory().then(firstStory => {
+            this.firstStory = firstStory;
+
+        }).finally(() => {
+            this.updateStoryList();
+
+        });
+
+
+    }
+
+
+    private getFirstStory(): Promise<Story> {
+        return new Promise((resolve, reject) => {
+            let params =  this.route.children[0].snapshot.params;
+            if(params["id"]){
+                let articleId = params["id"];
+                this.articleService.getById(articleId, params['category']).subscribe(article => {
+
+                    let storyImage: StoryImage = new StoryImage(article.images[0]);
+                    let storyMeta = new StoryMeta(article.sourceName, article.time);
+                    let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    resolve(story)
+                })
+            }else {
+                reject()
             }
+
+
         })
 
-        if(typeof window !== 'undefined'){
+    }
+
+    private registerSpinner() {
+        if (typeof window !== 'undefined') {
 
             this.loadingService.onLoading.subscribe(event => {
                 if (event.name == LoadingEventName.MORE_STORY) {
@@ -77,9 +111,16 @@ export class StoryListComponent implements OnInit {
                 }
             })
         }
-
     }
 
+    private registerConfigChange() {
+        this.configService.configUpdated.subscribe(config => {
+            this.config = config.new;
+            if (config.old.smallImage !== config.new.smallImage) {
+                this.reloadStoryList()
+            }
+        });
+    }
 
     private reloadStoryList() {
         this.stories = [];
@@ -132,6 +173,10 @@ export class StoryListComponent implements OnInit {
         this.storyService.resetPageNumber();
         this.storyService.getStories(this.category).subscribe(value => {
             this.stories = value;
+            if (this.firstStory) {
+                this.stories.unshift(this.firstStory)
+                this.firstStory=null;
+            }
             this.autoSelectFirstStory(this.stories[0]);
             // this.cacheArticle();
         });

@@ -30,7 +30,8 @@ export default class BaomoiArticleParser extends ArticleParser {
         const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
 
         let likes = parseInt(this.html.querySelector(".like").textContent);
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description,likes);
+        let time = this.html.querySelector("time.time").getAttribute('datetime');
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description,likes,time);
     }
 
 

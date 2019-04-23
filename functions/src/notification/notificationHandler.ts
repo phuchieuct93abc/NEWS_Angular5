@@ -7,14 +7,14 @@ export default function notifyHandler(notify) {
     let notificationService = new NotificationService();
     notify.get('/notify', (req, response) => {
 
-        // let articleId = req.query.articleId;
-        // ArticleServiceFactory.get(req).getArticleById(articleId).then(article => {
-        //
-        //     notificationService.send(article,"").then(result => {
-        //         response.send(result);
-        //     });
-        //
-        // })
+        let articleId = req.query.articleId;
+        ArticleServiceFactory.get(req).getArticleById(articleId).then(article => {
+
+            notificationService.send(article,req.query.category).then(result => {
+                response.send(result);
+            });
+
+        })
 
 
     });

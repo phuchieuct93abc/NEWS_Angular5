@@ -15,7 +15,8 @@
   }
 
 }
-.loading{
+
+.loading {
   position: absolute;
   width: 100%;
   top: 0;
@@ -27,6 +28,11 @@
   top: 10px;
   z-index: 10;
 
+}
+
+.blur-edge {
+  width: calc(100% - 8px);
+  left: 4px;
 }
 
 .font-size-1 {

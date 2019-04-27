@@ -69,7 +69,6 @@ export class CachingInterceptor implements HttpInterceptor {
             timeout(15000),
             tap(event => {
                 if (event instanceof HttpResponse) {
-                    console.log("CALL API", req.url)
                     cache.put(req, event);
                 }
             })

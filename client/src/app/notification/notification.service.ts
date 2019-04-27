@@ -18,8 +18,6 @@ export class NotificationService {
             token: token,
             topic: "BaoHieu"
         }).subscribe(value=>{
-            console.log(value)
         });
-        console.log('subscribe')
     }
 }

@@ -49,7 +49,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         this.categoryId = this.route.snapshot.params["category"];
         this.articleId = this.story.id;
 
-        console.log(this.categoryId,this.articleId)
         super.showArticleById();
 
     }

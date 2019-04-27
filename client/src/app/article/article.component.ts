@@ -118,7 +118,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
-        this.getArticleSubscription.unsubscribe();
+        this.getArticleSubscription && this.getArticleSubscription.unsubscribe();
     }
 
 }

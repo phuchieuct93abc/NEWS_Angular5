@@ -1,11 +1,24 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Article from "../../../../../model/Article";
 import {FavoriteService} from "../../shared/favorite-story.service";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'app-actions',
     templateUrl: './actions.component.html',
-    styleUrls: ['./actions.component.scss']
+    styleUrls: ['./actions.component.scss'],
+    animations: [
+
+        trigger('animate', [
+
+            transition("*=>*", [
+                style({transform: 'translateX(100%)', opacity: 0}),
+                animate("500ms", style({transform: 'translateX(0)', opacity: 1}))
+
+            ]),
+        ])
+
+    ]
 })
 export class ActionsComponent implements OnInit {
 
@@ -14,6 +27,7 @@ export class ActionsComponent implements OnInit {
     article: Article;
     @Output()
     onClosed = new EventEmitter<void>();
+    display = true;
 
     constructor(protected favoriteService: FavoriteService) {
     }

@@ -9,7 +9,6 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 
-const animateTime = 500
 
 @Component({
     selector: 'app-article',
@@ -40,12 +39,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected articleView: ElementRef;
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
+    getArticleSubscription: Subscription;
 
     public fontSize: number;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
                 protected domService: DomService,
                 protected configService: ConfigService) {
+
 
     }
 
@@ -68,12 +69,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
         if (this.articleId) {
             this.article = null;
 
-            this.articleService.getById(this.articleId, this.categoryId).subscribe(article => {
+            this.getArticleSubscription = this.articleService.getById(this.articleId, this.categoryId).subscribe(article => {
                 this.article = article;
-                // this.getSourceUrl();
-                this.afterGetArticle();
                 this.articleService.onStorySelected.next(this.article);
                 this.isFavorite = this.favoriteService.findById(article.id) != undefined;
+                this.afterGetArticle();
+
             });
 
 
@@ -87,18 +88,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
         }
         this.parseHtml();
     }
-
-    private getSourceUrl() {
-        if (this.article.sourceUrl.indexOf("http") == 0) {
-            this.article.externalUrl = this.article.sourceUrl;
-        } else {
-
-            this.articleService.getSource(this.article.id).subscribe(url => {
-                this.article.externalUrl = url;
-            })
-        }
-    }
-
 
     toggleFavorite() {
         this.isFavorite = !this.isFavorite;
@@ -129,6 +118,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
+        this.getArticleSubscription.unsubscribe();
     }
 
 }

@@ -36,6 +36,7 @@ import {CategoryComponent} from "./navigator/category-selector/category/category
 import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material";
 import {NotificationModule} from "./notification/notification.module";
+import {ActionsComponent} from "./article/actions/actions.component";
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import {NotificationModule} from "./notification/notification.module";
         CategorySelectorComponent,
         MobileStoryComponent,
         DisplayComponent,
-        CategoryComponent
+        CategoryComponent,
+        ActionsComponent
 
 
     ],

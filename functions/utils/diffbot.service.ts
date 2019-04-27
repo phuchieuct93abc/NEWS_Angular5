@@ -1,8 +1,8 @@
 import {Diffbot} from "./Diffbot";
+import FirebaseService from "../src/FirebaseService";
 
 var Diffbot = require('diffbot').Diffbot;
 
-var diffbot = new Diffbot('54873cfd70cfd918563bab27d9a67b5d'); // your API key here
 
 export default class DiffbotService {
     constructor(private uri: string) {
@@ -10,9 +10,17 @@ export default class DiffbotService {
 
     get(): Promise<Diffbot> {
         return new Promise(resolve => {
-            diffbot.article({uri: this.uri}, function (err, response: Diffbot) {
-                resolve(response)
-            });
+
+            FirebaseService.getDiffBotCredential().then(token => {
+                var diffbot = new Diffbot(token); // your API key here
+
+                console.log("token",token)
+                diffbot.article({uri: this.uri}, function (err, response: Diffbot) {
+                    resolve(response)
+                });
+
+            })
+
         })
     }
 }

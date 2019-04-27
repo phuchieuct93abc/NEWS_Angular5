@@ -21,6 +21,9 @@ messaging.setBackgroundMessageHandler(function (payload) {
     var notificationOptions = {
         body: data.body,
         url: data.url,
+        icon:"/assets/newspaper.png",
+        badge:"/assets/newspaper.png",
+        image: data.image,
         data: {url: data.url},
         actions: [{action: "open_url", title: "Read Now"}]
     };

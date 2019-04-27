@@ -25,6 +25,18 @@ class FirebaseService {
 
     }
 
+    getDiffBotCredential(): Promise<string> {
+        const diffbot: FirebaseFirestore.CollectionReference = db.collection("diffbot");
+        return new Promise(resolver => {
+            diffbot.doc('token').get().then(result => {
+
+
+                resolver(result.data()['value']);
+            });
+        })
+        // c1a9c0acac8593452ca9eccad6ac374c
+    }
+
     saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
         console.time("write" + this.encodeUrl(article.id))
         const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");

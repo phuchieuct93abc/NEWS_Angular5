@@ -5,7 +5,6 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild
 import {Story} from "../../../../../model/Story";
 import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
-import {FavoriteService} from "../../shared/favorite-story.service";
 import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -21,8 +20,8 @@ const SWIPE_RIGHT = "swipeRight";
     animations: [
         trigger('swipe', [
 
-            state('swipeLeft',style({transform: "translateX(-100%)"})),
-            state('swipeRight',style({transform: "translateX(100%)"})),
+            state('swipeLeft', style({transform: "translateX(-100%)"})),
+            state('swipeRight', style({transform: "translateX(100%)"})),
 
             transition('show=>swipeRight', [
                 style({opacity: 1}),
@@ -42,7 +41,7 @@ const SWIPE_RIGHT = "swipeRight";
             transition('*=>*', [
                 style({height: "0px"}),
 
-                animate('1s', style({height:"*"})),
+                animate('1s', style({height: "*"})),
             ])
         ]),
 
@@ -73,11 +72,10 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
                 private storyListService: StoryListService,
-                protected  favoriteService: FavoriteService,
                 protected domService: DomService,
                 protected configService: ConfigService,
     ) {
-        super(route, articleService, favoriteService, domService, configService);
+        super(route, articleService, domService, configService);
     }
 
 

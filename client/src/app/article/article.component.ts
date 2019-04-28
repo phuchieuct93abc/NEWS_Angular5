@@ -43,7 +43,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     public fontSize: number;
 
-    constructor(protected route: ActivatedRoute, protected articleService: ArticleService, protected favoriteService: FavoriteService,
+    constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
                 protected configService: ConfigService) {
 
@@ -89,18 +89,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.parseHtml();
     }
 
-    toggleFavorite() {
-        this.isFavorite = !this.isFavorite;
-        if (this.article.story != null) {
-            if (this.isFavorite) {
-                this.favoriteService.addFavorite(this.article.story);
-            } else {
-                this.favoriteService.removeFavorite(this.article.story)
-            }
-            this.article.story.isFavorite = this.isFavorite
-        }
-
-    }
 
     private parseHtml() {
         if (typeof window !== 'undefined') {

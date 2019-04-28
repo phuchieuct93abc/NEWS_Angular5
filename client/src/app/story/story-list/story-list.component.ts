@@ -40,6 +40,7 @@ export class StoryListComponent implements OnInit {
     isBrowser;
 
     firstStory: Story;
+    isListeningScroll = true;
 
     constructor(private storyService: StoryService,
                 private activatedRoute: ActivatedRoute,
@@ -78,8 +79,8 @@ export class StoryListComponent implements OnInit {
 
     private getFirstStory(): Promise<Story> {
         return new Promise((resolve, reject) => {
-            let params =  this.route.children[0].snapshot.params;
-            if(params["id"]){
+            let params = this.route.children[0].snapshot.params;
+            if (params["id"]) {
                 let articleId = params["id"];
                 this.articleService.getById(articleId, params['category']).subscribe(article => {
 
@@ -88,7 +89,7 @@ export class StoryListComponent implements OnInit {
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })
-            }else {
+            } else {
                 reject()
             }
 
@@ -175,7 +176,7 @@ export class StoryListComponent implements OnInit {
             this.stories = value;
             if (this.firstStory) {
                 this.stories.unshift(this.firstStory)
-                this.firstStory=null;
+                this.firstStory = null;
             }
             this.autoSelectFirstStory(this.stories[0]);
             // this.cacheArticle();
@@ -184,7 +185,7 @@ export class StoryListComponent implements OnInit {
 
     private scrollToTop() {
         if (this.virtualScroller) {
-            this.scrollTo(this.stories[0], 500,);
+            this.scrollTo(this.stories[0], 500);
         }
     }
 
@@ -194,7 +195,6 @@ export class StoryListComponent implements OnInit {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
             this.scrollTo(this.stories[index], 500);
-            //   this.virtualScroller.invalidateCachedMeasurementForItem(this.stories[index])
         })
     }
 
@@ -213,14 +213,20 @@ export class StoryListComponent implements OnInit {
         return loadMorePromise;
     }
 
-    private scrollTo(story: Story, animation = 0, callback = null) {
-        this.virtualScroller.scrollInto(story, true, -60, animation, callback);
+    private scrollTo(story: Story, animation = 500) {
+        this.isListeningScroll = false
+        this.virtualScroller.scrollInto(story, true, -60, animation, () => {
+
+            setTimeout(() => {
+                this.isListeningScroll = true;
+            }, 500)
+        });
     }
 
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.virtualScroller.scrollToIndex(0, true, -60, 500,);
+        this.virtualScroller.scrollToIndex(0, true, -60, 500);
         setTimeout(this.reloadStoryList.bind(this))
 
     }

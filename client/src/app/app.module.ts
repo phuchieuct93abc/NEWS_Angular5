@@ -52,7 +52,7 @@ import {ActionsComponent} from "./article/actions/actions.component";
         LazyLoadImageModule,
         RouterModule,
         MatButtonModule,
-        NotificationModule
+        NotificationModule,
     ],
     declarations: [
         AppComponent,

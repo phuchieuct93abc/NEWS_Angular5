@@ -1,15 +1,13 @@
 <div #imageViewer class="image-viewer">
 
     <div class="image-wrapper w-100">
-        <div
-                [ngStyle]="{'height':height+'px'}"
+        <img
                 [lazyLoad]="convertedImagePath"
                 [scrollObservable]="scrollObservable"
                 [offset]="0"
                 class="mt-0 mb-0 image"
-        >
+        />
 
-        </div>
         <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
     </div>
 </div>

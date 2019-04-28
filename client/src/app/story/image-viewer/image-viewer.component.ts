@@ -17,12 +17,11 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @Input()
     hasVideo: boolean;
     imagePath: string;
-    height: number = 0;
-    @ViewChild("imageViewer")
-    imageViewer: ElementRef;
+    // height: number = 0;
+    // @ViewChild("imageViewer")
+    // imageViewer: ElementRef;
     convertedImagePath: string;
     interval;
-    private imageIndex = 0;
 
     private maxImageSize: number;
 
@@ -39,16 +38,16 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const firstImage = this.images[0];
         this.imagePath = firstImage.imageUrl;
-        this.calculateImageHeight(firstImage);
+        // this.calculateImageHeight(firstImage);
         this.convertedImagePath = this.getImage(this.imagePath);
         this.scrollObservable = this.storyListService.onScroll;
     }
 
 
-    private calculateImageHeight(firstImage) {
-        const width = this.imageViewer.nativeElement.offsetWidth;
-        this.height = firstImage.height / firstImage.width * width;
-    }
+    // private calculateImageHeight(firstImage) {
+    //     const width = this.imageViewer.nativeElement.offsetWidth;
+    //     this.height = firstImage.height / firstImage.width * width;
+    // }
 
 
     ngOnDestroy(): void {

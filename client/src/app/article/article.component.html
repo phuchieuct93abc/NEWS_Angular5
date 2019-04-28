@@ -1,14 +1,14 @@
-<div #articleView class="w-100 h-100 article  p-1 position-relative" [ngClass]="'font-size-'+fontSize">
+<div  class="w-100 h-100 article  p-1 position-relative" [ngClass]="'font-size-'+fontSize">
     <div class="blur-edge blur-top"></div>
-    <div class="scrollable panel-primary">
-        <div *ngIf="articleId" style="position: relative">
+    <div class="scrollable panel-primary" #articleView>
+        <div *ngIf="articleId" style="position: relative" @showArticle>
 
-            <div *ngIf="article; else loading" class="article-content p-2  pb-5" @showArticle>
-                <div #articleHeader class="mat-display-1 mb-2 ">
+            <div *ngIf="article; else loading" class="article-content p-2  pb-5">
+                <div class="mat-display-1 mb-2 ">
                     {{article.header}}
                 </div>
                 <app-actions [article]="article"></app-actions>
-                <p #articleDescription [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
+                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
 
                 <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right">

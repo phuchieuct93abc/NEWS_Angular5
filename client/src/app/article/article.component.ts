@@ -2,13 +2,13 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
-import {FavoriteService} from "../shared/favorite-story.service";
 import ArticleContentParser from "./article-parser";
 import {DomService} from "./dom.service";
 import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 
+const animationTime = 300
 
 @Component({
     selector: 'app-article',
@@ -16,12 +16,18 @@ import {animate, style, transition, trigger} from "@angular/animations";
     styleUrls: ['./article.component.scss'],
     animations: [
         trigger('showArticle', [
+
+                transition(':leave', [
+                    style({opacity: 1}),
+                    animate(animationTime, style({opacity: 0})),
+                ]),
                 transition(':enter', [
                     style({opacity: 0}),
-                    animate('0.5s', style({opacity: 1})),
-                ]),
+                    animate(animationTime, style({opacity: 1})),
+                ])
             ]
-        )
+        ),
+
     ],
 
 })
@@ -42,6 +48,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     getArticleSubscription: Subscription;
 
     public fontSize: number;
+    transitionName: string;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
@@ -53,9 +60,18 @@ export class ArticleComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
-            this.articleId = params['id'];
-            this.categoryId = params['category'];
-            this.showArticleById();
+            this.articleId = null;
+
+            let getArticlePromise = this.getArticle(params['id'], params['category']);
+
+            setTimeout(() => {
+                this.articleId = params['id'];
+
+                this.transitionName = this.articleId;
+                this.categoryId = params['category'];
+                this.getArticleById(getArticlePromise);
+            }, animationTime)
+
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
@@ -65,14 +81,15 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     }
 
-    protected showArticleById() {
+    protected getArticleById(promise: Promise<Article>) {
         if (this.articleId) {
             this.article = null;
 
-            this.getArticleSubscription = this.articleService.getById(this.articleId, this.categoryId).subscribe(article => {
+
+            promise.then(article => {
+
                 this.article = article;
                 this.articleService.onStorySelected.next(this.article);
-                this.isFavorite = this.favoriteService.findById(article.id) != undefined;
                 this.afterGetArticle();
 
             });
@@ -84,6 +101,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected afterGetArticle(): void {
 
         if (typeof this.articleView.nativeElement.scroll === 'function') {
+
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
         this.parseHtml();
@@ -108,6 +126,19 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
         this.getArticleSubscription && this.getArticleSubscription.unsubscribe();
+    }
+
+    getArticle(articleId, categoryId): Promise<Article> {
+        if (!articleId || !categoryId) {
+            return Promise.reject();
+        }
+        return new Promise(resolver => {
+            this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
+
+                resolver(article)
+
+            });
+        })
     }
 
 }

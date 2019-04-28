@@ -33,6 +33,8 @@ export class ActionsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
+
     }
 
     toggleFavorite() {

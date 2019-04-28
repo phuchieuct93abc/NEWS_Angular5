@@ -1,8 +1,6 @@
 @import "../article.component";
 
 .article {
-  animation-duration: 500ms !important;
-
 
   &.cdk-drag-dragging {
     transition: none;
@@ -25,8 +23,8 @@
       transform: scale(1) !important;
     }
 
-    ::ng-deep .fyi.nocontent{
-        margin-bottom: 2em;
+    ::ng-deep .fyi.nocontent {
+      margin-bottom: 2em;
     }
   }
 

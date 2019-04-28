@@ -38,7 +38,7 @@
   "scripts": {
     "setup": "npm install",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",

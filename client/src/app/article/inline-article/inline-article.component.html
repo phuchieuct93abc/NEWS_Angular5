@@ -8,19 +8,27 @@
 >
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
-            <div class="">
+            <div>
                 <app-actions (onClosed)="close()" [article]="article"></app-actions>
 
-                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
+                <div [@showArticle]
+                     style="overflow: hidden">
 
-                <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
+                    <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
+
+                    <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "
+                    ></p>
+                    <div class="source text-right">
+                        <a mat-button [href]="article.sourceUrl" target="_blank"
+                           color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
+                    </div>
+                    <app-comments [articleId]="article.id"></app-comments>
+
+                </div>
+
 
             </div>
-            <div class="source text-right">
-                <a mat-button [href]="article.sourceUrl" target="_blank"
-                   color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
-            </div>
-            <app-comments [articleId]="article.id"></app-comments>
+
         </div>
     </div>
 

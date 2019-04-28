@@ -24,17 +24,28 @@ const SWIPE_RIGHT = "swipeRight";
             state('swipeLeft',style({transform: "translateX(-100%)"})),
             state('swipeRight',style({transform: "translateX(100%)"})),
 
-            transition('none=>swipeRight', [
+            transition('show=>swipeRight', [
                 style({opacity: 1}),
 
                 animate('0.5s', style({opacity: 0, transform: "translateX(100%)"})),
             ]),
-            transition('none=>swipeLeft', [
+            transition('show=>swipeLeft', [
                 style({opacity: 1}),
 
                 animate('0.5s', style({opacity: 0, transform: "translateX(-100%)"})),
+            ]),
+
+        ]),
+        trigger('showArticle', [
+
+
+            transition('*=>*', [
+                style({height: "0px"}),
+
+                animate('1s', style({height:"*"})),
             ])
         ]),
+
 
     ]
 
@@ -104,6 +115,11 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => {
             this.close();
         }, 500)
+    }
+
+    protected afterGetArticle(): void {
+        super.afterGetArticle();
+        this.animationName = "show"
     }
 
     ngOnDestroy(): void {

@@ -49,12 +49,12 @@ import {ActionsComponent} from "./article/actions/actions.component";
         AppRoutingModule,
         MomentModule,
         VirtualScrollerModule,
-        LazyLoadImageModule.forRoot({
-            preset: intersectionObserverPreset
-        }),
         RouterModule,
         MatButtonModule,
         NotificationModule,
+        LazyLoadImageModule.forRoot({
+            preset: intersectionObserverPreset
+        })
     ],
     declarations: [
         AppComponent,

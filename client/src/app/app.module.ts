@@ -29,7 +29,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
-import {LazyLoadImageModule} from "ng-lazyload-image";
+import {intersectionObserverPreset, LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
@@ -49,7 +49,9 @@ import {ActionsComponent} from "./article/actions/actions.component";
         AppRoutingModule,
         MomentModule,
         VirtualScrollerModule,
-        LazyLoadImageModule,
+        LazyLoadImageModule.forRoot({
+            preset: intersectionObserverPreset
+        }),
         RouterModule,
         MatButtonModule,
         NotificationModule,

@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     }
 
     getBlurImageUrl(url) {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && !this.isSmallDevice) {
             let img = new Image();
             const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
             img.src = blurUrl;

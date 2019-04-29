@@ -1,21 +1,14 @@
-<div #articleView class="w-100 h-100 article  p-1 position-relative" [ngClass]="'font-size-'+fontSize">
+<div  class="w-100 h-100 article  p-1 position-relative" [ngClass]="'font-size-'+fontSize">
     <div class="blur-edge blur-top"></div>
-    <div class="scrollable panel-primary">
-        <div *ngIf="articleId" style="position: relative">
+    <div class="scrollable panel-primary" #articleView>
+        <div *ngIf="articleId" style="position: relative" @showArticle class="mt-2">
 
-            <div *ngIf="article; else loading" class="article-content p-2  pb-5" @showArticle>
-                <div #articleHeader class="mat-display-1 mb-2 ">
+            <div *ngIf="article; else loading" class="article-content p-2  pb-5">
+                <div class="mat-display-1 mb-2 ">
                     {{article.header}}
                 </div>
-                <div class="sticky text-right">
-                    <a mat-icon-button (click)="toggleFavorite()">
-                        <mat-icon color="primary">
-                            {{isFavorite ? 'favorite' : 'favorite_border'}}
-                        </mat-icon>
-                    </a>
-                    <app-display></app-display>
-                </div>
-                <p #articleDescription [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
+                <app-actions [article]="article"></app-actions>
+                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
 
                 <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right">
@@ -24,7 +17,7 @@
                 </div>
                 <app-comments [articleId]="article.id"></app-comments>
             </div>
-            <ng-template #loading >
+            <ng-template #loading>
                 <app-loading></app-loading>
             </ng-template>
         </div>

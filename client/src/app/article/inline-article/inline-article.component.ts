@@ -5,41 +5,77 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild
 import {Story} from "../../../../../model/Story";
 import {StoryListService} from "../../story/story-list/story-list.service";
 import {CdkDrag} from "@angular/cdk/drag-drop";
-import {FavoriteService} from "../../shared/favorite-story.service";
 import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+
+
+const SWIPE_LEFT = "swipeLeft";
+const SWIPE_RIGHT = "swipeRight";
 
 @Component({
     selector: 'app-inline-article',
     templateUrl: './inline-article.component.html',
     styleUrls: ['./inline-article.component.scss'],
+    animations: [
+        trigger('swipe', [
+
+            state('swipeLeft', style({transform: "translateX(-100%)"})),
+            state('swipeRight', style({transform: "translateX(100%)"})),
+
+            transition('show=>swipeRight', [
+                style({opacity: 1}),
+
+                animate('0.5s', style({opacity: 0, transform: "translateX(100%)"})),
+            ]),
+            transition('show=>swipeLeft', [
+                style({opacity: 1}),
+
+                animate('0.5s', style({opacity: 0, transform: "translateX(-100%)"})),
+            ]),
+
+        ]),
+        trigger('showArticle', [
+
+
+            transition('*=>*', [
+                style({height: "0px"}),
+
+                animate('1s', style({height: "*"})),
+            ])
+        ]),
+
+
+    ]
+
 
 })
+
 export class InlineArticleComponent extends ArticleComponent implements OnDestroy {
 
     @Output()
     onClosed = new EventEmitter();
-    @ViewChild('closeIcon')
-    closeIcon: ElementRef;
     @ViewChild('articleBodyWrapper')
     articleView: ElementRef;
     @ViewChild(CdkDrag)
-    view: CdkDrag
+    view: CdkDrag;
 
     @Input()
     story: Story;
 
-    isFadingRight = false;
-    isFadingLeft = false;
+    isShowArticle: boolean = true;
+
+
+    animationName: string = 'none';
+
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
                 private storyListService: StoryListService,
-                protected  favoriteService: FavoriteService,
                 protected domService: DomService,
                 protected configService: ConfigService,
-                ) {
-        super(route, articleService, favoriteService, domService, configService);
+    ) {
+        super(route, articleService, domService, configService);
     }
 
 
@@ -49,19 +85,15 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         this.categoryId = this.route.snapshot.params["category"];
         this.articleId = this.story.id;
 
-        super.showArticleById();
+        super.getArticleById(this.getArticle(this.articleId, this.categoryId));
 
     }
 
 
-    close(event) {
-        if (event) {
+    close() {
+        this.isShowArticle = false;
 
-            event && event.stopPropagation();
-        }
         this.storyListService.scrollTo.next(this.story);
-
-
         setTimeout(() => {
             this.onClosed.emit();
         }, 500);
@@ -69,19 +101,23 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     swipeleft() {
 
-        this.isFadingLeft = true;
+        this.animationName = SWIPE_LEFT;
         setTimeout(() => {
-            this.close(null);
+            this.close();
         }, 500)
 
     }
 
     swiperight() {
-        this.isFadingRight = true;
+        this.animationName = SWIPE_RIGHT;
         setTimeout(() => {
-
-            this.close(null);
+            this.close();
         }, 500)
+    }
+
+    protected afterGetArticle(): void {
+        super.afterGetArticle();
+        this.animationName = "show"
     }
 
     ngOnDestroy(): void {

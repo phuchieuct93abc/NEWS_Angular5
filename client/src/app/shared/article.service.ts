@@ -43,13 +43,6 @@ export class ArticleService {
             }))
     }
 
-    getSource(id: string): Observable<string> {
-        return this.httpClient.get(CONFIG.baseUrl + "getSource", {
-            params: {
-                id: id
-            }
-        }).pipe(retry(3), map(source => source['url']))
-    }
 
     getComment(id: string): Observable<ArticleComment[]> {
         return this.httpClient.get(CONFIG.baseUrl + "comments", {

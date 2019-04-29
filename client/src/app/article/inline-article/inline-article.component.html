@@ -1,8 +1,6 @@
-<div class="w-100 article animated faster" #articleView (swipeRight)="swiperight()"
+<div class="w-100 article" #articleView (swipeRight)="swiperight()" [@swipe]="animationName"
      (swipeLeft)="swipeleft()"
      [ngClass]="{
-         fadeOutRight:isFadingRight,
-         fadeOutLeft:isFadingLeft,
          'font-size-1':fontSize==1,
          'font-size-2':fontSize==2,
          'font-size-3':fontSize==3
@@ -10,29 +8,27 @@
 >
     <div #articleBodyWrapper>
         <div *ngIf="article;else loading">
-            <div class="">
-                <div class="text-right sticky">
-                    <a mat-icon-button (click)="toggleFavorite()" class="fadein">
-                        <mat-icon color="primary">
-                            {{isFavorite ? 'favorite' : 'favorite_border'}}
-                        </mat-icon>
+            <div>
+                <app-actions (onClosed)="close()" [article]="article"></app-actions>
 
-                    </a>
-                    <app-display></app-display>
-                    <button mat-icon-button class="fadein close-icon" (click)="close($event)" #closeIcon>
-                        <mat-icon class="mat-primary">cancel</mat-icon>
-                    </button>
+                <div [@showArticle]
+                     style="overflow: hidden">
+
+                    <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
+
+                    <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "
+                    ></p>
+                    <div class="source text-right">
+                        <a mat-button [href]="article.sourceUrl" target="_blank"
+                           color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
+                    </div>
+                    <app-comments [articleId]="article.id"></app-comments>
+
                 </div>
-                <p  [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
 
-                <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "></p>
 
             </div>
-            <div class="source text-right">
-                <a mat-button [href]="article.sourceUrl" target="_blank"
-                   color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
-            </div>
-            <app-comments [articleId]="article.id"></app-comments>
+
         </div>
     </div>
 

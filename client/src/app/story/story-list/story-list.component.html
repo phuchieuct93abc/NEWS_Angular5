@@ -1,4 +1,4 @@
-<div class="h-100 w-100 story-list">
+<div class="h-100 w-100 story-list" [class.isSmallScreen]="isSmallScreen">
     <div #scrollingBlock class="h-100 scrollable" *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll

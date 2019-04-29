@@ -2,7 +2,8 @@
     <div class="row">
         <mat-card (click)="onSelectStory()" class="mb-2 w-100"
                   [class.read]="story.isRead"
-
+                  [routerLink]="[friendlyUrl,story.id]" class="mb-2 w-100"
+                  routerLinkActive="active"
                   [class.active]="selected"
                   [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
 

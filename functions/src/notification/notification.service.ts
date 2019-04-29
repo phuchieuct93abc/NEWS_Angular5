@@ -18,6 +18,7 @@ export default class NotificationService {
             },
             topic: this.topic
         };
+        console.log(`Send notify `,article)
         return admin.messaging().send(message);
 
     }

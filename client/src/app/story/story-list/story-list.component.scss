@@ -38,3 +38,9 @@
     width: calc(100% - 5px);
   }
 }
+
+.story-list.isSmallScreen {
+  .blur-edge {
+    width: 100%;
+  }
+}

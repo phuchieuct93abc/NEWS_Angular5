@@ -11,12 +11,11 @@
             <div>
                 <app-actions (onClosed)="close()" [article]="article"></app-actions>
 
-                <div [@showArticle]
-                     style="overflow: hidden">
+                <div [@showArticle] style="overflow: hidden">
 
                     <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
 
-                    <p #articleContent [innerHTML]="article.body | sanitizeHtml" class="article-body fadein "
+                    <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "
                     ></p>
                     <div class="source text-right">
                         <a mat-button [href]="article.sourceUrl" target="_blank"

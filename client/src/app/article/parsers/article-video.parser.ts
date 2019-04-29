@@ -1,7 +1,7 @@
-import {DomService} from "./dom.service";
-import {VideoComponent} from "./video/video.component";
+import {DomService} from "../dom.service";
+import {VideoComponent} from "../video/video.component";
 
-export default class ArticleContentParser {
+export default class ArticleVideoParser {
     video: HTMLVideoElement;
     source: HTMLSourceElement;
 
@@ -13,15 +13,15 @@ export default class ArticleContentParser {
 
         this.video = <HTMLVideoElement>videoBody.firstElementChild;
         this.source = <HTMLSourceElement>this.video.firstElementChild
-        this.sourceUrl = this.source.getAttribute('src');
+        this.sourceUrl = this.source.getAttribute('data-src');
         this.posterUrl = this.video.getAttribute('poster');
 
     }
 
     public parse() {
-            this.updateVideoAttributes();
-            this.appendOpenVideo();
-            this.source.remove();
+        this.updateVideoAttributes();
+        this.appendOpenVideo();
+        this.source.remove();
 
     }
 
@@ -61,18 +61,4 @@ export default class ArticleContentParser {
         this.video.setAttribute('playsinline', 'true')
     }
 
-    private updateVideoSrc(video: HTMLVideoElement) {
-        // let header = new HttpHeaders({
-        //     'Referer': "http://a.a",
-        //     'tinh': 'te'
-        // })
-        // this.httpClient.get(video.firstElementChild.getAttribute('src'), {
-        //     headers: header
-        // }).subscribe(value => {
-        //     console.log('value', value)
-        // }, value => {
-        //     video.setAttribute('src', value.url);
-        //
-        // })
-    }
 }

@@ -54,7 +54,7 @@ import {ActionsComponent} from "./article/actions/actions.component";
         NotificationModule,
         LazyLoadImageModule.forRoot({
             preset: intersectionObserverPreset
-        })
+        }),
     ],
     declarations: [
         AppComponent,
@@ -91,7 +91,7 @@ import {ActionsComponent} from "./article/actions/actions.component";
 
     ],
     entryComponents: [
-        VideoComponent
+        VideoComponent, ImageViewerComponent
     ]
 
 })

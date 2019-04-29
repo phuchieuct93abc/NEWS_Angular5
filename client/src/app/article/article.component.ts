@@ -2,11 +2,13 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
-import ArticleContentParser from "./article-parser";
 import {DomService} from "./dom.service";
 import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
+import ArticleVideoParser from "./parsers/article-video.parser";
+import ArticleImageParser from "./parsers/article-image.parser";
+
 
 const animationTime = 300
 
@@ -46,6 +48,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
     getArticleSubscription: Subscription;
+    articleBody: string;
 
     public fontSize: number;
     transitionName: string;
@@ -89,6 +92,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
             promise.then(article => {
 
                 this.article = article;
+
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();
 
@@ -104,21 +108,34 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
-        this.parseHtml();
+        //REPLACE IMAGE
+        if (typeof window !== 'undefined') {
+
+            this.articleBody = this.article.body.replace(/src=/g, "data-src=")
+
+            this.parseHtml();
+        } else {
+            this.articleBody = this.article.body;
+        }
     }
 
 
     private parseHtml() {
-        if (typeof window !== 'undefined') {
 
-            setTimeout(() => {
-                let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-                let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-                for (let i = 0; i < videos.length; i++) {
-                    new ArticleContentParser(videos[i], this.domService).parse();
-                }
-            }, 0)
-        }
+
+        setTimeout(() => {
+            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+            for (let i = 0; i < videos.length; i++) {
+
+                new ArticleVideoParser(videos[i], this.domService).parse();
+            }
+
+            let images: HTMLCollectionOf<Element> = element.getElementsByClassName('body-image');
+            for (let i = 0; i < images.length; i++) {
+                new ArticleImageParser(images[i], this.domService).parse();
+            }
+        }, 0)
     }
 
 

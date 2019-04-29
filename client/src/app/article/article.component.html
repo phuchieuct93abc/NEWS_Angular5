@@ -10,7 +10,7 @@
                 <app-actions [article]="article"></app-actions>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
 
-                <p [innerHTML]="article.body | sanitizeHtml" class="article-body fadein" #articleContent></p>
+                <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right">
                     <a mat-button [href]="article.sourceUrl" target="_blank"
                        color="primary">Nguồn: {{article.sourceName}}</a>

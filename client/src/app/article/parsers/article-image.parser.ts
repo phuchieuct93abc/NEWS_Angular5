@@ -2,12 +2,11 @@ import {DomService} from "../dom.service";
 import {ImageViewerComponent} from "../../story/image-viewer/image-viewer.component";
 
 export default class ArticleImageParser {
-    image: HTMLImageElement;
+    imageWrapper: HTMLElement;
 
+    constructor(private image: HTMLImageElement, private domService: DomService) {
 
-    constructor(private imageWrapper: Element, private domService: DomService) {
-
-        this.image = <HTMLImageElement>imageWrapper.firstElementChild;
+        this.imageWrapper = <HTMLElement>image.parentElement;
 
     }
 
@@ -16,8 +15,8 @@ export default class ArticleImageParser {
             imagePath: this.image.getAttribute("data-src"),
             width: this.image.getAttribute("width"),
             height: this.image.getAttribute("height"),
-            fullSize:true,
-            isUseSpinner:true
+            fullSize: true,
+            isUseSpinner: true
 
         });
         this.image.remove();

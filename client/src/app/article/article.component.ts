@@ -131,7 +131,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 new ArticleVideoParser(videos[i], this.domService).parse();
             }
 
-            let images: HTMLCollectionOf<Element> = element.getElementsByClassName('body-image');
+            let images: HTMLCollectionOf<HTMLImageElement> = element.getElementsByTagName('img');
             for (let i = 0; i < images.length; i++) {
                 new ArticleImageParser(images[i], this.domService).parse();
             }

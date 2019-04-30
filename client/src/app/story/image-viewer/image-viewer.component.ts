@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, NgZone, OnInit} from '@angular/core';
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Observable} from "rxjs";
@@ -17,7 +17,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
         ])
     ]
 })
-export class ImageViewerComponent implements OnInit, OnDestroy {
+export class ImageViewerComponent implements OnInit {
 
     @Input()
     imagePath: string;
@@ -38,8 +38,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
 
     convertedImagePath: string;
-    interval;
-    isLoading = true;
+    isLoading: boolean;
 
     private maxImageSize: number;
 
@@ -49,29 +48,31 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     scrollObservable: Observable<any>;
 
 
-    constructor(private config: ConfigService, private ref: ChangeDetectorRef, private breakpointService: BreakpointDetectorService,
-                private storyListService: StoryListService) {
+    constructor(private config: ConfigService, private breakpointService: BreakpointDetectorService,
+                private storyListService: StoryListService,
+                private zone: NgZone) {
 
     }
 
-    onLoad(event: Event) {
-        this.isLoading = false;
+    onLoad(event) {
+        this.zone.run(() => {
+            this.isLoading = false;
+
+        })
     }
 
     ngOnInit() {
+
         if (this.imagePath) {
 
             this.convertedImagePath = this.getImage(this.imagePath);
             this.scrollObservable = this.storyListService.onScroll;
+            this.isLoading = true;
         } else {
             console.error("empty image path")
         }
     }
 
-
-    ngOnDestroy(): void {
-        clearInterval(this.interval);
-    }
 
     getImage(imagePath: string) {
         if (imagePath.indexOf("baomoi") > 0) {

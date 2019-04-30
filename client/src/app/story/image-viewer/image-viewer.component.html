@@ -5,14 +5,13 @@
             <mat-spinner [diameter]="diameter"></mat-spinner>
 
         </div>
-
         <img
-             [lazyLoad]="convertedImagePath"
-             [offset]="500"
-             (onLoad)="onLoad($event)"
-             [width]="width"
-             [height]="height"
-             class="mt-0 mb-0 image"
+                [lazyLoad]="convertedImagePath"
+                [offset]="500"
+                (onLoad)="onLoad($event)"
+                [width]="width"
+                [height]="height"
+                class="mt-0 mb-0 image"
         />
 
         <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

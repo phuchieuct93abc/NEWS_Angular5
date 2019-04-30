@@ -10,18 +10,21 @@ app-mobile-story {
   }
 }
 
-my-app.h-100{
+my-app.h-100 {
   height: auto !important;
->div{
-  min-height: 100%;
+
+  > div {
+    min-height: 100vh;
+
+  }
+
 
 }
 
-
-}
-.scrollable{
+.scrollable {
   height: 100%;
 }
+
 .move-to-top {
 
   position: fixed;
@@ -38,6 +41,7 @@ my-app.h-100{
     transform: rotate(270deg);
   }
 }
-.blur-edge{
+
+.blur-edge {
   position: fixed;
 }

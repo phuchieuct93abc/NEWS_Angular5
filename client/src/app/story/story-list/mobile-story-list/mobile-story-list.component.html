@@ -1,11 +1,11 @@
 <div class=" w-100 story-list">
-    <div #scrollingBlock class=" " *ngIf="isBrowser">
+    <div class=" " *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd()"
                           [checkResizeInterval]="0"
-
+[enableUnequalChildrenSizes]="true"
                           [items]="stories"
                           [useMarginInsteadOfTranslate]="true"
                           [scrollAnimationTime]="0"

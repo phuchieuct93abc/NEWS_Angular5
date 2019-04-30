@@ -11,11 +11,12 @@ app-mobile-story {
 }
 
 my-app.h-100{
-  >div{
+  height: auto !important;
+>div{
+  min-height: 100%;
 
-    height: auto !important;
-    min-height: 100%;
-  }
+}
+
 
 }
 .scrollable{

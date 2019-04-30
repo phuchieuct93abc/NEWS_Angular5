@@ -1,5 +1,5 @@
-<div class="h-100 w-100 story-list">
-    <div #scrollingBlock class=" scrollable" *ngIf="isBrowser">
+<div class=" w-100 story-list">
+    <div #scrollingBlock class=" " *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"

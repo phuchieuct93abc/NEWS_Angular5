@@ -35,8 +35,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     diameter = 50;
     @Input()
     isUseSpinner = false;
-    @Input()
-    isHoverEffect = false;
+
 
     convertedImagePath: string;
     interval;

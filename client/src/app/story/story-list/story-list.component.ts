@@ -42,15 +42,15 @@ export class StoryListComponent implements OnInit {
     firstStory: Story;
     isListeningScroll = true;
 
-    constructor(private storyService: StoryService,
-                private activatedRoute: ActivatedRoute,
-                private route: ActivatedRoute,
-                private router: Router,
-                private storyListService: StoryListService,
-                private breakpointService: BreakpointDetectorService,
-                private configService: ConfigService,
-                private loadingService: LoadingService,
-                private articleService: ArticleService) {
+    constructor(protected storyService: StoryService,
+                protected activatedRoute: ActivatedRoute,
+                protected route: ActivatedRoute,
+                protected router: Router,
+                protected storyListService: StoryListService,
+                protected breakpointService: BreakpointDetectorService,
+                protected configService: ConfigService,
+                protected loadingService: LoadingService,
+                protected articleService: ArticleService) {
     }
 
     async ngOnInit() {
@@ -199,6 +199,7 @@ export class StoryListComponent implements OnInit {
     }
 
     private onLoadMore(event: IPageInfo) {
+        console.log(event)
         if (event.endIndex < this.stories.length - 20 || this.isLoading) return;
         this.isLoading = true;
         this.getLoadMoreObservable().subscribe(value => {
@@ -233,6 +234,7 @@ export class StoryListComponent implements OnInit {
 
 
     vsEnd() {
+        console.log('end')
         this.onLoadMore(this.virtualScroller.viewPortInfo)
 
     }

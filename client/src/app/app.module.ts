@@ -37,6 +37,7 @@ import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material";
 import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
+import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import {ActionsComponent} from "./article/actions/actions.component";
         MobileStoryComponent,
         DisplayComponent,
         CategoryComponent,
-        ActionsComponent
+        ActionsComponent,
+        MobileStoryListComponent
 
 
     ],

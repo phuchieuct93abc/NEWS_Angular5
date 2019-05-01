@@ -4,6 +4,10 @@
   cursor: pointer;
   padding: 1em;
   height: 9em;
+  &:hover /deep/ .image {
+
+    transform: scale(1.1);
+  }
 
   .image-wrapper {
     width: 12em;

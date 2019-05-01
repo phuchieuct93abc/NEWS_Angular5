@@ -38,6 +38,7 @@ import {MatButtonModule} from "@angular/material";
 import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
 import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
+import {ShareComponent} from "./article/actions/share/share.component";
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mob
         DisplayComponent,
         CategoryComponent,
         ActionsComponent,
-        MobileStoryListComponent
+        MobileStoryListComponent,
+        ShareComponent
 
 
     ],

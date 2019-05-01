@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Article from "../../../../../model/Article";
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {animate, style, transition, trigger} from "@angular/animations";
+import GetSocialMediaSiteLinks_WithShareLinks from "./share/social-share-media";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-actions',
@@ -29,7 +31,7 @@ export class ActionsComponent implements OnInit {
     onClosed = new EventEmitter<void>();
     display = true;
 
-    constructor(protected favoriteService: FavoriteService) {
+    constructor(protected favoriteService: FavoriteService, private route: Router) {
     }
 
     ngOnInit() {
@@ -54,4 +56,6 @@ export class ActionsComponent implements OnInit {
         event && event.stopPropagation();
         this.onClosed.emit();
     }
+
+
 }

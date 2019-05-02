@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Article from "../../../../../model/Article";
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {animate, style, transition, trigger} from "@angular/animations";
-import GetSocialMediaSiteLinks_WithShareLinks from "./share/social-share-media";
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
     selector: 'app-actions',
@@ -31,7 +31,7 @@ export class ActionsComponent implements OnInit {
     onClosed = new EventEmitter<void>();
     display = true;
 
-    constructor(protected favoriteService: FavoriteService, private route: Router) {
+    constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar) {
     }
 
     ngOnInit() {
@@ -44,6 +44,9 @@ export class ActionsComponent implements OnInit {
         if (this.article.story != null) {
             if (this.isFavorite) {
                 this.favoriteService.addFavorite(this.article.story);
+                this.snackBar.open("Add to favorite category successful", null, {
+                    duration: 2000,
+                });
             } else {
                 this.favoriteService.removeFavorite(this.article.story)
             }

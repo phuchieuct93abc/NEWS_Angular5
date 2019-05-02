@@ -13,7 +13,7 @@ export default class ArticleVideoParser {
 
         this.video = <HTMLVideoElement>videoBody.firstElementChild;
         this.source = <HTMLSourceElement>this.video.firstElementChild
-        this.sourceUrl = this.source.getAttribute('data-src');
+        this.sourceUrl = this.source.getAttribute('src');
         this.posterUrl = this.video.getAttribute('poster');
 
     }

@@ -96,6 +96,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();
 
+            }).catch(() => {
+                console.error(`Can not get ${this.articleId}`)
             });
 
 
@@ -111,7 +113,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         //REPLACE IMAGE
         if (typeof window !== 'undefined') {
 
-            this.articleBody = this.article.body.replace(/src=/g, "data-src=")
+            // this.articleBody = this.article.body.replace(/src=/g, "data-src=")
+            this.articleBody = this.article.body;
 
             this.parseHtml();
         } else {
@@ -131,10 +134,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 new ArticleVideoParser(videos[i], this.domService).parse();
             }
 
-            let images: HTMLCollectionOf<HTMLImageElement> = element.getElementsByTagName('img');
-            for (let i = 0; i < images.length; i++) {
-                new ArticleImageParser(images[i], this.domService).parse();
-            }
+            // let images: HTMLCollectionOf<HTMLImageElement> = element.getElementsByTagName('img');
+            // for (let i = 0; i < images.length; i++) {
+            //     new ArticleImageParser(images[i], this.domService).parse();
+            // }
         }, 0)
     }
 

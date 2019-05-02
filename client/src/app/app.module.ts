@@ -39,6 +39,7 @@ import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
 import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
 import {ShareComponent} from "./article/actions/share/share.component";
+import {ClipboardModule} from "ngx-clipboard";
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {ShareComponent} from "./article/actions/share/share.component";
         RouterModule,
         MatButtonModule,
         NotificationModule,
+        ClipboardModule,
         LazyLoadImageModule.forRoot({
             preset: intersectionObserverPreset
         }),

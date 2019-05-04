@@ -11,7 +11,7 @@ export abstract class StoryService {
     readonly MAX_CACHE_NUMBER = 50;
 
 
-    constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
+    protected constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
 
     }
 
@@ -38,7 +38,7 @@ export abstract class StoryService {
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 
-    public cache(): Promise<Article[]> {
+    public cache(): Promise<any> {
         return new Promise(resolver => {
             this.getStories().then(stories =>
                 this.cacheArticles(stories).then((value) => resolver(value))
@@ -48,7 +48,7 @@ export abstract class StoryService {
 
     }
 
-    private async cacheArticles(stories): Promise<Article[]> {
+    private async cacheArticles(stories): Promise<any> {
         let cacheResult: Article;
         let cachedArticle: Article[] = [];
         for (let i = 0; i < this.MAX_CACHE_NUMBER; i++) {
@@ -69,7 +69,9 @@ export abstract class StoryService {
             await noticationService.send(mostLikesArticles, this.category);
         }
 
-        return cachedArticle;
+        return cachedArticle.map(article=>{
+            return {title:article.header,likes:article.likes}
+        });
 
 
     }

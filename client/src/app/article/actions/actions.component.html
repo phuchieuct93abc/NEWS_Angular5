@@ -1,14 +1,17 @@
-<div class="text-right sticky" @animate>
-    <a mat-icon-button (click)="toggleFavorite()" class="fadein">
-        <mat-icon color="primary">
-            {{isFavorite ? 'favorite' : 'favorite_border'}}
-        </mat-icon>
+<div style="height: 40px;" class="sticky" #actionsElement>
+    <div class="text-right " @animate  [class.fixed]="isFixedTop" #stickyElement>
+        <a mat-icon-button (click)="toggleFavorite()" class="fadein">
+            <mat-icon color="primary">
+                {{isFavorite ? 'favorite' : 'favorite_border'}}
+            </mat-icon>
 
-    </a>
-    <app-share></app-share>
+        </a>
+        <app-share></app-share>
 
-    <app-display></app-display>
-    <button mat-icon-button class="fadein close-icon" (click)="close($event)" *ngIf="onClosed.observers.length>0">
-        <mat-icon class="mat-primary">cancel</mat-icon>
-    </button>
+        <app-display></app-display>
+        <button mat-icon-button class="fadein close-icon" (click)="close($event)" *ngIf="onClosed.observers.length>0">
+            <mat-icon class="mat-primary">cancel</mat-icon>
+        </button>
+    </div>
+
 </div>

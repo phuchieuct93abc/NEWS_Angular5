@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import Article from "../../../../../model/Article";
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-actions',
@@ -22,20 +23,69 @@ import {MatSnackBar} from "@angular/material";
 
     ]
 })
-export class ActionsComponent implements OnInit {
+export class ActionsComponent implements OnInit, OnDestroy {
+    ngOnDestroy(): void {
+        this.observerWindow && this.observerWindow.disconnect();
+        this.observerWrapper && this.observerWrapper.disconnect();
+    }
 
     isFavorite: boolean;
     @Input()
     article: Article;
     @Output()
     onClosed = new EventEmitter<void>();
-    display = true;
+    @ViewChild("actionsElement")
+    actionsElement: ElementRef;
+    @ViewChild("stickyElement")
+    stickyElement: ElementRef;
 
-    constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar) {
+
+    display = true;
+    observerWindow: IntersectionObserver;
+    observerWrapper: IntersectionObserver;
+    isFixedTop = false;
+    @Input()
+    wrapperElement: HTMLElement;
+
+    constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
+                private ngZone: NgZone, private breakpointDetector: BreakpointDetectorService) {
     }
 
     ngOnInit() {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
+
+        if (this.breakpointDetector.isSmallScreen) {
+            setTimeout(() => {
+                this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                    this.ngZone.run(() => {
+                        this.isFixedTop = !data[0].isIntersecting;
+
+                    })
+                }, {
+                    rootMargin: '-40px 0px 0px 0px',
+                    threshold: [0.5]
+                });
+                this.observerWindow.observe(this.actionsElement.nativeElement)
+
+                console.log(this.wrapperElement)
+
+                this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                    this.ngZone.run(() => {
+                        this.isFixedTop = data[0].isIntersecting;
+
+                    })
+                }, {
+                    rootMargin: '-150px 0px 0px 0px',
+                    threshold: [0]
+                });
+                this.observerWrapper.observe(this.wrapperElement)
+
+
+            }, 2000)
+        }
+
 
     }
 

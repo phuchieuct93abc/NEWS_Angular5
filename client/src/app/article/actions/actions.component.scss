@@ -1,6 +1,14 @@
 .sticky {
   position: sticky;
   top: 60px;
-  z-index: 10;
+  right: 0px;
+  z-index: 1;
   background-color: transparent !important;
+  transition: all linear 2s;
+}
+
+.fixed {
+  position: fixed;
+  top: 60px;
+  right: 0px;
 }

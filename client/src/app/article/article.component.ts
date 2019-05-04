@@ -7,10 +7,7 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
-import ArticleImageParser from "./parsers/article-image.parser";
 
-
-const animationTime = 300
 
 @Component({
     selector: 'app-article',
@@ -21,11 +18,14 @@ const animationTime = 300
 
                 transition(':leave', [
                     style({opacity: 1}),
-                    animate(animationTime, style({opacity: 0})),
+                    animate("0.3s", style({opacity: 0})),
                 ]),
                 transition(':enter', [
-                    style({opacity: 0}),
-                    animate(animationTime, style({opacity: 1})),
+                    style({opacity: 0, height: 0}),
+                    animate('0.3s 0.3s',
+                        style({opacity: 1, height: '*'}),
+                    )
+
                 ])
             ]
         ),
@@ -51,7 +51,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
     articleBody: string;
 
     public fontSize: number;
-    transitionName: string;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
@@ -64,16 +63,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
-
-            let getArticlePromise = this.getArticle(params['id'], params['category']);
-
-            setTimeout(() => {
-                this.articleId = params['id'];
-
-                this.transitionName = this.articleId;
-                this.categoryId = params['category'];
-                this.getArticleById(getArticlePromise);
-            }, animationTime)
+            this.getArticleById(params['id'], params['category']);
 
         });
 
@@ -84,21 +74,22 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     }
 
-    protected getArticleById(promise: Promise<Article>) {
-        if (this.articleId) {
+    protected getArticleById(articleId, categoryId) {
+        if (articleId && categoryId) {
             this.article = null;
+            this.articleId = null;
+            setTimeout(() => {
+                this.articleId = articleId;
+                this.categoryId = categoryId;
+                this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
+
+                    this.article = article;
 
 
-            promise.then(article => {
-
-                this.article = article;
-
-                this.articleService.onStorySelected.next(this.article);
-                this.afterGetArticle();
-
-            }).catch(() => {
-                console.error(`Can not get ${this.articleId}`)
-            });
+                    this.articleService.onStorySelected.next(this.article);
+                    this.afterGetArticle();
+                });
+            })
 
 
         }
@@ -148,17 +139,5 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.getArticleSubscription && this.getArticleSubscription.unsubscribe();
     }
 
-    getArticle(articleId, categoryId): Promise<Article> {
-        if (!articleId || !categoryId) {
-            return Promise.reject();
-        }
-        return new Promise(resolver => {
-            this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
-
-                resolver(article)
-
-            });
-        })
-    }
 
 }

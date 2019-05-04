@@ -34,7 +34,7 @@ api.get('/comments', (req, res) => {
 api.get('/cachestory', (req, res) => {
 
     StoryServiceFactory.get(req).cache().then((result) => {
-        res.send(`Cached article ${result}`);
+        res.send({articles: result, number: result.length});
 
     })
 });

@@ -8,7 +8,7 @@ const axios = require('axios');
 
 
 export abstract class StoryService {
-    readonly MAX_CACHE_NUMBER = 10;
+    readonly MAX_CACHE_NUMBER = 50;
 
 
     constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {

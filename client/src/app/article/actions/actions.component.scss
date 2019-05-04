@@ -9,6 +9,19 @@
 
 .fixed {
   position: fixed;
-  top: 60px;
   right: 0px;
+  animation: fixed linear 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fixed {
+  from {
+
+    top: 0px;
+
+  }
+  to {
+    top: 60px;
+  }
+
 }

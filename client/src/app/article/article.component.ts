@@ -51,6 +51,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     articleBody: string;
 
     public fontSize: number;
+    
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,

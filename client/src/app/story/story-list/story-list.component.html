@@ -3,21 +3,14 @@
         <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
-                          (vsEnd)="vsEnd($event)"
+                          (vsEnd)="vsEnd()"
                           [checkResizeInterval]="0"
 
                           [items]="stories"
-                          [scrollAnimationTime]="0"
                           [parentScroll]="scrollingBlock"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
-                          [bufferAmount]="30"
                           *ngIf="stories"
-                          ssrChildWidth="460"
-                          ssrChildHeight="144"
-                          ssrViewportHeight="798"
-                          ssrViewportWidth="1444"
-
                           class="w-100">
             <app-story
                     *ngFor="let item of scroll.viewPortItems" [story]="item"

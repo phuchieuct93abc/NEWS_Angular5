@@ -6,6 +6,7 @@ import {Subscription} from "rxjs";
 import * as url from 'speakingurl';
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import Article from "../../../../../model/Article";
 
 @Component({
     selector: 'app-story',
@@ -20,6 +21,8 @@ export class StoryComponent implements OnInit, OnDestroy {
     public scrollContainer: ElementRef;
     @Output()
     public onSelectedStory = new EventEmitter<Story>();
+    @Output()
+    public onDestroyedStory = new EventEmitter<Story>();
     public scrollTarget: any;
 
     public selected: boolean = false;
@@ -43,6 +46,7 @@ export class StoryComponent implements OnInit, OnDestroy {
 
         this.selected = true;
         this.story.isRead = true;
+        this.onSelectedStory.emit(this.story);
     }
 
     ngOnInit(): void {
@@ -70,6 +74,7 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.configListener.unsubscribe();
+        this.selected && this.onDestroyedStory.emit(this.story);
     }
 
 

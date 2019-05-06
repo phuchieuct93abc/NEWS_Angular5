@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -51,8 +51,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
     articleBody: string;
 
     public fontSize: number;
-    
-
+    @Output()
+    onSelectArticle = new EventEmitter<Article>();
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
                 protected configService: ConfigService) {
@@ -112,6 +112,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
         } else {
             this.articleBody = this.article.body;
         }
+
     }
 
 

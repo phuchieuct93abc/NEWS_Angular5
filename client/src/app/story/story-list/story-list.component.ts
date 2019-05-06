@@ -25,7 +25,7 @@ export class StoryListComponent implements OnInit {
     category: string;
     protected buffer: Story[] = [];
     @ViewChild(VirtualScrollerComponent)
-    private virtualScroller: VirtualScrollerComponent;
+    protected virtualScroller: VirtualScrollerComponent;
 
 
     isSmallScreen: boolean;

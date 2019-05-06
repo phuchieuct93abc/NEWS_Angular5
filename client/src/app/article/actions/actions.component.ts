@@ -64,7 +64,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                     })
                 }, {
                     rootMargin: '-60px 0px 0px 0px',
-                    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
+                    threshold: [0]
                 });
                 this.observerWindow.observe(this.actionsElement.nativeElement)
 
@@ -77,12 +77,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
                     })
                 }, {
                     rootMargin: '-100px 0px 0px 0px',
-                    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
+                    threshold: [0]
                 });
                 this.observerWrapper.observe(this.wrapperElement)
 
 
-            }, 500)
+            }, 2000)
         }
 
 

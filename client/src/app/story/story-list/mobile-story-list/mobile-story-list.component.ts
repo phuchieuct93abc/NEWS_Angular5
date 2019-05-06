@@ -12,7 +12,7 @@ import {StoryListComponent} from "../story-list.component";
     selector: 'app-mobile-story-list',
     templateUrl: './mobile-story-list.component.html',
     styleUrls: ['./mobile-story-list.component.scss'],
-    encapsulation:ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None
 })
 export class MobileStoryListComponent extends StoryListComponent {
 
@@ -27,6 +27,12 @@ export class MobileStoryListComponent extends StoryListComponent {
                 protected articleService: ArticleService
     ) {
         super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
+    }
+
+    updateStory(story) {
+        console.log("update",story)
+        this.virtualScroller.invalidateCachedMeasurementForItem(story);
+
     }
 
 

@@ -6,25 +6,25 @@
                           (vsEnd)="vsEnd()"
                           [checkResizeInterval]="0"
                           [enableUnequalChildrenSizes]="true"
-                          [items]="stories"
                           [useMarginInsteadOfTranslate]="true"
+                          [items]="stories"
                           [scrollAnimationTime]="0"
                           [parentScroll]="scroll.window"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
-                          [bufferAmount]="30"
+                          [bufferAmount]="20"
+
                           *ngIf="stories"
-                          ssrChildWidth="460"
-                          ssrChildHeight="144"
-                          ssrViewportHeight="798"
-                          ssrViewportWidth="1444"
+                          [childHeight]="100"
+                          [childHeight]="300"
+
 
                           class="w-100">
 
 
-            <app-mobile-story
-                    *ngFor="let item of scroll.viewPortItems" [story]="item"
-                    class="d-block"></app-mobile-story>
+            <app-mobile-story (onSelectedStory)="updateStory($event)" (onDestroyedStory)="updateStory($event)"
+                              *ngFor="let item of scroll.viewPortItems" [story]="item"
+                              class="d-block"></app-mobile-story>
 
 
             <div class="p-2 text-center">

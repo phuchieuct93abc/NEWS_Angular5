@@ -31,10 +31,6 @@ export class ImageViewerComponent implements OnInit {
     hasVideo: false;
     @Input()
     fullSize: false;
-    @Input()
-    diameter = 50;
-    @Input()
-    isUseSpinner = false;
 
 
     convertedImagePath: string;
@@ -50,16 +46,10 @@ export class ImageViewerComponent implements OnInit {
 
     constructor(private config: ConfigService, private breakpointService: BreakpointDetectorService,
                 private storyListService: StoryListService,
-                private zone: NgZone) {
+               ) {
 
     }
 
-    onLoad(event) {
-        this.zone.run(() => {
-            this.isLoading = false;
-
-        })
-    }
 
     ngOnInit() {
 

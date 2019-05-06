@@ -1,14 +1,10 @@
 <div class="image-viewer">
 
     <div class="image-wrapper w-100" [style.paddingTop]="height/width*100+'%'">
-        <div class="spinner" *ngIf="isLoading && isUseSpinner" [@spinner]>
-            <mat-spinner [diameter]="diameter"></mat-spinner>
 
-        </div>
         <img
                 [lazyLoad]="convertedImagePath"
                 [offset]="500"
-                (onLoad)="onLoad($event)"
                 [width]="width"
                 [height]="height"
                 class="mt-0 mb-0 image"

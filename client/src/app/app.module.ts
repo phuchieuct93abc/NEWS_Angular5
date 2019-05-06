@@ -29,7 +29,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
-import {LazyLoadImageModule} from "ng-lazyload-image";
+import {intersectionObserverPreset, LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
@@ -37,6 +37,9 @@ import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material";
 import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
+import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
+import {ShareComponent} from "./article/actions/share/share.component";
+import {ClipboardModule} from "ngx-clipboard";
 
 
 @NgModule({
@@ -49,10 +52,13 @@ import {ActionsComponent} from "./article/actions/actions.component";
         AppRoutingModule,
         MomentModule,
         VirtualScrollerModule,
-        LazyLoadImageModule,
         RouterModule,
         MatButtonModule,
         NotificationModule,
+        ClipboardModule,
+        LazyLoadImageModule.forRoot({
+            preset: intersectionObserverPreset
+        }),
     ],
     declarations: [
         AppComponent,
@@ -76,7 +82,9 @@ import {ActionsComponent} from "./article/actions/actions.component";
         MobileStoryComponent,
         DisplayComponent,
         CategoryComponent,
-        ActionsComponent
+        ActionsComponent,
+        MobileStoryListComponent,
+        ShareComponent
 
 
     ],
@@ -89,7 +97,7 @@ import {ActionsComponent} from "./article/actions/actions.component";
 
     ],
     entryComponents: [
-        VideoComponent
+        VideoComponent, ImageViewerComponent
     ]
 
 })

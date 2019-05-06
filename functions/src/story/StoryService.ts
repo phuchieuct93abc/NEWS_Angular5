@@ -11,14 +11,13 @@ export abstract class StoryService {
     readonly MAX_CACHE_NUMBER = 50;
 
 
-    constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
+    protected constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
 
     }
 
 
     public getStories(): Promise<Story[]> {
         return new Promise((resolve) => {
-            console.log(this.url)
             axios.get(this.url).then(response => {
                 const result: HTMLCollection = this.queryStories(response.data);
                 let stories = Array.from(result)
@@ -39,7 +38,7 @@ export abstract class StoryService {
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 
-    public cache(): Promise<number> {
+    public cache(): Promise<any> {
         return new Promise(resolver => {
             this.getStories().then(stories =>
                 this.cacheArticles(stories).then((value) => resolver(value))
@@ -49,28 +48,30 @@ export abstract class StoryService {
 
     }
 
-    private async cacheArticles(stories): Promise<number> {
-        var times: number = 1;
+    private async cacheArticles(stories): Promise<any> {
         let cacheResult: Article;
-        let mostLikesArticles: Article;
+        let cachedArticle: Article[] = [];
         for (let i = 0; i < this.MAX_CACHE_NUMBER; i++) {
             let story = stories[i];
             cacheResult = await this.cacheArticle(story.id);
-            if (!cacheResult) {
+            if (cacheResult == null) {
                 break;
             }
-            if (cacheResult.likes > 10 && mostLikesArticles == undefined) {
-                mostLikesArticles = cacheResult;
-            }
-            times++;
+            cachedArticle.push(cacheResult);
+
         }
 
-        if (mostLikesArticles) {
+        let mostLikesArticles = cachedArticle.reduce((mostLikes: Article, current: Article) => {
+            return mostLikes == undefined || current.likes > mostLikes.likes ? current : mostLikes;
+        },null);
+        if (mostLikesArticles && mostLikesArticles.likes > 5) {
             let noticationService = new NotificationService();
             await noticationService.send(mostLikesArticles, this.category);
         }
 
-        return times;
+        return cachedArticle.map(article=>{
+            return {title:article.header,likes:article.likes}
+        });
 
 
     }

@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import Article from "../../../../../model/Article";
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material";
+import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-actions',
@@ -20,20 +23,68 @@ import {animate, style, transition, trigger} from "@angular/animations";
 
     ]
 })
-export class ActionsComponent implements OnInit {
+export class ActionsComponent implements OnInit, OnDestroy {
+    ngOnDestroy(): void {
+        this.observerWindow && this.observerWindow.disconnect();
+        this.observerWrapper && this.observerWrapper.disconnect();
+    }
 
     isFavorite: boolean;
     @Input()
     article: Article;
     @Output()
     onClosed = new EventEmitter<void>();
-    display = true;
+    @ViewChild("actionsElement")
+    actionsElement: ElementRef;
+    @ViewChild("stickyElement")
+    stickyElement: ElementRef;
 
-    constructor(protected favoriteService: FavoriteService) {
+
+    display = true;
+    observerWindow: IntersectionObserver;
+    observerWrapper: IntersectionObserver;
+    isFixedTop = false;
+    @Input()
+    wrapperElement: HTMLElement;
+
+    constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
+                private ngZone: NgZone, private breakpointDetector: BreakpointDetectorService) {
     }
 
     ngOnInit() {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
+
+        if (this.breakpointDetector.isSmallScreen) {
+            setTimeout(() => {
+                this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                    this.ngZone.run(() => {
+                        this.isFixedTop = !data[0].isIntersecting;
+
+                    })
+                }, {
+                    rootMargin: '-60px 0px 0px 0px',
+                    threshold: [0.5]
+                });
+                this.observerWindow.observe(this.actionsElement.nativeElement)
+
+
+                this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                    this.ngZone.run(() => {
+                        this.isFixedTop = data[0].isIntersecting;
+
+                    })
+                }, {
+                    rootMargin: '-100px 0px 0px 0px',
+                    threshold: [0]
+                });
+                this.observerWrapper.observe(this.wrapperElement)
+
+
+            }, 2000)
+        }
+
 
     }
 
@@ -42,6 +93,9 @@ export class ActionsComponent implements OnInit {
         if (this.article.story != null) {
             if (this.isFavorite) {
                 this.favoriteService.addFavorite(this.article.story);
+                this.snackBar.open("Add to favorite category successful", null, {
+                    duration: 2000,
+                });
             } else {
                 this.favoriteService.removeFavorite(this.article.story)
             }
@@ -54,4 +108,6 @@ export class ActionsComponent implements OnInit {
         event && event.stopPropagation();
         this.onClosed.emit();
     }
+
+
 }

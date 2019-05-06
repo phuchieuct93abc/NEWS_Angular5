@@ -1,0 +1,47 @@
+.story-list {
+  .blur-edge {
+    width: 100%;
+  }
+}
+
+app-mobile-story {
+  &:first-child {
+    margin-top: 50px;
+  }
+}
+
+my-app.h-100 {
+  height: auto !important;
+
+  > div {
+    min-height: 100vh;
+
+  }
+
+
+}
+
+.scrollable {
+  height: 100%;
+}
+
+.move-to-top {
+
+  position: fixed;
+  bottom: 2rem;
+  right: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon {
+    width: auto;
+    height: auto;
+    font-size: 3rem;
+    transform: rotate(270deg);
+  }
+}
+
+.blur-edge {
+  position: fixed;
+}

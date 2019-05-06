@@ -6,29 +6,10 @@
   max-height: 100%;
 
 
-  app-mobile-story {
-    &:first-child {
-      margin-top: 50px;
-    }
-  }
 
 
-  .move-to-top {
 
-    position: absolute;
-    bottom: 2rem;
-    right: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    mat-icon {
-      width: auto;
-      height: auto;
-      font-size: 3rem;
-      transform: rotate(270deg);
-    }
-  }
 
   .toolbar-placeholder {
     height: 56px;
@@ -39,8 +20,3 @@
   }
 }
 
-.story-list.isSmallScreen {
-  .blur-edge {
-    width: 100%;
-  }
-}

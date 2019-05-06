@@ -1,10 +1,12 @@
-<div #imageViewer class="image-viewer">
+<div class="image-viewer">
 
-    <div class="image-wrapper w-100">
+    <div class="image-wrapper w-100" [style.paddingTop]="height/width*100+'%'">
+
         <img
                 [lazyLoad]="convertedImagePath"
-                [scrollObservable]="scrollObservable"
                 [offset]="500"
+                [width]="width"
+                [height]="height"
                 class="mt-0 mb-0 image"
         />
 

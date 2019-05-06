@@ -3,21 +3,38 @@
   .image-viewer {
     height: 100%;
     display: flex;
-    .image-wrapper{
+
+    .image-wrapper {
       position: relative;
+      height: 0;
+
+      .spinner {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       .image {
         width: 100%;
         height: auto;
-        transition: all linear 0.5s;
+        position: absolute;
+        top: 0;
+        left: 0;
         max-height: 300px;
-        background-size: cover;
-        background-position: center;
-        background-color: #323232;
         opacity: 0;
+        transition: all linear 0.5s;
+        &.hoverZoom:hover{
+          transform: scale(1.1);
+        }
         &.ng-lazyloaded{
           opacity: 1;
         }
+
       }
 
       .videocam {

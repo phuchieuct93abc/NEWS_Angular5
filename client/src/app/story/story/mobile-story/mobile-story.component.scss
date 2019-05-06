@@ -4,7 +4,10 @@
 .mat-card {
   cursor: pointer;
   padding: 0.5em 0.5em 0;
+  &:hover /deep/ .image {
 
+    transform: scale(1.1);
+  }
   .image-wrapper {
     width: 100%;
   }
@@ -29,10 +32,7 @@
     background-color: #e5e5e5;
   }
 
-  &:hover /deep/ .image {
 
-    transform: scale(1.1);
-  }
 
   .title {
 

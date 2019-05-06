@@ -22,11 +22,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         let sourceUrl = this.html.querySelector(".article__action .plsh").getAttribute("href");
         sourceUrl = `https://m.baomoi.com${sourceUrl}`;
 
-        let images = [];
-        const imageElements = this.html.getElementsByTagName('img');
-        for (let index = 0; index < imageElements.length; index++) {
-            images.push(imageElements[index].getAttribute('src'))
-        }
+        let images = this.extractImages();
         const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
 
         let likes = parseInt(this.html.querySelector(".like").textContent);
@@ -35,4 +31,14 @@ export default class BaomoiArticleParser extends ArticleParser {
     }
 
 
+    private extractImages() {
+        let images = [];
+        const imageElements = this.html.getElementsByTagName('img');
+        for (let index = 0; index < imageElements.length; index++) {
+            images.push(imageElements[index].getAttribute('src'))
+        }
+
+
+        return images;
+    }
 }

@@ -1,6 +1,27 @@
 .sticky {
   position: sticky;
   top: 60px;
-  z-index: 10;
+  right: 0px;
+  z-index: 1;
   background-color: transparent !important;
+  transition: all linear 2s;
+}
+
+.fixed {
+  position: fixed;
+  right: 0px;
+  animation: fixed linear 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fixed {
+  from {
+
+    top: 0px;
+
+  }
+  to {
+    top: 60px;
+  }
+
 }

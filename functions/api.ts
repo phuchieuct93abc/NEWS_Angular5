@@ -61,6 +61,7 @@ api.get('/blur', (req, res) => {
                 {tile: true, raw: {width: 1, height: 1, channels: 4}}
             ).jpeg().toBuffer().then(output => {
                 res.set('Content-Type', 'image/jpeg');
+                res.set('Cache-Control', 'public, max-age=31557600')
                 res.send(output)
             })
         } catch (e) {

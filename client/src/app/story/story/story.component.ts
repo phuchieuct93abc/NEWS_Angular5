@@ -20,9 +20,9 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Input()
     public scrollContainer: ElementRef;
     @Output()
-    public onSelectedStory = new EventEmitter<Story>();
+    public onSelectedStory = new EventEmitter<number>();
     @Output()
-    public onDestroyedStory = new EventEmitter<Story>();
+    public onDestroyedStory = new EventEmitter<number>();
     public scrollTarget: any;
 
     public selected: boolean = false;
@@ -31,6 +31,9 @@ export class StoryComponent implements OnInit, OnDestroy {
     public config: Config;
     public configListener: Subscription;
     public friendlyUrl: string;
+    @Input()
+    public index:number;
+
 
 
     constructor(public breakpointService: BreakpointDetectorService,
@@ -44,9 +47,9 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     onSelectStory() {
 
-        this.selected = true;
+        this.story.selected = true;
         this.story.isRead = true;
-        this.onSelectedStory.emit(this.story);
+        this.onSelectedStory.emit(this.index);
     }
 
     ngOnInit(): void {
@@ -71,10 +74,16 @@ export class StoryComponent implements OnInit, OnDestroy {
             this.config = config.new;
         })
     }
+    close(){
+        this.story.selected = false;
+        this.onSelectedStory.emit(this.index);
+
+    }
 
     ngOnDestroy(): void {
         this.configListener.unsubscribe();
-        this.selected && this.onDestroyedStory.emit(this.story);
+        this.selected && console.log("destroey",this.index)
+        this.selected && this.onDestroyedStory.emit(this.index);
     }
 
 

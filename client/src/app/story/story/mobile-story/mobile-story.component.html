@@ -1,11 +1,12 @@
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid" [style.minHeight.px]="story.height" >
+    <div class="row" #storyElement>
         <mat-card (click)="onSelectStory()" class="mb-2 w-100"
                   [class.read]="story.isRead"
                   [routerLink]="[friendlyUrl,story.id]" class="mb-2 w-100"
                   routerLinkActive="active"
                   [class.active]="selected"
                   [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
+
         >
             <mat-card-content>
                 <div class="w-100 content-story d-flex">
@@ -36,8 +37,8 @@
                 </div>
 
 
-                <div *ngIf="selected" class="d-block content-article" (click)="$event.stopPropagation()">
-                    <app-inline-article (onClosed)="selected=false" [story]="story"
+                <div *ngIf="story.selected" class="d-block content-article" (click)="$event.stopPropagation()" o>
+                    <app-inline-article (onClosed)="close()" [story]="story" (onFinishedGetArticle)="onOpenStory()"
                                         class="w-100 d-block"></app-inline-article>
 
                 </div>

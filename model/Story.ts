@@ -2,7 +2,8 @@ import StoryMeta from "./StoryMeta";
 import StoryImage from "./StoryImage";
 
 export class Story {
-    public isFavorite:boolean;
+    public isFavorite: boolean;
+
     constructor(
         public id: string,
         public title: string,
@@ -12,7 +13,9 @@ export class Story {
         public storyMeta: StoryMeta,
         public hasVideo: boolean,
         public isRead: boolean = false,
-        public isAutoOpen = false
+        public isAutoOpen = false,
+        public selected = false,
+        public height = 0
     ) {
     }
 }

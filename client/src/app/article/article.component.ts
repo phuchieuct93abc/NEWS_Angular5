@@ -50,9 +50,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
     getArticleSubscription: Subscription;
     articleBody: string;
 
-    public fontSize: number;
+
     @Output()
-    onSelectArticle = new EventEmitter<Article>();
+    onFinishedGetArticle = new EventEmitter<void>();
+    public fontSize: number;
+
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
                 protected configService: ConfigService) {
@@ -79,6 +81,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
         if (articleId && categoryId) {
             this.article = null;
             this.articleId = null;
+            console.log("get article")
             setTimeout(() => {
                 this.articleId = articleId;
                 this.categoryId = categoryId;
@@ -113,6 +116,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.articleBody = this.article.body;
         }
 
+        this.onFinishedGetArticle.emit();
+
     }
 
 
@@ -131,7 +136,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
             // for (let i = 0; i < images.length; i++) {
             //     new ArticleImageParser(images[i], this.domService).parse();
             // }
-        }, 0)
+        }, 1000)
     }
 
 

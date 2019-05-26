@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
@@ -12,6 +12,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class MobileStoryComponent extends StoryComponent {
 
+    @ViewChild("storyElement")
+    storyElement: ElementRef;
 
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
@@ -22,5 +24,18 @@ export class MobileStoryComponent extends StoryComponent {
         super(breakpointService, configService, favoriteService, route, activatedRoute)
     }
 
+    onOpenStory(){
+        this.updateheight(2000)
+    }
 
+    private updateheight(time) {
+        setTimeout(() => {
+            this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
+        },time)
+    }
+
+    close() {
+        super.close();
+        this.updateheight(0);
+    }
 }

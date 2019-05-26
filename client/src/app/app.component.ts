@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Config, ConfigService} from "./shared/config.service";
 import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
 import CONFIG from "../environments/environment";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
     selector: 'my-app',
@@ -21,6 +22,8 @@ export class AppComponent implements OnInit {
                 private articleService: ArticleService,
                 private breakpointService: BreakpointDetectorService,
                 private route: ActivatedRoute,
+                @Inject(DOCUMENT) private document: Document,
+                private renderer: Renderer2,
     ) {
     }
 
@@ -28,7 +31,7 @@ export class AppComponent implements OnInit {
         this.config = this.configService.getConfig();
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new;
-
+            this.updateBodyClass();
         });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
@@ -47,6 +50,7 @@ export class AppComponent implements OnInit {
 
         this.track();
         this.redirectToLastCategory();
+        this.updateBodyClass();
 
     }
 
@@ -86,5 +90,15 @@ export class AppComponent implements OnInit {
                 this.router.navigate([url]);
             }
         })
+    }
+
+    updateBodyClass() {
+        let className = this.config.darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
+        this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
+        this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
+        this.renderer.addClass(this.document.body, className);
+        if (this.isSmallDevice) {
+            this.renderer.addClass(this.document.body, 'small-device')
+        }
     }
 }

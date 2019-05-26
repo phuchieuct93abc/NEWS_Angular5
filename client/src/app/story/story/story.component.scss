@@ -1,9 +1,11 @@
 @import '~@angular/material/theming';
 
+$card-height: 9em;
 .mat-card {
   cursor: pointer;
   padding: 1em;
-  height: 9em;
+  height: $card-height;
+
   &:hover /deep/ .image {
 
     transform: scale(1.1);

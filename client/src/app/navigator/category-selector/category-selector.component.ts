@@ -30,6 +30,7 @@ export class CategorySelectorComponent implements OnInit {
         this.isSmallImage = this.configService.getConfig().smallImage;
         setTimeout(() => {
             this.route.firstChild.params.subscribe(params => {
+                console.log("trigger")
                 this.selectedCategory = CategoryHelper.findByName(params['category'])
             })
         })

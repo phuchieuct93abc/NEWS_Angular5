@@ -6,7 +6,6 @@ import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
-import {Observable} from "rxjs";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
 import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
@@ -134,7 +133,7 @@ export class StoryListComponent implements OnInit {
             if (keyword) {
 
                 this.storyService.resetPageNumber();
-                this.storyService.search(keyword).subscribe(values => this.stories = values)
+                this.storyService.search(keyword).then(values => this.stories = values)
             } else {
                 this.updateStoryList();
             }
@@ -172,15 +171,26 @@ export class StoryListComponent implements OnInit {
     private loadFirstPage() {
         this.scrollToTop();
         this.storyService.resetPageNumber();
-        this.storyService.getStories(this.category).subscribe(value => {
+        this.storyService.getStories(this.category).then(value => {
             this.stories = value;
             if (this.firstStory) {
-                this.stories.unshift(this.firstStory)
+                this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }
             this.autoSelectFirstStory(this.stories[0]);
-            // this.cacheArticle();
         });
+    }
+
+    private addFirstStoryToTheTop() {
+        let firstStoryIndex = this.stories.findIndex(story => story.id === this.firstStory.id);
+        if (firstStoryIndex !== -1) {
+            let temp = this.stories[0];
+            this.stories[0] = this.stories[firstStoryIndex];
+            this.stories[firstStoryIndex] = temp
+        } else {
+            this.stories.unshift(this.firstStory);
+
+        }
     }
 
     private scrollToTop() {
@@ -201,14 +211,14 @@ export class StoryListComponent implements OnInit {
     private onLoadMore(event: IPageInfo) {
         if (event.endIndex < this.stories.length - 5 || this.isLoading) return;
         this.isLoading = true;
-        this.getLoadMoreObservable().subscribe(value => {
+        this.getLoadMoreObservable().then(value => {
             this.stories = value;
             this.isLoading = false;
         });
     }
 
     private getLoadMoreObservable() {
-        let loadMorePromise: Observable<Story[]>;
+        let loadMorePromise: Promise<Story[]>;
         loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(this.category);
         return loadMorePromise;
     }

@@ -1,3 +1,9 @@
+:host{
+  display: block;
+}
+.categories-wrapper{
+  overflow: hidden;
+}
 app-story{
   display: inline-block;
   min-width: 300px;

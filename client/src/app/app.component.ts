@@ -5,11 +5,24 @@ import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
 import CONFIG from "../environments/environment";
 import {DOCUMENT} from "@angular/common";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    animations: [
+        trigger("opacity", [
+            transition(':enter', [
+                style({opacity: 0}),
+                animate('0.5s', style({opacity: 1}))
+            ]),
+            transition(':leave', [
+                style({opacity: 1}),
+                animate('0.5s', style({opacity: 0}))
+            ])
+        ])
+    ]
 })
 export class AppComponent implements OnInit {
     name = 'Angular';
@@ -68,16 +81,18 @@ export class AppComponent implements OnInit {
     }
 
     getBlurImageUrl(url) {
-        if (typeof window !== 'undefined' && !this.isSmallDevice) {
-            let img = new Image();
-            const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
-            img.src = blurUrl;
-            img.onload = () => {
-                this.image = blurUrl;
+        this.image = null;
 
-            }
+        if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
+
+            setTimeout(() => {
+
+
+                this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+
+
+            })
         }
-
     }
 
     redirectToLastCategory() {

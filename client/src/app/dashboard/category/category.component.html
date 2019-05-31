@@ -1,7 +1,15 @@
-<div class="mat-h1" *ngIf="stories">{{category.title}}</div>
 <div class="container-fluid">
-    <div class="row">
-        <app-story *ngFor="let story of stories" [story]="story" class="col-4"></app-story>
 
+    <div class="mat-h1" *ngIf="stories.length">
+        <a [routerLink]="category.name">{{category.title}}</a>
+    </div>
+    <div class="row categories-wrapper" [@expand]="isExpanded?'expand':'collapse'">
+        <app-story [category]="category" *ngFor="let story of stories" [story]="story" class="col-4"></app-story>
+
+    </div>
+    <div class="text-center" *ngIf="stories.length">
+
+        <a mat-button class="caption"
+           (click)="isExpanded=!isExpanded">{{isExpanded ? 'Thu gọn' : 'Xem Thêm'}}</a>
     </div>
 </div>

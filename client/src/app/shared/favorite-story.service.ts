@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {Observable, of} from "rxjs";
 import {LocalStorageService} from "./storage.service";
 import {Story} from "../../../../model/Story";
 
@@ -21,9 +20,9 @@ export class FavoriteService {
         return this.favorites.find(favorite => favorite.id === id);
     }
 
-    getStories(): Observable<any> {
+    getStories(): Promise<any> {
 
-        return of(this.favorites == null ? [] : this.favorites);
+        return Promise.resolve(this.favorites == null ? [] : this.favorites);
     }
 
     removeFavorite(story: Story) {

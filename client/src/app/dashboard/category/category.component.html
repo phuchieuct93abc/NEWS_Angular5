@@ -1,0 +1,7 @@
+<div class="mat-h1" *ngIf="stories">{{category.title}}</div>
+<div class="container-fluid">
+    <div class="row">
+        <app-story *ngFor="let story of stories" [story]="story" class="col-4"></app-story>
+
+    </div>
+</div>

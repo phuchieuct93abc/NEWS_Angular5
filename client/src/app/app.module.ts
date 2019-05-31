@@ -40,6 +40,8 @@ import {ActionsComponent} from "./article/actions/actions.component";
 import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
 import {ShareComponent} from "./article/actions/share/share.component";
 import {ClipboardModule} from "ngx-clipboard";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {TopCategoryComponent} from "./dashboard/category/category.component";
 
 
 @NgModule({
@@ -84,7 +86,9 @@ import {ClipboardModule} from "ngx-clipboard";
         CategoryComponent,
         ActionsComponent,
         MobileStoryListComponent,
-        ShareComponent
+        ShareComponent,
+        DashboardComponent,
+        TopCategoryComponent
 
 
     ],

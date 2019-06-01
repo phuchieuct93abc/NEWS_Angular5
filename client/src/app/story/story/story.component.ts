@@ -45,6 +45,11 @@ export class StoryComponent implements OnInit, OnDestroy {
     ) {
     }
 
+    isActive(): boolean {
+
+        return this.route.url.includes(this.friendlyUrl);
+    }
+
     onSelectStory() {
 
         let navigate: Promise<any>;

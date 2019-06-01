@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
@@ -10,7 +10,7 @@ import {CategoryService} from "../../shared/category.service";
     templateUrl: './category-selector.component.html',
     styleUrls: ['./category-selector.component.scss']
 })
-export class CategorySelectorComponent implements OnInit {
+export class CategorySelectorComponent implements OnInit,AfterViewInit {
 
 
     vietnameseCategories: Category[];
@@ -31,13 +31,7 @@ export class CategorySelectorComponent implements OnInit {
         this.englishCategories = CategoryHelper.englishCategories();
         this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;
-        setTimeout(()=>{
-            this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
-                console.log(selectedCategory);
-                this.selectedCategory = selectedCategory;
 
-            });
-        },100   )
 
 
     }
@@ -49,5 +43,18 @@ export class CategorySelectorComponent implements OnInit {
     toogleDisplay() {
         this.configService.updateConfig({smallImage: this.isSmallImage})
 
+    }
+
+    ngAfterViewChecked(): void {
+    }
+
+    ngAfterViewInit(): void {
+        this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
+            setTimeout(()=>{
+
+                this.selectedCategory = selectedCategory;
+            })
+
+        });
     }
 }

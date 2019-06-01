@@ -30,6 +30,8 @@ $dark-background-selected: #696969;
 $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
 $transparent: transparent;
+
+
 .unicorn-dark-theme {
   @include angular-material-theme($dark-theme);
   background-color: $dark-background-gray !important;

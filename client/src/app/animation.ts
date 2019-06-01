@@ -1,8 +1,8 @@
-import {animate, animateChild, group, query, style, transition, trigger} from "@angular/animations";
+import {animate, animateChild, group, query, state, style, transition, trigger} from "@angular/animations";
 
 export const slideInAnimation =
     trigger('routeAnimations', [
-        transition('Dashboard <=> Content', [
+        transition('Dashboard => Content', [
             style({ position: 'relative' }),
             query(':enter, :leave', [
                 style({
@@ -16,7 +16,9 @@ export const slideInAnimation =
 
                 style({ left: '100%'})
             ]),
+
             query(':leave', animateChild()),
+
             group([
                 query(':leave', [
                     animate('500ms', style({ left: '-100%'}))

@@ -1,6 +1,7 @@
 <mat-card (click)="onSelectStory()"
           class="mb-2 w-100 px-0 py-0"
-          routerLinkActive="active" [class.read]="story.isRead"
+          [class.active]="isActive()"
+          [class.read]="story.isRead"
           [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
           [matRippleDisabled]="breakpointService.isSmallScreen && selected"
           matRipple

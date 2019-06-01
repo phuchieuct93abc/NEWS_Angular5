@@ -30,6 +30,12 @@ $dark-background-gray: rgba(48, 48, 48, 1);
 $transparent: transparent;
 
 
+@mixin blur-edge($color,$direction-start,$direction-end){
+  background: linear-gradient(to $direction-end, $color 0%, transparent 100%);
+  background: -webkit-gradient(linear, left $direction-start, left $direction-end, color-stop(0%, $color),to(rgba(74, 74, 77, 0)));
+
+
+}
 .unicorn-dark-theme {
   @include angular-material-theme($dark-theme);
   background-color: $dark-background-gray !important;
@@ -70,15 +76,17 @@ $transparent: transparent;
   }
 
   .blur-top {
-    background: linear-gradient(to bottom, $dark-background-light 20%, rgba(255, 255, 255, 0) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, $dark-background-light), to(rgba(74, 74, 77, 0)));
+    @include blur-edge($dark-background-light,top,bottom);
+    //background: linear-gradient(to bottom, $dark-background-light 0%, rgba(255, 255, 255, 0) 100%);
+    //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $dark-background-light), to(rgba(74, 74, 77, 0)));
 
   }
 
   .blur-bottom {
+    @include blur-edge($dark-background-light,bottom,top);
 
-    background: linear-gradient(to top, $dark-background-light 20%, rgba(255, 255, 255, 0) 100%);
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(20%, $dark-background-light), to(rgba(74, 74, 77, 0)));
+    //background: linear-gradient(to top, $dark-background-light 0%, rgba(255, 255, 255, 0) 100%);
+    //background: -webkit-gradient(linear, left bottom, left top, color-stop(0%, $dark-background-light), to(rgba(74, 74, 77, 0)));
 
   }
 
@@ -117,16 +125,16 @@ $transparent: transparent;
   }
 
   .blur-top {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, $light-background-dark), to(rgba(255, 255, 255, 0)));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
 
-    background: linear-gradient(to bottom, $light-background-dark 20%, rgba(255, 255, 255, 0) 100%)
+    background: linear-gradient(to bottom, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
 
   }
 
   .blur-bottom {
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(20%, $light-background-dark), to(rgba(255, 255, 255, 0)));
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
 
-    background: linear-gradient(to top, $light-background-dark 20%, rgba(255, 255, 255, 0) 100%)
+    background: linear-gradient(to top, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
 
   }
 

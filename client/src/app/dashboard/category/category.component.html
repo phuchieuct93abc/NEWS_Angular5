@@ -5,6 +5,7 @@
     </div>
     <div class="row categories-wrapper" [@expand]="isExpanded?'expand':'collapse'">
         <app-story [category]="category" *ngFor="let story of stories" [story]="story" class="col-4"></app-story>
+        <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>
     <div class="text-center" *ngIf="stories.length">

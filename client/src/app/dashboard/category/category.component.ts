@@ -11,7 +11,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
     animations: [
         trigger("expand", [
             state('collapse', style({
-                height: '260px'
+                height: '300px'
             })),
             state('expand', style({
                 height: '*'

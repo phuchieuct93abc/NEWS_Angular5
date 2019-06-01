@@ -1,5 +1,4 @@
-$b: 0em; // border-width
-
+@import "../../../dark-theme";
 
 :host {
   display: block;
@@ -11,6 +10,7 @@ $b: 0em; // border-width
 
   .blur-bottom.blur-edge {
     height: 50px;
+    @include blur-edge(var(--background-color), bottom, top);
   }
 }
 

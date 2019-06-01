@@ -31,11 +31,14 @@ export class CategorySelectorComponent implements OnInit {
         this.englishCategories = CategoryHelper.englishCategories();
         this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;
-        this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
-            console.log(selectedCategory);
-            this.selectedCategory = selectedCategory;
+        setTimeout(()=>{
+            this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
+                console.log(selectedCategory);
+                this.selectedCategory = selectedCategory;
 
-        });
+            });
+        },100   )
+
 
     }
 

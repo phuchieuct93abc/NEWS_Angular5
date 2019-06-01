@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MediaMatcher} from "@angular/cdk/layout";
-import {SidebarService} from "../main/sidebar.service";
 import {BreakpointDetectorService} from "../shared/breakpoint.service";
-import {ConfigService} from "../shared/config.service";
 import {StoryListService} from "../story/story-list/story-list.service";
 import {IPageInfo} from "ngx-virtual-scroller";
 
@@ -27,11 +24,7 @@ export class NavigatorComponent implements OnInit {
     readonly MAX_TOP = 0;
 
     constructor(private storyListService: StoryListService,
-                private media: MediaMatcher,
-                private sidebarService: SidebarService,
                 public breakpointService: BreakpointDetectorService,
-                public configService: ConfigService,
-
     ) {
 
     }
@@ -110,7 +103,6 @@ export class NavigatorComponent implements OnInit {
     restrictTop(top: number): number {
         return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));
     }
-
 
 
 }

@@ -8,12 +8,17 @@ import {CanActivateDashboard} from "./dashboard/canActivateDashboard";
 
 const routes: Routes = [
     {
-        path: '', component: DashboardComponent,
+        path: '',
+        component: DashboardComponent,
+        data:{animation:"Dashboard"},
         canActivate: [CanActivateDashboard]
     },
     {
 
-        path: ':category', component: ContentComponent, children: [
+        path: ':category',
+        component: ContentComponent,
+        data:{animation:"Content"},
+        children: [
             {path: ':title/:id', component: ArticleComponent},
             {path: ':id', component: ArticleComponent},
             {path: '', component: ArticleComponent}

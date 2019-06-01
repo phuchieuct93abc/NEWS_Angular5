@@ -8,8 +8,9 @@
         <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>
-    <div class="text-center" *ngIf="stories.length">
-        <a mat-button class="caption"
+    <div class="text-center" >
+
+        <a mat-button class="caption" color="primary"
            (click)="isExpanded=!isExpanded">{{isExpanded ? 'Thu gọn' : 'Xem Thêm'}}</a>
     </div>
 </div>

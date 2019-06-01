@@ -10,7 +10,7 @@ import {CategoryService} from "../shared/category.service";
 })
 export class ContentComponent implements OnInit {
 
-    isSmallScreen: boolean
+    isSmallScreen: boolean;
 
     constructor(public breakpointService: BreakpointDetectorService, private route: ActivatedRoute,private categoryService:CategoryService) {
     }

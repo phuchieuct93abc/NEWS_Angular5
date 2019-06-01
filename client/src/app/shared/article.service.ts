@@ -33,9 +33,12 @@ export class ArticleService {
                 category:category
             }
         };
+        console.time("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
+        console.log("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {
+                console.timeEnd("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
                 let article = <Article>result;
                 article.story = story;
                 this.meta.updateMeta(article);

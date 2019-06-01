@@ -57,6 +57,9 @@ export class StoryService {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
         }
+        if(CONFIG.isRunningInNode){
+            return Promise.resolve()
+        }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
 
         return this.httpClient.get(storyUrl, {
@@ -82,6 +85,9 @@ export class StoryService {
     }
 
     search(keyword: string): Promise<any> {
+        if(CONFIG.isRunningInNode){
+            return Promise.resolve()
+        }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING})
         return this.httpClient.get(searchUrl, {
             params: {
@@ -106,10 +112,13 @@ export class StoryService {
     }
 
     private filterStory(result) {
-        let stories: Story[] = (<Story[]>result).filter(result => {
-            return this.stories.findIndex(story => story.id == result.id) == -1;
-        });
-        this.stories.push(...stories);
+        if(result){
+            let stories: Story[] = (<Story[]>result).filter(result => {
+                return this.stories.findIndex(story => story.id == result.id) == -1;
+            });
+            this.stories.push(...stories);
+        }
+
     }
 
     saveReadStory(story: Story) {

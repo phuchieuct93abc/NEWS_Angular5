@@ -4,11 +4,13 @@
         <a [routerLink]="category.name">{{category.title}}</a>
     </div>
     <div class="row categories-wrapper" [@expand]="isExpanded?'expand':'collapse'">
-        <app-story [category]="category" *ngFor="let story of stories" [story]="story" class="col-4"></app-story>
+        <app-story [category]="category"
+                   *ngFor="let story of stories| slice:0:isExpanded?20:9;"
+                   [story]="story" class="col-4"></app-story>
         <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>
-    <div class="text-center" [class.hidden]="stories.length==0" >
+    <div class="text-center" [class.hidden]="stories.length==0">
 
         <a mat-button class="caption" color="primary"
            (click)="isExpanded=!isExpanded">{{isExpanded ? 'Thu gọn' : 'Xem Thêm'}}</a>

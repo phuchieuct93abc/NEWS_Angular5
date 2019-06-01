@@ -8,7 +8,7 @@ import CategoryHelper, {Category} from "../../../../model/Categories";
 })
 export class DashboardComponent implements OnInit {
 
-    private vietnameseCategories: Category[]
+    public vietnameseCategories: Category[]
 
     constructor() {
     }

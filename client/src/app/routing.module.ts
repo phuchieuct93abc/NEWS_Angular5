@@ -4,11 +4,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {ArticleComponent} from "./article/article.component";
 import {ContentComponent} from "./content/content.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {MainComponent} from "./main/main.component";
+import {CanActivateDashboard} from "./dashboard/canActivateDashboard";
 
 const routes: Routes = [
     {
-        path: '', component: DashboardComponent
+        path: '', component: DashboardComponent,
+        canActivate: [CanActivateDashboard]
     },
     {
 

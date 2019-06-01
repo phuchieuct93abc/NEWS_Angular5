@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
         this.isSmallDevice = this.breakpointService.isSmallScreen;
 
         this.track();
-        this.redirectToLastCategory();
         this.updateBodyClass();
 
     }
@@ -93,18 +92,6 @@ export class AppComponent implements OnInit {
 
             })
         }
-    }
-
-    redirectToLastCategory() {
-        setTimeout(() => {
-
-            if (this.route.firstChild == null) {
-                let url = this.config.category == null || this.config.category == 'null' ? 'tin-nong' : this.config.category;
-                console.log('run', url)
-
-                this.router.navigate([url]);
-            }
-        })
     }
 
     updateBodyClass() {

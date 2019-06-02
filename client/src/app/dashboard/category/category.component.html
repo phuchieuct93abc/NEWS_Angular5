@@ -1,18 +1,28 @@
-<div class="container-fluid">
+<div class="mat-h1">
+    <a [routerLink]="category.name">{{category.title}}</a>
+</div>
+<div class="container-fluid" *ngIf="stories.length; else loading" @opacityNgIf>
 
-    <div class="mat-h1" *ngIf="stories.length">
-        <a [routerLink]="category.name">{{category.title}}</a>
-    </div>
-    <div class="row categories-wrapper" [@expand]="isExpanded?'expand':'collapse'">
+
+    <div class="row categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded?'expand':'collapse'">
         <app-story [category]="category"
-                   *ngFor="let story of stories| slice:0:isExpanded?20:9;"
+                   *ngFor="let story of stories| slice:0:maximumStories;"
                    [story]="story" class="col-4"></app-story>
         <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>
-    <div class="text-center" [class.hidden]="stories.length==0">
+    <div class="text-center">
 
         <a mat-button class="caption" color="primary"
-           (click)="isExpanded=!isExpanded">{{isExpanded ? 'Thu gọn' : 'Xem Thêm'}}</a>
+           (click)="toggleExpand()">{{isExpanded ? 'Thu gọn' : 'Xem Thêm'}}</a>
     </div>
 </div>
+<ng-template #loading>
+    <div class="p-2 text-center">
+        <span class="mat-h3">Đang tải</span>
+        <button class="loading_icon icon spin-icon" mat-icon-button>
+            <mat-icon>cached</mat-icon>
+        </button>
+    </div>
+
+</ng-template>

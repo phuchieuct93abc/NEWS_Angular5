@@ -2,7 +2,10 @@
     <mat-toolbar color="primary" role="heading">
         <div class="container mat-toolbar-single-row p-0">
             <div class="toolbar-item">
-                <a href="/"><h1 class="example-app-name pl-2 mr-4" mat-button>Báo hiếu</h1></a>
+                <a href="/">
+
+                    <div class="example-app-name pl-2 mat-h1 m-0 mr-4" mat-button>Báo hiếu</div>
+                </a>
                 <app-category-selector></app-category-selector>
                 <div class="search d-flex h-100 " *ngIf="!breakpointService.isSmallScreen">
                     <mat-divider [vertical]="true"></mat-divider>

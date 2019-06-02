@@ -1,5 +1,6 @@
 <div class="h-100 app w-100  mat-app-background app">
-    <div class="backdrop"  [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image" @opacity></div>
+    <div class="backdrop"  [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
+         @opacityNgIf></div>
     <div class="navigator">
 
         <app-navigator class="w-100"></app-navigator>

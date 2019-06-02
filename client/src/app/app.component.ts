@@ -5,23 +5,14 @@ import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
 import CONFIG from "../environments/environment";
 import {DOCUMENT} from "@angular/common";
-import {animate, style, transition, trigger} from "@angular/animations";
+import {opacityNgIf} from "./animation";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [
-        trigger("opacity", [
-            transition(':enter', [
-                style({opacity: 0}),
-                animate('0.5s', style({opacity: 1}))
-            ]),
-            transition(':leave', [
-                style({opacity: 1}),
-                animate('0.5s', style({opacity: 0}))
-            ])
-        ])
+        opacityNgIf
     ]
 })
 export class AppComponent implements OnInit {

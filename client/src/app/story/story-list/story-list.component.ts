@@ -53,9 +53,9 @@ export class StoryListComponent implements OnInit {
     }
 
     async ngOnInit() {
-        this.isBrowser = typeof window !== 'undefined'
-        this.registerScrollTo();
+        this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
+        this.registerScrollTo();
         this.registerShowingMoveToTop();
 
         this.search();
@@ -191,6 +191,7 @@ export class StoryListComponent implements OnInit {
             this.stories.unshift(this.firstStory);
 
         }
+        this.stories[0].isAutoOpen = true;
     }
 
     private scrollToTop() {
@@ -254,7 +255,6 @@ export class StoryListComponent implements OnInit {
 
     private autoSelectFirstStory(story: Story) {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
-
             this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
         }
 

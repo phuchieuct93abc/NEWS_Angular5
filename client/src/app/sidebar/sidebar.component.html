@@ -7,8 +7,22 @@
             </a>
         </div>
     </div>
-    <mat-divider class="my-3"></mat-divider>
-    <app-search></app-search>
+
+    <mat-divider class="mt-3 mb-2"></mat-divider>
+    <app-search class="mb-2"></app-search>
+
+    <mat-slide-toggle labelPosition="before"  [(ngModel)]="isSmallImage" class="d-md-none"
+                      (change)="toogleDisplay()">
+        Chế độ ảnh nhỏ
+    </mat-slide-toggle>
+
+    <!--Theme-->
+    <mat-slide-toggle labelPosition="before" [(ngModel)]="isDarkMode" class="my-3"
+                      (change)="toggleDarkMode()">
+        Chế độ ban đêm
+    </mat-slide-toggle>
+    <mat-divider class="mt-1 mb-1"></mat-divider>
+
     <div class="scrollable">
         <mat-nav-list>
             <mat-list-item

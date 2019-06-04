@@ -3,10 +3,30 @@
   display: flex;
   flex-direction: column;
 
-  .mat-drawer {
-    background-color: transparent;
-    border: none;
+  @media (min-width: 768px) {
+    .mat-sidenav-container {
+
+    }
+    .mat-drawer, mat-sidenav-container {
+      background-color: transparent;
+      border: none;
+    }
+
   }
+  @media (min-width: 768px) {
+    .main-content {
+      padding: 0 5em;
+      max-width: 1400px;
+
+    }
+  }
+
+  .main-content {
+    width: 100vw;
+    padding :0 1em;
+  }
+
+
 }
 
 .header {

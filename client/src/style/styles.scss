@@ -104,3 +104,13 @@ button:focus {
     }
   }
 }
+@media (min-width: 880px) {
+  .container {
+    max-width: 840px;
+  }
+}
+@media (min-width: 1096px) {
+  .container {
+    max-width: 1050px;
+  }
+}

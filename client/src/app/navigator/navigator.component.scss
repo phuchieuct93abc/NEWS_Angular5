@@ -16,8 +16,15 @@ a.active {
   display: block;
   overflow: visible;
 
+  ::ng-deep {
+    a {
 
-  @media (max-width: 599px) {
+      color: #448aff !important;
+    }
+  }
+
+
+  @media (max-width: 767px) {
 
     .navigator {
       overflow: hidden;

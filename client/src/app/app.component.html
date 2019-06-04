@@ -3,20 +3,23 @@
          @opacityNgIf></div>
 
     <div class="main-content container">
-        <div class="row h-100">
+        <mat-sidenav-container class="example-container row h-100">
+            <mat-sidenav [opened]="isOpenSidebar" #sidenav mode="side" [fixedInViewport]="isSmallDevice">
+                <app-sidebar class="d-block"></app-sidebar>
 
 
-            <app-sidebar class="d-none d-md-block"></app-sidebar>
-            <div class="col p-0 h-100">
+            </mat-sidenav>
+            <mat-sidenav-content>
+
 
                 <div class="navigator">
 
                     <app-navigator class="w-100"></app-navigator>
                 </div>
                 <app-main></app-main>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
 
-            </div>
-        </div>
     </div>
 </div>
 

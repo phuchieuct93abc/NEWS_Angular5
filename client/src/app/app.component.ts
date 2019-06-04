@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
     config: Config;
     image: string;
     isSmallDevice: boolean;
+    isOpenSidebar: boolean;
 
     constructor(private router: Router,
                 private configService: ConfigService,
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit {
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
-
+        this.isOpenSidebar = !this.isSmallDevice
         this.track();
         this.updateBodyClass();
 

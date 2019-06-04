@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
 
+  .mat-drawer {
+    background-color: transparent;
+    border: none;
+  }
 }
 
 .header {

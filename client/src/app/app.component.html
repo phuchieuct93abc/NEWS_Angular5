@@ -1,11 +1,22 @@
 <div class="h-100 app w-100  mat-app-background app">
-    <div class="backdrop"  [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
+    <div class="backdrop" [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
          @opacityNgIf></div>
-    <div class="navigator">
 
-        <app-navigator class="w-100"></app-navigator>
-    </div>
-    <div class="main-content">
-        <app-main></app-main>
+    <div class="main-content container">
+        <div class="row h-100">
+
+
+            <app-sidebar class="d-none d-md-block"></app-sidebar>
+            <div class="col p-0 h-100">
+
+                <div class="navigator">
+
+                    <app-navigator class="w-100"></app-navigator>
+                </div>
+                <app-main></app-main>
+
+            </div>
+        </div>
     </div>
 </div>
+

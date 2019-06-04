@@ -1,16 +1,17 @@
-<div class="navigator" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}" [class.small-screen]="breakpointService.isSmallScreen">
+<div class="navigator" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}"
+     [class.small-screen]="breakpointService.isSmallScreen">
     <mat-toolbar color="primary" role="heading" class="p-0">
-        <div class="container mat-toolbar-single-row">
+        <div class="mat-toolbar-single-row">
             <div class="toolbar-item">
-                <a href="/">
+                <a href="/" class="d-md-none">
 
                     <div class="example-app-name mat-h1 m-0 mr-4" mat-button>Báo hiếu</div>
                 </a>
-                <app-category-selector></app-category-selector>
-                <div class="search d-flex h-100 " *ngIf="!breakpointService.isSmallScreen">
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <app-search></app-search>
-                </div>
+<!--                <app-category-selector></app-category-selector>-->
+<!--                <div class="search d-flex h-100 " *ngIf="!breakpointService.isSmallScreen">-->
+<!--                    <mat-divider [vertical]="true"></mat-divider>-->
+<!--                    <app-search></app-search>-->
+<!--                </div>-->
             </div>
         </div>
     </mat-toolbar>

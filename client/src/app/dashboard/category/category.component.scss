@@ -10,7 +10,7 @@
 
   .blur-bottom.blur-edge {
     height: 50px;
-    @include blur-edge(var(--background-color), bottom, top);
+    @include blur-edge(var(--color1), bottom, top);
   }
 }
 

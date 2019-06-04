@@ -42,6 +42,7 @@ import {ShareComponent} from "./article/actions/share/share.component";
 import {ClipboardModule} from "ngx-clipboard";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TopCategoryComponent} from "./dashboard/category/category.component";
+import {SidebarComponent} from "./sidebar/sidebar.component";
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {TopCategoryComponent} from "./dashboard/category/category.component";
         LazyLoadImageModule.forRoot({
             preset: intersectionObserverPreset
         }),
+        RouterModule,
     ],
     declarations: [
         AppComponent,
@@ -88,7 +90,8 @@ import {TopCategoryComponent} from "./dashboard/category/category.component";
         MobileStoryListComponent,
         ShareComponent,
         DashboardComponent,
-        TopCategoryComponent
+        TopCategoryComponent,
+        SidebarComponent
 
 
     ],

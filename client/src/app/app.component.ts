@@ -5,11 +5,15 @@ import {ArticleService} from "./shared/article.service";
 import {BreakpointDetectorService} from "./shared/breakpoint.service";
 import CONFIG from "../environments/environment";
 import {DOCUMENT} from "@angular/common";
+import {opacityNgIf} from "./animation";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    animations: [
+        opacityNgIf
+    ]
 })
 export class AppComponent implements OnInit {
     name = 'Angular';
@@ -49,7 +53,6 @@ export class AppComponent implements OnInit {
         this.isSmallDevice = this.breakpointService.isSmallScreen;
 
         this.track();
-        this.redirectToLastCategory();
         this.updateBodyClass();
 
     }
@@ -68,28 +71,18 @@ export class AppComponent implements OnInit {
     }
 
     getBlurImageUrl(url) {
-        if (typeof window !== 'undefined' && !this.isSmallDevice) {
-            let img = new Image();
-            const blurUrl = CONFIG.baseUrl + "blur?url=" + url;
-            img.src = blurUrl;
-            img.onload = () => {
-                this.image = blurUrl;
+        this.image = null;
 
-            }
+        if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
+
+            setTimeout(() => {
+
+
+                this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+
+
+            })
         }
-
-    }
-
-    redirectToLastCategory() {
-        setTimeout(() => {
-
-            if (this.route.firstChild == null) {
-                let url = this.config.category == null || this.config.category == 'null' ? 'tin-nong' : this.config.category;
-                console.log('run', url)
-
-                this.router.navigate([url]);
-            }
-        })
     }
 
     updateBodyClass() {

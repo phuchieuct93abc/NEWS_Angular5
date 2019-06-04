@@ -1,9 +1,12 @@
-<div class="navigator" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}">
-    <mat-toolbar color="primary" role="heading">
-        <div class="container mat-toolbar-single-row p-0">
+<div class="navigator" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}" [class.small-screen]="breakpointService.isSmallScreen">
+    <mat-toolbar color="primary" role="heading" class="p-0">
+        <div class="container mat-toolbar-single-row">
             <div class="toolbar-item">
-                <a href="/"><h1 class="example-app-name pl-2 mr-4" mat-button>Báo hiếu</h1></a>
-                <app-category-selector style="flex: 1"></app-category-selector>
+                <a href="/">
+
+                    <div class="example-app-name mat-h1 m-0 mr-4" mat-button>Báo hiếu</div>
+                </a>
+                <app-category-selector></app-category-selector>
                 <div class="search d-flex h-100 " *ngIf="!breakpointService.isSmallScreen">
                     <mat-divider [vertical]="true"></mat-divider>
                     <app-search></app-search>

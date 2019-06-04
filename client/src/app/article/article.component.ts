@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -33,7 +33,7 @@ import ArticleVideoParser from "./parsers/article-video.parser";
     ],
 
 })
-export class ArticleComponent implements OnInit, OnDestroy {
+export class ArticleComponent implements OnInit {
     public article: Article;
     public articleId: string;
     public categoryId: string;
@@ -81,19 +81,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
         if (articleId && categoryId) {
             this.article = null;
             this.articleId = null;
-            console.log("get article")
-            setTimeout(() => {
-                this.articleId = articleId;
-                this.categoryId = categoryId;
-                this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
+            this.articleId = articleId;
+            this.categoryId = categoryId;
+            this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
 
-                    this.article = article;
+                this.article = article;
+                console.log("After article", this.article)
 
-
-                    this.articleService.onStorySelected.next(this.article);
-                    this.afterGetArticle();
-                });
-            })
+                this.articleService.onStorySelected.next(this.article);
+                this.afterGetArticle();
+            });
 
 
         }

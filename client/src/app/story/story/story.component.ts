@@ -6,7 +6,7 @@ import {Subscription} from "rxjs";
 import * as url from 'speakingurl';
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import Article from "../../../../../model/Article";
+import {Category} from "../../../../../model/Categories";
 
 @Component({
     selector: 'app-story',
@@ -32,24 +32,39 @@ export class StoryComponent implements OnInit, OnDestroy {
     public configListener: Subscription;
     public friendlyUrl: string;
     @Input()
-    public index:number;
-
+    public index: number;
+    @Input()
+    category: Category;
 
 
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService,
-                protected route:Router,
-                protected activatedRoute:ActivatedRoute
-
+                protected route: Router,
+                protected activatedRoute: ActivatedRoute
     ) {
+    }
+
+    isActive(): boolean {
+
+        return this.route.url.includes(this.friendlyUrl);
     }
 
     onSelectStory() {
 
-        this.story.selected = true;
-        this.story.isRead = true;
-        this.onSelectedStory.emit(this.index);
+        let navigate: Promise<any>;
+        if (this.category) {
+            navigate = this.route.navigate(["/", this.category.name, this.friendlyUrl, this.story.id])
+        } else {
+            navigate = this.route.navigate([this.friendlyUrl, this.story.id], {relativeTo: this.activatedRoute})
+        }
+
+        navigate.then(() => {
+
+            this.story.selected = true;
+            this.story.isRead = true;
+            this.onSelectedStory.emit(this.index);
+        })
     }
 
     ngOnInit(): void {
@@ -60,9 +75,9 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
 
-        if(this.story.isAutoOpen){
+        if (this.story.isAutoOpen) {
             this.onSelectStory();
-            this.route.navigate([this.friendlyUrl,this.story.id],{relativeTo:this.activatedRoute})
+            this.route.navigate([this.friendlyUrl, this.story.id], {relativeTo: this.activatedRoute})
             this.story.isAutoOpen = false;
         }
 
@@ -74,7 +89,8 @@ export class StoryComponent implements OnInit, OnDestroy {
             this.config = config.new;
         })
     }
-    close(){
+
+    close() {
         this.story.selected = false;
         this.onSelectedStory.emit(this.index);
 
@@ -82,7 +98,7 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.configListener.unsubscribe();
-        this.selected && console.log("destroey",this.index)
+        this.selected && console.log("destroey", this.index)
         this.selected && this.onDestroyedStory.emit(this.index);
     }
 

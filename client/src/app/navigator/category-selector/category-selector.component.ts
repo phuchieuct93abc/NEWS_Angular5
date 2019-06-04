@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import {CategoryService} from "../../shared/category.service";
 
 @Component({
     selector: 'app-category-selector',
     templateUrl: './category-selector.component.html',
     styleUrls: ['./category-selector.component.scss']
 })
-export class CategorySelectorComponent implements OnInit {
+export class CategorySelectorComponent implements OnInit,AfterViewInit {
 
 
     vietnameseCategories: Category[];
@@ -18,21 +19,20 @@ export class CategorySelectorComponent implements OnInit {
     isDarkMode: boolean;
     isSmallImage: boolean;
 
-    constructor(private route: ActivatedRoute, private configService: ConfigService, public breakpointService: BreakpointDetectorService) {
+    constructor(private route: ActivatedRoute,
+                private configService: ConfigService,
+                public breakpointService: BreakpointDetectorService,
+                private categoryService: CategoryService) {
     }
 
 
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        this.selectedCategory = this.vietnameseCategories[0];
-        this.isDarkMode = this.configService.getConfig().darkTheme
+        this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;
-        setTimeout(() => {
-            this.route.firstChild.params.subscribe(params => {
-                this.selectedCategory = CategoryHelper.findByName(params['category'])
-            })
-        })
+
+
 
     }
 
@@ -43,5 +43,18 @@ export class CategorySelectorComponent implements OnInit {
     toogleDisplay() {
         this.configService.updateConfig({smallImage: this.isSmallImage})
 
+    }
+
+    ngAfterViewChecked(): void {
+    }
+
+    ngAfterViewInit(): void {
+        this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
+            setTimeout(()=>{
+
+                this.selectedCategory = selectedCategory;
+            })
+
+        });
     }
 }

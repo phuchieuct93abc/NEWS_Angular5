@@ -7,7 +7,6 @@ import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
-import {ArticleService} from "./article.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -25,7 +24,7 @@ export class StoryService {
 
     constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService,
                 private favoriteService: FavoriteService,
-               ) {
+    ) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
     }
@@ -35,15 +34,37 @@ export class StoryService {
         this.stories = [];
     }
 
-    getStories(category: string): Observable<any> {
+    getStories(category: string): Promise<any> {
+        return new Promise<any>((resolve => {
+
+            this.getStoryByPage(category, ++this.currentStoryPage).then(stories => {
+                this.filterStory(stories);
+                resolve(this.stories);
+
+            });
+        }))
+
+
+    }
+
+    getStoriesFirstPage(category: string): Promise<any> {
+
+        return this.getStoryByPage(category, 1);
+
+    }
+
+    private getStoryByPage(category: string, pageNumber: number): Promise<any> {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
+        }
+        if(CONFIG.isRunningInNode){
+            return Promise.resolve()
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
 
         return this.httpClient.get(storyUrl, {
             params: {
-                pageNumber: ++this.currentStoryPage + '',
+                pageNumber: pageNumber + '',
                 category: category
             }
         }).pipe(
@@ -55,17 +76,18 @@ export class StoryService {
                         name: LoadingEventName.MORE_STORY
                     })
 
-                    this.filterStory(result)
-                    this.checkReadStory();
+                    this.checkReadStory(<Story[]>result);
 
-                    return this.stories
+                    return result;
                 }
-            ));
-
+            )).toPromise();
 
     }
 
-    search(keyword: string): Observable<any> {
+    search(keyword: string): Promise<any> {
+        if(CONFIG.isRunningInNode){
+            return Promise.resolve()
+        }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING})
         return this.httpClient.get(searchUrl, {
             params: {
@@ -80,20 +102,23 @@ export class StoryService {
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.SEARCHING
                     })
+                    this.checkReadStory(<Story[]>result);
                     this.filterStory(result);
-                    this.checkReadStory();
 
 
                     return this.stories
                 }
-            ));
+            )).toPromise();
     }
 
     private filterStory(result) {
-        let stories: Story[] = (<Story[]>result).filter(result => {
-            return this.stories.findIndex(story => story.id == result.id) == -1;
-        });
-        this.stories.push(...stories);
+        if(result){
+            let stories: Story[] = (<Story[]>result).filter(result => {
+                return this.stories.findIndex(story => story.id == result.id) == -1;
+            });
+            this.stories.push(...stories);
+        }
+
     }
 
     saveReadStory(story: Story) {
@@ -105,17 +130,16 @@ export class StoryService {
 
     getById(id: string) {
         let story = this.stories.find(s => s.id === id);
-        if(story==null){
+        if (story == null) {
             story = this.favoriteService.findById(id);
         }
         return story
     }
 
-    checkReadStory() {
-        this.stories.filter(story => this.readStory.findIndex(readStory => readStory.id === story.id) >= 0)
+    checkReadStory(stories: Story[]) {
+        stories.filter(story => this.readStory.findIndex(readStory => readStory.id === story.id) >= 0)
             .forEach(read => read.isRead = true)
     }
-
 
 
 }

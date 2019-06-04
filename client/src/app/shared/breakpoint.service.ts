@@ -10,7 +10,7 @@ export class BreakpointDetectorService {
 
     constructor(private breakpointObserver: BreakpointObserver) {
 
-        this.isSmallScreen = this.breakpointObserver.isMatched(["(max-width: 575px)"]);
+        this.isSmallScreen = this.breakpointObserver.isMatched(["(max-width: 767px)"]);
 
     }
 

@@ -31,8 +31,7 @@
               "./node_modules/normalize.css/normalize.css",
               "./node_modules/animate.css/animate.css",
               "./node_modules/bootstrap/dist/css/bootstrap.css",
-              "./src/dark-theme.scss",
-              "./src/styles.scss"
+              "./src/style/styles.scss"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",

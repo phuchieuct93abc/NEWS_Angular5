@@ -1,5 +1,6 @@
 @import "animations";
 @import "font";
+@import "dark-theme";
 
 html, body {
   height: 100%;
@@ -73,6 +74,7 @@ button:focus {
   left: 0;
 
 }
+
 
 .app:not(.small-device) {
 

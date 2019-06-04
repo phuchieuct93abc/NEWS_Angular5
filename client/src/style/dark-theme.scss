@@ -1,4 +1,6 @@
-@import '~@angular/material/theming';
+@import '../../node_modules/@angular/material/theming';
+@import "variables";
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -70,15 +72,17 @@ $transparent: transparent;
   }
 
   .blur-top {
-    background: linear-gradient(to bottom, $dark-background-light 20%, rgba(255, 255, 255, 0) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, $dark-background-light), to(rgba(74, 74, 77, 0)));
+    @include blur-edge($dark-background-light,top,bottom);
+    //background: linear-gradient(to bottom, $dark-background-light 0%, rgba(255, 255, 255, 0) 100%);
+    //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $dark-background-light), to(rgba(74, 74, 77, 0)));
 
   }
 
   .blur-bottom {
+    @include blur-edge($dark-background-light,bottom,top);
 
-    background: linear-gradient(to top, $dark-background-light 20%, rgba(255, 255, 255, 0) 100%);
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(20%, $dark-background-light), to(rgba(74, 74, 77, 0)));
+    //background: linear-gradient(to top, $dark-background-light 0%, rgba(255, 255, 255, 0) 100%);
+    //background: -webkit-gradient(linear, left bottom, left top, color-stop(0%, $dark-background-light), to(rgba(74, 74, 77, 0)));
 
   }
 
@@ -117,16 +121,16 @@ $transparent: transparent;
   }
 
   .blur-top {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, $light-background-dark), to(rgba(255, 255, 255, 0)));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
 
-    background: linear-gradient(to bottom, $light-background-dark 20%, rgba(255, 255, 255, 0) 100%)
+    background: linear-gradient(to bottom, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
 
   }
 
   .blur-bottom {
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(20%, $light-background-dark), to(rgba(255, 255, 255, 0)));
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
 
-    background: linear-gradient(to top, $light-background-dark 20%, rgba(255, 255, 255, 0) 100%)
+    background: linear-gradient(to top, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
 
   }
 

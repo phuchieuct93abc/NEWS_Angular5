@@ -1,10 +1,10 @@
 @import "../../style/variables";
-:host{
+
+:host {
   height: 100%;
   display: block;
   z-index: 1;
   position: relative;
-}
-.blur-edge{
-  @include  blur-edge(var(--background-color-1),top,bottom);
+  --blur-edge-color: var(--background-color-1);
+  --blur-edge-transparent-color: var(--background-color-transparent-1);
 }

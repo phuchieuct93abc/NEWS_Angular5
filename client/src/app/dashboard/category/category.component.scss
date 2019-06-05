@@ -2,6 +2,7 @@
 @import "../../../style/variables";
 :host {
   display: block;
+
 }
 
 .categories-wrapper {
@@ -10,7 +11,6 @@
 
   .blur-bottom.blur-edge {
     height: 50px;
-    @include blur-edge(var(--color1), bottom, top);
   }
 }
 

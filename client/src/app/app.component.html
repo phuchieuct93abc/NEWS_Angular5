@@ -1,3 +1,4 @@
+<mat-progress-bar @opacityNgIfNoDelay *ngIf="isShowProgressBar" mode="indeterminate"></mat-progress-bar>
 <div class="h-100 app w-100  mat-app-background app d-flex align-items-center">
     <div class="backdrop" [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
          @opacityNgIf></div>

@@ -9,6 +9,7 @@ import {opacityNgIf} from "./animation";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
 import {MatSidenav} from "@angular/material";
+import {LoadingEventType, LoadingService} from "./shared/loading.service";
 
 @Component({
     selector: 'my-app',
@@ -25,6 +26,16 @@ import {MatSidenav} from "@angular/material";
                 style({opacity: 1}),
                 animate('0.5s 1s', style({opacity: 0}))
             ])
+        ]),
+        trigger("opacityNgIfNoDelay", [
+            transition(':enter', [
+                style({opacity: 0}),
+                animate('0.5s', style({opacity: 1}))
+            ]),
+            transition(':leave', [
+                style({opacity: 1}),
+                animate('0.5s', style({opacity: 0}))
+            ])
         ])
     ]
 })
@@ -34,8 +45,9 @@ export class AppComponent implements OnInit {
     image: string;
     isSmallDevice: boolean;
     isOpenSidebar: boolean;
+    isShowProgressBar = false;
     @ViewChild(MatSidenav)
-    sidebar:MatSidenav;
+    sidebar: MatSidenav;
 
     constructor(private router: Router,
                 private configService: ConfigService,
@@ -45,6 +57,7 @@ export class AppComponent implements OnInit {
                 @Inject(DOCUMENT) private document: Document,
                 private renderer: Renderer2,
                 private appService: AppService,
+                private loadingService:LoadingService
     ) {
     }
 
@@ -70,6 +83,10 @@ export class AppComponent implements OnInit {
 
         this.appService.onToogleSidebar.subscribe(() => {
             this.sidebar.toggle()
+        })
+
+        this.loadingService.onLoading.subscribe(data=>{
+            this.isShowProgressBar = data.type == LoadingEventType.START;
         })
 
 

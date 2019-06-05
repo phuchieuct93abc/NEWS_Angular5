@@ -31,7 +31,14 @@ html {
   -webkit-overflow-scrolling: touch;
 
 }
+.blur-top{
+  @include blur-edge(var(--blur-edge-color),top,bottom)
 
+}
+.blur-bottom{
+  @include blur-edge(var(--blur-edge-color),bottom,top)
+
+}
 
 
 .fadein {

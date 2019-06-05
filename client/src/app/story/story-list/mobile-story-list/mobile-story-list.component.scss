@@ -1,4 +1,8 @@
+:host{
+}
 .story-list {
+  --blur-edge-color:var(--background-color-2);
+
   .blur-edge {
     width: 100%;
   }

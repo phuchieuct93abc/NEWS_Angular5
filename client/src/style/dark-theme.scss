@@ -71,14 +71,14 @@ $transparent: transparent;
     color: rgba(255, 255, 255, 0.78);
   }
 
-  .blur-top {
-    @include blur-edge($dark-background-light,top,bottom);
-  }
-
-  .blur-bottom {
-    @include blur-edge($dark-background-light,bottom,top);
-
-  }
+  //.blur-top {
+  //  @include blur-edge($dark-background-light,top,bottom);
+  //}
+  //
+  //.blur-bottom {
+  //  @include blur-edge($dark-background-light,bottom,top);
+  //
+  //}
 
 }
 
@@ -114,19 +114,15 @@ $transparent: transparent;
     color: rgba(0, 0, 0, 0.87)
   }
 
-  .blur-top {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
+  //.blur-top {
+  //  @include blur-edge($light-background-dark,top,bottom);
+  //}
+  //
+  //.blur-bottom {
+  //  @include blur-edge($light-background-dark,bottom,top);
+  //
+  //}
 
-    background: linear-gradient(to bottom, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
-
-  }
-
-  .blur-bottom {
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(0%, $light-background-dark), to(rgba(255, 255, 255, 0)));
-
-    background: linear-gradient(to top, $light-background-dark 0%, rgba(255, 255, 255, 0) 100%)
-
-  }
 
 }
 

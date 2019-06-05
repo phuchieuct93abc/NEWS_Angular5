@@ -3,6 +3,7 @@
   height: 100%;
   display: inline-block;
   z-index: 2;
+  background-color:var(--background-color-4);
 
   ::ng-deep {
     @media (min-width: 768px) {
@@ -21,6 +22,10 @@
   .mat-list-item {
     border-radius: 4px;
 
+    &:hover{
+      transform: scale(1.1);
+      transition: all linear 0.5s;
+    }
 
   }
 

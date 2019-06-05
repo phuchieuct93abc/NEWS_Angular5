@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
-        this.isOpenSidebar = !this.isSmallDevice
+        this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
         this.track();
         this.updateBodyClass();
 

@@ -1,14 +1,14 @@
 @import "~@angular/material/theming";
 
+:host {
+  --blur-edge-color: var(--background-color-2);
+
+}
+
 .story-list {
   position: relative;
   padding: 0 1px;
   max-height: 100%;
-
-
-
-
-
 
 
   .toolbar-placeholder {

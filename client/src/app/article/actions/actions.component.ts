@@ -55,32 +55,30 @@ export class ActionsComponent implements OnInit, OnDestroy {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
 
         if (this.breakpointDetector.isSmallScreen) {
+            this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                this.ngZone.run(() => {
+                    this.isFixedTop = !data[0].isIntersecting;
+
+                })
+            }, {
+                rootMargin: '-60px 0px 0px 0px',
+                threshold: [0]
+            });
+            this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+
+                this.ngZone.run(() => {
+                    this.isFixedTop = data[0].isIntersecting;
+
+                })
+            }, {
+                rootMargin: '-100px 0px 0px 0px',
+                threshold: [0]
+            });
             setTimeout(() => {
-                this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
 
-                    this.ngZone.run(() => {
-                        this.isFixedTop = !data[0].isIntersecting;
-
-                    })
-                }, {
-                    rootMargin: '-60px 0px 0px 0px',
-                    threshold: [0]
-                });
-                this.observerWindow.observe(this.actionsElement.nativeElement)
-
-
-                this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
-
-                    this.ngZone.run(() => {
-                        this.isFixedTop = data[0].isIntersecting;
-
-                    })
-                }, {
-                    rootMargin: '-100px 0px 0px 0px',
-                    threshold: [0]
-                });
+                this.observerWindow.observe(this.actionsElement.nativeElement);
                 this.observerWrapper.observe(this.wrapperElement)
-
 
             }, 2000)
         }

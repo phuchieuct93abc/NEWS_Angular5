@@ -15,7 +15,8 @@ export class Story {
         public isRead: boolean = false,
         public isAutoOpen = false,
         public selected = false,
-        public height = 0
+        public height = 0,
+        public isExpandedComment = false
     ) {
     }
 }

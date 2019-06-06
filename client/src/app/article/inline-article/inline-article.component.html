@@ -24,7 +24,7 @@
                         <a mat-button [href]="article.sourceUrl" target="_blank"
                            color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
                     </div>
-                    <app-comments [articleId]="article.id"></app-comments>
+                    <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id" ></app-comments>
 
                 </div>
 

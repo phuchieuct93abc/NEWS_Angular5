@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
     templateUrl: './mobile-story.component.html',
     styleUrls: ['./mobile-story.component.scss']
 })
-export class MobileStoryComponent extends StoryComponent {
+export class MobileStoryComponent extends StoryComponent implements AfterViewInit {
 
     @ViewChild("storyElement")
     storyElement: ElementRef;
@@ -24,18 +24,32 @@ export class MobileStoryComponent extends StoryComponent {
         super(breakpointService, configService, favoriteService, route, activatedRoute)
     }
 
-    onOpenStory(){
-        this.updateheight(2000)
+    onOpenStory() {
+        // this.updateheight(100)
     }
 
     private updateheight(time) {
         setTimeout(() => {
             this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-        },time)
+        }, time)
     }
 
     close() {
         super.close();
-        this.updateheight(0);
+        // this.updateheight(0);
     }
+
+    ngOnDestroy(): void {
+        this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
+
+        super.ngOnDestroy();
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            this.story.height = null;
+
+        },2000)
+    }
+
 }

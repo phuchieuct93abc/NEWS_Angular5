@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ArticleService} from "../../shared/article.service";
 import ArticleComment from "../../../../../model/ArticleComment";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
@@ -14,6 +14,21 @@ export class CommentsComponent implements OnInit {
     articleId: string;
     comments: ArticleComment[];
 
+    isExpandedValue: boolean;
+
+    @Output()
+    isExpandedChange = new EventEmitter<boolean>();
+
+    @Input()
+    get isExpanded() {
+        return this.isExpandedValue;
+    }
+
+    set isExpanded(val) {
+        this.isExpandedValue = val;
+        this.isExpandedChange.emit(this.isExpandedValue)
+    }
+
 
     constructor(private articleService: ArticleService, public breakpoint: BreakpointDetectorService) {
     }
@@ -22,6 +37,9 @@ export class CommentsComponent implements OnInit {
         this.articleService.getComment(this.articleId).subscribe(comments => {
             this.comments = comments;
         })
+        if (!this.isExpanded) {
+            this.isExpanded = false;
+        }
     }
 
 }

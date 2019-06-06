@@ -85,9 +85,13 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         })
 
-        this.loadingService.onLoading.subscribe(data=>{
-            this.isShowProgressBar = data.type == LoadingEventType.START;
-        })
+            this.loadingService.onLoading.subscribe(data=>{
+                setTimeout(()=>{
+
+                    this.isShowProgressBar = data.type == LoadingEventType.START;
+                })
+            })
+
 
 
     }

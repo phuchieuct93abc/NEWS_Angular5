@@ -31,8 +31,7 @@ export class MobileStoryListComponent extends StoryListComponent {
 
     updateStory(storyIndex: number) {
 
-        console.log('invalid', storyIndex)
-        this.virtualScroller.invalidateCachedMeasurementAtIndex(7000);
+        this.virtualScroller.invalidateCachedMeasurementAtIndex(storyIndex);
 
 
     }

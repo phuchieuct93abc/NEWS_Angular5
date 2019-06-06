@@ -86,7 +86,6 @@ export class ArticleComponent implements OnInit {
             this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
 
                 this.article = article;
-                console.log("After article", this.article)
 
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();

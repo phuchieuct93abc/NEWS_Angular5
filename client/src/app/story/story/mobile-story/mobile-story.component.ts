@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
@@ -15,6 +15,9 @@ export class MobileStoryComponent extends StoryComponent implements AfterViewIni
     @ViewChild("storyElement")
     storyElement: ElementRef;
 
+    @Output()
+    invalidCache = new EventEmitter();
+
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService,
@@ -25,31 +28,24 @@ export class MobileStoryComponent extends StoryComponent implements AfterViewIni
     }
 
     onOpenStory() {
-        // this.updateheight(100)
-    }
-
-    private updateheight(time) {
         setTimeout(() => {
-            this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-        }, time)
+            console.log("reset")
+            this.story.height = 0;
+        }, 5000)
     }
 
-    close() {
-        super.close();
-        // this.updateheight(0);
-    }
 
     ngOnDestroy(): void {
         this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-
+        this.invalidCache.emit(this.story);
         super.ngOnDestroy();
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => {
-            this.story.height = null;
-
-        },2000)
+        // setTimeout(() => {
+        //     this.story.height = 0;
+        //
+        // }, 2000);
     }
 
 }

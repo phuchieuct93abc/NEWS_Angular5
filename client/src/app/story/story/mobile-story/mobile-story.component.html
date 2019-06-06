@@ -1,12 +1,12 @@
-<div #storyElement>
+<div #storyElement [style.minHeight.px]="story.height" class="pb-1">
 
-    <mat-card (click)="onSelectStory()" class="mb-2 w-100"
+    <mat-card (click)="onSelectStory()" class=" w-100 m-0"
               [class.read]="story.isRead"
               [routerLink]="[friendlyUrl,story.id]" class="mb-2 w-100"
               routerLinkActive="active"
               [class.active]="selected"
               [ngClass]="[config.smallImage && isSmallScreen?'small-image':'large-image',story.isRead?'is-read':'not-read']"
-              [style.minHeight.px]="story.height"
+
 
     >
         <mat-card-content>

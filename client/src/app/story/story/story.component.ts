@@ -98,7 +98,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.configListener.unsubscribe();
-        this.selected && console.log("destroey", this.index)
         this.selected && this.onDestroyedStory.emit(this.index);
     }
 

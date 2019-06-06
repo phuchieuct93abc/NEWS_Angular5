@@ -1,4 +1,4 @@
-<div class="container-fluid" [style.minHeight.px]="story.height" >
+<div class="container-fluid" [style.minHeight.px]="story.height">
     <div class="row" #storyElement>
         <mat-card (click)="onSelectStory()" class="mb-2 w-100"
                   [class.read]="story.isRead"
@@ -10,38 +10,38 @@
         >
             <mat-card-content>
                 <div class="w-100 content-story d-flex">
-                    <div class="image-wrapper p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
-                        <app-image-viewer *ngIf="story.images[0]"
-                                          [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
-                                          [width]="story.images[0].width"
-                                          [height]="story.images[0].height"></app-image-viewer>
+                    <app-image-viewer *ngIf="story.images[0]"
+                                      [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
+                                      [width]="story.images[0].width"
+                                      [height]="story.images[0].height"
+                                      class="image-wrapper p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
+                    </app-image-viewer>
 
-                    </div>
                     <div class="mh-100 d-flex flex-column flex-fill">
-                        <div class="col title-wrapper">
-                            <div class=" mat-title mb-0 title">{{story.title | truncate:[75]}}</div>
+                        <div class="col title-wrapper d-flex mat-title mb-0 title" ellipsis
+                             ellipsis-resize-detection="window">
+                            {{story.title }}
                         </div>
-                        <div class=" p-1 flex-fill justify-content-end d-flex align-items-end">
-                            <div class="">
-                                <footer class="blockquote-footer text-right">
-                                    <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                                    <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
-                                    <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-                                    </mat-icon>
+                        <div class=" p-1  justify-content-end d-flex align-items-end">
+                            <footer class="blockquote-footer text-right">
+                                <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                                <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+                                <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
+                                </mat-icon>
 
-                                </footer>
-                            </div>
+                            </footer>
                         </div>
                     </div>
 
                 </div>
 
 
-                <div *ngIf="story.selected" class="d-block content-article" (click)="$event.stopPropagation()" o>
-                    <app-inline-article (onClosed)="close()" [story]="story" (onFinishedGetArticle)="onOpenStory()"
-                                        class="w-100 d-block"></app-inline-article>
+                <app-inline-article *ngIf="story.selected" class="" (click)="$event.stopPropagation()"
+                                    (onClosed)="close()" [story]="story" (onFinishedGetArticle)="onOpenStory()"
+                                    class="w-100 d-block d-block content-article">
 
-                </div>
+                </app-inline-article>
+
             </mat-card-content>
         </mat-card>
     </div>

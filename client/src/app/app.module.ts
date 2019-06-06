@@ -43,6 +43,7 @@ import {ClipboardModule} from "ngx-clipboard";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TopCategoryComponent} from "./dashboard/category/category.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
+import {EllipsisModule} from "ngx-ellipsis";
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import {SidebarComponent} from "./sidebar/sidebar.component";
             preset: intersectionObserverPreset
         }),
         RouterModule,
+        EllipsisModule
     ],
     declarations: [
         AppComponent,

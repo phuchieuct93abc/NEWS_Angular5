@@ -17,7 +17,7 @@
 
             </div>
             <div class="h-100 col d-flex flex-column justify-content-between pt-2">
-                <div class="mt-sm-0 mt-1 mat-title mb-0 title">{{story.title|truncate:[80]}}</div>
+                <div class="mt-sm-0 mt-1 mat-title mb-0 title" ellipsis ellipsis-resize-detection="window">{{story.title}}</div>
                 <div class=" p-1">
                     <footer class="blockquote-footer text-right">
                         <cite title="Source Title"> {{story.storyMeta.source}} </cite>

@@ -1,11 +1,30 @@
-<div class="h-100 app w-100  mat-app-background app">
-    <div class="backdrop"  [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
-         @opacityNgIf></div>
-    <div class="navigator">
+<div *ngIf="isShowProgressBar" >
 
-        <app-navigator class="w-100"></app-navigator>
-    </div>
+    <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
+</div>
+<div class="h-100 app w-100  mat-app-background app d-flex align-items-center">
+    <div class="backdrop" [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
+         @opacityNgIf></div>
+
     <div class="main-content">
-        <app-main></app-main>
+        <mat-sidenav-container class="example-container row h-100">
+
+            <mat-sidenav [opened]="isOpenSidebar" #sidenav [mode]="isSmallDevice?'push':'side'" [fixedInViewport]="isSmallDevice">
+                <app-sidebar class="d-block"></app-sidebar>
+
+
+            </mat-sidenav>
+            <mat-sidenav-content>
+
+
+                <div class="navigator">
+
+                    <app-navigator class="w-100"></app-navigator>
+                </div>
+                <app-main class="py-md-2"></app-main>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+
     </div>
 </div>
+

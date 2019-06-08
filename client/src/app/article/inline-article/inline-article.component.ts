@@ -20,18 +20,18 @@ const SWIPE_RIGHT = "swipeRight";
     animations: [
         trigger('swipe', [
 
-            state('swipeLeft', style({transform: "translateX(-100%)"})),
-            state('swipeRight', style({transform: "translateX(100%)"})),
+            state('swipeLeft', style({transform: "translateX(-110%)"})),
+            state('swipeRight', style({transform: "translateX(110%)"})),
 
             transition('show=>swipeRight', [
                 style({opacity: 1}),
 
-                animate('0.5s', style({opacity: 0, transform: "translateX(100%)"})),
+                animate('0.5s', style({opacity: -0.5, transform: "translateX(100%)"})),
             ]),
             transition('show=>swipeLeft', [
                 style({opacity: 1}),
 
-                animate('0.5s', style({opacity: 0, transform: "translateX(-100%)"})),
+                animate('0.5s', style({opacity: -0.5, transform: "translateX(-100%)"})),
             ]),
 
         ]),

@@ -1,0 +1,32 @@
+:host {
+  width: 200px;
+  height: 100%;
+  display: inline-block;
+  z-index: 2;
+  background-color:var(--background-color-4);
+
+  ::ng-deep {
+    @media (min-width: 768px) {
+      mat-list-item, mat-slide-toggle {
+       // color: rgba(255, 255, 255, 0.78) !important;
+      }
+    }
+
+  }
+
+  .logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .mat-list-item {
+    border-radius: 4px;
+
+    &:hover{
+      transform: scale(1.1);
+      transition: all linear 0.5s;
+    }
+
+  }
+
+}

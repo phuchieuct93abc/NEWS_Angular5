@@ -61,7 +61,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "demo:build",
           },
           "configurations": {
             "production": {
@@ -110,7 +110,9 @@
           "options": {
             "outputPath": "../functions/dist/server",
             "main": "src/main.server.ts",
-            "tsConfig": "src/tsconfig.server.json"
+            "tsConfig": "src/tsconfig.server.json",
+            "sourceMap": false
+
           },
           "configurations": {
             "production": {

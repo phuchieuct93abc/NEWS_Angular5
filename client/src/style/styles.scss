@@ -31,7 +31,14 @@ html {
   -webkit-overflow-scrolling: touch;
 
 }
+.blur-top{
+  @include blur-edge(var(--blur-edge-color),var(--blur-edge-transparent-color),top,bottom)
 
+}
+.blur-bottom{
+  @include blur-edge(var(--blur-edge-color),var(--blur-edge-transparent-color),bottom,top)
+
+}
 
 
 .fadein {
@@ -102,5 +109,15 @@ button:focus {
     &::-webkit-scrollbar-button {
       display: none
     }
+  }
+}
+@media (min-width: 880px) {
+  .container {
+    max-width: 840px;
+  }
+}
+@media (min-width: 1096px) {
+  .container {
+    max-width: 1050px;
   }
 }

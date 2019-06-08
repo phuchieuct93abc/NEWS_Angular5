@@ -8,6 +8,7 @@ import CONFIG from "../../environments/environment";
 import {Story} from "../../../../model/Story";
 import ArticleComment from "../../../../model/ArticleComment";
 import {MetaService} from "./meta.service";
+import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 
 
 @Injectable({
@@ -17,10 +18,10 @@ export class ArticleService {
 
     public onStorySelected = new Subject<Article>();
 
-    constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService) {
+    constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService, private loadingService: LoadingService) {
     }
 
-    getById(id: string,category:string): Observable<Article> {
+    getById(id: string, category: string): Observable<Article> {
         const story: Story = this.storyService.getById(id);
 
         if (story != null) {
@@ -30,18 +31,20 @@ export class ArticleService {
         const options = {
             params: {
                 url: id,
-                category:category
+                category: category
             }
         };
-        console.time("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
-        console.log("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE})
         return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {
-                console.timeEnd("GET Artilce "+CONFIG.baseUrl + "article"+options.params.url)
+
+                this.loadingService.onLoading.next({type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE})
+
                 let article = <Article>result;
                 article.story = story;
                 this.meta.updateMeta(article);
+
                 return article;
             }))
     }

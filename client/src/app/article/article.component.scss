@@ -1,4 +1,9 @@
+@import "../../style/variables";
+:host{
+  --blur-edge-color:var(--background-color-2);
+  --blur-edge-transparent-color:var(--background-color-transparent-2);
 
+}
 .article-body {
   font-size: 1.3em;
   line-height: 30px;
@@ -33,7 +38,7 @@
 
 .blur-edge {
   width: calc(100% - 8px);
-  left: 4px;
+
 }
 
 .font-size-1 {

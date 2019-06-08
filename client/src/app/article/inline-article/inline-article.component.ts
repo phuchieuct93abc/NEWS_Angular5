@@ -81,6 +81,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     ngOnInit() {
         super.ngOnInit();
+        console.log(this.story.height)
 
         this.categoryId = this.route.snapshot.params["category"];
         this.articleId = this.story.id;

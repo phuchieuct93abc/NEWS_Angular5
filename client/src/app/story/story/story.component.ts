@@ -21,8 +21,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     public scrollContainer: ElementRef;
     @Output()
     public onSelectedStory = new EventEmitter<number>();
-    @Output()
-    public onDestroyedStory = new EventEmitter<number>();
+
     public scrollTarget: any;
 
     public selected: boolean = false;
@@ -96,7 +95,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.configListener.unsubscribe();
-        this.selected && this.onDestroyedStory.emit(this.index);
     }
 
 

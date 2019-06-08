@@ -19,7 +19,7 @@
                           class="w-100">
 
 
-            <app-mobile-story (onSelectedStory)="updateStory($event)" (onDestroyedStory)="updateStory($event)"
+            <app-mobile-story (invalidCache)="updateStory($event)"
                               *ngFor="let item of scroll.viewPortItems;" [story]="item"
                               class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 

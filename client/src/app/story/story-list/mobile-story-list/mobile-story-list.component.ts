@@ -7,6 +7,7 @@ import {ConfigService} from "../../../shared/config.service";
 import {LoadingService} from "../../../shared/loading.service";
 import {ArticleService} from "../../../shared/article.service";
 import {StoryListComponent} from "../story-list.component";
+import {Story} from "../../../../../../model/Story";
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -29,9 +30,10 @@ export class MobileStoryListComponent extends StoryListComponent {
         super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
     }
 
-    updateStory(storyIndex: number) {
+    updateStory(story: Story) {
 
-        this.virtualScroller.invalidateCachedMeasurementAtIndex(storyIndex);
+        // console.log("on update",story.title,story.height);
+        this.virtualScroller.invalidateCachedMeasurementForItem(story);
 
 
     }

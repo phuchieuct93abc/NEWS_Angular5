@@ -23,15 +23,13 @@
                          ellipsis-resize-detection="window">
                         {{story.title }}
                     </div>
-                    <div class=" p-1  justify-content-end d-flex align-items-end">
-                        <footer class="blockquote-footer text-right">
-                            <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                            <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
-                            <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-                            </mat-icon>
+                    <footer class="blockquote-footer text-right p-1  justify-content-end d-flex align-items-end">
+                        <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                        <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+                        <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
+                        </mat-icon>
 
-                        </footer>
-                    </div>
+                    </footer>
                 </div>
             </div>
             <app-inline-article *ngIf="story.selected" (click)="$event.stopPropagation()"

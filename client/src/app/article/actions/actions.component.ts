@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
+declare var jQuery: any;
+
 @Component({
     selector: 'app-actions',
     templateUrl: './actions.component.html',
@@ -24,10 +26,7 @@ import {BreakpointDetectorService} from "../../shared/breakpoint.service";
     ]
 })
 export class ActionsComponent implements OnInit, OnDestroy {
-    ngOnDestroy(): void {
-        this.observerWindow && this.observerWindow.disconnect();
-        this.observerWrapper && this.observerWrapper.disconnect();
-    }
+
 
     isFavorite: boolean;
     @Input()
@@ -46,10 +45,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
     isFixedTop = false;
     @Input()
     wrapperElement: HTMLElement;
+    private isDisplayingAction = false;
+    private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
                 private ngZone: NgZone, private breakpointDetector: BreakpointDetectorService) {
     }
+
 
     ngOnInit() {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
@@ -57,25 +59,43 @@ export class ActionsComponent implements OnInit, OnDestroy {
         if (this.breakpointDetector.isSmallScreen) {
             this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
 
-                this.ngZone.run(() => {
-                    this.isFixedTop = !data[0].isIntersecting;
+                if (data[0].target == this.actionsElement.nativeElement) {
 
-                })
+                    this.ngZone.run(() => {
+                        this.isDisplayingAction = data[0].isIntersecting;
+                        this.checkPosition();
+                    })
+
+                }
             }, {
                 rootMargin: '-60px 0px 0px 0px',
                 threshold: [0]
             });
             this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+                if (data[0].target == this.wrapperElement) {
 
-                this.ngZone.run(() => {
-                    this.isFixedTop = data[0].isIntersecting;
-
-                })
+                    this.ngZone.run(() => {
+                        this.isDisplayingArticle = data[0].isIntersecting
+                        this.checkPosition();
+                    })
+                }
             }, {
                 rootMargin: '-100px 0px 0px 0px',
                 threshold: [0]
             });
             setTimeout(() => {
+
+                // console.log(jQuery("body").outerHeight)
+                // console.log(jQuery("body").stick_in_parent())
+                // jQuery(jQuery(this.actionsElement.nativeElement).parent()).stick_in_parent({
+                //     // parent:"html",
+                //      bottoming:true
+                // }).on("sticky_kit:stick", function(e) {
+                //     console.log("has stuck!", e.target);
+                // })
+                //     .on("sticky_kit:unstick", function(e) {
+                //         console.log("has unstuck!", e.target);
+                //     });
 
                 this.observerWindow.observe(this.actionsElement.nativeElement);
                 this.observerWrapper.observe(this.wrapperElement)
@@ -84,6 +104,16 @@ export class ActionsComponent implements OnInit, OnDestroy {
         }
 
 
+    }
+
+    checkPosition() {
+        let isFixed = false;
+        if (!this.isDisplayingAction && this.isDisplayingArticle) {
+            isFixed = true;
+        }
+
+
+        this.isFixedTop = isFixed
     }
 
     toggleFavorite() {
@@ -105,6 +135,11 @@ export class ActionsComponent implements OnInit, OnDestroy {
     close(event: MouseEvent) {
         event && event.stopPropagation();
         this.onClosed.emit();
+    }
+
+    ngOnDestroy(): void {
+        this.observerWindow && this.observerWindow.disconnect();
+        this.observerWrapper && this.observerWrapper.disconnect();
     }
 
 

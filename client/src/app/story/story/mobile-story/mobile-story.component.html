@@ -1,15 +1,15 @@
-<div #storyElement [style.minHeight.px]="story.height" class="pb-1">
+<div #storyElement [style.minHeight.px]="story.height" class="pb-2">
 
     <mat-card (click)="onSelectStory()" class=" w-100 m-0"
               [class.read]="story.isRead"
-              [routerLink]="[friendlyUrl,story.id]" class="mb-2 w-100"
+              [routerLink]="[friendlyUrl,story.id]"
               routerLinkActive="active"
               [class.active]="selected"
               [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']"
 
 
     >
-        <mat-card-content>
+        <mat-card-content class="m-0">
             <div class="w-100 content-story d-flex">
                 <app-image-viewer *ngIf="story.images[0]"
                                   [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
@@ -23,15 +23,13 @@
                          ellipsis-resize-detection="window">
                         {{story.title }}
                     </div>
-                    <div class=" p-1  justify-content-end d-flex align-items-end">
-                        <footer class="blockquote-footer text-right">
-                            <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                            <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
-                            <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-                            </mat-icon>
+                    <footer class="blockquote-footer text-right p-1  justify-content-end d-flex align-items-end">
+                        <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+                        <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+                        <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
+                        </mat-icon>
 
-                        </footer>
-                    </div>
+                    </footer>
                 </div>
             </div>
             <app-inline-article *ngIf="story.selected" (click)="$event.stopPropagation()"

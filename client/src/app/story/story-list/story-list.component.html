@@ -5,11 +5,11 @@
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd()"
                           [checkResizeInterval]="0"
-
                           [items]="stories"
                           [parentScroll]="scrollingBlock"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
+                          bufferAmount="10"
                           *ngIf="stories"
                           class="w-100">
             <app-story

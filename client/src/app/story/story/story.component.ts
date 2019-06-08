@@ -26,7 +26,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     public scrollTarget: any;
 
     public selected: boolean = false;
-    public isSmallScreen: boolean;
 
     public config: Config;
     public configListener: Subscription;
@@ -68,7 +67,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
 

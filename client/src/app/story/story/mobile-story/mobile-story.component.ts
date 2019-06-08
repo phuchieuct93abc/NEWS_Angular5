@@ -29,7 +29,6 @@ export class MobileStoryComponent extends StoryComponent implements AfterViewIni
 
     onOpenStory() {
         setTimeout(() => {
-            console.log("reset")
             this.story.height = 0;
         }, 5000)
     }

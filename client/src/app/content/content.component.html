@@ -2,12 +2,15 @@
     <div class="h-100 d-flex ">
         <div class="col-md-5 col h-100 px-1" >
 
-            <app-mobile-story-list *ngIf="isSmallScreen;else desktopStoryList"></app-mobile-story-list>
+            <div class="h-100" *ngIf="isBrowser">
+                <app-mobile-story-list *ngIf="isSmallScreen;else desktopStoryList"></app-mobile-story-list>
 
-            <ng-template #desktopStoryList >
-                <app-story-list></app-story-list>
+                <ng-template #desktopStoryList >
+                    <app-story-list></app-story-list>
 
-            </ng-template>
+                </ng-template>
+            </div>
+
         </div>
         <mat-divider vertical *ngIf="!isSmallScreen" class="h-100"></mat-divider>
 

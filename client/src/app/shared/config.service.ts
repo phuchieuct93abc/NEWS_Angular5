@@ -26,7 +26,7 @@ export class ConfigService {
 
     constructor(private storage: LocalStorageService) {
         this.config = {...this.config, ...storage.getItem(id, {})}
-        requestAnimationFrame(() => this.configUpdated.next({old: this.config, new: this.config}))
+        setTimeout(() => this.configUpdated.next({old: this.config, new: this.config}))
     }
 
     public updateConfig(config: Config) {

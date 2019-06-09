@@ -51,7 +51,11 @@ export class CachingInterceptor implements HttpInterceptor {
 
         if (typeof window === "undefined") {
             if (req.url.indexOf("/article") >= 0) {
-                return this.call(next, req, cache);
+                console.time("Send request" + req.urlWithParams);
+                return this.call(next, req, cache).pipe(tap(() => {
+                    console.timeEnd("Send request" + req.urlWithParams);
+
+                }));
             } else {
                 return of(null);
             }

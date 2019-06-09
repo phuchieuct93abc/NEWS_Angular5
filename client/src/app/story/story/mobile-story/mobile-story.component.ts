@@ -33,10 +33,11 @@ export class MobileStoryComponent extends StoryComponent implements OnInit {
     }
 
     onOpenStory() {
-        requestAnimationFrame(() => setTimeout(() => {
-                this.story.height = 0
-            }, 1200)
-        )
+        setTimeout(() => {
+            requestAnimationFrame(() => this.story.height = 0)
+
+        }, 1200)
+
     }
 
 

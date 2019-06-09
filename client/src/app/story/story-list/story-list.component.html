@@ -10,6 +10,7 @@
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
                           *ngIf="stories"
+                          bufferAmount="10"
                           class="w-100">
             <app-story
                     *ngFor="let item of scroll.viewPortItems" [story]="item"

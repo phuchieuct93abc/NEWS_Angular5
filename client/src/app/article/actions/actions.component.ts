@@ -82,12 +82,14 @@ export class ActionsComponent implements OnInit, OnDestroy {
                 threshold: [0]
             });
             setTimeout(() => {
+                requestAnimationFrame(() => {
 
-
-                this.observerWindow.observe(this.actionsElement.nativeElement);
-                this.observerWrapper.observe(this.wrapperElement)
-
+                    this.observerWindow.observe(this.actionsElement.nativeElement);
+                    this.observerWrapper.observe(this.wrapperElement)
+                })
             }, 2000)
+
+
         }
 
 

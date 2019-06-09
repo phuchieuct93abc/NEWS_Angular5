@@ -95,7 +95,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         this.storyListService.scrollTo.next(this.story);
         setTimeout(() => {
-            this.onClosed.emit();
+            requestAnimationFrame(() => this.onClosed.emit())
+
         }, 500);
     }
 
@@ -103,7 +104,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         this.animationName = SWIPE_LEFT;
         setTimeout(() => {
-            this.close();
+            requestAnimationFrame(() => this.close());
         }, 500)
 
     }
@@ -111,7 +112,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     swiperight() {
         this.animationName = SWIPE_RIGHT;
         setTimeout(() => {
-            this.close();
+            requestAnimationFrame(()=>this.close())
         }, 500)
     }
 

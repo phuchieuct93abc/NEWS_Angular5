@@ -45,14 +45,12 @@ export class CategorySelectorComponent implements OnInit,AfterViewInit {
 
     }
 
-    ngAfterViewChecked(): void {
-    }
 
     ngAfterViewInit(): void {
         this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
             setTimeout(()=>{
+                requestAnimationFrame(()=> this.selectedCategory = selectedCategory)
 
-                this.selectedCategory = selectedCategory;
             })
 
         });

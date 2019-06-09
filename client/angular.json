@@ -25,7 +25,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/firebase-messaging-sw.js"
+              "src/firebase-messaging-sw.js",
+              "src/robots.txt"
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",

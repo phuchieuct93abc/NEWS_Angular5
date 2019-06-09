@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import CONFIG from "../../../environments/environment";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
     selector: 'app-video',

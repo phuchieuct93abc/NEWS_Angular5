@@ -7,7 +7,7 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 
 @Component({

@@ -8,7 +8,7 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 
 const SWIPE_LEFT = "swipeLeft";

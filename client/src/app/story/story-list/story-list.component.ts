@@ -11,7 +11,7 @@ import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
     selector: 'app-story-list',

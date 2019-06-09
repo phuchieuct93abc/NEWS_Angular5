@@ -5,7 +5,7 @@ import {IPageInfo} from "ngx-virtual-scroller";
 import {ConfigService} from "../shared/config.service";
 import {AppComponent} from "../app.component";
 import {AppService} from "../app.service";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
     selector: 'app-navigator',

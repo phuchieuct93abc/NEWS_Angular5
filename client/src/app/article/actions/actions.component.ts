@@ -5,7 +5,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {Router} from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
     selector: 'app-actions',

@@ -5,6 +5,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-actions',
@@ -82,7 +83,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                 threshold: [0]
             });
             setTimeout(() => {
-                requestAnimationFrame(() => {
+                RequestAnimationFrame(() => {
 
                     this.observerWindow.observe(this.actionsElement.nativeElement);
                     this.observerWrapper.observe(this.wrapperElement)

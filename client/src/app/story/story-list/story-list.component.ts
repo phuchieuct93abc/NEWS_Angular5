@@ -11,6 +11,7 @@ import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
+import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-story-list',
@@ -106,12 +107,10 @@ export class StoryListComponent implements OnInit {
 
                         this.isLoading = true
                     } else {
-                        requestAnimationFrame(() => {
 
-                            setTimeout(() => requestAnimationFrame(() => {
-                                this.isLoading = false
-                            }), 2000)
-                        })
+                        setTimeout(() => RequestAnimationFrame(() => {
+                            this.isLoading = false
+                        }), 2000)
                     }
                 }
             })
@@ -154,7 +153,7 @@ export class StoryListComponent implements OnInit {
                 this.isShowMoveTop = true;
                 clearTimeout(this.hideMoveTopTimeout);
                 this.hideMoveTopTimeout = setTimeout(() => {
-                    requestAnimationFrame(() => this.isShowMoveTop = false)
+                    RequestAnimationFrame(() => this.isShowMoveTop = false)
 
                 }, 5000)
             }
@@ -234,7 +233,7 @@ export class StoryListComponent implements OnInit {
         this.isListeningScroll = false
         this.virtualScroller.scrollInto(story, true, -60, animation, () => {
 
-                setTimeout(() => requestAnimationFrame(() => this.isListeningScroll = true), 500)
+                setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
             }
         );
     }
@@ -246,7 +245,7 @@ export class StoryListComponent implements OnInit {
     ) {
         event.stopPropagation();
         this.virtualScroller.scrollToIndex(0, true, -60, 500);
-        requestAnimationFrame(this.reloadStoryList.bind(this))
+        RequestAnimationFrame(this.reloadStoryList.bind(this))
 
     }
 

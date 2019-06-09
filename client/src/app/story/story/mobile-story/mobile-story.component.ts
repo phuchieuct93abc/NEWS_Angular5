@@ -5,6 +5,7 @@ import {ConfigService} from "../../../shared/config.service";
 import {FavoriteService} from "../../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Story} from "../../../../../../model/Story";
+import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-mobile-story',
@@ -34,7 +35,7 @@ export class MobileStoryComponent extends StoryComponent implements OnInit {
 
     onOpenStory() {
         setTimeout(() => {
-            requestAnimationFrame(() => this.story.height = 0)
+            RequestAnimationFrame(() => this.story.height = 0)
 
         }, 1200)
 
@@ -46,7 +47,7 @@ export class MobileStoryComponent extends StoryComponent implements OnInit {
         let normalSize = this.config.smallImage ? 127 : 309;
         if (this.story.height !== normalSize) {
 
-            requestAnimationFrame(() => {
+            RequestAnimationFrame(() => {
                 this.invalidCache.emit(this.story);
             })
         }

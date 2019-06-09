@@ -34,7 +34,7 @@ export class VideoComponent implements OnInit {
 
     ngOnInit() {
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             this.widthIframe = (<HTMLDivElement>this.videoComponent.nativeElement).clientWidth;
             this.heightIframe = this.height / this.width * this.widthIframe;
 

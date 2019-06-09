@@ -33,18 +33,19 @@ export class MobileStoryComponent extends StoryComponent implements OnInit {
     }
 
     onOpenStory() {
-        setTimeout(() => {
-            this.story.height = 0
-        }, 1200)
+        requestAnimationFrame(() => setTimeout(() => {
+                this.story.height = 0
+            }, 1200)
+        )
     }
 
 
     ngOnDestroy(): void {
         this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-        let normalSize = this.config.smallImage?127:309;
-        if(this.story.height!==normalSize){
+        let normalSize = this.config.smallImage ? 127 : 309;
+        if (this.story.height !== normalSize) {
 
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 this.invalidCache.emit(this.story);
             })
         }

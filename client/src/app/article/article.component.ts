@@ -121,12 +121,15 @@ export class ArticleComponent implements OnInit {
 
 
         setTimeout(() => {
-            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-            for (let i = 0; i < videos.length; i++) {
+            requestAnimationFrame(() => {
+                let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+                let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+                for (let i = 0; i < videos.length; i++) {
 
-                new ArticleVideoParser(videos[i], this.domService).parse();
-            }
+                    new ArticleVideoParser(videos[i], this.domService).parse();
+                }
+            })
+
 
             // let images: HTMLCollectionOf<HTMLImageElement> = element.getElementsByTagName('img');
             // for (let i = 0; i < images.length; i++) {

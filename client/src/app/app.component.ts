@@ -40,12 +40,13 @@ import {LoadingEventType, LoadingService} from "./shared/loading.service";
     ]
 })
 export class AppComponent implements OnInit {
-    name = 'Angular';
     config: Config;
     image: string;
     isSmallDevice: boolean;
     isOpenSidebar: boolean;
     isShowProgressBar = false;
+    isRenderSidebar: boolean;
+
     @ViewChild(MatSidenav)
     sidebar: MatSidenav;
 
@@ -57,7 +58,7 @@ export class AppComponent implements OnInit {
                 @Inject(DOCUMENT) private document: Document,
                 private renderer: Renderer2,
                 private appService: AppService,
-                private loadingService:LoadingService
+                private loadingService: LoadingService
     ) {
     }
 
@@ -78,6 +79,7 @@ export class AppComponent implements OnInit {
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
         this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
+        this.isRenderSidebar = this.isOpenSidebar;
         this.track();
         this.updateBodyClass();
 
@@ -85,13 +87,13 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         })
 
-            this.loadingService.onLoading.subscribe(data=>{
-                setTimeout(()=>{
+        this.loadingService.onLoading.subscribe(data => {
 
-                    this.isShowProgressBar = data.type == LoadingEventType.START;
-                })
+            requestAnimationFrame(()=>{
+
+                this.isShowProgressBar = data.type == LoadingEventType.START;
             })
-
+        })
 
 
     }
@@ -110,7 +112,7 @@ export class AppComponent implements OnInit {
     getBlurImageUrl(url) {
         this.image = null;
         if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 this.image = `${CONFIG.baseUrl}blur?url=${url}`;
             })
         }
@@ -125,4 +127,5 @@ export class AppComponent implements OnInit {
             this.renderer.addClass(this.document.body, 'small-device')
         }
     }
+
 }

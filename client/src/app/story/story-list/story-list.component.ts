@@ -106,7 +106,12 @@ export class StoryListComponent implements OnInit {
 
                         this.isLoading = true
                     } else {
-                        setTimeout(() => this.isLoading = false, 2000)
+                        requestAnimationFrame(() => {
+
+                            setTimeout(() => requestAnimationFrame(() => {
+                                this.isLoading = false
+                            }), 2000)
+                        })
                     }
                 }
             })
@@ -149,7 +154,8 @@ export class StoryListComponent implements OnInit {
                 this.isShowMoveTop = true;
                 clearTimeout(this.hideMoveTopTimeout);
                 this.hideMoveTopTimeout = setTimeout(() => {
-                    this.isShowMoveTop = false;
+                    requestAnimationFrame(() => this.isShowMoveTop = false)
+
                 }, 5000)
             }
 
@@ -228,17 +234,19 @@ export class StoryListComponent implements OnInit {
         this.isListeningScroll = false
         this.virtualScroller.scrollInto(story, true, -60, animation, () => {
 
-            setTimeout(() => {
-                this.isListeningScroll = true;
-            }, 500)
-        });
+                setTimeout(() => requestAnimationFrame(() => this.isListeningScroll = true), 500)
+            }
+        );
     }
 
 
-    moveTop(event: MouseEvent) {
+    moveTop(event
+                :
+                MouseEvent
+    ) {
         event.stopPropagation();
         this.virtualScroller.scrollToIndex(0, true, -60, 500);
-        setTimeout(this.reloadStoryList.bind(this))
+        requestAnimationFrame(this.reloadStoryList.bind(this))
 
     }
 
@@ -253,14 +261,24 @@ export class StoryListComponent implements OnInit {
 
     }
 
-    private autoSelectFirstStory(story: Story) {
+    private
+
+    autoSelectFirstStory(story
+                             :
+                             Story
+    ) {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
             this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
         }
 
     }
 
-    compareItem(a: Story, b: Story) {
+    compareItem(a
+                    :
+                    Story, b
+                    :
+                    Story
+    ) {
         return a != null && b != null && a.id === b.id
 
     }

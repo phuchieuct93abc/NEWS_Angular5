@@ -6,8 +6,6 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
-declare var jQuery: any;
-
 @Component({
     selector: 'app-actions',
     templateUrl: './actions.component.html',
@@ -85,17 +83,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
             });
             setTimeout(() => {
 
-                // console.log(jQuery("body").outerHeight)
-                // console.log(jQuery("body").stick_in_parent())
-                // jQuery(jQuery(this.actionsElement.nativeElement).parent()).stick_in_parent({
-                //     // parent:"html",
-                //      bottoming:true
-                // }).on("sticky_kit:stick", function(e) {
-                //     console.log("has stuck!", e.target);
-                // })
-                //     .on("sticky_kit:unstick", function(e) {
-                //         console.log("has unstuck!", e.target);
-                //     });
 
                 this.observerWindow.observe(this.actionsElement.nativeElement);
                 this.observerWrapper.observe(this.wrapperElement)

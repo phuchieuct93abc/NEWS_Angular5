@@ -1,8 +1,10 @@
+import CONFIG from "../environments/environment";
+
 let RequestAnimationFrame = (callback) => {
-    if (requestAnimationFrame !== undefined) {
-        requestAnimationFrame(callback)
-    } else {
+    if (CONFIG.isRunningInNode) {
         setTimeout(callback)
+    } else {
+        requestAnimationFrame(callback)
     }
 
 

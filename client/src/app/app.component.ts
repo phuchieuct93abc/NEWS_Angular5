@@ -10,6 +10,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
 import { MatSidenav } from "@angular/material/sidenav";
 import {LoadingEventType, LoadingService} from "./shared/loading.service";
+import RequestAnimationFrame from "./requestAnimationFrame.cons";
 
 @Component({
     selector: 'my-app',
@@ -89,7 +90,8 @@ export class AppComponent implements OnInit {
 
         this.loadingService.onLoading.subscribe(data => {
 
-            requestAnimationFrame(()=>{
+
+            RequestAnimationFrame(()=>{
 
                 this.isShowProgressBar = data.type == LoadingEventType.START;
             })
@@ -112,7 +114,7 @@ export class AppComponent implements OnInit {
     getBlurImageUrl(url) {
         this.image = null;
         if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
-            requestAnimationFrame(() => {
+            RequestAnimationFrame(() => {
                 this.image = `${CONFIG.baseUrl}blur?url=${url}`;
             })
         }

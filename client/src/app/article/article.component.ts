@@ -7,7 +7,7 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
-import { MatSidenav } from "@angular/material/sidenav";
+import RequestAnimationFrame from "../requestAnimationFrame.cons";
 
 
 @Component({
@@ -122,7 +122,7 @@ export class ArticleComponent implements OnInit {
 
 
         setTimeout(() => {
-            requestAnimationFrame(() => {
+            RequestAnimationFrame(() => {
                 let element = <HTMLParagraphElement>this.articleContent.nativeElement;
                 let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
                 for (let i = 0; i < videos.length; i++) {

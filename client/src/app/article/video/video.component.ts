@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import CONFIG from "../../../environments/environment";
-import { MatSidenav } from "@angular/material/sidenav";
+import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-video',
@@ -35,7 +35,7 @@ export class VideoComponent implements OnInit {
 
     ngOnInit() {
 
-        requestAnimationFrame(() => {
+        RequestAnimationFrame(() => {
             this.widthIframe = (<HTMLDivElement>this.videoComponent.nativeElement).clientWidth;
             this.heightIframe = this.height / this.width * this.widthIframe;
 

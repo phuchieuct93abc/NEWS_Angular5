@@ -8,7 +8,7 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import { MatSidenav } from "@angular/material/sidenav";
+import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 
 const SWIPE_LEFT = "swipeLeft";
@@ -96,7 +96,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         this.storyListService.scrollTo.next(this.story);
         setTimeout(() => {
-            requestAnimationFrame(() => this.onClosed.emit())
+            RequestAnimationFrame(() => this.onClosed.emit())
 
         }, 500);
     }
@@ -105,7 +105,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         this.animationName = SWIPE_LEFT;
         setTimeout(() => {
-            requestAnimationFrame(() => this.close());
+            RequestAnimationFrame(() => this.close());
         }, 500)
 
     }
@@ -113,7 +113,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     swiperight() {
         this.animationName = SWIPE_RIGHT;
         setTimeout(() => {
-            requestAnimationFrame(()=>this.close())
+            RequestAnimationFrame(()=>this.close())
         }, 500)
     }
 

@@ -8,7 +8,7 @@ import {DOCUMENT} from "@angular/common";
 import {opacityNgIf} from "./animation";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
-import {MatSidenav} from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 import {LoadingEventType, LoadingService} from "./shared/loading.service";
 
 @Component({
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     isShowProgressBar = false;
     isRenderSidebar: boolean;
 
-    @ViewChild(MatSidenav)
+    @ViewChild(MatSidenav,{static:false})
     sidebar: MatSidenav;
 
     constructor(private router: Router,

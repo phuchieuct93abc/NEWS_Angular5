@@ -8,6 +8,7 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {MatSidenav} from "@angular/material";
 
 
 const SWIPE_LEFT = "swipeLeft";
@@ -55,9 +56,9 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     @Output()
     onClosed = new EventEmitter();
-    @ViewChild('articleBodyWrapper')
+    @ViewChild('articleBodyWrapper',{static:false})
     articleView: ElementRef;
-    @ViewChild(CdkDrag)
+    @ViewChild(CdkDrag,{static:false})
     view: CdkDrag;
 
     @Input()

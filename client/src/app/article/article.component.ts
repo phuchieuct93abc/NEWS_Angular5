@@ -7,6 +7,7 @@ import {ConfigService} from "../shared/config.service";
 import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
+import {MatSidenav} from "@angular/material";
 
 
 @Component({
@@ -39,11 +40,11 @@ export class ArticleComponent implements OnInit {
     public categoryId: string;
     public isFavorite: boolean;
 
-    @ViewChild('articleContent')
+    @ViewChild('articleContent',{static:false})
     articleContent: ElementRef;
 
 
-    @ViewChild('articleView')
+    @ViewChild('articleView',{static:false})
     protected articleView: ElementRef;
     routeParamSubscription: Subscription;
     configSubsription: Subscription;

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import GetSocialMediaSiteLinks_WithShareLinks from "./social-share-media";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {ClipboardService} from "ngx-clipboard";
-import {MatSnackBar} from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-share',

@@ -13,7 +13,7 @@ import {Story} from "../../../../../../model/Story";
 })
 export class MobileStoryComponent extends StoryComponent implements OnInit {
 
-    @ViewChild("storyElement")
+    @ViewChild("storyElement",{static:false})
     storyElement: ElementRef;
 
     @Output()

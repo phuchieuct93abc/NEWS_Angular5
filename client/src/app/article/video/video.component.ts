@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import CONFIG from "../../../environments/environment";
+import {MatSidenav} from "@angular/material";
 
 @Component({
     selector: 'app-video',
@@ -20,12 +21,12 @@ export class VideoComponent implements OnInit {
     @Input()
     height: number;
 
-    @ViewChild('videoComponent')
+    @ViewChild('videoComponent',{static:false})
     videoComponent: ElementRef;
 
     heightIframe: number;
     widthIframe: number;
-    @ViewChild('videoFrame')
+    @ViewChild('videoFrame',{static:false})
     videoFrame: ElementRef;
     isPlaying = false;
 

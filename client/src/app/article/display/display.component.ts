@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {MatButtonToggle} from "@angular/material";
+import { MatButtonToggle } from "@angular/material/button-toggle";
 
 @Component({
     selector: 'app-display',

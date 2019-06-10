@@ -24,7 +24,7 @@ export class StoryListComponent implements OnInit {
 
     category: string;
     protected buffer: Story[] = [];
-    @ViewChild(VirtualScrollerComponent,{static:false})
+    @ViewChild(VirtualScrollerComponent, {static: false})
     protected virtualScroller: VirtualScrollerComponent;
 
 
@@ -41,6 +41,7 @@ export class StoryListComponent implements OnInit {
 
     firstStory: Story;
     isListeningScroll = true;
+    currentScrollIndex = 0
 
     constructor(protected storyService: StoryService,
                 protected activatedRoute: ActivatedRoute,
@@ -256,28 +257,19 @@ export class StoryListComponent implements OnInit {
     }
 
     vsUpdate() {
+        this.currentScrollIndex = this.virtualScroller.viewPortInfo.startIndex;
         this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
 
     }
 
-    private
-
-    autoSelectFirstStory(story
-                             :
-                             Story
-    ) {
+    autoSelectFirstStory(story: Story) {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
             this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
         }
 
     }
 
-    compareItem(a
-                    :
-                    Story, b
-                    :
-                    Story
-    ) {
+    compareItem(a: Story, b: Story) {
         return a != null && b != null && a.id === b.id
 
     }

@@ -4,7 +4,7 @@
 .mat-card {
   cursor: pointer;
   padding: 0.5em 0.5em 0;
-  &:hover /deep/ .image {
+  &:hover ::ng-deep .image {
 
     transform: scale(1.1);
   }

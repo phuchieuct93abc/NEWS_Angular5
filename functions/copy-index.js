@@ -34,3 +34,11 @@ fs.copy(assest[0], assest[1], function (err) {
         return console.error(err)
     }
 });
+
+var robot = ['../client/dist/browser/robots.txt', './dist/browser/robots.txt']
+
+fs.copy(robot[0], robot[1], function (err) {
+    if (err) {
+        return console.error(err)
+    }
+});

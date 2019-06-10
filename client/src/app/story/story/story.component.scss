@@ -6,7 +6,7 @@ $card-height: 9em;
   padding: 1em;
   height: $card-height;
 
-  &:hover /deep/ .image {
+  &:hover ::ng-deep .image {
 
     transform: scale(1.1);
   }

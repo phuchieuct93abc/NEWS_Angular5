@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {CategoryService} from "../../shared/category.service";
+import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-category-selector',
@@ -49,7 +50,7 @@ export class CategorySelectorComponent implements OnInit,AfterViewInit {
     ngAfterViewInit(): void {
         this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
             setTimeout(()=>{
-                requestAnimationFrame(()=> this.selectedCategory = selectedCategory)
+                RequestAnimationFrame(()=> this.selectedCategory = selectedCategory)
 
             })
 

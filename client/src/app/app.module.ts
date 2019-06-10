@@ -34,7 +34,7 @@ import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
 import {RouterModule} from "@angular/router";
-import {MatButtonModule} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
 import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
 import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";

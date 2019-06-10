@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 //Angular Material Components
-import {MatButtonModule, MatCheckboxModule, MatRippleModule} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';

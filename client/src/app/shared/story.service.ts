@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
 import {map, retry} from "rxjs/operators";
@@ -57,7 +57,7 @@ export class StoryService {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
         }
-        if(CONFIG.isRunningInNode){
+        if (CONFIG.isRunningInNode) {
             return Promise.resolve()
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
@@ -85,7 +85,7 @@ export class StoryService {
     }
 
     search(keyword: string): Promise<any> {
-        if(CONFIG.isRunningInNode){
+        if (CONFIG.isRunningInNode) {
             return Promise.resolve()
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING})
@@ -112,10 +112,11 @@ export class StoryService {
     }
 
     private filterStory(result) {
-        if(result){
+        if (result) {
             let stories: Story[] = (<Story[]>result).filter(result => {
                 return this.stories.findIndex(story => story.id == result.id) == -1;
             });
+            stories = stories.sort((a, b) => b.related - a.related);
             this.stories.push(...stories);
         }
 

@@ -61,16 +61,16 @@ export abstract class StoryService {
 
         }
 
-        let mostLikesArticles = cachedArticle.reduce((mostLikes: Article, current: Article) => {
-            return mostLikes == undefined || current.likes > mostLikes.likes ? current : mostLikes;
+        let mostRelatedArticles = cachedArticle.reduce((mostRelated: Article, current: Article) => {
+            return mostRelated == undefined || current.related > mostRelated.related ? current : mostRelated;
         },null);
-        if (mostLikesArticles && mostLikesArticles.likes > 5) {
+        if (mostRelatedArticles && mostRelatedArticles.related > 100) {
             let noticationService = new NotificationService();
-            await noticationService.send(mostLikesArticles, this.category);
+            await noticationService.send(mostRelatedArticles, this.category);
         }
 
         return cachedArticle.map(article=>{
-            return {title:article.header,likes:article.likes}
+            return {title:article.header,related:article.related}
         });
 
 

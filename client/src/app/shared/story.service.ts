@@ -54,6 +54,7 @@ export class StoryService {
     }
 
     private getStoryByPage(category: string, pageNumber: number): Promise<any> {
+        console.log('get stories')
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
         }
@@ -78,6 +79,8 @@ export class StoryService {
 
                     this.checkReadStory(<Story[]>result);
 
+                    result = (<Story[]>result).sort((a, b) => b.related - a.related);
+                    console.table(result,["title","related"])
                     return result;
                 }
             )).toPromise();
@@ -116,7 +119,6 @@ export class StoryService {
             let stories: Story[] = (<Story[]>result).filter(result => {
                 return this.stories.findIndex(story => story.id == result.id) == -1;
             });
-            stories = stories.sort((a, b) => b.related - a.related);
             this.stories.push(...stories);
         }
 

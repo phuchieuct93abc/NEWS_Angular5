@@ -12,9 +12,7 @@ export default class DiffbotService {
         return new Promise(resolve => {
 
             FirebaseService.getDiffBotCredential().then(token => {
-                var diffbot = new Diffbot(token); // your API key here
-
-                console.log("token",token)
+                let diffbot = new Diffbot(token)
                 diffbot.article({uri: this.uri}, function (err, response: Diffbot) {
                     resolve(response)
                 });

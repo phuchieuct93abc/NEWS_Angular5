@@ -44,6 +44,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TopCategoryComponent} from "./dashboard/category/category.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {EllipsisModule} from "ngx-ellipsis";
+import {MatDividerModule} from "@angular/material";
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import {EllipsisModule} from "ngx-ellipsis";
             preset: intersectionObserverPreset
         }),
         RouterModule,
-        EllipsisModule
+        EllipsisModule,
+        MatDividerModule
     ],
     declarations: [
         AppComponent,

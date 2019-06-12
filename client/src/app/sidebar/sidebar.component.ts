@@ -15,6 +15,7 @@ import {opacityNgIf} from "../animation";
 export class SidebarComponent implements OnInit {
 
     public vietnameseCategories: Category[];
+    public englishCategories: Category[];
     isDarkMode: boolean;
     isSmallImage: boolean;
     @Input()
@@ -25,6 +26,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
+        this.englishCategories = CategoryHelper.englishCategories();
 
         this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;

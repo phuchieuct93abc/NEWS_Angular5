@@ -1,4 +1,4 @@
-<div class="sidebar py-3 px-2" >
+<div class="sidebar py-3 px-2 d-flex flex-column" >
     <div class="d-flex  align-items-center">
         <img src="../../assets/newspaper.png" alt="logo" class="rounded-circle logo">
         <div class="mat-h1 m-0" mat-button>
@@ -23,45 +23,44 @@
     </mat-slide-toggle>
     <mat-divider class="mt-1 mb-1"></mat-divider>
 
-    <div class="scrollable">
-        <div class="mat-h2">VietNam</div>
-        <mat-nav-list>
-            <mat-list-item
-                    *ngFor="let vnCategory of vietnameseCategories"
-                    [routerLink]="vnCategory.name"
-                    routerLinkActive="active">
+    <div class="categories flex-grow-1 d-flex">
+        <div class="scrollable w-100">
+            <div class="mat-h2">VietNam</div>
+            <mat-nav-list>
+                <mat-list-item
+                        *ngFor="let vnCategory of vietnameseCategories"
+                        [routerLink]="vnCategory.name"
+                        routerLinkActive="active">
 
 
-                <a matLine class="d-flex align-items-center">
-                    <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
-                   <div class="mat-h3 m-0">
-                       {{ vnCategory.title }}
-                   </div>
-                </a>
+                    <a matLine class="d-flex align-items-center">
+                        <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
+                        <div class="mat-h3 m-0">
+                            {{ vnCategory.title }}
+                        </div>
+                    </a>
 
-            </mat-list-item>
-        </mat-nav-list>
-        <mat-divider></mat-divider>
-        <div class="mat-h2">English</div>
-        <mat-nav-list>
-            <mat-list-item
-                    *ngFor="let vnCategory of englishCategories"
-                    [routerLink]="vnCategory.name"
-                    routerLinkActive="active">
-
-
-                <a matLine class="d-flex align-items-center">
-                    <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
-                    <div class="mat-h3 m-0">
-                        {{ vnCategory.title }}
-                    </div>
-                </a>
-
-            </mat-list-item>
-        </mat-nav-list>
+                </mat-list-item>
+            </mat-nav-list>
+            <mat-divider></mat-divider>
+            <div class="mat-h2">English</div>
+            <mat-nav-list>
+                <mat-list-item
+                        *ngFor="let vnCategory of englishCategories"
+                        [routerLink]="vnCategory.name"
+                        routerLinkActive="active">
 
 
+                    <a matLine class="d-flex align-items-center">
+                        <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
+                        <div class="mat-h3 m-0">
+                            {{ vnCategory.title }}
+                        </div>
+                    </a>
+
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
     </div>
-
 
 </div>

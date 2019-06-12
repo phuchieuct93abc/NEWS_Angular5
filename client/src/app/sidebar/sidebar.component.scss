@@ -5,6 +5,9 @@
   z-index: 2;
   background-color:var(--background-color-4);
 
+  .sidebar{
+    height: 100%;
+  }
   ::ng-deep {
     @media (min-width: 768px) {
       mat-list-item, mat-slide-toggle {

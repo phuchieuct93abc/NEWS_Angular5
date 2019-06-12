@@ -15,7 +15,9 @@ export default class Article {
                 public  images: string[],
                 public   description: string,
                 public likes = 1,
-                public time = new Date().toISOString()) {
+                public time = new Date().toISOString(),
+                public related = 0) {
+
     }
 
     toA() {

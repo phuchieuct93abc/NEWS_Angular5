@@ -27,7 +27,7 @@ export default class BaomoiArticleParser extends ArticleParser {
 
         let likes = parseInt(this.html.querySelector(".like").textContent);
         let time = this.html.querySelector("time.time").getAttribute('datetime');
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description,likes,time);
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description, likes, time, this.extractRalatedNumber());
     }
 
 
@@ -40,5 +40,11 @@ export default class BaomoiArticleParser extends ArticleParser {
 
 
         return images;
+    }
+
+    private extractRalatedNumber(): number {
+        let articleMeta = this.html.querySelector(".article__meta");
+        return articleMeta.childElementCount === 3 ? parseInt(articleMeta.lastElementChild.textContent) : 0
+
     }
 }

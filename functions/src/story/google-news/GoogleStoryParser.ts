@@ -35,5 +35,9 @@ export default class GoogleStoryParser extends StoryParser {
         throw new Error("Method not implemented.");
     }
 
+    parseRelated(): number {
+        return 0;
+    }
+
 
 }

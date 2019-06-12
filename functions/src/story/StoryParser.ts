@@ -12,17 +12,9 @@ export abstract class StoryParser {
 
     }
 
-    public setRawData(rawData: any) {
-        this.rawData = rawData;
-        return this;
-
-
-    }
-
-
     public parseStory(): Story {
 
-        if(!this.isValid()){
+        if (!this.isValid()) {
             return null;
         }
         let id = this.parseId();
@@ -32,7 +24,9 @@ export abstract class StoryParser {
         let images = this.parseImages();
         let meta = this.parseStoryMeta();
         let description = this.parseDescription();
-        return new Story(id, title, description, images, url, meta, hasVideo);
+        const story = new Story(id, title, description, images, url, meta, hasVideo);
+        story.related = this.parseRelated();
+        return story;
 
     };
 
@@ -49,7 +43,10 @@ export abstract class StoryParser {
     abstract parseHasVideo(): boolean;
 
     abstract parseDescription(): string;
-    abstract isValid():boolean;
+
+    abstract isValid(): boolean;
+
+    abstract parseRelated(): number;
 
 
 }

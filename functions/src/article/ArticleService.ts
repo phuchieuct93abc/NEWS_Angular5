@@ -30,13 +30,10 @@ export abstract class ArticleService {
 
             FirebaseService.findArticle(idPath).then(article => {
                 if (article && article.exists) {
-                    console.log("reject roi", idPath)
-
                     resolver(null);
                 } else {
                     this.crawnArticleById(idPath).then(article => {
                         this.saveArticle(article).then(value => {
-                            console.log(`success store article ${article.header}`);
                             resolver(article)
                         });
                     })

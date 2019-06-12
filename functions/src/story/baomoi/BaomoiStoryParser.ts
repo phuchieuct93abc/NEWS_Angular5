@@ -61,5 +61,10 @@ export default class BaomoiStoryParser extends StoryParser {
         return this.html.querySelector(".story__summary").textContent;
     }
 
+    parseRelated(): number {
+        const relatedElement = this.html.querySelector(".story__tools a");
+        return parseInt(relatedElement ? relatedElement.textContent : "0");
+    }
+
 
 }

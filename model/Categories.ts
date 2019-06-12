@@ -3,7 +3,7 @@ export interface Category {
     title: string,
     url?: string,
     icon: string,
-    color?:string
+    color?: string
 }
 
 interface Categories {
@@ -20,13 +20,13 @@ const categories: Categories[] = [
                 title: 'Tin nóng',
                 url: '',
                 icon: 'whatshot',
-                color:'blue'
+                color: 'blue'
             },
             {
                 name: 'xa-hoi',
                 title: 'Xã hội',
                 icon: 'people',
-                color:'orange'
+                color: 'orange'
 
 
             },
@@ -34,7 +34,7 @@ const categories: Categories[] = [
                 name: 'thoi-su',
                 title: 'Thời sự',
                 icon: 'list_alt',
-                color:'yellow'
+                color: 'yellow'
 
 
             },
@@ -42,14 +42,14 @@ const categories: Categories[] = [
                 name: 'the-thao',
                 title: 'Thể thao',
                 icon: 'directions_bike',
-                color:'red'
+                color: 'red'
 
             },
             {
                 name: 'khoa-hoc-cong-nghe',
                 title: 'Công nghệ',
                 icon: 'phone_iphone',
-                color:'green'
+                color: 'green'
 
             },
 
@@ -57,14 +57,14 @@ const categories: Categories[] = [
                 name: 'tin-video',
                 title: 'Video',
                 icon: 'videocam',
-                color:'cyan'
+                color: 'cyan'
 
             },
             {
                 name: 'yeu-thich',
                 title: 'Yêu thích',
                 icon: 'favorite',
-                color:'red'
+                color: 'red'
 
             }
         ]
@@ -75,36 +75,39 @@ const categories: Categories[] = [
             {
                 name: 'general',
                 title: 'General',
-                icon: 'whatshot'
+                icon: 'whatshot',
+                color: 'blue'
             },
             {
                 name: 'business',
                 title: 'Business',
-                icon: 'business'
-            },       {
+                icon: 'business',
+                color: 'yellow'
+            }, {
                 name: 'technology',
                 title: 'Technology',
-                icon: 'phone_iphone'
-            },       {
+                icon: 'phone_iphone',
+                color: 'red'
+            }, {
                 name: 'entertainment',
                 title: 'Entertainment',
-                icon: 'movie'
-            },       {
+                icon: 'movie',
+                color: 'green'
+            }, {
                 name: 'health',
                 title: 'Health',
-                icon: 'people'
-            },       {
+                icon: 'people',
+                color: 'cyan'
+            }, {
                 name: 'science',
                 title: 'Science',
                 icon: 'people'
-            },       {
+            }, {
                 name: 'sports',
                 title: 'Sports',
-                icon: 'directions_bike'
+                icon: 'directions_bike',
+                color: 'red'
             },
-
-
-
 
 
         ]

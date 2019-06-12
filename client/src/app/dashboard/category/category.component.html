@@ -7,7 +7,7 @@
     <div class="row categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded?'expand':'collapse'">
         <app-story [category]="category"
                    *ngFor="let story of stories| slice:0:maximumStories;"
-                   [story]="story" class="col-md-6"></app-story>
+                   [story]="story" class="col-md-6 col-lg-4 pb-4"></app-story>
         <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>

@@ -52,8 +52,6 @@ export class ArticleComponent implements OnInit {
     articleBody: string;
 
 
-    @Output()
-    onFinishedGetArticle = new EventEmitter<void>();
     public fontSize: number;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
@@ -113,7 +111,7 @@ export class ArticleComponent implements OnInit {
             this.articleBody = this.article.body;
         }
 
-        this.onFinishedGetArticle.emit();
+
 
     }
 
@@ -130,17 +128,11 @@ export class ArticleComponent implements OnInit {
                     new ArticleVideoParser(videos[i], this.domService).parse();
                 }
             })
-
-
-            // let images: HTMLCollectionOf<HTMLImageElement> = element.getElementsByTagName('img');
-            // for (let i = 0; i < images.length; i++) {
-            //     new ArticleImageParser(images[i], this.domService).parse();
-            // }
         }, 1000)
     }
 
 
-    ngOnDestroy(): void {
+     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
         this.getArticleSubscription && this.getArticleSubscription.unsubscribe();

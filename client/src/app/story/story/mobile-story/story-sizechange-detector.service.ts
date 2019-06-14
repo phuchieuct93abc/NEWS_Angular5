@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
+import {Subject} from "rxjs";
+import {Story} from "../../../../../../model/Story";
 import * as resizer from "element-resize-detector";
 
 @Injectable({
     providedIn: 'root'
 })
-export class ChangeDetectorService {
+export class StorySizechangeDetectorService {
 
-    private erd;
+    public sizeDetector = new Subject<Story>();
+    readonly erd;
 
     constructor() {
         this.erd = resizer({
@@ -17,4 +20,5 @@ export class ChangeDetectorService {
     public getDetector() {
         return this.erd;
     }
+
 }

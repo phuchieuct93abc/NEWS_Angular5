@@ -9,6 +9,7 @@ import {DomService} from "../dom.service";
 import {ConfigService} from "../../shared/config.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import {StorySizechangeDetectorService} from "../../story/story/mobile-story/story-sizechange-detector.service";
 
 
 const SWIPE_LEFT = "swipeLeft";
@@ -39,10 +40,15 @@ const SWIPE_RIGHT = "swipeRight";
         trigger('showArticle', [
 
 
-            transition('*=>*', [
+            transition('void=>true', [
                 style({height: "0px"}),
 
                 animate('1s', style({height: "*"})),
+            ]),
+            transition("true=>false", [
+                style({height: "*"}),
+
+                animate('1s', style({height: "0"})),
             ])
         ]),
 
@@ -56,25 +62,27 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     @Output()
     onClosed = new EventEmitter();
-    @ViewChild('articleBodyWrapper',{static:false})
+    @ViewChild('articleBodyWrapper', {static: false})
     articleView: ElementRef;
-    @ViewChild(CdkDrag,{static:false})
+    @ViewChild(CdkDrag, {static: false})
     view: CdkDrag;
 
     @Input()
     story: Story;
 
-    isShowArticle: boolean = true;
-
 
     animationName: string = 'none';
+    private isShowArticle: boolean = false;
 
+    @Output()
+    onFinishedGetArticle = new EventEmitter<void>();
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
                 private storyListService: StoryListService,
                 protected domService: DomService,
                 protected configService: ConfigService,
+                private changeDetector: StorySizechangeDetectorService
     ) {
         super(route, articleService, domService, configService);
     }
@@ -82,11 +90,13 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     ngOnInit() {
         super.ngOnInit();
+        this.isShowArticle = true;
 
         this.categoryId = this.route.snapshot.params["category"];
         this.articleId = this.story.id;
 
         super.getArticleById(this.articleId, this.categoryId);
+
 
     }
 
@@ -94,11 +104,10 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     close() {
         this.isShowArticle = false;
 
-        this.storyListService.scrollTo.next(this.story);
         setTimeout(() => {
-            RequestAnimationFrame(() => this.onClosed.emit())
+            // RequestAnimationFrame(() => this.onClosed.emit())
 
-        }, 500);
+        }, 1000);
     }
 
     swipeleft() {
@@ -113,16 +122,40 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     swiperight() {
         this.animationName = SWIPE_RIGHT;
         setTimeout(() => {
-            RequestAnimationFrame(()=>this.close())
+            RequestAnimationFrame(() => this.close())
         }, 500)
     }
 
     protected afterGetArticle(): void {
         super.afterGetArticle();
-        this.animationName = "show"
+        this.animationName = "show";
+
     }
+
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
+        console.log("after destorey")
+
+    }
+
+
+    animEnd($event) {
+        if ($event.toState == false) {
+            this.onClosed.emit();
+        } else {
+            this.onFinishedGetArticle.emit();
+
+        }
+
+        this.changeDetector.sizeDetector.next(this.story);
+
+    }
+
+    animStart($event) {
+        if ($event.fromState == true && $event.toState == false) {
+            this.storyListService.scrollTo.next(this.story);
+
+        }
     }
 }

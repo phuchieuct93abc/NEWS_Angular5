@@ -7,29 +7,24 @@
      }"
 >
     <div #articleBodyWrapper>
-        <div *ngIf="article;else loading">
-            <div>
-                <app-actions [wrapperElement]="articleBodyElement" (onClosed)="close()" [article]="article"></app-actions>
+        <div *ngIf="article;else loading" [@showArticle]="isShowArticle"
+             (@showArticle.done)="animEnd($event)"
+             (@showArticle.start)="animStart($event)"
+             style="overflow: hidden">
 
-                <div [@showArticle] style="overflow: hidden">
-
-
-                    <div #articleBodyElement>
-                        <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
-                        <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "
-                        ></p>
-                    </div>
-
-                    <div class="source text-right">
-                        <a mat-button [href]="article.sourceUrl" target="_blank"
-                           color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
-                    </div>
-                    <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id" ></app-comments>
-
-                </div>
-
-
+            <app-actions [wrapperElement]="articleBodyElement" (onClosed)="close()" [article]="article"></app-actions>
+            <div #articleBodyElement>
+                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
+                <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "
+                ></p>
             </div>
+
+            <div class="source text-right">
+                <a mat-button [href]="article.sourceUrl" target="_blank"
+                   color="primary">Nguồn: {{article.story.storyMeta.source}}</a>
+            </div>
+            <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
+
 
         </div>
     </div>

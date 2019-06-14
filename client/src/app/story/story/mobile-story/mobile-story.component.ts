@@ -1,11 +1,11 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
 import {FavoriteService} from "../../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Story} from "../../../../../../model/Story";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
+import {StorySizechangeDetectorService} from "./story-sizechange-detector.service";
 
 @Component({
     selector: 'app-mobile-story',
@@ -14,43 +14,26 @@ import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 })
 export class MobileStoryComponent extends StoryComponent implements OnInit {
 
-    @ViewChild("storyElement",{static:false})
+    @ViewChild("storyElement", {static: false})
     storyElement: ElementRef;
 
-    @Output()
-    invalidCache = new EventEmitter<Story>();
-    //
-    // minHeight: number;
-    //
-    // private observerChange = new Subject<HTMLElement>();
 
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService,
                 protected route: Router,
-                protected activatedRoute: ActivatedRoute,
+                protected activatedRoute: ActivatedRoute
     ) {
         super(breakpointService, configService, favoriteService, route, activatedRoute)
     }
 
     onOpenStory() {
-        setTimeout(() => {
-            RequestAnimationFrame(() => this.story.height = 0)
-
-        }, 1200)
+        RequestAnimationFrame(() => this.story.height = 0)
 
     }
 
-
     ngOnDestroy(): void {
         this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-        let normalSize = this.config.smallImage ? 127 : 309;
-        if (this.story.height !== normalSize) {
-
-            RequestAnimationFrame(() => {
-                this.invalidCache.emit(this.story);
-            })
-        }
         super.ngOnDestroy();
     }
 

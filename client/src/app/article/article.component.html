@@ -1,7 +1,7 @@
 <div class="w-100 h-100 article  position-relative" [ngClass]="'font-size-'+fontSize">
     <div class="blur-edge blur-top"></div>
     <div class="scrollable panel-primary" #articleView>
-        <div *ngIf="articleId" style="position: relative" @showArticle>
+        <div *ngIf="articleId" style="position: relative" @showArticle  >
 
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3">
                 <div class="mat-display-1 mb-2 ">

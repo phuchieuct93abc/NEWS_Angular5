@@ -12,7 +12,7 @@ import {opacityNgIf} from "../../animation";
     animations: [
         trigger("expand", [
             state('collapse', style({
-                height: '300px'
+                height: '350px'
             })),
             state('expand', style({
                 height: '*'

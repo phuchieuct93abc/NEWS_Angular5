@@ -26,7 +26,8 @@
               "src/assets",
               "src/manifest.json",
               "src/firebase-messaging-sw.js",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/sitemap.xml"
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",

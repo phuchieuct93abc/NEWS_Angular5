@@ -232,7 +232,7 @@ export class StoryListComponent implements OnInit {
 
     private scrollTo(story: Story, animation = 500) {
         this.isListeningScroll = false
-        this.virtualScroller.scrollInto(story, true, -60, animation, () => {
+        this.virtualScroller.scrollInto(story, true, 0, animation, () => {
 
                 setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
             }

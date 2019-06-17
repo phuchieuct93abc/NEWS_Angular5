@@ -1,4 +1,4 @@
-<div class="h-100 w-100 story-list">
+<div class="h-100 story-list">
     <div #scrollingBlock class=" scrollable" *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
         <virtual-scroller #scroll
@@ -10,8 +10,7 @@
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
                           *ngIf="stories"
-                          bufferAmount="10"
-                          class="w-100">
+                          bufferAmount="10">
             <app-story
                     *ngFor="let item of scroll.viewPortItems" [story]="item"
                     class="d-block pb-2"></app-story>

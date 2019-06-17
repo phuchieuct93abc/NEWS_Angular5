@@ -4,16 +4,16 @@
 .mat-card {
   cursor: pointer;
   padding: 0.5em 0.5em 0;
+
   &:hover ::ng-deep .image {
 
     transform: scale(1.1);
   }
+
   .image-wrapper {
     width: 100%;
   }
 
-  .content-article {
-  }
 
 
   &.is-read:not(.active) {
@@ -30,7 +30,6 @@
   &.active {
     background-color: #e5e5e5;
   }
-
 
 
   .title {

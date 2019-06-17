@@ -1,4 +1,4 @@
-<button mat-raised-button [matMenuTriggerFor]="menu" color="accent" class="w-100" *ngIf="selectedCategory">
+<button mat-raised-button [matMenuTriggerFor]="menu" color="accent"  *ngIf="selectedCategory">
     <mat-icon class="mr-2">{{ selectedCategory.icon }}</mat-icon>
     <span class="mat-h3 mb-0">{{  selectedCategory.title }}</span>
 
@@ -18,7 +18,7 @@
         <div class="row">
             <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen"
                     class="col-12">
-                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isSmallImage"
+                <mat-slide-toggle labelPosition="before" class=" h-100" [(ngModel)]="isSmallImage"
                                   (change)="toogleDisplay()">
                     Chế độ ảnh nhỏ
                 </mat-slide-toggle>
@@ -27,7 +27,7 @@
 
             <!--Theme-->
             <button mat-menu-item (click)="$event.stopPropagation()" class="col-12">
-                <mat-slide-toggle labelPosition="before" class="w-100 h-100" [(ngModel)]="isDarkMode"
+                <mat-slide-toggle labelPosition="before" class=" h-100" [(ngModel)]="isDarkMode"
                                   (change)="toggleDarkMode()">
                     Chế độ ban đêm
                 </mat-slide-toggle>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <mat-divider class="w-100 mt-2"></mat-divider>
+            <mat-divider class=" mt-2"></mat-divider>
             <div class="container-fluid">
                 <div class="primary-text mat-h2">English</div>
 

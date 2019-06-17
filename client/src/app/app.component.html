@@ -1,4 +1,4 @@
-<div *ngIf="isShowProgressBar" >
+<div *ngIf="isShowProgressBar">
 
     <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
 </div>
@@ -9,8 +9,9 @@
     <div class="main-content">
         <mat-sidenav-container class="example-container row h-100">
 
-            <mat-sidenav    [(opened)]="isOpenSidebar"  [mode]="isSmallDevice?'push':'side'" [fixedInViewport]="isSmallDevice">
-                <app-sidebar  class="d-block"></app-sidebar>
+            <mat-sidenav [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
+                         [fixedInViewport]="isSmallDevice">
+                <app-sidebar class="d-block"></app-sidebar>
 
 
             </mat-sidenav>
@@ -19,7 +20,7 @@
 
                 <div class="navigator">
 
-                    <app-navigator class="w-100"></app-navigator>
+                    <app-navigator></app-navigator>
                 </div>
                 <app-main class="py-md-2"></app-main>
             </mat-sidenav-content>

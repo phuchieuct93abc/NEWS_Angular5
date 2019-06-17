@@ -1,6 +1,6 @@
 <mat-menu #menu="matMenu" [class]="isDarkMode?'unicorn-dark-theme':'unicorn-light-theme'">
     <button mat-menu-item (click)="$event.stopPropagation()">
-        <mat-slide-toggle class="w-100 h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" color="primary"
+        <mat-slide-toggle class="h-100" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" color="primary"
                           labelPosition="before">
             Chế độ ban đêm
         </mat-slide-toggle>

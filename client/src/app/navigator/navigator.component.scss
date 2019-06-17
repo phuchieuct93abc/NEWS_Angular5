@@ -54,6 +54,9 @@ a.active {
         align-items: center;
         height: 40px;
 
+        .breadcrumb{
+          background-color: transparent;
+        }
         .search {
           flex: 3;
           display: flex;

@@ -5,7 +5,8 @@ import {IPageInfo} from "ngx-virtual-scroller";
 import {ConfigService} from "../shared/config.service";
 import {AppComponent} from "../app.component";
 import {AppService} from "../app.service";
-import { MatSidenav } from "@angular/material/sidenav";
+import {ActivatedRoute, Router} from "@angular/router";
+import CategoryHelper from "../../../../model/Categories";
 
 @Component({
     selector: 'app-navigator',
@@ -28,21 +29,31 @@ export class NavigatorComponent implements OnInit {
     readonly MAX_TOP = 0;
     isDarkMode: boolean;
     isSmallImage: boolean;
-    @ViewChild(AppComponent,{static:false})
-    app: AppComponent
+    @ViewChild(AppComponent, {static: false})
+    app: AppComponent;
+    private selectedCategory: string;
 
     constructor(private storyListService: StoryListService,
                 public breakpointService: BreakpointDetectorService,
                 private configService: ConfigService,
-                private appService: AppService
+                private appService: AppService,
+                private route: ActivatedRoute,
+                private router: Router
     ) {
 
     }
 
     ngOnInit() {
+
+        // this.router.events.subscribe(() => {
+        //     this.route.firstChild.params.subscribe((param) => {
+        //         this.selectedCategory =  CategoryHelper.findByName(param['category']).title;
+        //     })
+        // })
+
         if (this.breakpointService.isSmallScreen) {
-            this.registerScrollUp();
-            this.registerScrollDown();
+            //  this.registerScrollUp();
+            //this.registerScrollDown();
 
         }
 

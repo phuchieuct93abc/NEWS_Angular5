@@ -67,7 +67,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
                 }
             }, {
-                rootMargin: '-60px 0px 0px 0px',
+                rootMargin: '-80px 0px 0px 0px',
                 threshold: [0]
             });
             this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
@@ -79,7 +79,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                     })
                 }
             }, {
-                rootMargin: '-100px 0px 0px 0px',
+                rootMargin: '0px 0px 0px 0px',
                 threshold: [0]
             });
             setTimeout(() => {

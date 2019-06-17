@@ -9,7 +9,7 @@ const axios = require('axios');
 
 export abstract class StoryService {
     readonly MAX_CACHE_NUMBER = 50;
-    readonly MIN_RELATED_NOTIFY = 1000;
+    readonly MIN_RELATED_NOTIFY = 500;
 
     protected constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
 
@@ -61,19 +61,24 @@ export abstract class StoryService {
 
         }
 
-        let mostRelatedArticles = cachedArticle.reduce((mostRelated: Article, current: Article) => {
-            return mostRelated == undefined || current.related > mostRelated.related ? current : mostRelated;
-        }, null);
-        if (mostRelatedArticles && mostRelatedArticles.related > this.MIN_RELATED_NOTIFY) {
-            let noticationService = new NotificationService();
-            await noticationService.send(mostRelatedArticles, this.category);
-        }
+        await this.sendNotification(cachedArticle);
 
         return cachedArticle.map(article => {
             return {title: article.header, related: article.related}
         });
 
 
+    }
+
+    private async sendNotification(cachedArticle: Article[]) {
+        let mostRelatedArticles = cachedArticle.reduce((mostRelated: Article, current: Article) => {
+            return mostRelated == undefined || current.related > mostRelated.related ? current : mostRelated;
+        }, null);
+
+        if (mostRelatedArticles && mostRelatedArticles.related > this.MIN_RELATED_NOTIFY) {
+            let notificationService = new NotificationService();
+            await notificationService.send(mostRelatedArticles, this.category);
+        }
     }
 
     private cacheArticle = function (url): Promise<Article> {

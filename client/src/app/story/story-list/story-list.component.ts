@@ -57,7 +57,6 @@ export class StoryListComponent implements OnInit {
     async ngOnInit() {
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.registerScrollTo();
         this.registerShowingMoveToTop();
 
         this.search();
@@ -91,7 +90,7 @@ export class StoryListComponent implements OnInit {
                     resolve(story)
                 })
             } else {
-                reject()
+                reject();
             }
 
 
@@ -207,14 +206,6 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    private registerScrollTo() {
-        this.storyListService.scrollTo.subscribe(item => {
-            const index = this.stories.findIndex(i => i.id === item.id);
-            this.virtualScroller.items = this.stories;
-            this.scrollTo(this.stories[index], 500);
-        })
-    }
-
     private onLoadMore(event: IPageInfo) {
         if (event.endIndex < this.stories.length - 5 || this.isLoading) return;
         this.isLoading = true;
@@ -230,7 +221,7 @@ export class StoryListComponent implements OnInit {
         return loadMorePromise;
     }
 
-    private scrollTo(story: Story, animation = 500) {
+    protected scrollTo(story: Story, animation = 500) {
         this.isListeningScroll = false
         this.virtualScroller.scrollInto(story, true, 0, animation, () => {
 
@@ -240,10 +231,7 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    moveTop(event
-                :
-                MouseEvent
-    ) {
+    moveTop(event: MouseEvent) {
         event.stopPropagation();
         this.virtualScroller.scrollToIndex(0, true, -60, 500);
         RequestAnimationFrame(this.reloadStoryList.bind(this))

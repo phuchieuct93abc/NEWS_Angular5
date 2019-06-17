@@ -39,6 +39,15 @@ export class MobileStoryListComponent extends StoryListComponent {
                 this.virtualScroller.invalidateCachedMeasurementForItem(story);
             }, 100)
         })
+        this.registerScrollTo();
+
+    }
+    private registerScrollTo() {
+        this.storyListService.scrollTo.subscribe(item => {
+            const index = this.stories.findIndex(i => i.id === item.id);
+            this.virtualScroller.items = this.stories;
+            this.scrollTo(this.stories[index], 500);
+        })
     }
 
 }

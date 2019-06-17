@@ -1,6 +1,6 @@
 <div #storyElement [style.minHeight.px]="story.height" class="pb-2">
 
-    <mat-card (click)="onSelectStory()" class=" w-100 m-0"
+    <mat-card (click)="onSelectStory()" class="m-0"
               [class.read]="story.isRead"
               [routerLink]="[friendlyUrl,story.id]"
               routerLinkActive="active"
@@ -10,7 +10,7 @@
 
     >
         <mat-card-content class="m-0">
-            <div class="w-100 content-story d-flex">
+            <div class="content-story d-flex">
                 <app-image-viewer *ngIf="story.images[0]"
                                   [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
                                   [width]="story.images[0].width"
@@ -34,7 +34,7 @@
             </div>
             <app-inline-article *ngIf="story.selected" (click)="$event.stopPropagation()"
                                 (onClosed)="close()" [story]="story" (onFinishedGetArticle)="onOpenStory()"
-                                class="w-100 d-block content-article">
+                                class=" d-block content-article">
 
             </app-inline-article>
 

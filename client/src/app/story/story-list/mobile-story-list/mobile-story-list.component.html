@@ -1,4 +1,4 @@
-<div class=" w-100 story-list">
+<div class="story-list">
     <div class=" " *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
@@ -13,9 +13,7 @@
                           bufferAmount="10"
                           [checkResizeInterval]="0"
                           *ngIf="stories"
-
-
-                          class="w-100">
+        >
 
 
             <app-mobile-story (invalidCache)="updateStory($event)"

@@ -1,24 +1,23 @@
 import {Story} from "../../../../model/Story";
 import {StoryService} from "../StoryService";
-import GoogleStoryParser from "./GoogleStoryParser";
 
 import axios from 'axios';
-import {NEWS} from "./NEWS";
 import StoryImage from "../../../../model/StoryImage";
 import StoryMeta from "../../../../model/StoryMeta";
+import TinhteStoryParser from "./TinhteStoryParser";
+import {NEWS} from "../google-news/NEWS";
 
 
-export default class GoogleStoryService extends StoryService {
+export default class TinhteStoryService extends StoryService {
     public pageNumber: number;
-    public category: string;
     private headline = "https://newsapi.org/v2/top-headlines";
 
     constructor(protected url: string) {
-        super(url, new GoogleStoryParser(), null)
+        super(url, new TinhteStoryParser(),null)
     }
 
 
-    queryStories(dom: Document): any[] {
+    queryStories(dom: Document): any {
         return undefined;
     }
 
@@ -26,19 +25,18 @@ export default class GoogleStoryService extends StoryService {
         return undefined;
     }
 
-    static createInstance(pageNumber: number, category: string) {
+    static createInstance(pageNumber: number) {
 
-        const googleStoryService = new GoogleStoryService("url");
-        googleStoryService.pageNumber = pageNumber;
-        googleStoryService.category = category;
-        return googleStoryService;
+        const tinhteStoryService = new TinhteStoryService("url");
+        tinhteStoryService.pageNumber = pageNumber;
+        return tinhteStoryService;
 
     }
 
     getStories(): Promise<Story[]> {
 
         return new Promise<Story[]>(resolver => {
-            if (this.pageNumber > 5) {
+            if(this.pageNumber>5){
                 resolver([])
             }
             axios.get(this.headline, {
@@ -53,8 +51,8 @@ export default class GoogleStoryService extends StoryService {
                     let result = (<NEWS[]>response.data.articles).map(news => {
 
                         let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
-                        let title = news.title;
-                        title = title.substr(0, title.lastIndexOf("-"))
+                        let title =  news.title;
+                        title = title.substr(0,title.lastIndexOf("-"))
                         return new Story(news.url, title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
                     })
                     resolver(result);

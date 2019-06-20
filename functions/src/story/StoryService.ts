@@ -19,10 +19,10 @@ export abstract class StoryService {
     public getStories(): Promise<Story[]> {
         return new Promise((resolve) => {
             axios.get(this.url).then(response => {
-                const result: HTMLCollection = this.queryStories(response.data);
+                const result = this.queryStories(response);
                 let stories = Array.from(result)
                     .map(r => {
-                        return this.storyParser.setHtml(r).parseStory();
+                        return this.storyParser.setData(r).parseStory();
 
                     })
                     .filter(r => r != null);
@@ -33,7 +33,7 @@ export abstract class StoryService {
 
     };
 
-    abstract queryStories(dom: Document): HTMLCollection;
+    abstract queryStories(data: any): any[];
 
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 

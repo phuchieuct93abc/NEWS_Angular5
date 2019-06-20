@@ -52,6 +52,13 @@ const categories: Categories[] = [
                 color: 'green'
 
             },
+            {
+                name: 'tinh-te',
+                title: 'Tinh tế',
+                icon: 'phone_iphone',
+                color: 'green'
+
+            },
 
             {
                 name: 'tin-video',

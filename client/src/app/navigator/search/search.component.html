@@ -1,18 +1,8 @@
 <div class="h-100 searchbar" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
-<!--    <button class="search_icon icon" mat-icon-button>-->
-<!--        <mat-icon>search</mat-icon>-->
-<!--    </button>-->
-
-
     <mat-form-field class="search_input" color="accent">
-        <input matInput placeholder="Tìm kiếm"  (keyup)="onKeyup(searchInput.value)" #searchInput>
+        <input matInput placeholder="Tìm kiếm" (keyup)="onKeyup(searchInput.value)" #searchInput>
     </mat-form-field>
-
-
-<!--    <input class=" accent-background" type="text" name="" placeholder="Tìm kiếm..."-->
-<!--          >-->
-
-    <button class="loading_icon icon spin-icon" mat-icon-button *ngIf="isLoading" >
+    <button class="loading_icon icon spin-icon" mat-icon-button *ngIf="isLoading">
         <mat-icon color="accent">cached</mat-icon>
     </button>
 </div>

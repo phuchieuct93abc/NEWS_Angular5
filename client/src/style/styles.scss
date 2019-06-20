@@ -9,34 +9,45 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  --text-transition: color .3s cubic-bezier(.645, .045, .355, 1),
+  border-color .3s cubic-bezier(.645, .045, .355, 1),
+  background .3s cubic-bezier(.645, .045, .355, 1),
+  padding .15s cubic-bezier(.645, .045, .355, 1);
 }
 
 :focus {
   outline: none;
 }
 
-a:hover {
-  text-decoration: none;
+a {
+  transition:var(--text-transition);
+  color: var(--hightlight-color);
+  &:hover {
+    text-decoration: none;
+  }
 }
+
 
 html {
   font-size: 1rem;
 }
 
 
-.scrollable,body {
+.scrollable, body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
 }
-.blur-top{
-  @include blur-edge(var(--blur-edge-color),var(--blur-edge-transparent-color),top,bottom)
+
+.blur-top {
+  @include blur-edge(var(--blur-edge-color), var(--blur-edge-transparent-color), top, bottom)
 
 }
-.blur-bottom{
-  @include blur-edge(var(--blur-edge-color),var(--blur-edge-transparent-color),bottom,top)
+
+.blur-bottom {
+  @include blur-edge(var(--blur-edge-color), var(--blur-edge-transparent-color), bottom, top)
 
 }
 
@@ -111,11 +122,13 @@ button:focus {
     }
   }
 }
+
 @media (min-width: 880px) {
   .container {
     max-width: 840px;
   }
 }
+
 @media (min-width: 1096px) {
   .container {
     max-width: 1050px;

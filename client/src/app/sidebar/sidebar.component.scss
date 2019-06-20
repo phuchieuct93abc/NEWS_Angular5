@@ -9,14 +9,6 @@
     height: 100%;
   }
 
-  ::ng-deep {
-    @media (min-width: 768px) {
-      mat-list-item, mat-slide-toggle {
-        // color: rgba(255, 255, 255, 0.78) !important;
-      }
-    }
-
-  }
 
   .logo {
     width: 50px;
@@ -32,7 +24,7 @@
       top: 0;
       left: 0;
       bottom: 0;
-      border-right: 3px solid #1890ff;
+      border-right: 3px solid var(--hightlight-color);
       -webkit-transform: scaleY(.0001);
       transform: scaleY(.0001);
       opacity: 0;
@@ -70,7 +62,7 @@
       background-color: transparent !important;
 
       a {
-        color: #1890ff !important;
+        color: var(--hightlight-color) !important;
       }
     }
 

@@ -1,7 +1,7 @@
 <div style="height: 40px;" class="sticky" #actionsElement>
     <div class="text-right " @animate  [class.fixed]="isFixedTop" #stickyElement>
         <a mat-icon-button (click)="toggleFavorite()" class="fadein">
-            <mat-icon color="primary">
+            <mat-icon color="accent">
                 {{isFavorite ? 'favorite' : 'favorite_border'}}
             </mat-icon>
 
@@ -10,7 +10,7 @@
 
         <app-display></app-display>
         <button mat-icon-button class="fadein close-icon" (click)="close($event)" *ngIf="onClosed.observers.length>0">
-            <mat-icon class="mat-primary">cancel</mat-icon>
+            <mat-icon class="mat-accent">cancel</mat-icon>
         </button>
     </div>
 

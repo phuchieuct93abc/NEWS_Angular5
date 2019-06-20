@@ -4,7 +4,7 @@
         <div *ngIf="articleId" style="position: relative" @showArticle  >
 
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3">
-                <div class="mat-display-1 mb-2 ">
+                <div class="mat-display-1 mb-2 accent-color">
                     {{article.header}}
                 </div>
                 <app-actions [article]="article"></app-actions>

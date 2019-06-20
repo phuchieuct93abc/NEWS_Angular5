@@ -9,20 +9,20 @@
 @include mat-core();
 
 // Define the default theme (same as the example above).
-$candy-app-primary: mat-palette($mat-deep-purple);
-$candy-app-accent: mat-palette($mat-amber, A200, A100, A400);
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
+$light-primary: mat-palette($mat-deep-purple);
+$light-accent: mat-palette($mat-light-blue, A200, A100, A400);
+$light-theme: mat-light-theme($light-primary, $light-accent);
 
 // Include the default theme styles.
-@include angular-material-theme($candy-app-theme);
+@include angular-material-theme($light-theme);
 
 
 $light-background-dark: #e5e5e5;
 
 
 // Define an alternate dark theme.
-$dark-primary: mat-palette($mat-blue);
-$dark-accent: mat-palette($mat-blue, A200, A100, A400);
+$dark-primary: mat-palette($mat-light-blue);
+$dark-accent: mat-palette($mat-light-blue, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
@@ -62,28 +62,25 @@ $transparent: transparent;
     @extend .panel-primary;
   }
 
-  input {
-    background-color: #424242;
-
-  }
 
   .primary-text {
     color: rgba(255, 255, 255, 0.78);
   }
 
-  //.blur-top {
-  //  @include blur-edge($dark-background-light,top,bottom);
-  //}
-  //
-  //.blur-bottom {
-  //  @include blur-edge($dark-background-light,bottom,top);
-  //
-  //}
+  .accent-color {
+    color: mat-color($dark-accent);
+  }
+
+  .accent-background {
+    background-color: #424242;;
+    color: white
+
+  }
 
 }
 
 .unicorn-light-theme {
-  @include angular-material-theme($candy-app-theme);
+  @include angular-material-theme($light-theme);
 
   &:not(.small-device) {
 
@@ -106,22 +103,22 @@ $transparent: transparent;
 
   }
 
-  input {
-    background-color: #9b73d3;
-  }
+
 
   .primary-text {
     color: rgba(0, 0, 0, 0.87)
   }
 
-  //.blur-top {
-  //  @include blur-edge($light-background-dark,top,bottom);
-  //}
-  //
-  //.blur-bottom {
-  //  @include blur-edge($light-background-dark,bottom,top);
-  //
-  //}
+
+  .accent-color {
+    color: mat-color($light-accent);
+  }
+
+  .accent-background {
+    background-color: mat-color($light-accent);
+    color: white
+
+  }
 
 
 }

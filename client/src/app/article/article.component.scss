@@ -1,9 +1,11 @@
 @import "../../style/variables";
-:host{
-  --blur-edge-color:var(--background-color-2);
-  --blur-edge-transparent-color:var(--background-color-transparent-2);
+
+:host {
+  --blur-edge-color: var(--background-color-2);
+  --blur-edge-transparent-color: var(--background-color-transparent-2);
 
 }
+
 .article-body {
   font-size: 1.3em;
   line-height: 1.5em;
@@ -13,12 +15,23 @@
   }
 
   ::ng-deep {
-    iframe, video, img {
+    video, img {
       width: 100% !important;
       height: auto;
-      max-height:initial !important;
+      max-height: initial !important;
+    }
+    .LinkExpander_Ratio{
+      position: relative;
+      iframe{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
     }
   }
+
 
 }
 

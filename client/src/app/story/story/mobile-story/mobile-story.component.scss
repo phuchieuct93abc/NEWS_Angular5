@@ -41,8 +41,12 @@
   .title {
 
     line-height: 1.3em !important;
+    font-size: 1.5em;
   }
+  .image-wrapper {
 
+    flex: none;
+  }
 
   &.large-image {
     .content-story {
@@ -64,10 +68,7 @@
 
   }
 
-  .image-wrapper {
 
-    flex: none;
-  }
 
   &.small-image {
     .content-story {
@@ -86,10 +87,6 @@
       width: 80px;
     }
 
-    .title {
-
-      font-size: 1.3em;
-    }
 
 
   }

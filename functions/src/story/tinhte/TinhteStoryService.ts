@@ -10,15 +10,15 @@ import {NEWS} from "../google-news/NEWS";
 
 export default class TinhteStoryService extends StoryService {
     public pageNumber: number;
-    private headline = "https://newsapi.org/v2/top-headlines";
+    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=f372693ea11c8e2c1e1dd44e904491aa792ebcb4";
 
     constructor(protected url: string) {
         super(url, new TinhteStoryParser(),null)
     }
 
 
-    queryStories(dom: Document): any {
-        return undefined;
+    queryStories(data: any): any[] {
+        return data.data.threads;
     }
 
     search(pageNumber: string, keyword: string): Promise<Story[]> {
@@ -27,38 +27,13 @@ export default class TinhteStoryService extends StoryService {
 
     static createInstance(pageNumber: number) {
 
-        const tinhteStoryService = new TinhteStoryService("url");
+        let tinhteUri = TinhteStoryService.urlApi.replace("${page}",pageNumber+"");
+        const tinhteStoryService = new TinhteStoryService(tinhteUri);
         tinhteStoryService.pageNumber = pageNumber;
         return tinhteStoryService;
 
     }
 
-    getStories(): Promise<Story[]> {
 
-        return new Promise<Story[]>(resolver => {
-            if(this.pageNumber>5){
-                resolver([])
-            }
-            axios.get(this.headline, {
-                params: {
-                    category: this.category,
-                    page: this.pageNumber,
-                    apiKey: "e60f99befdf44b02b7472b0cc82cb7d4",
-                    country: "us"
-                }
-            })
-                .then(response => {
-                    let result = (<NEWS[]>response.data.articles).map(news => {
-
-                        let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
-                        let title =  news.title;
-                        title = title.substr(0,title.lastIndexOf("-"))
-                        return new Story(news.url, title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
-                    })
-                    resolver(result);
-                })
-
-        });
-    }
 
 }

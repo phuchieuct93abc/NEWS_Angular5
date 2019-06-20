@@ -4,35 +4,38 @@ import StoryMeta from "../../../../model/StoryMeta";
 
 export default class TinhteStoryParser extends StoryParser {
     parseTitle(): string {
-        throw new Error("Method not implemented.");
+        return this.data["thread_title"]
     }
 
     parseId(): string {
-        throw new Error("Method not implemented.");
+        return this.data["content_id"]
+
     }
 
     parseUrl(): string {
-        throw new Error("Method not implemented.");
+        return "title"
     }
 
     parseStoryMeta(): StoryMeta {
-        throw new Error("Method not implemented.");
+        return new StoryMeta("Tinh tế",this.data["thread_update_date"]);
     }
 
     parseImages(): StoryImage[] {
-        throw new Error("Method not implemented.");
+        const thumbnail = this.data["thread_thumbnail"];
+        let storyImage = new StoryImage(thumbnail["link"],thumbnail["width"],thumbnail["height"])
+        return [storyImage];
     }
 
     parseHasVideo(): boolean {
-        throw new Error("Method not implemented.");
+        return false;
     }
 
     parseDescription(): string {
-        throw new Error("Method not implemented.");
+        return this.data["first_post"]["post_body"];
     }
 
     isValid(): boolean {
-        throw new Error("Method not implemented.");
+        return true;
     }
 
     parseRelated(): number {

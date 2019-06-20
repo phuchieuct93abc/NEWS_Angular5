@@ -4,7 +4,6 @@ import StoryMeta from "../../../model/StoryMeta";
 
 export abstract class StoryParser {
     protected data: any;
-    protected rawData: any;
 
     public setData(data: any) {
         this.data = data;

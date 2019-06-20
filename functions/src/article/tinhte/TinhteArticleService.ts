@@ -1,24 +1,25 @@
-import BaomoiArticleParser from "./BaomoiArticleParser";
 import {ArticleService} from "../ArticleService";
 import Article from "../../../../model/Article";
+import TinhteArticleParser from "./TinhteArticleParser";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 const axios = require('axios');
 
-export default class BaomoiArticleService extends ArticleService {
+export default class TinhteArticleService extends ArticleService {
+
+    private tinhteArticleUrl = "https://tinhte.vn/appforo/index.php?/threads/${id}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7"
 
     constructor() {
         super();
-        this.parser = new BaomoiArticleParser();
+        this.parser = new TinhteArticleParser();
     }
 
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
-                axios.get(`https://m.baomoi.com/a/c/${id}.epi`).then(response => {
+                axios.get(this.tinhteArticleUrl.replace("${id}", id)).then(response => {
 
-                    const dom = new JSDOM(response.data);
-                    const article = this.parser.setData(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
+                    const article = this.parser.setData(response.data["thread"]).parserArticle();
                     resolve(article);
 
                 })

@@ -17,7 +17,6 @@
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",
     "serve:func": "npm --prefix \"functions\" run serve",
-
     "serve:client": "npm --prefix \"client\" run start"
   },
   "repository": {

@@ -8,9 +8,8 @@ import {DOCUMENT} from "@angular/common";
 import {opacityNgIf} from "./animation";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
-import { MatSidenav } from "@angular/material/sidenav";
+import {MatSidenav} from "@angular/material/sidenav";
 import {LoadingEventType, LoadingService} from "./shared/loading.service";
-import RequestAnimationFrame from "./requestAnimationFrame.cons";
 
 @Component({
     selector: 'my-app',
@@ -21,11 +20,11 @@ import RequestAnimationFrame from "./requestAnimationFrame.cons";
         trigger("opacityNgIf", [
             transition(':enter', [
                 style({opacity: 0}),
-                animate('0.5s 1s', style({opacity: 1}))
+                animate('1s 0.5s', style({opacity: 1}))
             ]),
             transition(':leave', [
                 style({opacity: 1}),
-                animate('0.5s 1s', style({opacity: 0}))
+                animate('1s', style({opacity: 0}))
             ])
         ]),
         trigger("opacityNgIfNoDelay", [
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
     isShowProgressBar = false;
     isRenderSidebar: boolean;
 
-    @ViewChild(MatSidenav,{static:false})
+    @ViewChild(MatSidenav, {static: false})
     sidebar: MatSidenav;
 
     constructor(private router: Router,
@@ -89,12 +88,7 @@ export class AppComponent implements OnInit {
         })
 
         this.loadingService.onLoading.subscribe(data => {
-
-
-            RequestAnimationFrame(()=>{
-
-                this.isShowProgressBar = data.type == LoadingEventType.START;
-            })
+            this.isShowProgressBar = data.type == LoadingEventType.START;
         })
 
 
@@ -112,11 +106,8 @@ export class AppComponent implements OnInit {
     }
 
     getBlurImageUrl(url) {
-        this.image = null;
         if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
-            RequestAnimationFrame(() => {
-                this.image = `${CONFIG.baseUrl}blur?url=${url}`;
-            })
+            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
         }
     }
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -40,15 +40,14 @@ export class ArticleComponent implements OnInit {
     public categoryId: string;
     public isFavorite: boolean;
 
-    @ViewChild('articleContent',{static:false})
+    @ViewChild('articleContent', {static: false})
     articleContent: ElementRef;
 
 
-    @ViewChild('articleView',{static:false})
+    @ViewChild('articleView', {static: false})
     protected articleView: ElementRef;
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
-    getArticleSubscription: Subscription;
     articleBody: string;
 
 
@@ -78,14 +77,11 @@ export class ArticleComponent implements OnInit {
 
     protected getArticleById(articleId, categoryId) {
         if (articleId && categoryId) {
-            this.article = null;
-            this.articleId = null;
-            this.articleId = articleId;
             this.categoryId = categoryId;
-            this.getArticleSubscription = this.articleService.getById(articleId, categoryId).subscribe(article => {
-
+            this.articleId = articleId;
+            this.article = null;
+            this.articleService.getById(articleId, categoryId).then(article => {
                 this.article = article;
-
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();
             });
@@ -100,42 +96,31 @@ export class ArticleComponent implements OnInit {
 
             (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
         }
-        //REPLACE IMAGE
+        this.articleBody = this.article.body;
+
         if (typeof window !== 'undefined') {
 
-            // this.articleBody = this.article.body.replace(/src=/g, "data-src=")
-            this.articleBody = this.article.body;
-
-            this.parseHtml();
-        } else {
-            this.articleBody = this.article.body;
+            this.parseVideo();
         }
 
 
-
     }
 
 
-    private parseHtml() {
-
-
-        setTimeout(() => {
-            RequestAnimationFrame(() => {
-                let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-                let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-                for (let i = 0; i < videos.length; i++) {
-
-                    new ArticleVideoParser(videos[i], this.domService).parse();
-                }
-            })
-        }, 1000)
+    private parseVideo() {
+        RequestAnimationFrame(() => {
+            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+            for (let i = 0; i < videos.length; i++) {
+                new ArticleVideoParser(videos[i], this.domService).parse();
+            }
+        })
     }
 
 
-     ngOnDestroy(): void {
+    ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
-        this.getArticleSubscription && this.getArticleSubscription.unsubscribe();
     }
 
 

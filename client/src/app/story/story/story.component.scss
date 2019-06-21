@@ -26,8 +26,15 @@ $card-height: 9em;
   }
 
 
+  .title{
+    transition:var(--text-transition);
+
+  }
   &:hover, &.active {
     @include mat-elevation(5);
+    .title {
+      color: var(--hightlight-color) !important;
+    }
 
   }
 

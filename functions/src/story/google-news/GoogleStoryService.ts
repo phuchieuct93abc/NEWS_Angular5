@@ -14,11 +14,11 @@ export default class GoogleStoryService extends StoryService {
     private headline = "https://newsapi.org/v2/top-headlines";
 
     constructor(protected url: string) {
-        super(url, new GoogleStoryParser(),null)
+        super(url, new GoogleStoryParser(), null)
     }
 
 
-    queryStories(dom: Document): HTMLCollection {
+    queryStories(dom: Document): any[] {
         return undefined;
     }
 
@@ -38,7 +38,7 @@ export default class GoogleStoryService extends StoryService {
     getStories(): Promise<Story[]> {
 
         return new Promise<Story[]>(resolver => {
-            if(this.pageNumber>5){
+            if (this.pageNumber > 5) {
                 resolver([])
             }
             axios.get(this.headline, {
@@ -53,8 +53,8 @@ export default class GoogleStoryService extends StoryService {
                     let result = (<NEWS[]>response.data.articles).map(news => {
 
                         let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
-                        let title =  news.title;
-                        title = title.substr(0,title.lastIndexOf("-"))
+                        let title = news.title;
+                        title = title.substr(0, title.lastIndexOf("-"))
                         return new Story(news.url, title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
                     })
                     resolver(result);

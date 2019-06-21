@@ -67,10 +67,8 @@ export class StoryListComponent implements OnInit {
 
         this.getFirstStory().then(firstStory => {
             this.firstStory = firstStory;
-
         }).finally(() => {
             this.updateStoryList();
-
         });
 
 
@@ -82,7 +80,7 @@ export class StoryListComponent implements OnInit {
             let params = this.route.children[0].snapshot.params;
             if (params["id"]) {
                 let articleId = params["id"];
-                this.articleService.getById(articleId, params['category']).subscribe(article => {
+                this.articleService.getById(articleId, params['category']).then(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
                     let storyMeta = new StoryMeta(article.sourceName, article.time);

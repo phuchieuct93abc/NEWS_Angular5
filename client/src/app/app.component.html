@@ -2,12 +2,16 @@
 
     <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
 </div>
-<div class="h-100 app w-100  mat-app-background app d-flex align-items-center">
-    <div class="backdrop" [style.background-image]="'url(' +  image + ')'" *ngIf="!isSmallDevice && image"
-         @opacityNgIf></div>
+<div class="h-100 app   mat-app-background app d-flex align-items-center">
+    <div *ngIf="!isSmallDevice && image">
+        <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'"  *ngFor="let bgImage of [image]"
+             @opacityNgIf>
+        </div>
+
+    </div>
 
     <div class="main-content">
-        <mat-sidenav-container class="example-container row h-100">
+        <mat-sidenav-container class="h-100">
 
             <mat-sidenav [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
                          [fixedInViewport]="isSmallDevice">

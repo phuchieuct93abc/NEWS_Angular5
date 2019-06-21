@@ -21,7 +21,7 @@ export class ArticleService {
     constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService, private loadingService: LoadingService) {
     }
 
-    getById(id: string, category: string): Observable<Article> {
+    getById(id: string, category: string): Promise<Article> {
         const story: Story = this.storyService.getById(id);
 
         if (story != null) {
@@ -46,7 +46,7 @@ export class ArticleService {
                 this.meta.updateMeta(article);
 
                 return article;
-            }))
+            })).toPromise();
     }
 
 

@@ -1,10 +1,10 @@
 import Article from "../../../model/Article";
 
 export abstract class ArticleParser {
-    protected html: Element;
+    protected data: any;
 
-    public setHtml(html: any) {
-        this.html = html;
+    public setData(data: any) {
+        this.data = data;
         return this;
 
     }

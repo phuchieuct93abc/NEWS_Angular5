@@ -3,11 +3,10 @@ import StoryImage from "../../../model/StoryImage";
 import StoryMeta from "../../../model/StoryMeta";
 
 export abstract class StoryParser {
-    protected html: Element;
-    protected rawData: any;
+    protected data: any;
 
-    public setHtml(html: any) {
-        this.html = html;
+    public setData(data: any) {
+        this.data = data;
         return this;
 
     }

@@ -16,12 +16,6 @@ a.active {
   display: block;
   overflow: visible;
 
-  ::ng-deep {
-    a {
-
-      color: #448aff !important;
-    }
-  }
 
 
   @media (max-width: 767px) {

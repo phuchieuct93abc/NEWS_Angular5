@@ -10,30 +10,30 @@ export default class BaomoiArticleParser extends ArticleParser {
 
     private convertHtmlBody() {
 
-        let body = this.html.getElementsByClassName('article__body')[0].innerHTML;
+        let body = this.data.getElementsByClassName('article__body')[0].innerHTML;
         return Utility.replaceAll(body, "data-", "");
     }
 
 
     parserArticle(): Article {
-        const header = this.html.getElementsByClassName('article__header')[0].textContent;
-        const id = this.html.getElementsByClassName('article')[0].getAttribute('data-aid');
-        const sourceName = this.html.getElementsByClassName('source')[0].textContent;
-        let sourceUrl = this.html.querySelector(".article__action .plsh").getAttribute("href");
+        const header = this.data.getElementsByClassName('article__header')[0].textContent;
+        const id = this.data.getElementsByClassName('article')[0].getAttribute('data-aid');
+        const sourceName = this.data.getElementsByClassName('source')[0].textContent;
+        let sourceUrl = this.data.querySelector(".article__action .plsh").getAttribute("href");
         sourceUrl = `https://m.baomoi.com${sourceUrl}`;
 
         let images = this.extractImages();
-        const description = this.html.getElementsByClassName('article__sapo')[0].textContent;
+        const description = this.data.getElementsByClassName('article__sapo')[0].textContent;
 
-        let likes = parseInt(this.html.querySelector(".like").textContent);
-        let time = this.html.querySelector("time.time").getAttribute('datetime');
+        let likes = parseInt(this.data.querySelector(".like").textContent);
+        let time = this.data.querySelector("time.time").getAttribute('datetime');
         return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description, likes, time, this.extractRalatedNumber());
     }
 
 
     private extractImages() {
         let images = [];
-        const imageElements = this.html.getElementsByTagName('img');
+        const imageElements = this.data.getElementsByTagName('img');
         for (let index = 0; index < imageElements.length; index++) {
             images.push(imageElements[index].getAttribute('src'))
         }
@@ -43,7 +43,7 @@ export default class BaomoiArticleParser extends ArticleParser {
     }
 
     private extractRalatedNumber(): number {
-        let articleMeta = this.html.querySelector(".article__meta");
+        let articleMeta = this.data.querySelector(".article__meta");
         return articleMeta.childElementCount === 3 ? parseInt(articleMeta.lastElementChild.textContent) : 0
 
     }

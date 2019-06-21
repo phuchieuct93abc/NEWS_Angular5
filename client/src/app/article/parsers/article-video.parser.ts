@@ -19,9 +19,9 @@ export default class ArticleVideoParser {
     }
 
     public parse() {
-        this.updateVideoAttributes();
+        // this.updateVideoAttributes();
         this.appendOpenVideo();
-        this.source.remove();
+        // this.source.remove();
 
     }
 
@@ -33,8 +33,8 @@ export default class ArticleVideoParser {
             width: this.video.getAttribute('width'),
             height: this.video.getAttribute('height')
         });
-        this.videoBody.append(this.createOpenVideoLink());
-        this.video.remove();
+        // this.videoBody.append(this.createOpenVideoLink());
+         this.video.remove();
 
     }
 

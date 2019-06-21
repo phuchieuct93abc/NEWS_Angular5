@@ -10,8 +10,8 @@ const axios = require('axios');
 
 
 export default class BaomoiStoryService extends StoryService {
-    queryStories(response): HTMLCollection {
-        const dom = new JSDOM(response);
+    queryStories(response): any[] {
+        const dom = new JSDOM(response.data);
 
         return dom.window.document.getElementsByClassName("story")
     }
@@ -35,7 +35,7 @@ export default class BaomoiStoryService extends StoryService {
                 const dom = new JSDOM(response.data);
                 const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
                 let stories = Array.from(result)
-                    .map(r => this.storyParser.setHtml(r).parseStory())
+                    .map(r => this.storyParser.setData(r).parseStory())
                     .filter(r => r != null);
                 resolver(stories);
             })

@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {DomSanitizer} from "@angular/platform-browser";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import CONFIG from "../../../environments/environment";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
@@ -21,12 +20,12 @@ export class VideoComponent implements OnInit {
     @Input()
     height: number;
 
-    @ViewChild('videoComponent',{static:false})
+    @ViewChild('videoComponent', {static: false})
     videoComponent: ElementRef;
 
     heightIframe: number;
     widthIframe: number;
-    @ViewChild('videoFrame',{static:false})
+    @ViewChild('videoFrame', {static: false})
     videoFrame: ElementRef;
     isPlaying = false;
 
@@ -43,23 +42,15 @@ export class VideoComponent implements OnInit {
     }
 
     parseUrl(): string {
-        const mode = this.breakpointDetector.isSmallScreen ? 'mobile-video' : 'desktop-video';
-
-    return `javascript:window.location.replace("${this.url}")`
-        //return CONFIG.baseUrl + "proxy?url="+this.url;
-        // return `https://m.baomoi.com/player.epi#${this.url}|${mode}|${this.poster}|0|
-        // Hiện trường lửa cháy ngùn ngụt, người bị cháy đen do nổ đường ống ở Mexico - Báo Tin Tức TTXVN|
-        // ${this.widthIframe}|${this.heightIframe}|
-        // an-ninh-trat-tu|29404726|vf0|true|
-        // https://m.baomoi.com/hien-truong-lua-chay-ngun-ngut-nguoi-bi-chay-den-do-no-duong-ong-o-mexico/c/29404726.epi`
+        return `javascript:window.location.replace("${this.url}")`
     }
 
 
     play() {
-        if(typeof window !== 'undefined'){
+        if (typeof window !== 'undefined') {
 
             this.isPlaying = true;
-            this.videoFrame.nativeElement.setAttribute('src',this.parseUrl());
+            this.videoFrame.nativeElement.setAttribute('src', this.parseUrl());
         }
 
     }

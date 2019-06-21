@@ -77,8 +77,6 @@ export class StoryService {
                     })
 
                     this.checkReadStory(<Story[]>result);
-
-                    result = (<Story[]>result).sort((a, b) => b.related - a.related);
                     return result;
                 }
             )).toPromise();

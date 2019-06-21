@@ -10,6 +10,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
 import {MatSidenav} from "@angular/material/sidenav";
 import {LoadingEventType, LoadingService} from "./shared/loading.service";
+import RequestAnimationFrame from "./requestAnimationFrame.cons";
 
 @Component({
     selector: 'my-app',
@@ -88,7 +89,10 @@ export class AppComponent implements OnInit {
         })
 
         this.loadingService.onLoading.subscribe(data => {
-            this.isShowProgressBar = data.type == LoadingEventType.START;
+            RequestAnimationFrame(()=>{
+
+                this.isShowProgressBar = data.type == LoadingEventType.START;
+            })
         })
 
 

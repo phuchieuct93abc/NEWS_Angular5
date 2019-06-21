@@ -44,7 +44,7 @@ export class CachingInterceptor implements HttpInterceptor {
 
         const isNeedCache = this.noCacheUri.find(noCache => req.url.includes(noCache)) == undefined;
         const cachedResponse = this.cache.get(req);
-        return cachedResponse && isNeedCache ? of(cachedResponse).pipe(delay(500)) : this.sendRequest(req, next, this.cache);
+        return cachedResponse && isNeedCache ? of(cachedResponse) : this.sendRequest(req, next, this.cache);
     }
 
     sendRequest(req: HttpRequest<any>, next: HttpHandler, cache: RequestCache): Observable<HttpEvent<any>> {

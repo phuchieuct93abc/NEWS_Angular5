@@ -17,12 +17,12 @@ export default class TinhteStoryParser extends StoryParser {
     }
 
     parseStoryMeta(): StoryMeta {
-        return new StoryMeta("Tinh tế",this.data["thread_update_date"]);
+        return new StoryMeta("Tinh tế", this.data["thread_update_date"] * 1000);//Correct format time for tinhte only
     }
 
     parseImages(): StoryImage[] {
         const thumbnail = this.data["thread_thumbnail"];
-        let storyImage = new StoryImage(thumbnail["link"],thumbnail["width"],thumbnail["height"])
+        let storyImage = new StoryImage(thumbnail["link"], thumbnail["width"], thumbnail["height"])
         return [storyImage];
     }
 

@@ -45,6 +45,8 @@ import {TopCategoryComponent} from "./dashboard/category/category.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {EllipsisModule} from "ngx-ellipsis";
 import {MatDividerModule} from "@angular/material";
+import StoryMeta from "../../../model/StoryMeta";
+import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
 
 
 @NgModule({
@@ -95,7 +97,8 @@ import {MatDividerModule} from "@angular/material";
         ShareComponent,
         DashboardComponent,
         TopCategoryComponent,
-        SidebarComponent
+        SidebarComponent,
+        StoryMetaComponent
 
 
     ],

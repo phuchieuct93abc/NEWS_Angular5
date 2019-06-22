@@ -23,13 +23,8 @@
                          ellipsis-resize-detection="window">
                         {{story.title }}
                     </div>
-                    <footer class="blockquote-footer text-right p-1  justify-content-end d-flex align-items-end">
-                        <cite title="Source Title"> {{story.storyMeta.source}} </cite>
-                        <span class="time ml-1">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
-                        <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-                        </mat-icon>
+                    <app-story-meta [story]="story"></app-story-meta>
 
-                    </footer>
                 </div>
             </div>
             <app-inline-article *ngIf="story.selected" (click)="$event.stopPropagation()"

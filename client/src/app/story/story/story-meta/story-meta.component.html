@@ -1,0 +1,7 @@
+<footer class="blockquote-footer text-right p-1  justify-content-end d-flex align-items-start">
+  <cite title="Source Title"> {{story.storyMeta.source}} </cite>
+  <span class="time ml-2">  {{story.storyMeta.time | amTimeAgo | capitalizeFirst}}</span>
+  <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
+  </mat-icon>
+
+</footer>

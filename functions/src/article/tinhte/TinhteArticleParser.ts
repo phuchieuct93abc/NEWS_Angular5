@@ -14,18 +14,17 @@ export default class TinhteArticleParser extends ArticleParser {
         const sourceName = "Tinh Tế";
         let sourceUrl = this.data["links"]["permalink"]
         let images = [];
-        const description = this.data["first_post"]["post_body_html"]
 
         let likes = this.data["first_post"]["post_like_count"];
-        let time = this.data["thread_update_date"]
+        let time = this.data["thread_update_date"] * 1000;
         return new Article(id, header, null, this.addAttachToBody(), null, null, null, sourceUrl, sourceName, images, "", likes, time, 0);
     }
 
 
     addAttachToBody() {
         let body = this.data["first_post"]["post_body_html"];
-        let attachImage:any[] = this.data["first_post"]["attachments"];
-        if(attachImage.length>0){
+        let attachImage: any[] = this.data["first_post"]["attachments"];
+        if (attachImage.length > 0) {
             body = `${body} <img src='${attachImage[0]["links"]["data"]}'/>`
         }
         return body;

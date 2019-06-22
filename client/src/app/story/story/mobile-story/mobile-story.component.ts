@@ -1,21 +1,21 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
 import {FavoriteService} from "../../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
-import {StorySizechangeDetectorService} from "./story-sizechange-detector.service";
 
 @Component({
     selector: 'app-mobile-story',
     templateUrl: './mobile-story.component.html',
     styleUrls: ['./mobile-story.component.scss']
 })
-export class MobileStoryComponent extends StoryComponent implements OnInit {
+export class MobileStoryComponent extends StoryComponent implements AfterViewInit {
 
     @ViewChild("storyElement", {static: false})
     storyElement: ElementRef;
+
 
 
     constructor(public breakpointService: BreakpointDetectorService,
@@ -36,6 +36,8 @@ export class MobileStoryComponent extends StoryComponent implements OnInit {
         this.story.height = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
         super.ngOnDestroy();
     }
+
+
 
 
 }

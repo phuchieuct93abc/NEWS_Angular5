@@ -6,20 +6,15 @@
           [matRippleDisabled]="breakpointService.isSmallScreen && selected"
           matRipple
 >
-    <mat-card-content class="h-100 container-fluid">
-        <div class="h-100 row">
-            <div class="image-wrapper p-0 pr-sm-1 col-4">
-
-                <app-image-viewer *ngIf="story.images[0]"
-                                  [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
-                                  [width]="story.images[0].width"
-                                  [height]="story.images[0].height"></app-image-viewer>
-
-            </div>
-            <div class="h-100 col d-flex flex-column justify-content-between pt-2">
-                <div class="mt-sm-0 mt-1 mat-title mb-0 title" ellipsis ellipsis-resize-detection="window">{{story.title}}</div>
-                <app-story-meta [story]="story"></app-story-meta>
-            </div>
+    <mat-card-content class="h-100 d-flex flex-direction-row">
+        <app-image-viewer *ngIf="story.images[0]"
+                          [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
+                          [width]="story.images[0].width"
+                          [height]="story.images[0].height"></app-image-viewer>
+        <div class="h-100 col d-flex flex-column justify-content-between pt-2">
+            <div class="mt-sm-0 mt-1 mat-title mb-0 title" ellipsis #ell="ellipsis"
+                 ellipsis-resize-detection="manual">{{story.title}}</div>
+            <app-story-meta [story]="story"></app-story-meta>
         </div>
     </mat-card-content>
 </mat-card>

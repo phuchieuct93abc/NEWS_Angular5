@@ -42,7 +42,7 @@ fs.copy(robot[0], robot[1], function (err) {
         return console.error(err)
     }
 });
-var robot = ['../client/dist/browser/sitemap.xmk', './dist/browser/sitemap.xml']
+var robot = ['../client/dist/browser/sitemap.xml', './dist/browser/sitemap.xml']
 
 fs.copy(robot[0], robot[1], function (err) {
     if (err) {

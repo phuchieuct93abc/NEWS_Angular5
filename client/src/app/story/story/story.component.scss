@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+
 $card-height: 9em;
 .mat-card {
   cursor: pointer;
@@ -6,16 +7,16 @@ $card-height: 9em;
   height: $card-height;
 
 
+  app-image-viewer {
+    width: 150px;
+    max-width: 50%;
+  }
 
   &:hover ::ng-deep .image {
 
     transform: scale(1.1);
   }
 
-  .image-wrapper {
-    width: 12em;
-    height: 7em;
-  }
 
   &.is-read:not(.active) {
     opacity: 0.7;
@@ -27,16 +28,19 @@ $card-height: 9em;
   }
 
 
-  .title{
-    transition:var(--text-transition);
+  .title {
+    transition: var(--text-transition);
 
   }
-  &.active{
+
+  &.active {
     background-color: var(--background-color-2) !important;
     opacity: 1 !important;
   }
+
   &:hover, &.active {
     @include mat-elevation(5);
+
     .title {
       color: var(--hightlight-color) !important;
     }
@@ -53,7 +57,6 @@ $card-height: 9em;
 
     line-height: 1.3em !important;
   }
-
 
 
 }

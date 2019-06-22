@@ -1,6 +1,9 @@
 @import "../story.component";
 
 :host {
+  .first-story{
+    padding-top: 55px;
+  }
   .mat-card {
     padding: 0.5em 0.5em 0;
     height: initial;

@@ -1,4 +1,4 @@
-<div #storyElement [style.minHeight.px]="story.height" class="pb-2">
+<div #storyElement [style.minHeight.px]="story.height" class="pb-2" [class.first-story]="index===0">
 
     <mat-card (click)="onSelectStory()" class="m-0"
               [class.read]="story.isRead"

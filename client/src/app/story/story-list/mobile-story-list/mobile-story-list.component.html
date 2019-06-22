@@ -1,6 +1,5 @@
 <div class="story-list">
     <div class=" " *ngIf="isBrowser">
-        <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd()"
@@ -15,8 +14,7 @@
                           *ngIf="stories"
         >
 
-
-            <app-mobile-story (invalidCache)="updateStory($event)"
+            <app-mobile-story
                               *ngFor="let item of scroll.viewPortItems;" [story]="item"
                               class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 

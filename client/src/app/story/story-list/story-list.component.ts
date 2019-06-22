@@ -41,7 +41,9 @@ export class StoryListComponent implements OnInit {
 
     firstStory: Story;
     isListeningScroll = true;
-    currentScrollIndex = 0
+    currentScrollIndex = 0;
+    private readonly LOADMORE_THRESHOLD = 10;
+
 
     constructor(protected storyService: StoryService,
                 protected activatedRoute: ActivatedRoute,
@@ -57,7 +59,6 @@ export class StoryListComponent implements OnInit {
     async ngOnInit() {
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.registerShowingMoveToTop();
 
         this.search();
 
@@ -144,21 +145,6 @@ export class StoryListComponent implements OnInit {
         })
     }
 
-    private registerShowingMoveToTop() {
-        this.storyListService.onScrollUp.subscribe((value) => {
-            if (value.startIndex > 0) {
-
-                this.isShowMoveTop = true;
-                clearTimeout(this.hideMoveTopTimeout);
-                this.hideMoveTopTimeout = setTimeout(() => {
-                    RequestAnimationFrame(() => this.isShowMoveTop = false)
-
-                }, 5000)
-            }
-
-        })
-    }
-
 
     private updateStoryList() {
         if (this.isLoading) return;
@@ -205,7 +191,7 @@ export class StoryListComponent implements OnInit {
 
 
     private onLoadMore(event: IPageInfo) {
-        if (event.endIndex < this.stories.length - 5 || this.isLoading) return;
+        if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
         this.isLoading = true;
         this.getLoadMoreObservable().then(value => {
             this.stories = value;

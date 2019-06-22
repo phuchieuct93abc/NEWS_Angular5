@@ -20,7 +20,6 @@ $light-theme: mat-light-theme($light-primary, $light-accent);
 $light-background-dark: #e5e5e5;
 
 
-// Define an alternate dark theme.
 $dark-primary: mat-palette($mat-light-blue);
 $dark-accent: mat-palette($mat-light-blue, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
@@ -42,31 +41,6 @@ $transparent: transparent;
     opacity: 1 !important;
   }
 
-  .mat-toolbar.mat-primary {
-    background-color: $dark-background-gray !important;
-  }
-
-  .border {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  &:not(.small-device) {
-    .mat-toolbar.mat-primary {
-      background-color: $transparent !important;
-      box-shadow: none;
-    }
-
-  }
-
-  mat-card.active {
-    @extend .panel-primary;
-  }
-
-
-  .primary-text {
-    color: rgba(255, 255, 255, 0.78);
-  }
-
   .accent-color {
     color: mat-color($dark-accent);
   }
@@ -82,34 +56,10 @@ $transparent: transparent;
 .unicorn-light-theme {
   @include angular-material-theme($light-theme);
 
-  &:not(.small-device) {
-
-    .mat-toolbar.mat-primary {
-      background-color: $transparent !important;
-      box-shadow: none;
-    }
-
-
-  }
-
-  mat-card {
-    &.active {
-      @extend .panel-primary;
-    }
-  }
-
   .panel-primary {
     background-color: $light-background-dark;
 
   }
-
-
-
-  .primary-text {
-    color: rgba(0, 0, 0, 0.87)
-  }
-
-
   .accent-color {
     color: mat-color($light-accent);
   }
@@ -122,35 +72,4 @@ $transparent: transparent;
 
 
 }
-
-.unicorn-dark-theme, .unicorn-light-theme {
-  mat-toolbar {
-    @include mat-elevation(5);
-    position: relative;
-    z-index: 2;
-  }
-
-  mat-list-item.active {
-
-    background-color: #448aff !important;
-    color: white !important;
-  }
-
-  @media (min-width: 1500px) {
-    .container {
-      max-width: 1400px;
-    }
-  }
-
-  &:not(.small-device) {
-
-    .mat-toolbar.mat-primary {
-      background-color: $transparent !important;
-      box-shadow: none;
-    }
-  }
-
-
-}
-
 

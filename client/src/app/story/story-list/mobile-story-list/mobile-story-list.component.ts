@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {StoryService} from "../../../shared/story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StoryListService} from "../story-list.service";
@@ -7,16 +7,15 @@ import {ConfigService} from "../../../shared/config.service";
 import {LoadingService} from "../../../shared/loading.service";
 import {ArticleService} from "../../../shared/article.service";
 import {StoryListComponent} from "../story-list.component";
-import {Story} from "../../../../../../model/Story";
 import {StorySizechangeDetectorService} from "../../story/mobile-story/story-sizechange-detector.service";
+import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-mobile-story-list',
     templateUrl: './mobile-story-list.component.html',
     styleUrls: ['./mobile-story-list.component.scss'],
-    encapsulation: ViewEncapsulation.None
 })
-export class MobileStoryListComponent extends StoryListComponent {
+export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 
     constructor(protected storyService: StoryService,
                 protected activatedRoute: ActivatedRoute,
@@ -34,6 +33,8 @@ export class MobileStoryListComponent extends StoryListComponent {
 
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
+        this.registerShowingMoveToTop();
+
         this.changeDetector.sizeDetector.subscribe(story => {
             setTimeout(() => {
                 this.virtualScroller.invalidateCachedMeasurementForItem(story);
@@ -42,6 +43,7 @@ export class MobileStoryListComponent extends StoryListComponent {
         this.registerScrollTo();
 
     }
+
     private registerScrollTo() {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
@@ -49,5 +51,25 @@ export class MobileStoryListComponent extends StoryListComponent {
             this.scrollTo(this.stories[index], 500);
         })
     }
+
+    private registerShowingMoveToTop() {
+        this.storyListService.onScrollUp.subscribe((value) => {
+            if (value.startIndex > 0) {
+
+                this.isShowMoveTop = true;
+                clearTimeout(this.hideMoveTopTimeout);
+                this.hideMoveTopTimeout = setTimeout(() => {
+                    RequestAnimationFrame(() => this.isShowMoveTop = false)
+
+                }, 5000)
+            }
+
+        })
+    }
+
+    ngOnDestroy(): void {
+        this.changeDetector.sizeDetector.unsubscribe();
+    }
+
 
 }

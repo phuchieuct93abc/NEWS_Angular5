@@ -13,11 +13,12 @@
                           [checkResizeInterval]="0"
                           *ngIf="stories"
         >
+            <div #container>
+                <app-mobile-story
+                        *ngFor="let item of scroll.viewPortItems;" [story]="item"
+                        class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 
-            <app-mobile-story
-                              *ngFor="let item of scroll.viewPortItems;" [story]="item"
-                              class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
-
+            </div>
 
             <div class="p-2 text-center">
                 <span class="mat-h3">Đang tải</span>

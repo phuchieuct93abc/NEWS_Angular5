@@ -11,9 +11,11 @@
                           [compareItems]="compareItem"
                           *ngIf="stories"
                           [bufferAmount]="15">
-            <app-story
-                    *ngFor="let item of scroll.viewPortItems" [story]="item"
-                    class="d-block pb-2"></app-story>
+            <div #container>
+                <app-story
+                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                        class="d-block pb-2"></app-story>
+            </div>
 
             <div class="p-2 text-center">
                 <span class="mat-h3">Đang tải</span>

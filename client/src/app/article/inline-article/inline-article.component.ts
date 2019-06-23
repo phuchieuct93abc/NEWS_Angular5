@@ -43,12 +43,12 @@ const SWIPE_RIGHT = "swipeRight";
             transition('void=>true', [
                 style({height: "0px"}),
 
-                animate('1s', style({height: "*"})),
+                animate('0.3s', style({height: "*"})),
             ]),
             transition("true=>false", [
                 style({height: "*"}),
 
-                animate('1s', style({height: "0"})),
+                animate('0.3s', style({height: "0"})),
             ])
         ]),
 
@@ -103,11 +103,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     close() {
         this.isShowArticle = false;
-
-        setTimeout(() => {
-            // RequestAnimationFrame(() => this.onClosed.emit())
-
-        }, 1000);
     }
 
     swipeleft() {
@@ -145,7 +140,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
             this.onClosed.emit();
         } else {
             this.onFinishedGetArticle.emit();
-
         }
 
         this.changeDetector.sizeDetector.next(this.story);

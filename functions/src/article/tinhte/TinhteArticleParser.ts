@@ -1,5 +1,6 @@
 import {ArticleParser} from "../ArticleParser";
 import Article from "../../../../model/Article";
+import StoryImage from "../../../../model/StoryImage";
 
 export default class TinhteArticleParser extends ArticleParser {
 
@@ -13,7 +14,7 @@ export default class TinhteArticleParser extends ArticleParser {
         const id = this.data["thread_id"];
         const sourceName = "Tinh Tế";
         let sourceUrl = this.data["links"]["permalink"]
-        let images = [];
+        let images = [this.data["links"]["image"]];
 
         let likes = this.data["first_post"]["post_like_count"];
         let time = this.data["thread_update_date"] * 1000;

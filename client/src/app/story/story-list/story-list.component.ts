@@ -206,8 +206,7 @@ export class StoryListComponent implements OnInit {
     }
 
     protected scrollTo(story: Story, animation = 500) {
-        this.isListeningScroll = false
-        console.log("scroll to")
+        this.isListeningScroll = false;
 
         this.virtualScroller.scrollInto(story, true, -60, animation, () => {
 

@@ -11,7 +11,8 @@
                           [useMarginInsteadOfTranslate]="true"
                           [bufferAmount]="10"
                           [checkResizeInterval]="0"
-                          *ngIf="stories"
+                          [scrollThrottlingTime]="500"
+                          *ngIf="stories.length>0"
         >
             <div #container>
                 <app-mobile-story
@@ -20,12 +21,12 @@
 
             </div>
 
-            <div class="p-2 text-center">
-                <span class="mat-h3">Đang tải</span>
-                <button class="loading_icon icon spin-icon" mat-icon-button>
-                    <mat-icon>cached</mat-icon>
-                </button>
-            </div>
+<!--            <div class="p-2 text-center">-->
+<!--                <span class="mat-h3">Đang tải</span>-->
+<!--                <button class="loading_icon icon spin-icon" mat-icon-button>-->
+<!--                    <mat-icon>cached</mat-icon>-->
+<!--                </button>-->
+<!--            </div>-->
 
         </virtual-scroller>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>

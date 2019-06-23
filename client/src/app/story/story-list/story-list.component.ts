@@ -20,7 +20,7 @@ import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 })
 export class StoryListComponent implements OnInit {
 
-    stories: Story[];
+    stories: Story[] = [];
 
     category: string;
     protected buffer: Story[] = [];
@@ -60,7 +60,7 @@ export class StoryListComponent implements OnInit {
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
 
-        this.search();
+        this.registerOnSearch();
 
         this.registerConfigChange();
 
@@ -120,23 +120,23 @@ export class StoryListComponent implements OnInit {
         this.configService.configUpdated.subscribe(config => {
             this.config = config.new;
             if (config.old.smallImage !== config.new.smallImage) {
-                this.reloadStoryList()
+                this.resetStoryList();
+                this.loadFirstPage();
             }
         });
     }
 
-    private reloadStoryList() {
+    private resetStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
-        this.loadFirstPage();
+        this.scrollToTop();
     }
 
-    private search() {
+    private registerOnSearch() {
         this.storyService.onSearch.subscribe(keyword => {
             if (keyword) {
-
-                this.storyService.resetPageNumber();
-                this.storyService.search(keyword).then(values => this.stories = values)
+                this.resetStoryList();
+                this.storyService.search(keyword).then(values => this.stories.push(...values))
             } else {
                 this.updateStoryList();
             }
@@ -149,6 +149,7 @@ export class StoryListComponent implements OnInit {
     private updateStoryList() {
         if (this.isLoading) return;
         this.route.params.subscribe(params => {
+            this.resetStoryList();
             this.category = params['category'];
 
             this.loadFirstPage();
@@ -158,14 +159,13 @@ export class StoryListComponent implements OnInit {
     }
 
     private loadFirstPage() {
-        this.scrollToTop();
-        this.storyService.resetPageNumber();
         this.storyService.getStories(this.category).then(value => {
-            this.stories = value;
+            this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }
+            console.log("loadfirstpage")
             this.autoSelectFirstStory(this.stories[0]);
         });
     }
@@ -194,7 +194,7 @@ export class StoryListComponent implements OnInit {
         if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
         this.isLoading = true;
         this.getLoadMoreObservable().then(value => {
-            this.stories = value;
+            this.stories.push(...value);
             this.isLoading = false;
         });
     }
@@ -219,7 +219,11 @@ export class StoryListComponent implements OnInit {
     moveTop(event: MouseEvent) {
         event.stopPropagation();
         this.virtualScroller.scrollToIndex(0, true, -60, 500);
-        RequestAnimationFrame(this.reloadStoryList.bind(this))
+        RequestAnimationFrame(() => {
+            this.resetStoryList();
+            this.loadFirstPage();
+
+        })
 
     }
 

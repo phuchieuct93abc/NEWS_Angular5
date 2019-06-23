@@ -9,7 +9,7 @@
                           [parentScroll]="scrollingBlock"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
-                          *ngIf="stories"
+                          *ngIf="stories.length>0"
                           [bufferAmount]="15">
             <div #container>
                 <app-story

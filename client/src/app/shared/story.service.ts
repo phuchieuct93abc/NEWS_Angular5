@@ -7,6 +7,7 @@ import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
+import * as moment from "moment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -23,7 +24,7 @@ export class StoryService {
     private readStory: Story[];
 
     constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService,
-                private favoriteService: FavoriteService,
+                private favoriteService: FavoriteService
     ) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
@@ -78,6 +79,8 @@ export class StoryService {
                     })
 
                     this.checkReadStory(<Story[]>result);
+
+                    this.convertReadableTime(<Story[]>result);
                     return result;
                 }
             )).toPromise();
@@ -142,4 +145,10 @@ export class StoryService {
     }
 
 
+    private convertReadableTime(result: Story[]) {
+        result.forEach(story => {
+            story.storyMeta.time = moment(story.storyMeta.time).fromNow();
+        })
+
+    }
 }

@@ -4,6 +4,7 @@ import StoryImage from "./StoryImage";
 export class Story {
     public isFavorite: boolean;
 
+    public isTouch = false;
 
     constructor(
         public id: string,
@@ -18,7 +19,7 @@ export class Story {
         public selected = false,
         public height = 0,
         public isExpandedComment = false,
-        public related = 0
+        public related = 0,
     ) {
     }
 }

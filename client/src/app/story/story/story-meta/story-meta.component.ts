@@ -12,6 +12,8 @@ export class StoryMetaComponent implements OnInit {
     story: Story
 
 
+
+
     constructor() {
     }
 

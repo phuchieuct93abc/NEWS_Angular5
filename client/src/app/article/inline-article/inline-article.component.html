@@ -1,4 +1,4 @@
-<div class="panel-primary article" #articleView (swipeRight)="swiperight()" [@swipe]="animationName"
+<div class="panel-primary article p-1" #articleView (swipeRight)="swiperight()" [@swipe]="animationName"
      (swipeLeft)="swipeleft()"
      [ngClass]="{
          'font-size-1':fontSize==1,
@@ -23,7 +23,7 @@
                 <a mat-button [href]="article.sourceUrl" target="_blank"
                    color="accent">Nguồn: {{article.story.storyMeta.source}}</a>
             </div>
-            <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
+            <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id" (isExpandedChange)="isExpandedCommentChange($event)"></app-comments>
 
 
         </div>

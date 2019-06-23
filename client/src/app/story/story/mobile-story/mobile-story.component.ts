@@ -11,7 +11,7 @@ import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
     templateUrl: './mobile-story.component.html',
     styleUrls: ['./mobile-story.component.scss']
 })
-export class MobileStoryComponent extends StoryComponent implements AfterViewInit {
+export class MobileStoryComponent extends StoryComponent  {
 
     @ViewChild("storyElement", {static: false})
     storyElement: ElementRef;

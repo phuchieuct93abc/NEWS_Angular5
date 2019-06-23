@@ -5,6 +5,7 @@ $card-height: 9em;
   cursor: pointer;
   padding: 1em;
   height: $card-height;
+  overflow: hidden;
 
 
   app-image-viewer {
@@ -30,6 +31,7 @@ $card-height: 9em;
 
   .title {
     transition: var(--text-transition);
+    font-size: 1.1rem;
 
   }
 

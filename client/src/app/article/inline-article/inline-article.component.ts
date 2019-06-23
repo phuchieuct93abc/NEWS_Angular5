@@ -158,4 +158,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
         }
     }
+
+    isExpandedCommentChange() {
+        this.changeDetector.sizeDetector.next(this.story);
+    }
 }

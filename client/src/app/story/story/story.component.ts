@@ -1,14 +1,4 @@
-import {
-    AfterViewChecked, AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-    ViewChild,
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
@@ -17,14 +7,13 @@ import * as url from 'speakingurl';
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Category} from "../../../../../model/Categories";
-import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-story',
     templateUrl: './story.component.html',
     styleUrls: ['./story.component.scss'],
 })
-export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class StoryComponent implements OnInit, OnDestroy {
 
     @Input()
     public story: Story;
@@ -103,14 +92,6 @@ export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
     close() {
         this.story.selected = false;
         this.onSelectedStory.emit(this.index);
-
-    }
-
-    ngAfterViewInit(): void {
-        RequestAnimationFrame(() => {
-            console.log(this.ell);
-            this.ell.applyEllipsis()
-        })
 
     }
 

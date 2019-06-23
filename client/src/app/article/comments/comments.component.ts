@@ -26,7 +26,6 @@ export class CommentsComponent implements OnInit {
 
     set isExpanded(val) {
         this.isExpandedValue = val;
-        this.isExpandedChange.emit(this.isExpandedValue)
     }
 
 

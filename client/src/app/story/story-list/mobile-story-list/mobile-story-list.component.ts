@@ -37,6 +37,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
         this.changeDetector.sizeDetector.subscribe(story => {
             setTimeout(() => {
+                console.log("chang",story.title);
                 this.virtualScroller.invalidateCachedMeasurementForItem(story);
             }, 100)
         })

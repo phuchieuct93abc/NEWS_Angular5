@@ -10,7 +10,7 @@ import {NEWS} from "../google-news/NEWS";
 
 export default class TinhteStoryService extends StoryService {
     public pageNumber: number;
-    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=0%2C1561219753%2C10c550790aa97f8a679ff8d4e0bd350d%2Clxi7g2zolu";
+    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=4a084eb28b3eba6b0d070c722aae08f8b9db523e";
 
     constructor(protected url: string) {
         super(url, new TinhteStoryParser(),null)

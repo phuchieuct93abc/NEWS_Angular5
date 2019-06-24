@@ -5,7 +5,6 @@ import {ConfigService} from "../../../shared/config.service";
 import {FavoriteService} from "../../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
-import {Story} from "../../../../../../model/Story";
 
 @Component({
     selector: 'app-mobile-story',
@@ -29,24 +28,20 @@ export class MobileStoryComponent extends StoryComponent {
     }
 
     onOpenStory() {
-        RequestAnimationFrame(() => this.story.height = 0)
-        this.story.isTouch = true;
+        RequestAnimationFrame(() => {
+            this.story.isTouch = true;
+            this.story.height = 0
+        });
 
     }
 
     ngOnDestroy(): void {
+        if (this.story.isTouch) {
+            let clientHeight = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
+            this.story.height = clientHeight
+        }
         super.ngOnDestroy();
 
-        if (this.story.isTouch) {
-            this.zone.runOutsideAngular(() => {
-                let clientHeight = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-                RequestAnimationFrame((function (clienHeight, story: Story) {
-                    return () => {
-                        story.height = clienHeight
-                    }
-                }).call(this, clientHeight, this.story))
-            })
-        }
 
     }
 

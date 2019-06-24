@@ -12,6 +12,7 @@ import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-story-list',
@@ -74,6 +75,17 @@ export class StoryListComponent implements OnInit {
 
 
     }
+    private updateStoryList() {
+        if (this.isLoading) return;
+        this.route.params.subscribe(params => {
+            this.resetStoryList();
+            this.category = params['category'];
+
+            this.loadFirstPage();
+            this.configService.updateConfig({category: this.category})
+
+        });
+    }
 
 
     private getFirstStory(): Promise<Story> {
@@ -84,7 +96,7 @@ export class StoryListComponent implements OnInit {
                 this.articleService.getById(articleId, params['category']).then(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName, article.time);
+                    let storyMeta = new StoryMeta(article.sourceName, moment(article.time).fromNow());
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })
@@ -146,17 +158,7 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    private updateStoryList() {
-        if (this.isLoading) return;
-        this.route.params.subscribe(params => {
-            this.resetStoryList();
-            this.category = params['category'];
 
-            this.loadFirstPage();
-            this.configService.updateConfig({category: this.category})
-
-        });
-    }
 
     private loadFirstPage() {
         this.storyService.getStories(this.category).then(value => {
@@ -165,7 +167,6 @@ export class StoryListComponent implements OnInit {
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }
-            console.log("loadfirstpage")
             this.autoSelectFirstStory(this.stories[0]);
         });
     }
@@ -178,6 +179,7 @@ export class StoryListComponent implements OnInit {
             this.stories[firstStoryIndex] = temp
         } else {
             this.stories.unshift(this.firstStory);
+            this.storyService.unshift(this.firstStory);
 
         }
         this.stories[0].isAutoOpen = true;

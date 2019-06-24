@@ -151,4 +151,8 @@ export class StoryService {
         })
 
     }
+
+    unshift(firstStory: Story) {
+        this.stories.unshift(firstStory);
+    }
 }

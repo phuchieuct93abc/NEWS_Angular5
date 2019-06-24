@@ -9,24 +9,15 @@
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
                           [useMarginInsteadOfTranslate]="true"
-                          [bufferAmount]="10"
+                          [bufferAmount]="5"
                           [checkResizeInterval]="0"
                           [scrollThrottlingTime]="500"
                           *ngIf="stories.length>0"
         >
-            <div #container>
-                <app-mobile-story
-                        *ngFor="let item of scroll.viewPortItems;" [story]="item"
-                        class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
+            <app-mobile-story
+                    *ngFor="let item of scroll.viewPortItems;" [story]="item"
+                    class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 
-            </div>
-
-<!--            <div class="p-2 text-center">-->
-<!--                <span class="mat-h3">Đang tải</span>-->
-<!--                <button class="loading_icon icon spin-icon" mat-icon-button>-->
-<!--                    <mat-icon>cached</mat-icon>-->
-<!--                </button>-->
-<!--            </div>-->
 
         </virtual-scroller>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>

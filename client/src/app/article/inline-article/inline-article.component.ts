@@ -129,8 +129,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
     ngOnDestroy(): void {
+        console.log("destroy article",this.story.title)
         super.ngOnDestroy();
-        console.log("after destorey")
 
     }
 

@@ -38,22 +38,24 @@
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",
     "speakingurl": "^14.0.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "zone.js": "^0.9.1"
   },
   "scripts": {
     "setup": "npm install",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
-    "build": "ng build --prod --aot",
+    "build": "ng build --prod --aot --stats-json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
-    "build:ssr": "ng build --prod --aot&& ng run demo:server:production",
+    "build:ssr": "ng build --prod --aot --stats-json&& ng run demo:server:production",
     "build:ssr_back": "npm run build:client-and-server-bundles && npm run compile:server"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^8.0.2",
     "@angular-devkit/build-angular": "^0.800.3",
     "@angular/cli": "^8.0.3",
     "@angular/compiler": "^8.0.2",

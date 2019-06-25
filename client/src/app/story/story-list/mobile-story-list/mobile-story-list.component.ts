@@ -9,6 +9,8 @@ import {ArticleService} from "../../../shared/article.service";
 import {StoryListComponent} from "../story-list.component";
 import {StorySizechangeDetectorService} from "../../story/mobile-story/story-sizechange-detector.service";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
+import {debounce} from 'rxjs/operators';
+import {timer} from 'rxjs';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -35,11 +37,9 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         super.ngOnInit();
         this.registerShowingMoveToTop();
 
-        this.changeDetector.sizeDetector.subscribe(story => {
-            setTimeout(() => {
-                console.log("Update",story.title);
-                this.virtualScroller.invalidateCachedMeasurementForItem(story);
-            }, 100)
+        this.changeDetector.sizeDetector.pipe(debounce(() => timer(500))).subscribe(story => {
+            console.log("Update", story.title);
+            this.virtualScroller.invalidateCachedMeasurementForItem(story);
         })
         this.registerScrollTo();
 

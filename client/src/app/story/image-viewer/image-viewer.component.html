@@ -1,14 +1,8 @@
-<div class="image-viewer">
 
-    <div class="image-wrapper" [style.paddingTop]="height/width*100+'%'">
+    <img
+            [src]="convertedImagePath"
 
-        <img
-                [lazyLoad]="convertedImagePath"
-                [offset]="500"
+            class="mt-0 mb-0 image"
+    />
 
-                class="mt-0 mb-0 image"
-        />
-
-        <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
-    </div>
-</div>
+    <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

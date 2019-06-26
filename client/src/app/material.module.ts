@@ -33,14 +33,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 const modules = [
-    MatCheckboxModule,
-    MatCheckboxModule,
-    MatButtonModule,
     MatInputModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
     MatFormFieldModule,
-    MatRadioModule,
     MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
@@ -48,25 +42,17 @@ const modules = [
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
-    MatGridListModule,
     MatCardModule,
-    MatStepperModule,
     MatTabsModule,
     MatExpansionModule,
     MatButtonToggleModule,
-    MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatDialogModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
     MatRippleModule
-
-
 ];
 
 @NgModule({

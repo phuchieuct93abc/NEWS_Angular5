@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
@@ -11,7 +11,7 @@ import RequestAnimationFrame from "../../requestAnimationFrame.cons";
     templateUrl: './category-selector.component.html',
     styleUrls: ['./category-selector.component.scss']
 })
-export class CategorySelectorComponent implements OnInit,AfterViewInit {
+export class CategorySelectorComponent implements OnInit, AfterViewInit {
 
 
     vietnameseCategories: Category[];
@@ -34,7 +34,6 @@ export class CategorySelectorComponent implements OnInit,AfterViewInit {
         this.isSmallImage = this.configService.getConfig().smallImage;
 
 
-
     }
 
     toggleDarkMode() {
@@ -49,8 +48,8 @@ export class CategorySelectorComponent implements OnInit,AfterViewInit {
 
     ngAfterViewInit(): void {
         this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
-            setTimeout(()=>{
-                RequestAnimationFrame(()=> this.selectedCategory = selectedCategory)
+            setTimeout(() => {
+                RequestAnimationFrame(() => this.selectedCategory = selectedCategory)
 
             })
 

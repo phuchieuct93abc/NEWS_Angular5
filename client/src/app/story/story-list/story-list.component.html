@@ -9,11 +9,13 @@
                           [parentScroll]="scrollingBlock"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
-                          *ngIf="stories"
-                          bufferAmount="10">
-            <app-story
-                    *ngFor="let item of scroll.viewPortItems" [story]="item"
-                    class="d-block pb-2"></app-story>
+                          *ngIf="stories.length>0"
+                          [bufferAmount]="15">
+            <div #container>
+                <app-story
+                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                        class="d-block pb-2"></app-story>
+            </div>
 
             <div class="p-2 text-center">
                 <span class="mat-h3">Đang tải</span>

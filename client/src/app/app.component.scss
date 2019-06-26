@@ -5,12 +5,19 @@
   z-index: 10;
   opacity: 0.7;
 }
+@media screen and (max-width: 768px){
+  :host,app{
+    height: auto !important;
 
+  }
+}
 :host {
 
   .app {
     width: 100vw;
     max-width: 2000px;
+    height: 100%;
+
   }
 
 

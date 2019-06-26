@@ -38,7 +38,7 @@ export class ImageViewerComponent implements OnInit {
 
     private maxImageSize: number;
 
-    readonly SMALL_IMAGE = 100;
+    readonly SMALL_IMAGE = 150;
     readonly BIG_IMAGE = 300;
 
     scrollObservable: Observable<any>;

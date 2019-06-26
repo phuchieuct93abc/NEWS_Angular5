@@ -42,6 +42,8 @@ module.exports = {
       /(.+)?express(\\|\/)(.+)?/,
       path.join(__dirname, 'src'),
       {}
-    )
-  ]
+    ),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /vi/)
+
+]
 };

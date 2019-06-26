@@ -1,33 +1,24 @@
-:host{
-}
-.story-list {
-  --blur-edge-color:var(--background-color-2);
-  --blur-edge-transparent-color:var(--background-color-transparent-2);
-  .blur-edge {
-    width: 100%;
-  }
-}
-
-app-mobile-story {
-  &:first-child {
-    margin-top: 50px;
-  }
-}
-
-my-app.h-100 {
-  height: auto !important;
-
-  > div {
-    min-height: 100vh;
-
-  }
+@import "../story-list.component";
+//.story-list {
+//
+//  .blur-edge {
+//    width: 100%;
+//  }
+//}
 
 
-}
+//
+//my-app.h-100 {
+//  height: auto !important;
+//
+//  > div {
+//    min-height: 100vh;
+//
+//  }
+//
+//
+//}
 
-.scrollable {
-  height: 100%;
-}
 
 .move-to-top {
 

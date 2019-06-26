@@ -1,19 +1,15 @@
 import {Story} from "../../../../model/Story";
 import {StoryService} from "../StoryService";
 
-import axios from 'axios';
-import StoryImage from "../../../../model/StoryImage";
-import StoryMeta from "../../../../model/StoryMeta";
 import TinhteStoryParser from "./TinhteStoryParser";
-import {NEWS} from "../google-news/NEWS";
 
 
 export default class TinhteStoryService extends StoryService {
     public pageNumber: number;
-    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=f372693ea11c8e2c1e1dd44e904491aa792ebcb4";
+    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7";
 
     constructor(protected url: string) {
-        super(url, new TinhteStoryParser(),null)
+        super(url, new TinhteStoryParser(), null)
     }
 
 
@@ -27,13 +23,12 @@ export default class TinhteStoryService extends StoryService {
 
     static createInstance(pageNumber: number) {
 
-        let tinhteUri = TinhteStoryService.urlApi.replace("${page}",pageNumber+"");
+        let tinhteUri = TinhteStoryService.urlApi.replace("${page}", pageNumber + "");
         const tinhteStoryService = new TinhteStoryService(tinhteUri);
         tinhteStoryService.pageNumber = pageNumber;
         return tinhteStoryService;
 
     }
-
 
 
 }

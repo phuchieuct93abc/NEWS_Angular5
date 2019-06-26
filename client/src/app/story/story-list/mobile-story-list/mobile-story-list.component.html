@@ -1,6 +1,5 @@
 <div class="story-list">
     <div class=" " *ngIf="isBrowser">
-        <div class="blur-edge blur-top" *ngIf="stories"></div>
         <virtual-scroller #scroll
                           (vsUpdate)="vsUpdate()"
                           (vsEnd)="vsEnd()"
@@ -10,23 +9,15 @@
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
                           [useMarginInsteadOfTranslate]="true"
-                          bufferAmount="10"
+                          [bufferAmount]="10"
                           [checkResizeInterval]="0"
-                          *ngIf="stories"
+                          [scrollThrottlingTime]="500"
+                          *ngIf="stories.length>0"
         >
+            <app-mobile-story
+                    *ngFor="let item of scroll.viewPortItems;" [story]="item"
+                    class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 
-
-            <app-mobile-story (invalidCache)="updateStory($event)"
-                              *ngFor="let item of scroll.viewPortItems;" [story]="item"
-                              class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
-
-
-            <div class="p-2 text-center">
-                <span class="mat-h3">Đang tải</span>
-                <button class="loading_icon icon spin-icon" mat-icon-button>
-                    <mat-icon>cached</mat-icon>
-                </button>
-            </div>
 
         </virtual-scroller>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>

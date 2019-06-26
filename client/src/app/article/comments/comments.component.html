@@ -1,6 +1,6 @@
 <mat-expansion-panel *ngIf="comments && comments.length>0"
                      [ngClass]="breakpoint.isSmallScreen?'small-screen':'big-screen'"
-                    [(expanded)]="this.isExpanded">
+                    [(expanded)]="this.isExpanded" (afterCollapse)="isExpandedChange.emit(false)" (afterExpand)="isExpandedChange.emit(true)">
     <mat-expansion-panel-header>
         <mat-panel-title>
             <div class="mat-subtitle">{{comments.length}} bình luận</div>

@@ -12,6 +12,7 @@ import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-story-list',
@@ -20,7 +21,7 @@ import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 })
 export class StoryListComponent implements OnInit {
 
-    stories: Story[];
+    stories: Story[] = [];
 
     category: string;
     protected buffer: Story[] = [];
@@ -41,7 +42,9 @@ export class StoryListComponent implements OnInit {
 
     firstStory: Story;
     isListeningScroll = true;
-    currentScrollIndex = 0
+    currentScrollIndex = 0;
+    private readonly LOADMORE_THRESHOLD = 10;
+
 
     constructor(protected storyService: StoryService,
                 protected activatedRoute: ActivatedRoute,
@@ -57,9 +60,8 @@ export class StoryListComponent implements OnInit {
     async ngOnInit() {
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.registerShowingMoveToTop();
 
-        this.search();
+        this.registerOnSearch();
 
         this.registerConfigChange();
 
@@ -73,6 +75,17 @@ export class StoryListComponent implements OnInit {
 
 
     }
+    private updateStoryList() {
+        if (this.isLoading) return;
+        this.route.params.subscribe(params => {
+            this.resetStoryList();
+            this.category = params['category'];
+
+            this.loadFirstPage();
+            this.configService.updateConfig({category: this.category})
+
+        });
+    }
 
 
     private getFirstStory(): Promise<Story> {
@@ -83,7 +96,7 @@ export class StoryListComponent implements OnInit {
                 this.articleService.getById(articleId, params['category']).then(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName, article.time);
+                    let storyMeta = new StoryMeta(article.sourceName, moment(article.time).fromNow());
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })
@@ -119,23 +132,23 @@ export class StoryListComponent implements OnInit {
         this.configService.configUpdated.subscribe(config => {
             this.config = config.new;
             if (config.old.smallImage !== config.new.smallImage) {
-                this.reloadStoryList()
+                this.resetStoryList();
+                this.loadFirstPage();
             }
         });
     }
 
-    private reloadStoryList() {
+    private resetStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
-        this.loadFirstPage();
+        this.scrollToTop();
     }
 
-    private search() {
+    private registerOnSearch() {
         this.storyService.onSearch.subscribe(keyword => {
             if (keyword) {
-
-                this.storyService.resetPageNumber();
-                this.storyService.search(keyword).then(values => this.stories = values)
+                this.resetStoryList();
+                this.storyService.search(keyword).then(values => this.stories.push(...values))
             } else {
                 this.updateStoryList();
             }
@@ -144,38 +157,12 @@ export class StoryListComponent implements OnInit {
         })
     }
 
-    private registerShowingMoveToTop() {
-        this.storyListService.onScrollUp.subscribe((value) => {
-            if (value.startIndex > 0) {
-
-                this.isShowMoveTop = true;
-                clearTimeout(this.hideMoveTopTimeout);
-                this.hideMoveTopTimeout = setTimeout(() => {
-                    RequestAnimationFrame(() => this.isShowMoveTop = false)
-
-                }, 5000)
-            }
-
-        })
-    }
 
 
-    private updateStoryList() {
-        if (this.isLoading) return;
-        this.route.params.subscribe(params => {
-            this.category = params['category'];
-
-            this.loadFirstPage();
-            this.configService.updateConfig({category: this.category})
-
-        });
-    }
 
     private loadFirstPage() {
-        this.scrollToTop();
-        this.storyService.resetPageNumber();
         this.storyService.getStories(this.category).then(value => {
-            this.stories = value;
+            this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
@@ -192,6 +179,7 @@ export class StoryListComponent implements OnInit {
             this.stories[firstStoryIndex] = temp
         } else {
             this.stories.unshift(this.firstStory);
+            this.storyService.unshift(this.firstStory);
 
         }
         this.stories[0].isAutoOpen = true;
@@ -205,10 +193,10 @@ export class StoryListComponent implements OnInit {
 
 
     private onLoadMore(event: IPageInfo) {
-        if (event.endIndex < this.stories.length - 5 || this.isLoading) return;
+        if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
         this.isLoading = true;
         this.getLoadMoreObservable().then(value => {
-            this.stories = value;
+            this.stories.push(...value);
             this.isLoading = false;
         });
     }
@@ -220,8 +208,9 @@ export class StoryListComponent implements OnInit {
     }
 
     protected scrollTo(story: Story, animation = 500) {
-        this.isListeningScroll = false
-        this.virtualScroller.scrollInto(story, true, 0, animation, () => {
+        this.isListeningScroll = false;
+
+        this.virtualScroller.scrollInto(story, true, -60, animation, () => {
 
                 setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
             }
@@ -232,7 +221,11 @@ export class StoryListComponent implements OnInit {
     moveTop(event: MouseEvent) {
         event.stopPropagation();
         this.virtualScroller.scrollToIndex(0, true, -60, 500);
-        RequestAnimationFrame(this.reloadStoryList.bind(this))
+        RequestAnimationFrame(() => {
+            this.resetStoryList();
+            this.loadFirstPage();
+
+        })
 
     }
 

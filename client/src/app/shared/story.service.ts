@@ -7,6 +7,7 @@ import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
+import * as moment from "moment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -18,18 +19,18 @@ const readId = "read"
 export class StoryService {
     private currentStoryPage = 0;
 
-    protected stories: Story[] = [];
+    private stories: Story[] = [];
     public onSearch = new Subject<string>();
     private readStory: Story[];
 
     constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService,
-                private favoriteService: FavoriteService,
+                private favoriteService: FavoriteService
     ) {
         this.readStory = <Story[]>storage.getItem(readId, []);
 
     }
 
-    resetPageNumber() {
+    public resetPageNumber() {
         this.currentStoryPage = 0;
         this.stories = [];
     }
@@ -38,8 +39,9 @@ export class StoryService {
         return new Promise<any>((resolve => {
 
             this.getStoryByPage(category, ++this.currentStoryPage).then(stories => {
-                this.filterStory(stories);
-                resolve(this.stories);
+                let result = this.filterStory(stories);
+                this.appendStoryList(result)
+                resolve(result);
 
             });
         }))
@@ -77,6 +79,8 @@ export class StoryService {
                     })
 
                     this.checkReadStory(<Story[]>result);
+
+                    this.convertReadableTime(<Story[]>result);
                     return result;
                 }
             )).toPromise();
@@ -102,22 +106,22 @@ export class StoryService {
                         name: LoadingEventName.SEARCHING
                     })
                     this.checkReadStory(<Story[]>result);
-                    this.filterStory(result);
-
-
-                    return this.stories
+                    result = this.filterStory(result);
+                    this.appendStoryList(result);
+                    return result
                 }
             )).toPromise();
     }
 
     private filterStory(result) {
-        if (result) {
-            let stories: Story[] = (<Story[]>result).filter(result => {
-                return this.stories.findIndex(story => story.id == result.id) == -1;
-            });
-            this.stories.push(...stories);
-        }
+        let stories: Story[] = (<Story[]>result).filter(result => {
+            return this.stories.findIndex(story => story.id == result.id) == -1;
+        });
+        return stories;
+    }
 
+    private appendStoryList(moreStories) {
+        this.stories.push(...moreStories);
     }
 
     saveReadStory(story: Story) {
@@ -128,7 +132,7 @@ export class StoryService {
     }
 
     getById(id: string) {
-        let story = this.stories.find(s => s.id === id);
+        let story = this.stories.find(s => s.id == id);
         if (story == null) {
             story = this.favoriteService.findById(id);
         }
@@ -141,4 +145,14 @@ export class StoryService {
     }
 
 
+    private convertReadableTime(result: Story[]) {
+        result.forEach(story => {
+            story.storyMeta.time = moment(story.storyMeta.time).fromNow();
+        })
+
+    }
+
+    unshift(firstStory: Story) {
+        this.stories.unshift(firstStory);
+    }
 }

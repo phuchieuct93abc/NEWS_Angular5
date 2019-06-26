@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,} from '@angular/core';
 import {Story} from "../../../../../model/Story";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
@@ -19,6 +19,8 @@ export class StoryComponent implements OnInit, OnDestroy {
     public story: Story;
     @Input()
     public scrollContainer: ElementRef;
+    @ViewChild("ell", {static: false})
+    ell: any;
     @Output()
     public onSelectedStory = new EventEmitter<number>();
 

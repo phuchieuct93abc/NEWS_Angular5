@@ -34,7 +34,7 @@ import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
 import {RouterModule} from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
+import {MatButtonModule} from "@angular/material/button";
 import {NotificationModule} from "./notification/notification.module";
 import {ActionsComponent} from "./article/actions/actions.component";
 import {MobileStoryListComponent} from "./story/story-list/mobile-story-list/mobile-story-list.component";
@@ -45,6 +45,7 @@ import {TopCategoryComponent} from "./dashboard/category/category.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {EllipsisModule} from "ngx-ellipsis";
 import {MatDividerModule} from "@angular/material";
+import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
 
 
 @NgModule({
@@ -95,8 +96,8 @@ import {MatDividerModule} from "@angular/material";
         ShareComponent,
         DashboardComponent,
         TopCategoryComponent,
-        SidebarComponent
-
+        SidebarComponent,
+        StoryMetaComponent
 
     ],
     bootstrap: [AppComponent],
@@ -104,7 +105,8 @@ import {MatDividerModule} from "@angular/material";
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
         Title,
-        Meta
+        Meta,
+
 
     ],
     entryComponents: [

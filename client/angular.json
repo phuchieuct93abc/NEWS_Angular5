@@ -15,8 +15,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js",
+              "replaceDuplicatePlugins": true,
+              "mergeStrategies": {
+                "externals": "prepend"
+              }
+            },
             "outputPath": "./dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -63,7 +70,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build",
+            "browserTarget": "demo:build"
           },
           "configurations": {
             "production": {
@@ -108,17 +115,23 @@
           }
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
+          "builder": "@angular-builders/custom-webpack:server",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js",
+              "replaceDuplicatePlugins": true,
+              "mergeStrategies": {
+                "externals": "prepend"
+              }
+            },
             "outputPath": "../functions/dist/server",
             "main": "src/main.server.ts",
             "tsConfig": "src/tsconfig.server.json",
             "sourceMap": false
-
           },
           "configurations": {
             "production": {
-              "optimization":true,
+              "optimization": true,
               "sourceMap": false,
               "fileReplacements": [
                 {

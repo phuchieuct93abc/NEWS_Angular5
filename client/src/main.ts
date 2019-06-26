@@ -12,6 +12,10 @@ import 'intersection-observer';
 
 if (CONFIG.production) {
     enableProdMode();
+    if (window) {
+        window.console.log = function () {
+        };
+    }
 }
 
 moment.locale('vi');
@@ -19,12 +23,12 @@ moment.locale('vi');
 
 document.addEventListener('DOMContentLoaded', () => {
     platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {
-    // Ensure Angular destroys itself on hot reloads.
-    if (window['ngRef']) {
-        window['ngRef'].destroy();
-    }
-    window['ngRef'] = ref;
+        // Ensure Angular destroys itself on hot reloads.
+        if (window['ngRef']) {
+            window['ngRef'].destroy();
+        }
+        window['ngRef'] = ref;
 
-    // Otherwise, log the boot error
-}).catch(err => console.error(err));
-  });
+        // Otherwise, log the boot error
+    }).catch(err => console.error(err));
+});

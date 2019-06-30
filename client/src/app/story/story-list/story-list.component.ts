@@ -12,7 +12,6 @@ import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
-import * as moment from 'moment';
 
 @Component({
     selector: 'app-story-list',
@@ -96,7 +95,7 @@ export class StoryListComponent implements OnInit {
                 this.articleService.getById(articleId, params['category']).then(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName, moment(article.time).fromNow());
+                    let storyMeta = new StoryMeta(article.sourceName, article.time);
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })

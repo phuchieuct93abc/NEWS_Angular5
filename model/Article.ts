@@ -3,6 +3,7 @@ import {Story} from "./Story";
 export default class Article {
 
 
+
     constructor(public id: string,
                 public header: string,
                 public meta: string,
@@ -17,6 +18,7 @@ export default class Article {
                 public likes = 1,
                 public time: string | number = new Date().toISOString(),
                 public related = 0) {
+
 
     }
 

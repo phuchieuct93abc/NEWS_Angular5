@@ -1,6 +1,5 @@
 import {ArticleParser} from "../ArticleParser";
 import Article from "../../../../model/Article";
-import StoryImage from "../../../../model/StoryImage";
 
 export default class TinhteArticleParser extends ArticleParser {
 

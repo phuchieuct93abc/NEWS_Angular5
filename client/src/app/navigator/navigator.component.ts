@@ -31,7 +31,7 @@ export class NavigatorComponent implements OnInit {
     isSmallImage: boolean;
     @ViewChild(AppComponent, {static: false})
     app: AppComponent;
-    private selectedCategory: string;
+    selectedCategory: string;
 
     constructor(private storyListService: StoryListService,
                 public breakpointService: BreakpointDetectorService,
@@ -45,11 +45,11 @@ export class NavigatorComponent implements OnInit {
 
     ngOnInit() {
 
-        // this.router.events.subscribe(() => {
-        //     this.route.firstChild.params.subscribe((param) => {
-        //         this.selectedCategory =  CategoryHelper.findByName(param['category']).title;
-        //     })
-        // })
+        this.router.events.subscribe(() => {
+            this.route.firstChild.params.subscribe((param) => {
+                this.selectedCategory = CategoryHelper.findByName(param['category']).title;
+            })
+        })
 
         if (this.breakpointService.isSmallScreen) {
             //  this.registerScrollUp();

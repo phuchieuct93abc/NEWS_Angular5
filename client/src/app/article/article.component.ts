@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -8,12 +8,14 @@ import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
 import RequestAnimationFrame from "../requestAnimationFrame.cons";
+import {StoryListService} from "../story/story-list/story-list.service";
 
 
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
     styleUrls: ['./article.component.scss'],
+
     animations: [
         trigger('showArticle', [
 
@@ -55,7 +57,8 @@ export class ArticleComponent implements OnInit {
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
-                protected configService: ConfigService) {
+                protected configService: ConfigService,
+                protected storyListService: StoryListService) {
 
 
     }
@@ -117,11 +120,29 @@ export class ArticleComponent implements OnInit {
         })
     }
 
+    @HostListener('document:keyup', ['$event'])
+    handleDeleteKeyboardEvent(event: KeyboardEvent) {
+        if (event.key == 'ArrowLeft') {
+            this.prevArticle();
+
+        } else if (event.key == 'ArrowRight') {
+            this.nextArticle();
+        }
+
+    }
+
+
+    prevArticle() {
+
+        this.storyListService.selectPrevStory();
+    }
+
+    nextArticle() {
+        this.storyListService.selectNextStory();
+    }
 
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
     }
-
-
 }

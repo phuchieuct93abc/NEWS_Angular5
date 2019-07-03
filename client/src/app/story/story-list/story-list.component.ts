@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {StoryService} from "../../shared/story.service";
 import {Story} from '../../../../../model/Story';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import {StoryComponent} from "../story/story.component";
 
 @Component({
     selector: 'app-story-list',
@@ -27,6 +28,8 @@ export class StoryListComponent implements OnInit {
     @ViewChild(VirtualScrollerComponent, {static: false})
     protected virtualScroller: VirtualScrollerComponent;
 
+    @ViewChildren('story')
+    storyComponents:QueryList<StoryComponent>;
 
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
@@ -72,6 +75,28 @@ export class StoryListComponent implements OnInit {
             this.updateStoryList();
         });
 
+        this.storyListService.onSelectPrevStory.subscribe(()=>{
+            let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory)-1;
+            let prevStoryId = this.stories[prevIndex].id;
+            this.storyComponents.forEach(story=>{
+                if(story.story.id === prevStoryId){
+                    story.onSelectStory();
+                    this.scrollTo(story.story,500,0);
+                }
+            })
+        });
+
+        this.storyListService.onSelectNextStory.subscribe(()=>{
+            let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory)+1;
+            let nextStoryId = this.stories[nextIndex].id;
+            this.storyComponents.forEach(story=>{
+                if(story.story.id === nextStoryId){
+                    story.onSelectStory();
+                    this.scrollTo(story.story,500,0);
+
+                }
+            })
+        })
 
     }
     private updateStoryList() {
@@ -206,10 +231,10 @@ export class StoryListComponent implements OnInit {
         return loadMorePromise;
     }
 
-    protected scrollTo(story: Story, animation = 500) {
+    protected scrollTo(story: Story, animation = 500,offset=-60) {
         this.isListeningScroll = false;
 
-        this.virtualScroller.scrollInto(story, true, -60, animation, () => {
+        this.virtualScroller.scrollInto(story, true, offset, animation, () => {
 
                 setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
             }

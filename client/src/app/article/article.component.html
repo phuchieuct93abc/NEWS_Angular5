@@ -1,5 +1,10 @@
 <div class=" h-100 article  position-relative" [ngClass]="'font-size-'+fontSize">
     <div class="blur-edge blur-top"></div>
+    <div class="navigator navigator-prev" >
+        <a (click)="prevArticle()" mat-icon-button>
+            <mat-icon>chevron_left</mat-icon>
+        </a>
+    </div>
     <div class="scrollable panel-primary" #articleView>
         <div *ngFor="let id of [articleId]" style="position: relative" @showArticle  >
 
@@ -23,5 +28,11 @@
         </div>
     </div>
     <div class="blur-edge blur-bottom"></div>
+    <div class="navigator navigator-next" >
+        <a (click)="nextArticle()" mat-icon-button>
+            <mat-icon>chevron_right</mat-icon>
+
+        </a>
+    </div>
 
 </div>

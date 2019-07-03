@@ -45,17 +45,17 @@ export class NavigatorComponent implements OnInit {
 
     ngOnInit() {
 
-        this.router.events.subscribe(() => {
-            this.route.firstChild.params.subscribe((param) => {
-                this.selectedCategory = CategoryHelper.findByName(param['category']).title;
-            })
-        })
+        // this.router.events.subscribe(() => {
+        //     this.route.firstChild.params.subscribe((param) => {
+        //         this.selectedCategory = CategoryHelper.findByName(param['category']).title;
+        //     })
+        // })
 
-        if (this.breakpointService.isSmallScreen) {
-            //  this.registerScrollUp();
-            //this.registerScrollDown();
-
-        }
+        // if (this.breakpointService.isSmallScreen) {
+        //     //  this.registerScrollUp();
+        //     //this.registerScrollDown();
+        //
+        // }
 
 
     }

@@ -3,24 +3,21 @@ import {Subject} from "rxjs";
 import {Story} from "../../../../../model/Story";
 import {IPageInfo} from "ngx-virtual-scroller";
 
-export interface ScrollEvent {
-    startIndex: number,
-    endIndex: number,
-    end: number,
-    start: number,
-    scrollStartPosition: number,
-    scrollEndPosition: number
-}
 
 @Injectable({
     providedIn: 'root'
 })
 export class StoryListService {
+
     public onScroll = new Subject<IPageInfo>();
     public scrollTo = new Subject<Story>();
     public onScrollUp = new Subject<IPageInfo>();
     public onScrollDown = new Subject<IPageInfo>();
 
+    public onSelectNextStory = new Subject<Story>();
+    public onSelectPrevStory = new Subject<Story>();
+
+    public currentSelectedStory:Story;
     private currentScrollEvent: IPageInfo = {
         scrollStartPosition: 0,
         scrollEndPosition: 0,
@@ -45,6 +42,15 @@ export class StoryListService {
             this.currentScrollEvent = event;
 
         })
+    }
+
+    selectNextStory() {
+        this.onSelectNextStory.next();
+
+    }
+
+    selectPrevStory() {
+        this.onSelectPrevStory.next();
     }
 
 

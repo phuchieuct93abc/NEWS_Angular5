@@ -122,13 +122,37 @@ export class ArticleComponent implements OnInit {
 
     @HostListener('document:keyup', ['$event'])
     handleDeleteKeyboardEvent(event: KeyboardEvent) {
-        if (event.key == 'ArrowLeft') {
-            this.prevArticle();
+        console.log(event.key)
+        switch (event.key) {
+            case 'ArrowLeft':
+            case "a":
+                return this.prevArticle();
 
-        } else if (event.key == 'ArrowRight') {
-            this.nextArticle();
+            case 'ArrowRight':
+            case "d":
+                return this.nextArticle();
+            case"ArrowDown":
+            case "s":
+                return this.down();
+
+            case 'ArrowUp':
+            case "w":
+                return this.up();
+            default:
+
+                break;
         }
 
+    }
+
+    up() {
+        let articleView = <HTMLDivElement>this.articleView.nativeElement;
+        articleView.scrollTo({top: articleView.scrollTop - 200, behavior: "smooth"});
+    }
+
+    down() {
+        let articleView = <HTMLDivElement>this.articleView.nativeElement;
+        articleView.scrollTo({top: articleView.scrollTop + 200, behavior: "smooth"});
     }
 
 

@@ -1,19 +1,11 @@
 @import '~@angular/material/theming';
+
 $nav-height: 50px;
 $nav-xs-height: 50px;
 
 :host {
   display: block;
   overflow: visible;
-
-
-  mat-toolbar {
-    @include mat-elevation(5);
-    position: relative;
-    z-index: 2;
-    background-color: var(--background-color-1);
-  }
-
 
 
   .navigator {
@@ -24,17 +16,29 @@ $nav-xs-height: 50px;
     width: 100%;
     z-index: 2;
 
-    .mat-toolbar-single-row {
-      height: $nav-height;
+    mat-toolbar {
+      @include mat-elevation(5);
+      position: relative;
+      z-index: 2;
+      background-color: var(--background-color-1);
 
-      .toolbar-item {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        height: 40px;
+      .breadcrumb-separator {
+        color:var(--background-color-3);
+      }
 
+      .mat-toolbar-single-row {
+        height: $nav-height;
+
+        .toolbar-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          height: 40px;
+
+        }
       }
     }
+
 
   }
 }

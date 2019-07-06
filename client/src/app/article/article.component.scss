@@ -4,6 +4,44 @@
   --blur-edge-color: var(--background-color-2);
   --blur-edge-transparent-color: var(--background-color-transparent-2);
 
+  height: 100%;
+  display: block;
+  .navigator {
+    position: absolute;
+
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    z-index: 99;
+    overflow: hidden;
+
+    a {
+      background-color: var(--background-color-1);
+      opacity: 0.3;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      width: 23px;
+      transition: all 0.5s linear;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &.navigator-prev {
+      left: 0;
+    }
+
+    &.navigator-next {
+      right: 0;
+    }
+
+  }
 }
 
 .article-body {
@@ -20,9 +58,11 @@
       height: auto;
       max-height: initial !important;
     }
-    .LinkExpander_Ratio{
+
+    .LinkExpander_Ratio {
       position: relative;
-      iframe{
+
+      iframe {
         position: absolute;
         height: 100%;
         width: 100%;

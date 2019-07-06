@@ -1,10 +1,11 @@
-import {Component, ElementRef, NgZone, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
 import {ConfigService} from "../../../shared/config.service";
 import {FavoriteService} from "../../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
+import {StoryListService} from "../../story-list/story-list.service";
 
 @Component({
     selector: 'app-mobile-story',
@@ -22,9 +23,9 @@ export class MobileStoryComponent extends StoryComponent {
                 protected favoriteService: FavoriteService,
                 protected route: Router,
                 protected activatedRoute: ActivatedRoute,
-                private zone: NgZone
+                protected storyListService: StoryListService
     ) {
-        super(breakpointService, configService, favoriteService, route, activatedRoute)
+        super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService)
     }
 
     onOpenStory() {

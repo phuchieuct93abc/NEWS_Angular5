@@ -2,6 +2,7 @@
 
 .article {
 
+  background-color: transparent !important;
   &.cdk-drag-dragging {
     transition: none;
   }

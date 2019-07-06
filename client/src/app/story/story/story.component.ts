@@ -7,6 +7,7 @@ import * as url from 'speakingurl';
 import {FavoriteService} from "../../shared/favorite-story.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Category} from "../../../../../model/Categories";
+import {StoryListService} from "../story-list/story-list.service";
 
 @Component({
     selector: 'app-story',
@@ -41,7 +42,8 @@ export class StoryComponent implements OnInit, OnDestroy {
                 protected configService: ConfigService,
                 protected favoriteService: FavoriteService,
                 protected route: Router,
-                protected activatedRoute: ActivatedRoute
+                protected activatedRoute: ActivatedRoute,
+                protected storyListService: StoryListService
     ) {
     }
 
@@ -50,8 +52,8 @@ export class StoryComponent implements OnInit, OnDestroy {
         return this.route.url.includes(this.friendlyUrl);
     }
 
-    onSelectStory() {
-
+    public onSelectStory() {
+        this.storyListService.currentSelectedStory = this.story;
         let navigate: Promise<any>;
         if (this.category) {
             navigate = this.route.navigate(["/", this.category.name, this.friendlyUrl, this.story.id])

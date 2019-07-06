@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ArticleService} from "../shared/article.service";
 import Article from "../../../../model/Article";
@@ -8,12 +8,14 @@ import {Subscription} from "rxjs";
 import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
 import RequestAnimationFrame from "../requestAnimationFrame.cons";
+import {StoryListService} from "../story/story-list/story-list.service";
 
 
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
     styleUrls: ['./article.component.scss'],
+
     animations: [
         trigger('showArticle', [
 
@@ -55,7 +57,8 @@ export class ArticleComponent implements OnInit {
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
                 protected domService: DomService,
-                protected configService: ConfigService) {
+                protected configService: ConfigService,
+                protected storyListService: StoryListService) {
 
 
     }
@@ -117,11 +120,54 @@ export class ArticleComponent implements OnInit {
         })
     }
 
+    @HostListener('document:keyup', ['$event'])
+    handleDeleteKeyboardEvent(event: KeyboardEvent) {
+        console.log(event.key)
+        event.preventDefault();
+        switch (event.key) {
+            case 'ArrowLeft':
+            case "a":
+                return this.prevArticle();
+
+            case 'ArrowRight':
+            case "d":
+                return this.nextArticle();
+            case"ArrowDown":
+            case "s":
+                return this.down();
+
+            case 'ArrowUp':
+            case "w":
+                return this.up();
+            default:
+
+                break;
+        }
+
+    }
+
+    up() {
+        let articleView = <HTMLDivElement>this.articleView.nativeElement;
+        articleView.scrollTo({top: articleView.scrollTop - 200, behavior: "smooth"});
+    }
+
+    down() {
+        let articleView = <HTMLDivElement>this.articleView.nativeElement;
+        articleView.scrollTo({top: articleView.scrollTop + 200, behavior: "smooth"});
+    }
+
+
+    prevArticle() {
+
+        this.storyListService.selectPrevStory();
+    }
+
+    nextArticle() {
+        this.storyListService.selectNextStory();
+    }
 
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
     }
-
-
 }

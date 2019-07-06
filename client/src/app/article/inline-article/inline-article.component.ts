@@ -81,12 +81,14 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     constructor(protected route: ActivatedRoute,
                 protected articleService: ArticleService,
-                private storyListService: StoryListService,
                 protected domService: DomService,
                 protected configService: ConfigService,
                 private changeDetector: StorySizechangeDetectorService,
+                protected storyListService: StoryListService,
+
+
     ) {
-        super(route, articleService, domService, configService);
+        super(route, articleService, domService, configService,storyListService);
     }
 
 

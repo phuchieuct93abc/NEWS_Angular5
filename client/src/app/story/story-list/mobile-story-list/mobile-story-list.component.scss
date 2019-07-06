@@ -1,25 +1,7 @@
 @import "../story-list.component";
-//.story-list {
-//
-//  .blur-edge {
-//    width: 100%;
-//  }
-//}
-
-
-//
-//my-app.h-100 {
-//  height: auto !important;
-//
-//  > div {
-//    min-height: 100vh;
-//
-//  }
-//
-//
-//}
-
-
+.story-list{
+  background-color: var(--background-color-3);
+}
 .move-to-top {
 
   position: fixed;

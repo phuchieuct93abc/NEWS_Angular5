@@ -7,7 +7,6 @@ import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
-import * as moment from "moment";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
@@ -80,7 +79,6 @@ export class StoryService {
 
                     this.checkReadStory(<Story[]>result);
 
-                    this.convertReadableTime(<Story[]>result);
                     return result;
                 }
             )).toPromise();
@@ -144,13 +142,6 @@ export class StoryService {
             .forEach(read => read.isRead = true)
     }
 
-
-    private convertReadableTime(result: Story[]) {
-        result.forEach(story => {
-            story.storyMeta.time = moment(story.storyMeta.time).fromNow();
-        })
-
-    }
 
     unshift(firstStory: Story) {
         this.stories.unshift(firstStory);

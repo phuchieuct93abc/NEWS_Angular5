@@ -1,14 +1,16 @@
 import CONFIG from "../environments/environment";
 
-let RequestAnimationFrame = (callback) => {
+let RequestAnimationFrame = (callback, time = 0) => {
     if (CONFIG.isRunningInNode) {
-        setTimeout(callback)
+        setTimeout(callback, time)
     } else {
-        requestAnimationFrame(callback)
+        setTimeout(() => {
+            requestAnimationFrame(callback);
+        }, time)
     }
 
 
-}
+};
 export default RequestAnimationFrame;
 
 

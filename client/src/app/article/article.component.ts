@@ -123,6 +123,7 @@ export class ArticleComponent implements OnInit {
     @HostListener('document:keyup', ['$event'])
     handleDeleteKeyboardEvent(event: KeyboardEvent) {
         console.log(event.key)
+        event.preventDefault();
         switch (event.key) {
             case 'ArrowLeft':
             case "a":

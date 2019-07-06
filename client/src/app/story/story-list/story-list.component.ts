@@ -7,7 +7,6 @@ import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Config, ConfigService} from "../../shared/config.service";
 import {StoryListService} from "./story-list.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
-import * as url from 'speakingurl';
 import {ArticleService} from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
@@ -29,7 +28,7 @@ export class StoryListComponent implements OnInit {
     protected virtualScroller: VirtualScrollerComponent;
 
     @ViewChildren('story')
-    storyComponents:QueryList<StoryComponent>;
+    storyComponents: QueryList<StoryComponent>;
 
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
@@ -75,30 +74,40 @@ export class StoryListComponent implements OnInit {
             this.updateStoryList();
         });
 
-        this.storyListService.onSelectPrevStory.subscribe(()=>{
-            let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory)-1;
-            let prevStoryId = this.stories[prevIndex].id;
-            this.storyComponents.forEach(story=>{
-                if(story.story.id === prevStoryId){
-                    story.onSelectStory();
-                    this.scrollTo(story.story,500,0);
-                }
-            })
+        this.registerPrevAndNext();
+
+    }
+
+    private registerPrevAndNext() {
+        this.storyListService.onSelectPrevStory.subscribe(() => {
+            let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
+            if (prevIndex > -1) {
+
+                let prevStoryId = this.stories[prevIndex].id;
+                this.storyComponents.forEach(story => {
+                    if (story.story.id === prevStoryId) {
+                        story.onSelectStory();
+                        this.scrollTo(story.story, 500, 0);
+                    }
+                })
+            }
+
         });
 
-        this.storyListService.onSelectNextStory.subscribe(()=>{
-            let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory)+1;
+        this.storyListService.onSelectNextStory.subscribe(() => {
+            let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
             let nextStoryId = this.stories[nextIndex].id;
-            this.storyComponents.forEach(story=>{
-                if(story.story.id === nextStoryId){
+
+            this.storyComponents.forEach(story => {
+                if (story.story.id === nextStoryId) {
                     story.onSelectStory();
-                    this.scrollTo(story.story,500,0);
+                    this.scrollTo(story.story, 500, 0);
 
                 }
             })
         })
-
     }
+
     private updateStoryList() {
         if (this.isLoading) return;
         this.route.params.subscribe(params => {
@@ -182,8 +191,6 @@ export class StoryListComponent implements OnInit {
     }
 
 
-
-
     private loadFirstPage() {
         this.storyService.getStories(this.category).then(value => {
             this.stories.push(...value);
@@ -191,7 +198,8 @@ export class StoryListComponent implements OnInit {
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }
-            this.autoSelectFirstStory(this.stories[0]);
+
+            this.autoSelectFirstStory();
         });
     }
 
@@ -231,7 +239,7 @@ export class StoryListComponent implements OnInit {
         return loadMorePromise;
     }
 
-    protected scrollTo(story: Story, animation = 500,offset=-60) {
+    protected scrollTo(story: Story, animation = 500, offset = -60) {
         this.isListeningScroll = false;
 
         this.virtualScroller.scrollInto(story, true, offset, animation, () => {
@@ -265,9 +273,12 @@ export class StoryListComponent implements OnInit {
 
     }
 
-    autoSelectFirstStory(story: Story) {
+    autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
-            this.router.navigate([url(story.title), story.id], {relativeTo: this.route})
+
+            RequestAnimationFrame(() => {
+                this.storyComponents.first.onSelectStory();
+            }, 100)
         }
 
     }

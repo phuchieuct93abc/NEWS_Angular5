@@ -10,6 +10,7 @@ const axios = require('axios');
 export abstract class StoryService {
     readonly MAX_CACHE_NUMBER = 50;
     readonly MIN_RELATED_NOTIFY = 500;
+    readonly MIN_LIKE_NOTIFY = 20;
 
     protected constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
 
@@ -72,10 +73,10 @@ export abstract class StoryService {
 
     private async sendNotification(cachedArticle: Article[]) {
         let mostRelatedArticles = cachedArticle.reduce((mostRelated: Article, current: Article) => {
-            return mostRelated == undefined || current.related > mostRelated.related ? current : mostRelated;
+            return mostRelated == undefined || current.likes > mostRelated.likes ? current : mostRelated;
         }, null);
 
-        if (mostRelatedArticles && mostRelatedArticles.related > this.MIN_RELATED_NOTIFY) {
+        if (mostRelatedArticles && mostRelatedArticles.likes > this.MIN_RELATED_NOTIFY) {
             let notificationService = new NotificationService();
             await notificationService.send(mostRelatedArticles, this.category);
         }

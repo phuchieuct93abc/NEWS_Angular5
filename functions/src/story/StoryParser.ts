@@ -13,19 +13,24 @@ export abstract class StoryParser {
 
     public parseStory(): Story {
 
-        if (!this.isValid()) {
+        try {
+            if (!this.isValid()) {
+                return null;
+            }
+            let id = this.parseId();
+            let title = this.parseTitle();
+            let hasVideo = this.parseHasVideo();
+            let url = this.parseUrl();
+            let images = this.parseImages();
+            let meta = this.parseStoryMeta();
+            let description = this.parseDescription();
+            const story = new Story(id, title, description, images, url, meta, hasVideo);
+            story.related = this.parseRelated();
+            return story;
+        } catch (e) {
             return null;
         }
-        let id = this.parseId();
-        let title = this.parseTitle();
-        let hasVideo = this.parseHasVideo();
-        let url = this.parseUrl();
-        let images = this.parseImages();
-        let meta = this.parseStoryMeta();
-        let description = this.parseDescription();
-        const story = new Story(id, title, description, images, url, meta, hasVideo);
-        story.related = this.parseRelated();
-        return story;
+
 
     };
 

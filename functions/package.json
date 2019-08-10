@@ -63,7 +63,8 @@
     "speakingurl": "^14.0.1",
     "typescript": "^3.4.5",
     "webpack-node-externals": "^1.7.2",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.9.1",
+    "ng-zorro-antd": "^8.1.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.800.3",

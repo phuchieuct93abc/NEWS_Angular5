@@ -17,7 +17,7 @@ module.exports = {
         server: './server.ts'
     },
     target: 'node',
-    resolve: {extensions: ['.ts', '.js']},
+    resolve: { extensions: ['.ts', '.js'] },
     optimization: {
         minimize: false
     },
@@ -30,12 +30,12 @@ module.exports = {
     },
     module: {
         rules: [
-            {test: /\.ts$/, loader: 'ts-loader'},
+            { test: /\.ts$/, loader: 'ts-loader' },
             {
                 // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
                 // Removing this will cause deprecation warnings to appear.
                 test: /(\\|\/)@angular(\\|\/)core(\\|\/).+\.js$/,
-                parser: {system: true},
+                parser: { system: true },
             },
         ]
     },
@@ -51,10 +51,14 @@ module.exports = {
             /(.+)?express(\\|\/)(.+)?/,
             path.join(__dirname, 'src'),
             {}
-        )
+        ),
+        new webpack.DefinePlugin({
+            Event: JSON.stringify(true),
+
+        })
     ],
     externals: externals.reduce(
-        (acc, name) => Object.assign({}, acc, {[name]: true}),
+        (acc, name) => Object.assign({}, acc, { [name]: true }),
         {}
     ),
 };

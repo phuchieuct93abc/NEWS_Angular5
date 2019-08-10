@@ -25,7 +25,8 @@ export class ConfigService {
 
 
     constructor(private storage: LocalStorageService) {
-        this.config = {...this.config, ...storage.getItem(id, {})}
+        this.config = {...this.config, ...storage.getItem(id, {})};
+        this.migrateConfig();
         setTimeout(() => this.configUpdated.next({old: this.config, new: this.config}))
     }
 
@@ -38,5 +39,9 @@ export class ConfigService {
 
     public getConfig() {
         return {...this.config}
+    }
+
+    private migrateConfig() {
+        this.config.fontSize = Math.min(Math.max(13,this.config.fontSize),20);
     }
 }

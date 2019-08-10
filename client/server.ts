@@ -11,6 +11,9 @@ import {join} from 'path';
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
+// Fix the `Event is not defined` error https://github.com/angular/universal/issues/844
+global['Event'] = null;
+
 // Express server
 const app = express();
 

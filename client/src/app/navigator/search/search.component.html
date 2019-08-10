@@ -1,4 +1,4 @@
-<div class="h-100 searchbar" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
+<div class="searchbar" [ngClass]="config.getConfig().darkTheme?'dark':'light'">
     <mat-form-field class="search_input" color="accent">
         <input matInput placeholder="Tìm kiếm" (keyup)="onKeyup(searchInput.value)" #searchInput>
     </mat-form-field>

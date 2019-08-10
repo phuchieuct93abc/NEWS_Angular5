@@ -1,4 +1,4 @@
-<div class="sidebar py-3 px-2 d-flex flex-column" >
+<div class="sidebar py-3 px-2 d-flex flex-column">
     <div class="d-flex  align-items-center">
         <img src="../../assets/newspaper.png" alt="logo" class="rounded-circle logo">
         <div class="mat-h1 m-0" mat-button>
@@ -8,57 +8,56 @@
         </div>
     </div>
 
-    <mat-divider class="mt-3 mb-2"></mat-divider>
-    <app-search class="mb-2"></app-search>
+    <nz-divider nzText="Cấu hình"></nz-divider>
+    <app-search class="mb-3"></app-search>
 
-    <mat-slide-toggle labelPosition="before"  [(ngModel)]="isSmallImage" class="d-md-none"
-                      (change)="toogleDisplay()">
-        Chế độ ảnh nhỏ
-    </mat-slide-toggle>
+
+    <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay($event)" [ngModel]="isDarkMode"  nzCheckedChildren="Ảnh nhỏ" nzUnCheckedChildren="Ảnh to"  [(ngModel)]="isSmallImage"></nz-switch>
+
 
     <!--Theme-->
-    <mat-slide-toggle labelPosition="before" [(ngModel)]="isDarkMode" class="my-3"
-                      (change)="toggleDarkMode()">
-        Chế độ ban đêm
-    </mat-slide-toggle>
-    <mat-divider class="mt-1 mb-1"></mat-divider>
+    <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng" (ngModelChange)="toggleDarkMode($event)"></nz-switch>
 
-        <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
-            <div class="mat-h2">VietNam</div>
-            <mat-nav-list>
-                <mat-list-item
-                        *ngFor="let vnCategory of vietnameseCategories"
-                        [routerLink]="vnCategory.name"
-                        routerLinkActive="active">
+    <nz-divider nzText="Chuyên mục"></nz-divider>
+
+    <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
+        <div class="mat-h2">VietNam</div>
+        <mat-nav-list>
+            <mat-list-item
+                    *ngFor="let vnCategory of vietnameseCategories"
+                    [routerLink]="vnCategory.name"
+                    routerLinkActive="active">
 
 
-                    <a matLine class="d-flex align-items-center">
-                        <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
-                        <div class="mat-h3 m-0">
-                            {{ vnCategory.title }}
-                        </div>
-                    </a>
+                <a matLine class="d-flex align-items-center">
+                    <mat-icon class="mr-2"
+                              [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
+                    <div class="mat-h3 m-0">
+                        {{ vnCategory.title }}
+                    </div>
+                </a>
 
-                </mat-list-item>
-            </mat-nav-list>
-            <mat-divider></mat-divider>
-            <div class="mat-h2">English</div>
-            <mat-nav-list>
-                <mat-list-item
-                        *ngFor="let vnCategory of englishCategories"
-                        [routerLink]="vnCategory.name"
-                        routerLinkActive="active">
+            </mat-list-item>
+        </mat-nav-list>
+        <mat-divider></mat-divider>
+        <div class="mat-h2">English</div>
+        <mat-nav-list>
+            <mat-list-item
+                    *ngFor="let vnCategory of englishCategories"
+                    [routerLink]="vnCategory.name"
+                    routerLinkActive="active">
 
 
-                    <a matLine class="d-flex align-items-center">
-                        <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
-                        <div class="mat-h3 m-0">
-                            {{ vnCategory.title }}
-                        </div>
-                    </a>
+                <a matLine class="d-flex align-items-center">
+                    <mat-icon class="mr-2"
+                              [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}</mat-icon>
+                    <div class="mat-h3 m-0">
+                        {{ vnCategory.title }}
+                    </div>
+                </a>
 
-                </mat-list-item>
-            </mat-nav-list>
-        </div>
+            </mat-list-item>
+        </mat-nav-list>
+    </div>
 
 </div>

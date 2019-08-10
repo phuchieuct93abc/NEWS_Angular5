@@ -32,12 +32,12 @@ export class SidebarComponent implements OnInit {
         this.isSmallImage = this.configService.getConfig().smallImage;
     }
 
-    toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode})
+    toggleDarkMode(value) {
+        this.configService.updateConfig({darkTheme: value})
     }
 
-    toogleDisplay() {
-        this.configService.updateConfig({smallImage: this.isSmallImage})
+    toogleDisplay(value) {
+        this.configService.updateConfig({smallImage: value})
 
     }
 }

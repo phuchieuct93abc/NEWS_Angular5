@@ -7,6 +7,12 @@
 
   .sidebar {
     height: 100%;
+    ::ng-deep{
+
+      .ant-divider-inner-text{
+        color: var(--foreground-color);
+      }
+    }
   }
 
 

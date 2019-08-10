@@ -46,6 +46,7 @@ import {SidebarComponent} from "./sidebar/sidebar.component";
 import {EllipsisModule} from "ngx-ellipsis";
 import {MatDividerModule} from "@angular/material";
 import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 
 
 @NgModule({
@@ -67,7 +68,9 @@ import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component"
         }),
         RouterModule,
         EllipsisModule,
-        MatDividerModule
+        MatDividerModule,
+        NgZorroAntdModule
+
     ],
     declarations: [
         AppComponent,
@@ -104,6 +107,7 @@ import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component"
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
+        { provide: NZ_I18N, useValue: en_US },
         Title,
         Meta,
 

@@ -72,6 +72,7 @@ export class ArticleComponent implements OnInit {
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
+            console.log(config.new)
             this.fontSize = config.new.fontSize
         });
 

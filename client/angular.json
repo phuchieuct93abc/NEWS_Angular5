@@ -34,13 +34,20 @@
               "src/manifest.json",
               "src/firebase-messaging-sw.js",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "./node_modules/animate.css/animate.css",
               "./node_modules/bootstrap/dist/css/bootstrap.css",
-              "./src/style/styles.scss"
+              "./src/style/styles.scss",
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",

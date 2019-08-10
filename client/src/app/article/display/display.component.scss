@@ -1,0 +1,33 @@
+.mat-menu-display {
+  width: 200px;
+}
+
+.icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  nz-slider {
+    flex: 1;
+  }
+
+  .text-icon {
+    color: var(--hightlight-color);
+
+    &:first-child {
+      left: 0;
+      font-size: 13px;
+      padding-right: 1em;
+    }
+
+    &:last-child {
+      right: 0;
+      font-size: 20px;
+      padding-left: 1em;
+    }
+  }
+
+
+}
+
+

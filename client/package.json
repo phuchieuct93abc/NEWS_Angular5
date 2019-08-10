@@ -29,6 +29,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "ng-lazyload-image": "^5.1.2",
+    "ng-zorro-antd": "^8.1.2",
     "ng2-image-lazy-load": "^2.0.9",
     "ngx-clipboard": "^12.1.2",
     "ngx-ellipsis": "^2.0.4",

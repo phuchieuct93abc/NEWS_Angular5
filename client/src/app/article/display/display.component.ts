@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import { MatButtonToggle } from "@angular/material/button-toggle";
 
 @Component({
     selector: 'app-display',
     templateUrl: './display.component.html',
-    styleUrls: ['./display.component.scss']
+    styleUrls: ['./display.component.scss'],
+    encapsulation:ViewEncapsulation.None
 })
 export class DisplayComponent implements OnInit {
 
@@ -28,13 +28,15 @@ export class DisplayComponent implements OnInit {
     }
 
 
-    toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode})
+    toggleDarkMode(value) {
+        console.log(this.isDarkMode)
+        this.configService.updateConfig({darkTheme: value})
     }
 
-    changeFontSize($event: MatButtonToggle) {
-        this.configService.updateConfig({fontSize: $event.value})
-        this.fontSize = $event.value
+    changeFontSize(value: number) {
+        console.log(value)
+        this.configService.updateConfig({fontSize: value})
+        this.fontSize = value
 
     }
 }

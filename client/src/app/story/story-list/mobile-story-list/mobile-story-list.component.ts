@@ -38,7 +38,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         this.registerShowingMoveToTop();
 
         this.changeDetector.sizeDetector.pipe(debounce(() => timer(500))).subscribe(story => {
-            console.log("Update", story.title);
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         })
         this.registerScrollTo();
@@ -49,7 +48,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
             this.virtualScroller.items = this.stories;
-            this.scrollTo(this.stories[index], 500);
+            this.scrollTo(this.stories[index], 200);
         })
     }
 

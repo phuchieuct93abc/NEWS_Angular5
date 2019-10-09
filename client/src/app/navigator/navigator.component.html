@@ -1,6 +1,6 @@
 <div class="navigator d-md-none" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}"
      [class.small-screen]="breakpointService.isSmallScreen">
-    <mat-toolbar role="heading" class="p-0">
+    <mat-toolbar role="heading" class="p-0" aria-level="1">
         <div class="mat-toolbar-single-row p-0">
             <div class="toolbar-item">
                 <a mat-button color="accent">
@@ -9,7 +9,7 @@
                 </a>
 
                 <div class="mat-h1 m-0 mr-4">
-                    <a href="/" class="d-md-none" color="accent">
+                    <a  href="/" class="d-md-none" color="accent">
                         Báo hiếu
                     </a>
 

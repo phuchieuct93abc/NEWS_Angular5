@@ -21,7 +21,7 @@ body {
 
 a {
   transition:var(--text-transition);
-  color: var(--hightlight-color);
+  color: var(--hightlight-color) !important;
   &:hover {
     text-decoration: none;
   }

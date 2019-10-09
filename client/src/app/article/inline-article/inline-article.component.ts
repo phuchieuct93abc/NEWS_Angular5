@@ -28,12 +28,12 @@ const SWIPE_RIGHT = "swipeRight";
             transition('show=>swipeRight', [
                 style({opacity: 1}),
 
-                animate('0.3s', style({opacity: -0.5, transform: "translateX(100%)"})),
+                animate('0.2s', style({opacity: -0.5, transform: "translateX(100%)"})),
             ]),
             transition('show=>swipeLeft', [
                 style({opacity: 1}),
 
-                animate('0.3s', style({opacity: -0.5, transform: "translateX(-100%)"})),
+                animate('0.2s', style({opacity: -0.5, transform: "translateX(-100%)"})),
             ]),
 
         ]),
@@ -43,12 +43,11 @@ const SWIPE_RIGHT = "swipeRight";
             transition('void=>true', [
                 style({height: "0px"}),
 
-                animate('0.3s', style({height: "*"})),
+                animate('0.1s', style({height: "*"})),
             ]),
             transition("true=>false", [
                 style({height: "*"}),
-
-                animate('0.3s', style({height: "0"})),
+                animate('0.1s', style({height: "0"})),
             ])
         ]),
 
@@ -122,14 +121,14 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     swipeleft() {
 
         this.animationName = SWIPE_LEFT;
-        this.close();
+        setTimeout(()=>this.close(),200)
 
 
     }
 
     swiperight() {
         this.animationName = SWIPE_RIGHT;
-        this.close();
+        setTimeout(()=>this.close(),200)
     }
 
     protected afterGetArticle(): void {

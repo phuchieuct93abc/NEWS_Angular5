@@ -72,13 +72,13 @@ export abstract class StoryService {
     }
 
     private async sendNotification(cachedArticle: Article[]) {
-        let mostRelatedArticles = cachedArticle.reduce((mostRelated: Article, current: Article) => {
-            return mostRelated == undefined || current.likes > mostRelated.likes ? current : mostRelated;
+        let mostLikedArticles = cachedArticle.reduce((mostLiked: Article, current: Article) => {
+            return mostLiked == undefined || current.likes > mostLiked.likes ? current : mostLiked;
         }, null);
 
-        if (mostRelatedArticles && mostRelatedArticles.likes > this.MIN_RELATED_NOTIFY) {
+        if (mostLikedArticles && mostLikedArticles.likes > this.MIN_LIKE_NOTIFY) {
             let notificationService = new NotificationService();
-            await notificationService.send(mostRelatedArticles, this.category);
+            await notificationService.send(mostLikedArticles, this.category);
         }
     }
 

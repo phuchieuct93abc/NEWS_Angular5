@@ -1,7 +1,7 @@
 {
   "name": "Báo hiếu",
   "short_name": "Báo hiếu",
-  "start_url": "/?homescreen=1",
+  "start_url": "/",
   "background_color": "#e5e5e5",
   "theme_color": "#673ab7",
   "display": "fullscreen",
@@ -10,7 +10,7 @@
 
   "icons": [{
     "src": "assets/newspaper.png",
-    "sizes": "256x256",
+    "sizes": "512x512",
     "type": "image/png"
   }]
 }

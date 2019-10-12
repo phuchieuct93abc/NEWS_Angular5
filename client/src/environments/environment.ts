@@ -1,5 +1,5 @@
 const CONFIG = {
-    baseUrl: "http://localhost:3001/",
+    baseUrl: " https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/",
     production: false,
     isRunningInNode:false
 

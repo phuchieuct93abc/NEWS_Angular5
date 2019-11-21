@@ -8,7 +8,10 @@
         </div>
     </div>
 
-    <nz-divider nzText="Cấu hình"></nz-divider>
+    <div class="d-flex">
+        <nz-divider nzText="Cấu hình"></nz-divider>
+
+    </div>
     <app-search class="mb-3"></app-search>
 
 
@@ -18,7 +21,10 @@
     <!--Theme-->
     <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng" (ngModelChange)="toggleDarkMode($event)"></nz-switch>
 
-    <nz-divider nzText="Chuyên mục"></nz-divider>
+    <div class="d-flex">
+        <nz-divider nzText="Chuyên mục"></nz-divider>
+
+    </div>
 
     <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
         <div class="mat-h2">VietNam</div>

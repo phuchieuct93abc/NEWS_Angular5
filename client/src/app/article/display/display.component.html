@@ -9,8 +9,9 @@
     <div mat-menu-item>
         <div class="icon-wrapper test-class">
             <span class="text-icon">A</span>
-            <nz-slider style="flex:1" (ngModelChange)="changeFontSize($event)" [(ngModel)]="fontSize" [nzMin]="13"
-                       [nzMax]="20"></nz-slider>
+            <nz-slider (ngModelChange)="changeFontSize($event)" [(ngModel)]="fontSize" [nzMax]="maxFontSize"
+                       [nzMin]="minFontSize"
+                       style="flex:1"></nz-slider>
             <span class="text-icon">A</span>
         </div>
 

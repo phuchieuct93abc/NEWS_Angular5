@@ -9,19 +9,21 @@ export interface Config {
     fontSize?: number;
 }
 
-const id = 'config'
+const id = 'config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ConfigService {
     public configUpdated = new Subject<{ old: Config, new: Config }>();
+    public static MIN_FONTSIZE = 15;
+    public static MAX_FONTSIZE = 25;
     private config: Config = {
         category: 'tin-nong',
         darkTheme: true,
         smallImage: true,
         fontSize: 2
-    }
+    };
 
 
     constructor(private storage: LocalStorageService) {
@@ -42,6 +44,6 @@ export class ConfigService {
     }
 
     private migrateConfig() {
-        this.config.fontSize = Math.min(Math.max(13,this.config.fontSize),20);
+        this.config.fontSize = Math.min(Math.max(ConfigService.MIN_FONTSIZE, this.config.fontSize), ConfigService.MAX_FONTSIZE);
     }
 }

@@ -48,6 +48,8 @@ import {MatDividerModule} from "@angular/material";
 import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
 import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
 import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.component";
+import {ServiceWorkerModule} from '@angular/service-worker';
+import CONFIG from '../environments/environment';
 
 
 @NgModule({
@@ -70,7 +72,8 @@ import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.c
         RouterModule,
         EllipsisModule,
         MatDividerModule,
-        NgZorroAntdModule
+        NgZorroAntdModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: CONFIG.production})
 
     ],
     declarations: [
@@ -110,7 +113,7 @@ import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.c
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
         {provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig},
-        { provide: NZ_I18N, useValue: en_US },
+        {provide: NZ_I18N, useValue: en_US},
         Title,
         Meta,
 

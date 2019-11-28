@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 
@@ -9,10 +9,20 @@ import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 })
 export class LoadingComponent implements OnInit {
 
+    @Input()
+    isSmall: boolean;
+    sizeCls: string;
+
     constructor(public config: ConfigService, public breakpointService: BreakpointDetectorService) {
     }
 
     ngOnInit() {
+        console.log(this.isSmall);
+        if (this.isSmall != undefined) {
+            this.sizeCls = this.isSmall ? 'small' : 'big';
+        } else {
+            this.sizeCls = this.breakpointService.isSmallScreen ? 'small' : 'big';
+        }
     }
 
 }

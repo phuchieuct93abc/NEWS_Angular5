@@ -9,7 +9,7 @@
                           [parentScroll]="scrollingBlock"
                           [modifyOverflowStyleOfParentScroll]="false"
                           [compareItems]="compareItem"
-                          *ngIf="stories.length>0"
+                          *ngIf="stories.length>0;else loadingStory"
                           [bufferAmount]="15">
             <div #container>
                 <app-story #story
@@ -25,6 +25,15 @@
             </div>
 
         </virtual-scroller>
+        <ng-template #loadingStory>
+            <div class="loading-story">
+                <div *ngFor="let i of loadingStoryNumber">
+                    <app-loading-story></app-loading-story>
+
+                </div>
+            </div>
+
+        </ng-template>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>
 
     </div>

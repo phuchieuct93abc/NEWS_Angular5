@@ -31,16 +31,20 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
                 private changeDetector: StorySizechangeDetectorService
     ) {
         super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
+
     }
+
 
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
+
         this.registerShowingMoveToTop();
 
         this.changeDetector.sizeDetector.pipe(debounce(() => timer(500))).subscribe(story => {
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         });
         this.registerScrollTo();
+
 
     }
 

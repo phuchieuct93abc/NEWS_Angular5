@@ -44,6 +44,8 @@ export class StoryListComponent implements OnInit {
     firstStory: Story;
     isListeningScroll = true;
     currentScrollIndex = 0;
+    loadingStoryNumber = [];
+    private readonly LOADING_STORY_NUMBER = 10;
     private readonly LOADMORE_THRESHOLD = 10;
 
 
@@ -59,6 +61,8 @@ export class StoryListComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill("");
+
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
 

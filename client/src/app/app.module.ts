@@ -46,7 +46,8 @@ import {SidebarComponent} from "./sidebar/sidebar.component";
 import {EllipsisModule} from "ngx-ellipsis";
 import {MatDividerModule} from "@angular/material";
 import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
+import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.component";
 
 
 @NgModule({
@@ -100,7 +101,9 @@ import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
         DashboardComponent,
         TopCategoryComponent,
         SidebarComponent,
-        StoryMetaComponent
+        StoryMetaComponent,
+        LoadingComponent,
+        LoadingStoryComponent
 
     ],
     bootstrap: [AppComponent],

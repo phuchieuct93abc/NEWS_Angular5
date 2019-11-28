@@ -12,7 +12,7 @@
                           [bufferAmount]="10"
                           [checkResizeInterval]="0"
                           [scrollThrottlingTime]="500"
-                          *ngIf="stories.length>0"
+                          *ngIf="stories.length>0;else loadingStory"
         >
             <app-mobile-story
                     *ngFor="let item of scroll.viewPortItems;" [story]="item"
@@ -20,6 +20,15 @@
 
 
         </virtual-scroller>
+        <ng-template #loadingStory>
+            <div class="loading-story">
+                <div *ngFor="let i of loadingStoryNumber">
+                    <app-loading-story></app-loading-story>
+
+                </div>
+            </div>
+
+        </ng-template>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>
 
     </div>

@@ -13,9 +13,10 @@ img {
   }
 }
 
-.host {
+:host {
   border: none;
   overflow: hidden;
+  width: 100%;
 
 }
 

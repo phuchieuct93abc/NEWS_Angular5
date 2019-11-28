@@ -1,5 +1,5 @@
 <div class="loading"
-     [ngClass]="[breakpointService.isSmallScreen?'small':'big',config.getConfig().darkTheme?'dark':'light']">
+     [ngClass]="[sizeCls,config.getConfig().darkTheme?'dark':'light']">
     <div class="wrapper type-2">
         <div class="wrapper-cell">
             <div class="image-placeholder"></div>

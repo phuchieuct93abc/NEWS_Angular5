@@ -10,7 +10,6 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {AppService} from "./app.service";
 import {MatSidenav} from "@angular/material/sidenav";
 import {LoadingEventType, LoadingService} from "./shared/loading.service";
-import RequestAnimationFrame from "./requestAnimationFrame.cons";
 
 @Component({
     selector: 'my-app',
@@ -86,16 +85,11 @@ export class AppComponent implements OnInit {
 
         this.appService.onToogleSidebar.subscribe(() => {
             this.sidebar.toggle()
-        })
+        });
 
         this.loadingService.onLoading.subscribe(data => {
-            RequestAnimationFrame(()=>{
-
-                this.isShowProgressBar = data.type == LoadingEventType.START;
-            })
+            this.isShowProgressBar = data.type == LoadingEventType.START;
         })
-
-
     }
 
     private track(): void {

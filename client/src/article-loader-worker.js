@@ -19,27 +19,32 @@
 self.addEventListener('message', function (event) {
     console.log(event)
     var data = event.data;
-    if(data.command === 'preload'){
+    if (data.command === 'preload') {
         console.log("Message from the Page : ", data.payload);
+        data.payload.forEach(storyid => {
+            let url = 'https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/article?url=' + storyid
+            fetch(url)
+                .then(
+                    function (response) {
+                        if (response.status !== 200) {
+                            console.log('Looks like there was a problem. Status Code: ' +
+                                response.status);
+                            return;
+                        }
 
-        fetch(data.payload)
-            .then(
-                function(response) {
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
-                            response.status);
-                        return;
+                        // Examine the text in the response
+                        response.json().then(function (data) {
+                            console.log(data);
+                        });
                     }
+                )
+                .catch(function (err) {
+                    console.log('Fetch Error :-S', err);
+                });
 
-                    // Examine the text in the response
-                    response.json().then(function(data) {
-                        console.log(data);
-                    });
-                }
-            )
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-            });
+
+        })
+
     }
 
 

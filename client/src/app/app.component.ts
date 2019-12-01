@@ -63,6 +63,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+
+
         this.config = this.configService.getConfig();
         this.configService.configUpdated.subscribe(data => {
             this.config = data.new;

@@ -73,7 +73,8 @@ import CONFIG from '../environments/environment';
         EllipsisModule,
         MatDividerModule,
         NgZorroAntdModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: CONFIG.production})
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: CONFIG.production}),
+        ServiceWorkerModule.register('article-loader-worker.js', {enabled: true})
 
     ],
     declarations: [

@@ -33,6 +33,7 @@
               "src/assets",
               "src/manifest.json",
               "src/firebase-messaging-sw.js",
+              "src/article-loader-worker.js",
               "src/robots.txt",
               "src/sitemap.xml",
               {

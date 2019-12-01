@@ -79,6 +79,8 @@ export class StoryService {
 
                     this.checkReadStory(<Story[]>result);
 
+                    this.preloadArticle(<Story[]>result);
+
                     return result;
                 }
             )).toPromise();
@@ -145,5 +147,19 @@ export class StoryService {
 
     unshift(firstStory: Story) {
         this.stories.unshift(firstStory);
+    }
+
+    preloadArticle(result: Story[]) {
+        console.log('preload')
+        navigator.serviceWorker.ready.then((ready) => {
+            setTimeout(() => {
+
+                navigator.serviceWorker.controller.postMessage({
+                    command: 'preload',
+                    payload: result.map(story => story.id)
+                })
+            })
+
+        });
     }
 }

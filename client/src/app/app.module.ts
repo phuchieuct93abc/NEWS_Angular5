@@ -27,7 +27,7 @@ import {CommentsComponent} from "./article/comments/comments.component";
 import {CommentComponent} from "./article/comments/comment/comment.component";
 import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
-import {VideoComponent} from "./article/video/video.component";
+import {VideoComponent} from "./article/article-content/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
 import {intersectionObserverPreset, LazyLoadImageModule} from "ng-lazyload-image";
 import {DisplayComponent} from "./article/display/display.component";
@@ -50,6 +50,7 @@ import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
 import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.component";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import CONFIG from '../environments/environment';
+import {ImageComponent} from "./article/article-content/image/image.component";
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import CONFIG from '../environments/environment';
         SidebarComponent,
         StoryMetaComponent,
         LoadingComponent,
-        LoadingStoryComponent
+        LoadingStoryComponent,
+        ImageComponent
 
     ],
     bootstrap: [AppComponent],
@@ -121,7 +123,7 @@ import CONFIG from '../environments/environment';
 
     ],
     entryComponents: [
-        VideoComponent, ImageViewerComponent
+        VideoComponent, ImageViewerComponent, ImageComponent
     ]
 
 })

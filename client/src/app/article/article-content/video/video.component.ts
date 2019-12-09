@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
+import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 
 @Component({
     selector: 'app-video',

@@ -3,7 +3,9 @@
 
   ::ng-deep {
     video {
-      width: 100%;
+      width: 100% !important;
+      height: auto;
+      max-height: initial !important;
     }
   }
 
@@ -20,13 +22,15 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    .mat-icon{
+
+    .mat-icon {
       font-size: 50px;
       width: auto;
       height: auto;
     }
   }
-  iframe{
+
+  iframe {
     width: 100%;
   }
 }

@@ -1,9 +1,10 @@
-import {Component, Input, NgZone, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {Observable} from "rxjs";
 import {StoryListService} from "../story-list/story-list.service";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {ImageSerice} from "../../shared/image.service";
 
 @Component({
     selector: 'app-image-viewer',
@@ -31,12 +32,13 @@ export class ImageViewerComponent implements OnInit {
     hasVideo: false;
     @Input()
     fullSize: false;
+    @Input()
+    wrapperWidth: number;
 
 
     convertedImagePath: string;
     isLoading: boolean;
 
-    private maxImageSize: number;
 
     readonly SMALL_IMAGE = 150;
     readonly BIG_IMAGE = 300;
@@ -45,17 +47,18 @@ export class ImageViewerComponent implements OnInit {
 
 
     constructor(private config: ConfigService, private breakpointService: BreakpointDetectorService,
-                private storyListService: StoryListService,
-               ) {
+                private storyListService: StoryListService, private imageService: ImageSerice,
+                private elRef: ElementRef
+    ) {
 
     }
 
 
     ngOnInit() {
-
         if (this.imagePath) {
 
-            this.convertedImagePath = this.getImage(this.imagePath);
+            let imageWidth = (<HTMLElement>this.elRef.nativeElement).offsetWidth;
+            this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
             this.scrollObservable = this.storyListService.onScroll;
             this.isLoading = true;
         } else {
@@ -63,25 +66,25 @@ export class ImageViewerComponent implements OnInit {
         }
     }
 
-
-    getImage(imagePath: string) {
-        if (imagePath.indexOf("baomoi") > 0) {
-            this.maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
-
-            if (this.fullSize) {
-                this.maxImageSize = this.width;
-            }
-            let result = imagePath;
-
-            result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + this.maxImageSize);
-            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-            if (isChrome) {
-                result = result + ".webp";
-            }
-            return result;
-        }
-
-        return imagePath;
-    }
+    //
+    // getImage(imagePath: string) {
+    //     if (imagePath.indexOf("baomoi") > 0) {
+    //         let maxImageSize = this.config.getConfig().smallImage && this.breakpointService.isSmallScreen ? this.SMALL_IMAGE : this.BIG_IMAGE;
+    //
+    //         if (this.fullSize) {
+    //             maxImageSize = this.width;
+    //         }
+    //         let result = imagePath;
+    //
+    //         result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + maxImageSize);
+    //         const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+    //         if (isChrome) {
+    //             result = result + ".webp";
+    //         }
+    //         return result;
+    //     }
+    //
+    //     return imagePath;
+    // }
 
 }

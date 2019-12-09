@@ -9,6 +9,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
 import RequestAnimationFrame from "../requestAnimationFrame.cons";
 import {StoryListService} from "../story/story-list/story-list.service";
+import ArticleImageParser from "./parsers/article-image.parser";
 
 
 @Component({
@@ -72,7 +73,7 @@ export class ArticleComponent implements OnInit {
         });
 
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
-            console.log(config.new)
+            console.log(config.new);
             this.fontSize = config.new.fontSize
         });
 
@@ -103,27 +104,36 @@ export class ArticleComponent implements OnInit {
         this.articleBody = this.article.body;
 
         if (typeof window !== 'undefined') {
+            RequestAnimationFrame(() => {
+                this.parseVideo();
+                this.parseImage();
+            })
 
-            this.parseVideo();
         }
 
 
     }
 
+    private parseImage() {
+
+        let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+        console.log("parse image");
+        let images: HTMLCollectionOf<Element> = element.getElementsByClassName('body-image');
+        for (let i = 0; i < images.length; i++) {
+            new ArticleImageParser(images[i], this.domService).parse();
+        }
+    }
 
     private parseVideo() {
-        RequestAnimationFrame(() => {
-            let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-            let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-            for (let i = 0; i < videos.length; i++) {
-                new ArticleVideoParser(videos[i], this.domService).parse();
-            }
-        })
+        let element = <HTMLParagraphElement>this.articleContent.nativeElement;
+        let videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
+        for (let i = 0; i < videos.length; i++) {
+            new ArticleVideoParser(videos[i], this.domService).parse();
+        }
     }
 
     @HostListener('document:keyup', ['$event'])
     handleDeleteKeyboardEvent(event: KeyboardEvent) {
-        console.log(event.key)
         event.preventDefault();
         switch (event.key) {
             case 'ArrowLeft':
@@ -171,4 +181,6 @@ export class ArticleComponent implements OnInit {
         this.routeParamSubscription.unsubscribe();
         this.configSubsription.unsubscribe();
     }
+
+
 }

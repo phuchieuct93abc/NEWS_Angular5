@@ -10,7 +10,7 @@ import {FavoriteService} from "./favorite-story.service";
 
 const storyUrl = CONFIG.baseUrl + `story`;
 const searchUrl = CONFIG.baseUrl + `search`;
-const readId = "read"
+const readId = "read";
 
 @Injectable({
     providedIn: 'root'
@@ -39,7 +39,7 @@ export class StoryService {
 
             this.getStoryByPage(category, ++this.currentStoryPage).then(stories => {
                 let result = this.filterStory(stories);
-                this.appendStoryList(result)
+                this.appendStoryList(result);
                 resolve(result);
 
             });
@@ -54,44 +54,11 @@ export class StoryService {
 
     }
 
-    private getStoryByPage(category: string, pageNumber: number): Promise<any> {
-        if (category == 'yeu-thich') {
-            return this.favoriteService.getStories();
-        }
-        if (CONFIG.isRunningInNode) {
-            return Promise.resolve()
-        }
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY})
-
-        return this.httpClient.get(storyUrl, {
-            params: {
-                pageNumber: pageNumber + '',
-                category: category
-            }
-        }).pipe(
-            retry(3),
-            map(
-                result => {
-                    this.loadingService.onLoading.next({
-                        type: LoadingEventType.FINISH,
-                        name: LoadingEventName.MORE_STORY
-                    })
-
-                    this.checkReadStory(<Story[]>result);
-
-                    this.preloadArticle(<Story[]>result);
-
-                    return result;
-                }
-            )).toPromise();
-
-    }
-
     search(keyword: string): Promise<any> {
         if (CONFIG.isRunningInNode) {
             return Promise.resolve()
         }
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING})
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
         return this.httpClient.get(searchUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
@@ -104,13 +71,27 @@ export class StoryService {
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.SEARCHING
-                    })
+                    });
                     this.checkReadStory(<Story[]>result);
                     result = this.filterStory(result);
                     this.appendStoryList(result);
                     return result
                 }
             )).toPromise();
+    }
+
+    preloadArticle(result: Story[]) {
+        /*console.log('preload')
+        navigator.serviceWorker.ready.then((ready) => {
+            setTimeout(() => {
+
+                navigator.serviceWorker.controller.postMessage({
+                    command: 'preload',
+                    payload: result.map(story => story.id)
+                })
+            })
+
+        });*/
     }
 
     private filterStory(result) {
@@ -149,17 +130,36 @@ export class StoryService {
         this.stories.unshift(firstStory);
     }
 
-    preloadArticle(result: Story[]) {
-        console.log('preload')
-        navigator.serviceWorker.ready.then((ready) => {
-            setTimeout(() => {
+    private getStoryByPage(category: string, pageNumber: number): Promise<any> {
+        if (category == 'yeu-thich') {
+            return this.favoriteService.getStories();
+        }
+        if (CONFIG.isRunningInNode) {
+            return Promise.resolve()
+        }
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
 
-                navigator.serviceWorker.controller.postMessage({
-                    command: 'preload',
-                    payload: result.map(story => story.id)
-                })
-            })
+        return this.httpClient.get(storyUrl, {
+            params: {
+                pageNumber: pageNumber + '',
+                category: category
+            }
+        }).pipe(
+            retry(3),
+            map(
+                result => {
+                    this.loadingService.onLoading.next({
+                        type: LoadingEventType.FINISH,
+                        name: LoadingEventName.MORE_STORY
+                    });
 
-        });
+                    this.checkReadStory(<Story[]>result);
+
+                    this.preloadArticle(<Story[]>result);
+
+                    return result;
+                }
+            )).toPromise();
+
     }
 }

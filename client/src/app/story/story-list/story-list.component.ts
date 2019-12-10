@@ -12,6 +12,7 @@ import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 import {StoryComponent} from "../story/story.component";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-story-list',
@@ -47,6 +48,7 @@ export class StoryListComponent implements OnInit {
     loadingStoryNumber = [];
     private readonly LOADING_STORY_NUMBER = 10;
     private readonly LOADMORE_THRESHOLD = 10;
+    private firstStoriesLoaderPromise: any;
 
 
     constructor(protected storyService: StoryService,
@@ -115,6 +117,8 @@ export class StoryListComponent implements OnInit {
     private updateStoryList() {
         if (this.isLoading) return;
         this.route.params.subscribe(params => {
+            this.firstStoriesLoaderPromise && this.firstStoriesLoaderPromise.unsubscribe();
+
             this.resetStoryList();
             this.category = params['category'];
 
@@ -196,7 +200,13 @@ export class StoryListComponent implements OnInit {
 
 
     private loadFirstPage() {
-        this.storyService.getStories(this.category).then(value => {
+        let observable = new Observable<Story[]>(subscriber => {
+            this.storyService.getStories(this.category).then(value => {
+                subscriber.next(value)
+            });
+        });
+        this.firstStoriesLoaderPromise = observable.subscribe(value => {
+
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();

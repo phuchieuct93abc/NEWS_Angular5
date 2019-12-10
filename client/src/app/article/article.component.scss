@@ -6,6 +6,7 @@
 
   height: 100%;
   display: block;
+
   .navigator {
     position: absolute;
 
@@ -57,6 +58,12 @@
       width: 100% !important;
       height: auto;
       max-height: initial !important;
+    }
+
+    a {
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 100%;
     }
 
     .LinkExpander_Ratio {

@@ -15,17 +15,17 @@ import ArticleImageParser from "./parsers/article-image.parser";
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
-    styleUrls: ['./article.component.scss'],
+    styleUrls: ['./article.component.scss', './article-content.scss'],
 
     animations: [
         trigger('showArticle', [
 
-                transition(':leave', [
-                    style({opacity: 1}),
-                    animate("0.3s", style({opacity: 0})),
-                ]),
-                transition(':enter', [
-                    style({opacity: 0, height: 0}),
+            transition(':leave', [
+                style({opacity: 1}),
+                animate("0.3s", style({opacity: 0})),
+            ]),
+            transition(':enter', [
+                style({opacity: 0, height: 0}),
                     animate('0.3s 0.3s',
                         style({opacity: 1, height: '*'}),
                     )

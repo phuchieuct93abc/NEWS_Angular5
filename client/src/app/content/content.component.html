@@ -14,7 +14,7 @@
         </div>
         <mat-divider vertical *ngIf="!isSmallScreen" class="h-100 mx-1"></mat-divider>
 
-        <div *ngIf="!isSmallScreen" style="flex:1" class="h-100 d-none d-md-inline">
+        <div *ngIf="!isSmallScreen" class="h-100 d-none d-md-inline" style="flex:1;overflow: hidden">
             <router-outlet></router-outlet>
         </div>
     </div>

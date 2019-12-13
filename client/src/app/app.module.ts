@@ -49,7 +49,6 @@ import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component"
 import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
 import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.component";
 import {ServiceWorkerModule} from '@angular/service-worker';
-import CONFIG from '../environments/environment';
 import {ImageComponent} from "./article/article-content/image/image.component";
 
 
@@ -74,8 +73,7 @@ import {ImageComponent} from "./article/article-content/image/image.component";
         EllipsisModule,
         MatDividerModule,
         NgZorroAntdModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: CONFIG.production}),
-        ServiceWorkerModule.register('article-loader-worker.js', {enabled: true})
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
 
     ],
     declarations: [

@@ -1,9 +1,0 @@
-.article {
-    max-height: 100%;
-
-    overflow: auto;
-}
-
-.article-body img {
-    width: 100% !important;
-}

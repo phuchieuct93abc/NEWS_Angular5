@@ -1,5 +1,5 @@
 @import "../../style/variables";
-
+@import "./article-content";
 :host {
   --blur-edge-color: var(--background-color-2);
   --blur-edge-transparent-color: var(--background-color-transparent-2);

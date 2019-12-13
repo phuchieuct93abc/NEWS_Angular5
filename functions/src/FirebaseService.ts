@@ -1,14 +1,23 @@
 import * as admin from 'firebase-admin';
+
 import Article from "../../model/Article";
 import {DocumentSnapshot} from "firebase-functions/lib/providers/firestore";
 import {firebaseCredentiaL} from "../../model/firebase.config";
 
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 
+let inRunningUnderCloud = process.env.GCP_PROJECT != undefined;
 
-admin.initializeApp({
-    credential: admin.credential.cert(firebaseCredentiaL)
-});
+if (inRunningUnderCloud) {
+    console.log("running in cloud");
+    admin.initializeApp();
+} else {
+    console.log("Not run in cloud");
+    admin.initializeApp({
+        credential: admin.credential.cert(firebaseCredentiaL)
+    });
+}
+
 
 const db: admin.firestore.Firestore = admin.firestore();
 db.settings(settings);

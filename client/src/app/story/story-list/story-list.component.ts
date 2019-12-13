@@ -218,6 +218,7 @@ export class StoryListComponent implements OnInit {
     }
 
     private addFirstStoryToTheTop() {
+        console.log(12);
         let firstStoryIndex = this.stories.findIndex(story => story.id === this.firstStory.id);
         if (firstStoryIndex !== -1) {
             let temp = this.stories[0];

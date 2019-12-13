@@ -8,7 +8,7 @@ export default class TinhteStoryParser extends StoryParser {
     }
 
     parseId(): string {
-        return this.data["content_id"]
+        return this.data["content_id"] + ""
 
     }
 
@@ -22,7 +22,7 @@ export default class TinhteStoryParser extends StoryParser {
 
     parseImages(): StoryImage[] {
         const thumbnail = this.data["thread_thumbnail"];
-        let storyImage = new StoryImage(thumbnail["link"], thumbnail["width"], thumbnail["height"])
+        let storyImage = new StoryImage(thumbnail["link"], thumbnail["width"], thumbnail["height"]);
         return [storyImage];
     }
 

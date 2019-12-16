@@ -1,5 +1,6 @@
 @import "../../style/variables";
 @import "./article-content";
+
 :host {
   --blur-edge-color: var(--background-color-2);
   --blur-edge-transparent-color: var(--background-color-transparent-2);
@@ -53,6 +54,7 @@
     width: 100% !important;
   }
 
+
 }
 
 .loading {
@@ -67,6 +69,45 @@
   top: 10px;
   z-index: 10;
 
+}
+
+.article-header.stick {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: var(--blur-edge-color);
+  display: flex;
+  animation: article-header-stick 200ms linear;
+
+  .article-title {
+    font-size: 25px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 200ms linear;
+
+
+  }
+
+  .blur-edge.blur-top {
+    top: 48px;
+  }
+}
+
+@keyframes article-header-stick {
+  from {
+    transform: translateY(-50%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.article-body {
+  padding-top: 0.6em;
 }
 
 .blur-edge {
@@ -86,4 +127,3 @@
   font-size: 18px;
 
 }
-

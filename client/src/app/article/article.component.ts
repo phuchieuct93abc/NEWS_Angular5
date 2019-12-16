@@ -1,17 +1,15 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ArticleService} from "../shared/article.service";
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { ArticleService } from "../shared/article.service";
 import Article from "../../../../model/Article";
-import {DomService} from "./dom.service";
-import {ConfigService} from "../shared/config.service";
-import {Subscription} from "rxjs";
-import {animate, style, transition, trigger} from "@angular/animations";
+import { DomService } from "./dom.service";
+import { ConfigService } from "../shared/config.service";
+import { Subscription } from "rxjs";
+import { animate, style, transition, trigger } from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
 import RequestAnimationFrame from "../requestAnimationFrame.cons";
-import {StoryListService} from "../story/story-list/story-list.service";
+import { StoryListService } from "../story/story-list/story-list.service";
 import ArticleImageParser from "./parsers/article-image.parser";
-
-
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -21,17 +19,17 @@ import ArticleImageParser from "./parsers/article-image.parser";
         trigger('showArticle', [
 
             transition(':leave', [
-                style({opacity: 1}),
-                animate("0.3s", style({opacity: 0})),
+                style({ opacity: 1 }),
+                animate("0.3s", style({ opacity: 0 })),
             ]),
             transition(':enter', [
-                style({opacity: 0, height: 0}),
-                    animate('0.3s 0.3s',
-                        style({opacity: 1, height: '*'}),
-                    )
+                style({ opacity: 0, height: 0 }),
+                animate('0.3s 0.3s',
+                    style({ opacity: 1, height: '*' }),
+                )
 
-                ])
-            ]
+            ])
+        ]
         ),
 
     ],
@@ -43,28 +41,33 @@ export class ArticleComponent implements OnInit {
     public categoryId: string;
     public isFavorite: boolean;
 
-    @ViewChild('articleContent', {static: false})
+    @ViewChild('articleContent', { static: false })
     articleContent: ElementRef;
 
 
-    @ViewChild('articleView', {static: false})
+    @ViewChild('articleView', { static: false })
     protected articleView: ElementRef;
+    @ViewChild('articleHeader', { static: false })
+    protected articleHeader: ElementRef
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
     articleBody: string;
+
+    isStickHeader: boolean = false
 
 
     public fontSize: number;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
-                protected domService: DomService,
-                protected configService: ConfigService,
-                protected storyListService: StoryListService) {
-
-
+        protected domService: DomService,
+        protected configService: ConfigService,
+        protected storyListService: StoryListService) {
     }
 
     ngOnInit() {
+
+
+
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
@@ -98,11 +101,13 @@ export class ArticleComponent implements OnInit {
 
         if (typeof this.articleView.nativeElement.scroll === 'function') {
 
-            (<HTMLElement>this.articleView.nativeElement).scroll({top: 0});
+            (<HTMLElement>this.articleView.nativeElement).scroll({ top: 0 });
         }
         this.articleBody = this.article.body;
 
         if (typeof window !== 'undefined') {
+            this.registerStickyHeader();
+
             RequestAnimationFrame(() => {
                 this.parseVideo();
                 this.parseImage();
@@ -113,10 +118,31 @@ export class ArticleComponent implements OnInit {
 
     }
 
+    private registerStickyHeader() {
+        let thresholds = [0.1];
+        let th = 0.1;
+        while (th < 0.9) {
+            th = th + 0.1;
+            thresholds.push(th);
+        }
+        let options = {
+            threshold: thresholds
+        };
+        let observer = new IntersectionObserver((entries, observer) => {
+            this.isStickHeader = entries[0].intersectionRatio < 0.5 && entries[0].intersectionRatio > 0;
+            if (this.isStickHeader) {
+                observer.disconnect();
+            }
+        }, options);
+        setTimeout(() => {
+            observer.observe(this.articleHeader.nativeElement);
+
+        }, 0);
+    }
+
     private parseImage() {
 
         let element = <HTMLParagraphElement>this.articleContent.nativeElement;
-        console.log("parse image");
         let images: HTMLCollectionOf<Element> = element.getElementsByClassName('body-image');
         for (let i = 0; i < images.length; i++) {
             new ArticleImageParser(images[i], this.domService).parse();
@@ -142,7 +168,7 @@ export class ArticleComponent implements OnInit {
             case 'ArrowRight':
             case "d":
                 return this.nextArticle();
-            case"ArrowDown":
+            case "ArrowDown":
             case "s":
                 return this.down();
 
@@ -158,12 +184,12 @@ export class ArticleComponent implements OnInit {
 
     up() {
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({top: articleView.scrollTop - 200, behavior: "smooth"});
+        articleView.scrollTo({ top: articleView.scrollTop - 200, behavior: "smooth" });
     }
 
     down() {
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({top: articleView.scrollTop + 200, behavior: "smooth"});
+        articleView.scrollTo({ top: articleView.scrollTop + 200, behavior: "smooth" });
     }
 
 

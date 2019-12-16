@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Story} from "../../../../../../model/Story";
+import { Component, Input, OnInit } from '@angular/core';
+import { Story } from "../../../../../../model/Story";
 
 @Component({
     selector: 'app-story-meta',
@@ -10,9 +10,8 @@ export class StoryMetaComponent implements OnInit {
 
     @Input()
     story: Story
-
-
-
+    @Input()
+    sourceUrl: string
 
     constructor() {
     }

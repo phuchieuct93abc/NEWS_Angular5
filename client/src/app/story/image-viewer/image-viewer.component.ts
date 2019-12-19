@@ -34,6 +34,8 @@ export class ImageViewerComponent implements OnInit {
     fullSize: false;
     @Input()
     wrapperWidth: number;
+    @Input()
+    alt:string
 
 
     convertedImagePath: string;

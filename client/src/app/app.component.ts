@@ -94,8 +94,7 @@ export class AppComponent implements OnInit {
     }
     ngAfterViewInit(): void {
         this.loadingService.onLoading.subscribe(data => {
-            setTimeout(() => {
-                
+            setTimeout(() => {                
                 this.isShowProgressBar = data.type == LoadingEventType.START;
             });
         })

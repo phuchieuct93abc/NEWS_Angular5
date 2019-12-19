@@ -90,9 +90,16 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         });
 
+     
+    }
+    ngAfterViewInit(): void {
         this.loadingService.onLoading.subscribe(data => {
-            this.isShowProgressBar = data.type == LoadingEventType.START;
+            setTimeout(() => {
+                
+                this.isShowProgressBar = data.type == LoadingEventType.START;
+            });
         })
+        
     }
 
     private track(): void {

@@ -118,7 +118,7 @@ export class ArticleComponent implements OnInit {
 
     }
 
-    private registerStickyHeader() {
+    protected registerStickyHeader() {
         let thresholds = [0.1];
         let th = 0.1;
         while (th < 0.9) {

@@ -1,16 +1,17 @@
-import {Component, OnDestroy} from '@angular/core';
-import {StoryService} from "../../../shared/story.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {StoryListService} from "../story-list.service";
-import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
-import {ConfigService} from "../../../shared/config.service";
-import {LoadingService} from "../../../shared/loading.service";
-import {ArticleService} from "../../../shared/article.service";
-import {StoryListComponent} from "../story-list.component";
-import {StorySizechangeDetectorService} from "../../story/mobile-story/story-sizechange-detector.service";
+import { Component, OnDestroy } from '@angular/core';
+import { StoryService } from "../../../shared/story.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StoryListService } from "../story-list.service";
+import { BreakpointDetectorService } from "../../../shared/breakpoint.service";
+import { ConfigService } from "../../../shared/config.service";
+import { LoadingService } from "../../../shared/loading.service";
+import { ArticleService } from "../../../shared/article.service";
+import { StoryListComponent } from "../story-list.component";
+import { StorySizechangeDetectorService } from "../../story/mobile-story/story-sizechange-detector.service";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
-import {debounce} from 'rxjs/operators';
-import {timer} from 'rxjs';
+import { debounce } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { Story } from '../../../../../../model/Story';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -20,15 +21,15 @@ import {timer} from 'rxjs';
 export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 
     constructor(protected storyService: StoryService,
-                protected activatedRoute: ActivatedRoute,
-                protected route: ActivatedRoute,
-                protected router: Router,
-                protected storyListService: StoryListService,
-                protected breakpointService: BreakpointDetectorService,
-                protected configService: ConfigService,
-                protected loadingService: LoadingService,
-                protected articleService: ArticleService,
-                private changeDetector: StorySizechangeDetectorService
+        protected activatedRoute: ActivatedRoute,
+        protected route: ActivatedRoute,
+        protected router: Router,
+        protected storyListService: StoryListService,
+        protected breakpointService: BreakpointDetectorService,
+        protected configService: ConfigService,
+        protected loadingService: LoadingService,
+        protected articleService: ArticleService,
+        private changeDetector: StorySizechangeDetectorService
     ) {
         super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
 
@@ -41,6 +42,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         this.registerShowingMoveToTop();
 
         this.changeDetector.sizeDetector.pipe(debounce(() => timer(500))).subscribe(story => {
+            console.log("invalid cache", story.title)
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         });
         this.registerScrollTo();

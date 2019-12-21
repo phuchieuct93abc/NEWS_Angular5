@@ -10,8 +10,7 @@ export class StoryMetaComponent implements OnInit {
 
     @Input()
     story: Story
-    @Input()
-    sourceUrl: string
+
 
     constructor() {
     }

@@ -28,6 +28,7 @@ export abstract class StoryParser {
             story.related = this.parseRelated();
             return story;
         } catch (e) {
+            console.error(e)
             return null;
         }
 

@@ -1,4 +1,4 @@
-import {StoryParser} from "../StoryParser";
+import { StoryParser } from "../StoryParser";
 import Utility from "../../Utility";
 import StoryMeta from "../../../../model/StoryMeta";
 import StoryImage from "../../../../model/StoryImage";
@@ -25,11 +25,10 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseStoryMeta(): StoryMeta {
-        const meta = this.data.getElementsByClassName('story__meta')[0];
+        const meta = <HTMLElement>this.data.getElementsByClassName('story__meta')[0];
         const source = meta.getElementsByClassName('source')[0].textContent;
-
         const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
-        return new StoryMeta(source, time);
+        return new StoryMeta(source, BaomoiStoryParser.getSourceIconUrl(meta), time);
     }
 
     parseImages(): StoryImage[] {
@@ -37,7 +36,7 @@ export default class BaomoiStoryParser extends StoryParser {
         let result: StoryImage[] = [];
         for (let i = 0; i < images.length; i++) {
             const image = images[i];
-            result.push(new StoryImage(image.getAttribute('data-src'), image["width"], image['height'], image['alt']))
+            result.push(new StoryImage(image.getAttribute('src'), image["width"], image['height'], image['alt']))
         }
 
         const videoElements = this.data.getElementsByTagName('video');
@@ -58,12 +57,22 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseDescription(): string {
-        return this.data.querySelector(".story__summary").textContent;
+
+        const storySummary = this.data.querySelector(".story__summary");
+        return storySummary && storySummary.textContent;
     }
 
     parseRelated(): number {
         const relatedElement = this.data.querySelector(".story__tools a");
         return parseInt(relatedElement ? relatedElement.textContent : "0");
+    }
+
+    public static getSourceIconUrl(meta: HTMLElement):string {
+        const sourceId = meta.getElementsByTagName("a")[0].getAttribute("href");
+
+        var rx = /\/([0-9]*).epi/g;
+        var arr = rx.exec(sourceId);
+        return `http://s.baomoi.xdn.vn/icon_publishers/${arr[1]}.png`
     }
 
 

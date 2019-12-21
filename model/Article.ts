@@ -13,6 +13,7 @@ export default class Article {
                 public   externalUrl: string = null,
                 public  sourceUrl: string,
                 public   sourceName: string,
+                public sourceIcon:string,
                 public  images: string[],
                 public   description: string,
                 public likes = 1,

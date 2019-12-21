@@ -1,6 +1,7 @@
 import {ArticleParser} from "../ArticleParser";
 import Article from "../../../../model/Article";
 import Utility from "../../Utility";
+import BaomoiStoryParser from '../../story/baomoi/BaomoiStoryParser';
 
 export default class BaomoiArticleParser extends ArticleParser {
 
@@ -27,7 +28,10 @@ export default class BaomoiArticleParser extends ArticleParser {
 
         let likes = parseInt(this.data.querySelector(".like").textContent);
         let time = this.data.querySelector("time.time").getAttribute('datetime');
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, images, description, likes, time, this.extractRalatedNumber());
+
+        let sourceIconUrl = BaomoiStoryParser.getSourceIconUrl(this.data.querySelector('.article__meta'))
+
+        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, sourceIconUrl,images, description, likes, time, this.extractRalatedNumber());
     }
 
 

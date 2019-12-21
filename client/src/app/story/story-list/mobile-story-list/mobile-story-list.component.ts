@@ -41,7 +41,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
         this.registerShowingMoveToTop();
 
-        this.changeDetector.sizeDetector.pipe(debounce(() => timer(500))).subscribe(story => {
+        this.changeDetector.sizeDetector.subscribe(story => {
             console.log("invalid cache", story.title)
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         });

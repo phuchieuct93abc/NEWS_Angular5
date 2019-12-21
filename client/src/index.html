@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
     <meta content="#673ab7" name="theme-color">
     <meta content="#673ab7" name="apple-mobile-web-app-status-bar-style">
-    <link href="manifest.json" rel="manifest"/>
+    <link href="manifest.json" rel="manifest" />
     <title>Báo hiếu</title>
     <base href="/">
     <meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport">
@@ -18,30 +19,37 @@
     <meta content="article" name="og:type">
     <meta content="Báo của thời đại" name="og:title">
     <meta content="Cập nhật tin tức nóng hổi từ nhiều nguồn báo đáng tin cậy" name="og:description">
-    <meta content="https://firebasestorage.googleapis.com/v0/b/angularhero-3b066.appspot.com/o/newspaper.png?alt=media&token=946f9fcb-b159-46e8-a270-baebfe168014"
-          name="og:image">
+    <meta
+        content="assets/newspaper.png"
+        name="og:image">
     <meta content="360" name="og:image:width">
     <meta content="360" name="og:image:height">
+    <link rel="apple-touch-icon" href="assets/newspaper.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body class="mat-typography">
-<!--    Ứng dụng đang được bảo trì-->
-<my-app class="h-100 d-block"></my-app>
 
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-132343007-1', 'auto');// add your tracking ID here.
-</script>
+<body class="mat-typography">
+    <!--    Ứng dụng đang được bảo trì-->
+    <noscript>
+        Please enable javascript in order to use this application
+    </noscript>
+    <my-app class="h-100 d-block"></my-app>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-132343007-1', 'auto');// add your tracking ID here.
+    </script>
 
 </body>
+
 </html>

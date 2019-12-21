@@ -1,5 +1,5 @@
 <footer class=" text-right   justify-content-start d-flex align-items-end pt-1">
-    <img *ngIf="story.storyMeta.sourceIcon" [src]="story.storyMeta.sourceIcon" class="icon mr-1" />
+    <img [alt]="story.storyMeta.source" *ngIf="story.storyMeta.sourceIcon" [src]="sourceIcon" class="icon mr-1" />
     <cite title="Source title" class="title">{{story.storyMeta.source}}</cite>
     <span class="time ml-2 flex-grow-1 text-left"> - {{story.storyMeta.timeago }}</span>
     <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite

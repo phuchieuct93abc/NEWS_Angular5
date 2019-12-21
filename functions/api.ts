@@ -21,6 +21,7 @@ api.use(cors());
 
 
 api.get('/story', (req, res) => {
+    console.log()
     StoryServiceFactory.get(req).getStories().then(stories => res.send(stories))
 });
 
@@ -74,6 +75,18 @@ api.get('/blur', (req, res) => {
 
 
 });
+//Proxy:
+var proxy = require('express-http-proxy');
+
+api.get('/icon_publishers/*', proxy('http://s.baomoi.xdn.vn/',{
+    userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+      // recieves an Object of headers, returns an Object of headers.
+      headers['Cache-Control'] = 'public, max-age=31557600';
+      return headers;
+    }
+  }) );
+
+ 
 
 // regular function
 api.use(express.json());       // to support JSON-encoded bodies

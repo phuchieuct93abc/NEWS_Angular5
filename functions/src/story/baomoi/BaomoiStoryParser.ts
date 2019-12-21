@@ -72,7 +72,7 @@ export default class BaomoiStoryParser extends StoryParser {
 
         var rx = /\/([0-9]*).epi/g;
         var arr = rx.exec(sourceId);
-        return `http://s.baomoi.xdn.vn/icon_publishers/${arr[1]}.png`
+        return `icon_publishers/${arr[1]}.png`
     }
 
 

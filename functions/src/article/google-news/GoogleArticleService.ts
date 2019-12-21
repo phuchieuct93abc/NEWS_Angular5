@@ -20,7 +20,7 @@ export default class GoogleArticleService extends ArticleService {
                 new DiffbotService(id).get().then(value => {
                     let result = value.objects.map(news => {
 
-                        return new Article(news.pageUrl, news.title, null, news.html, null, null, null, news.pageUrl, news.siteName, [news.images[0].url], null);
+                        return new Article(news.pageUrl, news.title, null, news.html, null, null, null, news.pageUrl, news.siteName,null, [news.images[0].url], null);
                     });
                     FirebaseService.saveArticle(<Article>result[0]).then(() => {
                         resolve(result[0]);

@@ -55,7 +55,7 @@ export default class GoogleStoryService extends StoryService {
                         let storyImage = new StoryImage(news.urlToImage, 100, 100, "");
                         let title = news.title;
                         title = title.substr(0, title.lastIndexOf("-"))
-                        return new Story(news.url, title, news.description, [storyImage], news.url, new StoryMeta(news.source.name, news.publishedAt), false, false);
+                        return new Story(news.url, title, news.description, [storyImage], news.url, new StoryMeta(news.source.name,null, news.publishedAt), false, false);
                     })
                     resolver(result);
                 })

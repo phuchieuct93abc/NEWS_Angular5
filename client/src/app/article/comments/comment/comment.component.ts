@@ -15,6 +15,7 @@ export class CommentComponent implements OnInit {
     }
 
     ngOnInit() {
+       this.comment.avatar = this.comment.avatar.replace("http://","https://")
     }
 
 }

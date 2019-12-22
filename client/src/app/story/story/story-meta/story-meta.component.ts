@@ -12,14 +12,18 @@ export class StoryMetaComponent implements OnInit {
     @Input()
     story: Story
 
-    sourceIcon:string
+    sourceIcon: string
 
     constructor() {
     }
 
     ngOnInit() {
-        
+        if (this.story.storyMeta.sourceIcon && this.story.storyMeta.sourceIcon.indexOf("http") < 0) {
             this.sourceIcon = `${CONFIG.baseUrl}${this.story.storyMeta.sourceIcon}`
+        }
+        else {
+            this.sourceIcon = this.story.storyMeta.sourceIcon;
+        }
     }
 
 }

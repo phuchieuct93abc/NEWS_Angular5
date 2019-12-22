@@ -16,6 +16,8 @@
     }
     .title{
       font-size: 1.1rem;
+      max-height: 3.6em;
+      overflow: hidden;
     }
 
     &.large-image {

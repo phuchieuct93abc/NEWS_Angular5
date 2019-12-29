@@ -70,7 +70,6 @@ import {ImageComponent} from "./article/article-content/image/image.component";
             preset: intersectionObserverPreset
         }),
         RouterModule,
-        EllipsisModule,
         MatDividerModule,
         NgZorroAntdModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),

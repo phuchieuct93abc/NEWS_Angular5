@@ -15,7 +15,7 @@
                           *ngIf="stories.length>0;else loadingStory"
         >
             <app-mobile-story
-                    *ngFor="let item of scroll.viewPortItems;" [story]="item"
+                    *ngFor="let item of scroll.viewPortItems;" [story]="item" 
                     class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
 
 

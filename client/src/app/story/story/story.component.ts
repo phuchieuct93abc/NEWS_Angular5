@@ -1,13 +1,13 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,} from '@angular/core';
-import {Story} from "../../../../../model/Story";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {Config, ConfigService} from "../../shared/config.service";
-import {Subscription} from "rxjs";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, } from '@angular/core';
+import { Story } from "../../../../../model/Story";
+import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { Config, ConfigService } from "../../shared/config.service";
+import { Subscription } from "rxjs";
 import * as url from 'speakingurl';
-import {FavoriteService} from "../../shared/favorite-story.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Category} from "../../../../../model/Categories";
-import {StoryListService} from "../story-list/story-list.service";
+import { FavoriteService } from "../../shared/favorite-story.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Category } from "../../../../../model/Categories";
+import { StoryListService } from "../story-list/story-list.service";
 
 @Component({
     selector: 'app-story',
@@ -20,7 +20,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     public story: Story;
     @Input()
     public scrollContainer: ElementRef;
-    @ViewChild("ell", {static: false})
+    @ViewChild("ell", { static: false })
     ell: any;
     @Output()
     public onSelectedStory = new EventEmitter<number>();
@@ -37,20 +37,16 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Input()
     category: Category;
 
-
     constructor(public breakpointService: BreakpointDetectorService,
-                protected configService: ConfigService,
-                protected favoriteService: FavoriteService,
-                protected route: Router,
-                protected activatedRoute: ActivatedRoute,
-                protected storyListService: StoryListService
+        protected configService: ConfigService,
+        protected favoriteService: FavoriteService,
+        protected route: Router,
+        protected activatedRoute: ActivatedRoute,
+        protected storyListService: StoryListService
     ) {
     }
 
-    isActive(): boolean {
 
-        return this.route.url.includes(this.friendlyUrl);
-    }
 
     public onSelectStory() {
         this.storyListService.currentSelectedStory = this.story;
@@ -58,12 +54,12 @@ export class StoryComponent implements OnInit, OnDestroy {
         if (this.category) {
             navigate = this.route.navigate(["/", this.category.name, this.friendlyUrl, this.story.id])
         } else {
-            navigate = this.route.navigate([this.friendlyUrl, this.story.id], {relativeTo: this.activatedRoute})
+            navigate = this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute })
         }
 
         navigate.then(() => {
-
             this.story.selected = true;
+
             this.story.isRead = true;
             this.onSelectedStory.emit(this.index);
         })
@@ -76,12 +72,18 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
 
+        this.handleAutoOpenStory();
+
+
+
+    }
+
+    private handleAutoOpenStory() {
         if (this.story.isAutoOpen) {
             this.onSelectStory();
-            this.route.navigate([this.friendlyUrl, this.story.id], {relativeTo: this.activatedRoute})
+            this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
             this.story.isAutoOpen = false;
         }
-
     }
 
     private getConfig() {
@@ -94,7 +96,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     close() {
         this.story.selected = false;
         this.onSelectedStory.emit(this.index);
-
     }
 
     ngOnDestroy(): void {

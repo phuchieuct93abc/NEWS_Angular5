@@ -1,18 +1,18 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {StoryService} from "../../shared/story.service";
-import {Story} from '../../../../../model/Story';
-import {ActivatedRoute, Router} from "@angular/router";
-import {IPageInfo, VirtualScrollerComponent} from "ngx-virtual-scroller";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {Config, ConfigService} from "../../shared/config.service";
-import {StoryListService} from "./story-list.service";
-import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
-import {ArticleService} from "../../shared/article.service";
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { StoryService } from "../../shared/story.service";
+import { Story } from '../../../../../model/Story';
+import { ActivatedRoute, Router } from "@angular/router";
+import { IPageInfo, VirtualScrollerComponent } from "ngx-virtual-scroller";
+import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { Config, ConfigService } from "../../shared/config.service";
+import { StoryListService } from "./story-list.service";
+import { LoadingEventName, LoadingEventType, LoadingService } from "../../shared/loading.service";
+import { ArticleService } from "../../shared/article.service";
 import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
-import {StoryComponent} from "../story/story.component";
-import {Observable} from "rxjs";
+import { StoryComponent } from "../story/story.component";
+import { Observable } from "rxjs";
 
 @Component({
     selector: 'app-story-list',
@@ -25,7 +25,7 @@ export class StoryListComponent implements OnInit {
 
     category: string;
     protected buffer: Story[] = [];
-    @ViewChild(VirtualScrollerComponent, {static: false})
+    @ViewChild(VirtualScrollerComponent, { static: false })
     protected virtualScroller: VirtualScrollerComponent;
 
     @ViewChildren('story')
@@ -49,17 +49,18 @@ export class StoryListComponent implements OnInit {
     private readonly LOADING_STORY_NUMBER = 10;
     private readonly LOADMORE_THRESHOLD = 10;
     private firstStoriesLoaderPromise: any;
+    private selectedStory: Story;
 
 
     constructor(protected storyService: StoryService,
-                protected activatedRoute: ActivatedRoute,
-                protected route: ActivatedRoute,
-                protected router: Router,
-                protected storyListService: StoryListService,
-                protected breakpointService: BreakpointDetectorService,
-                protected configService: ConfigService,
-                protected loadingService: LoadingService,
-                protected articleService: ArticleService) {
+        protected activatedRoute: ActivatedRoute,
+        protected route: ActivatedRoute,
+        protected router: Router,
+        protected storyListService: StoryListService,
+        protected breakpointService: BreakpointDetectorService,
+        protected configService: ConfigService,
+        protected loadingService: LoadingService,
+        protected articleService: ArticleService) {
     }
 
     async ngOnInit() {
@@ -83,7 +84,15 @@ export class StoryListComponent implements OnInit {
         this.registerPrevAndNext();
 
     }
+    onSelectedStory(selectedStoryIndex: number) {
+        if (this.selectedStory) {
 
+            this.selectedStory.isActive = false;
+        }
+        this.selectedStory = this.stories[selectedStoryIndex];
+        this.selectedStory.isActive = true;
+
+    }
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {
             let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
@@ -123,7 +132,7 @@ export class StoryListComponent implements OnInit {
             this.category = params['category'];
 
             this.loadFirstPage();
-            this.configService.updateConfig({category: this.category})
+            this.configService.updateConfig({ category: this.category })
 
         });
     }
@@ -137,7 +146,7 @@ export class StoryListComponent implements OnInit {
                 this.articleService.getById(articleId, params['category']).then(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName,article.sourceIcon, article.time);
+                    let storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     resolve(story)
                 })
@@ -206,19 +215,16 @@ export class StoryListComponent implements OnInit {
             });
         });
         this.firstStoriesLoaderPromise = observable.subscribe(value => {
-
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }
-
             this.autoSelectFirstStory();
         });
     }
 
     private addFirstStoryToTheTop() {
-        console.log(12);
         let firstStoryIndex = this.stories.findIndex(story => story.id === this.firstStory.id);
         if (firstStoryIndex !== -1) {
             let temp = this.stories[0];
@@ -230,6 +236,7 @@ export class StoryListComponent implements OnInit {
 
         }
         this.stories[0].isAutoOpen = true;
+        this.stories[0].isActive = true;
     }
 
     private scrollToTop() {
@@ -259,8 +266,8 @@ export class StoryListComponent implements OnInit {
 
         this.virtualScroller.scrollInto(story, true, offset, animation, () => {
 
-                setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
-            }
+            setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
+        }
         );
     }
 
@@ -293,6 +300,7 @@ export class StoryListComponent implements OnInit {
 
             RequestAnimationFrame(() => {
                 this.storyComponents.first.onSelectStory();
+
             }, 100)
         }
 

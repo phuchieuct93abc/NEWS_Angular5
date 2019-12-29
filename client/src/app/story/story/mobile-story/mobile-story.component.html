@@ -5,7 +5,7 @@
               [class.read]="story.isRead"
               [routerLink]="[friendlyUrl,story.id]"
               routerLinkActive="active"
-              [class.active]="selected"
+              [class.active]="story.isActive"
               [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']"
 
 

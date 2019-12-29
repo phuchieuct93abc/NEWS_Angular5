@@ -12,8 +12,10 @@
                           *ngIf="stories.length>0;else loadingStory"
                           [bufferAmount]="15">
             <div #container>
-                <app-story #story
-                        *ngFor="let item of scroll.viewPortItems" [story]="item"
+                <app-story #story (onSelectedStory)="onSelectedStory($event)" 
+                        *ngFor="let item of scroll.viewPortItems" 
+                        [story]="item" 
+                        [index]="stories.indexOf(item)"
                         class="d-block pb-2"></app-story>
             </div>
 

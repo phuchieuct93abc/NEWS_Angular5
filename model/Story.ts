@@ -5,6 +5,7 @@ export class Story {
     public isFavorite: boolean;
 
     public isTouch = false;
+    public isActive = false;
 
     constructor(
         public id: string,

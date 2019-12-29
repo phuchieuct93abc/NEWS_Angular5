@@ -7,14 +7,18 @@
 
   .sidebar {
     height: 100%;
-    ::ng-deep{
 
-      .ant-divider-inner-text{
+    ::ng-deep {
+
+      .ant-divider-inner-text {
         color: var(--foreground-color);
       }
     }
   }
 
+  .sidebar-switch {
+    justify-content: space-around;
+  }
 
   .logo {
     width: 50px;
@@ -37,7 +41,7 @@
       transition: opacity .3s cubic-bezier(.215, .61, .355, 1), -webkit-transform .3s cubic-bezier(.215, .61, .355, 1);
       transition: transform .3s cubic-bezier(.215, .61, .355, 1), opacity .3s cubic-bezier(.215, .61, .355, 1);
       transition: transform .3s cubic-bezier(.215, .61, .355, 1), opacity .3s cubic-bezier(.215, .61, .355, 1),
-      -webkit-transform .3s cubic-bezier(.215, .61, .355, 1);
+        -webkit-transform .3s cubic-bezier(.215, .61, .355, 1);
       content: '';
 
 
@@ -64,7 +68,8 @@
 
     }
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background-color: transparent !important;
 
       a {

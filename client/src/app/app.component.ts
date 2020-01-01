@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
         private loadingService: LoadingService,
         private elementRef: ElementRef
     ) {
-       
+
     }
 
     ngOnInit(): void {
@@ -103,14 +103,16 @@ export class AppComponent implements OnInit {
         if (this.isSmallDevice) {
             const hammertime = new Hammer(this.elementRef.nativeElement, {});
             hammertime.on('panright', (ev) => {
+                if (this.sidebar.opened) return
                 if (ev.center.x < vars.sideNavThreshold) {
                     this.sidebar.open();
                     ev.srcEvent.preventDefault();
                 }
             });
-            hammertime.on('panleft', (ev) => {
-                this.sidebar.close();
-            });
+            // hammertime.on('panleft', (ev) => {
+
+            //     this.sidebar.close();
+            // });
         }
     }
 

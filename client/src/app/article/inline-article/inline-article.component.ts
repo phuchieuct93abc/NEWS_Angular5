@@ -74,11 +74,10 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     animationName: string = 'none';
     private isShowArticle: boolean = false;
-    readonly closeThreshold = 100;
+    readonly closeThreshold = 50;
 
     @Output()
     onFinishedGetArticle = new EventEmitter<void>();
-
 
     constructor(protected route: ActivatedRoute,
         protected articleService: ArticleService,
@@ -133,17 +132,22 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => this.close(), 0)
     }
     panMove(event) {
-        if (event.center.x - event.deltaX > vars.sideNavThreshold) {//Prevent open sidenac bahavior
-
-            (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(${event.deltaX}px)`
-            if (Math.abs(event.deltaX) > this.closeThreshold) {
-                (<HTMLElement>this.articleView.nativeElement).classList.add("opacity");
-
-            } else {
-                (<HTMLElement>this.articleView.nativeElement).classList.remove("opacity");
-
-            }
+        if (event.deltaX < event.deltaY) {
+            return
         }
+        if (event.center.x - event.deltaX < vars.sideNavThreshold) { return }
+        //Prevent open sidenac bahavior
+        console.log("panmove", event.deltaX);
+
+        (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(${event.deltaX}px)`
+        if (Math.abs(event.deltaX) > this.closeThreshold) {
+            (<HTMLElement>this.articleView.nativeElement).classList.add("opacity");
+
+        } else {
+            (<HTMLElement>this.articleView.nativeElement).classList.remove("opacity");
+
+        }
+
 
     }
     panEnd(event) {
@@ -156,17 +160,29 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
                     this.swipeleft();
                 }
             } else {
-                (<HTMLElement>this.articleView.nativeElement).classList.add("animation");
-                setTimeout(() => {
-                    (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(0px)`
-                    setTimeout(() => {
-                        (<HTMLElement>this.articleView.nativeElement).classList.remove("animation");
+                this.revertPosition();
 
-                    }, 200);
-                }, 0);
             }
+        } else {
+
+            this.revertPosition();
         }
 
+    }
+    panCancel(e) {
+        this.revertPosition(false)
+    }
+
+    private revertPosition(animation = true) {
+        if (animation) {
+            (<HTMLElement>this.articleView.nativeElement).classList.add("animation");
+        }
+        setTimeout(() => {
+            (<HTMLElement>this.articleView.nativeElement).style.transform = ``;
+            setTimeout(() => {
+                (<HTMLElement>this.articleView.nativeElement).classList.remove("animation");
+            }, 200);
+        }, 0);
     }
 
     protected afterGetArticle(): void {

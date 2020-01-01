@@ -21,7 +21,6 @@ api.use(cors());
 
 
 api.get('/story', (req, res) => {
-    console.log()
     StoryServiceFactory.get(req).getStories().then(stories => res.send(stories))
 });
 
@@ -66,8 +65,6 @@ api.get('/blur', (req, res) => {
                 res.send(output)
             })
         } catch (e) {
-            console.log(err2, res2, bodyBuffer);
-
             res.send(null);
 
         }

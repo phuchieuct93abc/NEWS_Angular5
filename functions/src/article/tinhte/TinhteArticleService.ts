@@ -19,7 +19,6 @@ export default class TinhteArticleService extends ArticleService {
         return new Promise((resolve) => {
                 axios.get(this.tinhteArticleUrl.replace("${id}", id)).then(response => {
 
-                    console.log(response)
                     const article = this.parser.setData(response.data["thread"]).parserArticle();
                     resolve(article);
 

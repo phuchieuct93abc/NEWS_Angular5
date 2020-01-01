@@ -13,11 +13,9 @@ export abstract class ArticleService {
         return new Promise(resolver => {
             FirebaseService.findArticle(id).then(article => {
                 if (article && article.exists) {
-                    console.error(`get from firebase ${id}`)
                     resolver((<Article>article.data()));
                 } else {
                     this.crawnArticleById(id).then(article => {
-                        console.error(`get from baomoi ${id}`)
                         resolver(article)
                     })
                 }

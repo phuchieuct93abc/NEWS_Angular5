@@ -3,6 +3,7 @@
    
     (panMove)="panMove($event)"
     (panEnd)="panEnd($event)"
+    (panCancel)="panCancel($event)"
     [ngStyle]="{'font-size.px':fontSize}">
     <div #articleBodyWrapper class="article-view">
         <div *ngIf="article;else loading" [@showArticle]="isShowArticle" (@showArticle.done)="animEnd($event)"

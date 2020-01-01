@@ -1,10 +1,10 @@
 import 'hammerjs';
 import './polyfills';
 
-import {enableProdMode} from '@angular/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import {AppModule} from './app/app.module';
+import { AppModule } from './app/app.module';
 import CONFIG from "./environments/environment";
 import * as moment from 'moment';
 import 'intersection-observer';
@@ -31,4 +31,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Otherwise, log the boot error
     }).catch(err => console.error(err));
-});
+}, { passive: true });

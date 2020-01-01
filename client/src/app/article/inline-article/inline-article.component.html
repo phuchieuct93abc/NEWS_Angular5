@@ -15,7 +15,7 @@
             </div>
 
             <div class="source text-right">
-                <a mat-button [href]="article.sourceUrl" target="_blank"
+                <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank"
                    color="accent">Nguồn: {{article.story.storyMeta.source}}</a>
             </div>
             <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>

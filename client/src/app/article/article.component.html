@@ -22,11 +22,11 @@
 
                 <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right">
-                    <a mat-button [href]="article.sourceUrl" target="_blank" color="accent">Nguồn:
+                    <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
                         {{article.sourceName}}</a>
                 </div>
                 <app-comments [articleId]="article.id"></app-comments>
-            </div>
+            </div> 
             <ng-template #loading>
                 <app-loading></app-loading>
             </ng-template>

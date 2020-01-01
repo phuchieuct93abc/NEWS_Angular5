@@ -3,10 +3,22 @@
 .article {
 
   background-color: transparent !important;
+
   &.cdk-drag-dragging {
     transition: none;
   }
 
+  .article-view {
+    transition: opacity 0.2s linear;
+
+    &.animation {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    &.opacity {
+      opacity: 0.5;
+    }
+  }
 
   .favorite {
     position: sticky;
@@ -43,5 +55,3 @@
   font-size: 18px;
 
 }
-
-

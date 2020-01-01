@@ -10,6 +10,7 @@ import { animate, style, transition, trigger } from "@angular/animations";
 import { AppService } from "./app.service";
 import { MatSidenav } from "@angular/material/sidenav";
 import { LoadingEventType, LoadingService } from "./shared/loading.service";
+import vars from './variable';
 
 @Component({
     selector: 'my-app',
@@ -47,6 +48,8 @@ export class AppComponent implements OnInit {
     isShowProgressBar = false;
     isRenderSidebar: boolean;
 
+
+
     @ViewChild(MatSidenav, { static: false })
     sidebar: MatSidenav;
 
@@ -59,18 +62,9 @@ export class AppComponent implements OnInit {
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        elementRef: ElementRef
+        private elementRef: ElementRef
     ) {
-        const hammertime = new Hammer(elementRef.nativeElement, {});
-        hammertime.on('panright', (ev) => {
-            if(ev.center.x < 100){
-                this.sidebar.open();
-                ev.srcEvent.preventDefault()
-            }
-        });
-        hammertime.on('panleft', (ev) => {
-            this.sidebar.close();
-        });
+       
     }
 
     ngOnInit(): void {
@@ -101,8 +95,25 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         });
 
+        this.swipeToOpenSideNav();
+
 
     }
+    private swipeToOpenSideNav() {
+        if (this.isSmallDevice) {
+            const hammertime = new Hammer(this.elementRef.nativeElement, {});
+            hammertime.on('panright', (ev) => {
+                if (ev.center.x < vars.sideNavThreshold) {
+                    this.sidebar.open();
+                    ev.srcEvent.preventDefault();
+                }
+            });
+            hammertime.on('panleft', (ev) => {
+                this.sidebar.close();
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.loadingService.onLoading.subscribe(data => {
             setTimeout(() => {

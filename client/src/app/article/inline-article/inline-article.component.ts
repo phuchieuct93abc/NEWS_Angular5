@@ -10,6 +10,7 @@ import { ConfigService } from "../../shared/config.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { StorySizechangeDetectorService } from "../../story/story/mobile-story/story-sizechange-detector.service";
 import * as  elementResizeDetectorMaker from "element-resize-detector";
+import vars from '../../variable';
 
 
 const SWIPE_LEFT = "swipeLeft";
@@ -73,6 +74,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     animationName: string = 'none';
     private isShowArticle: boolean = false;
+    readonly closeThreshold = 100;
 
     @Output()
     onFinishedGetArticle = new EventEmitter<void>();
@@ -125,12 +127,46 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => this.close(), 0)
     }
 
-    swiperight(ev) {
-        if (ev.center.x - ev.deltaX >= 100) {
+    swiperight() {
 
-            this.animationName = SWIPE_RIGHT;
-            setTimeout(() => this.close(), 0)
+        this.animationName = SWIPE_RIGHT;
+        setTimeout(() => this.close(), 0)
+    }
+    panMove(event) {
+        if (event.center.x - event.deltaX > vars.sideNavThreshold) {//Prevent open sidenac bahavior
+
+            (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(${event.deltaX}px)`
+            if (Math.abs(event.deltaX) > this.closeThreshold) {
+                (<HTMLElement>this.articleView.nativeElement).classList.add("opacity");
+
+            } else {
+                (<HTMLElement>this.articleView.nativeElement).classList.remove("opacity");
+
+            }
         }
+
+    }
+    panEnd(event) {
+        if (event.center.x - event.deltaX > vars.sideNavThreshold) {
+
+            if (Math.abs(event.deltaX) > this.closeThreshold) {
+                if (event.deltaX > 0) {
+                    this.swiperight();
+                } else {
+                    this.swipeleft();
+                }
+            } else {
+                (<HTMLElement>this.articleView.nativeElement).classList.add("animation");
+                setTimeout(() => {
+                    (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(0px)`
+                    setTimeout(() => {
+                        (<HTMLElement>this.articleView.nativeElement).classList.remove("animation");
+
+                    }, 200);
+                }, 0);
+            }
+        }
+
     }
 
     protected afterGetArticle(): void {

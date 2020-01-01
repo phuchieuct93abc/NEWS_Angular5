@@ -1,22 +1,22 @@
-<div class="panel-primary article p-1" #articleView (swipeRight)="swiperight($event)" [@swipe]="animationName"
-     (swipeLeft)="swipeleft()"
-     [ngStyle]="{'font-size.px':fontSize}"
->
-    <div #articleBodyWrapper>
-        <div *ngIf="article;else loading" [@showArticle]="isShowArticle"
-             (@showArticle.done)="animEnd($event)"
-             style="overflow: hidden">
+<div class="panel-primary article p-1" #articleView 
+    [@swipe]="animationName" 
+   
+    (panMove)="panMove($event)"
+    (panEnd)="panEnd($event)"
+    [ngStyle]="{'font-size.px':fontSize}">
+    <div #articleBodyWrapper class="article-view">
+        <div *ngIf="article;else loading" [@showArticle]="isShowArticle" (@showArticle.done)="animEnd($event)"
+            style="overflow: hidden">
 
             <app-actions [wrapperElement]="articleBodyElement" (onClosed)="close()" [article]="article"></app-actions>
             <div #articleBodyElement>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
-                <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "
-                ></p>
+                <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "></p>
             </div>
 
             <div class="source text-right">
-                <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank"
-                   color="accent">Nguồn: {{article.story.storyMeta.source}}</a>
+                <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
+                    {{article.story.storyMeta.source}}</a>
             </div>
             <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
 

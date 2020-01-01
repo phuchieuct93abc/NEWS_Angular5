@@ -1,15 +1,15 @@
-import {Component, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {Config, ConfigService} from "./shared/config.service";
-import {ArticleService} from "./shared/article.service";
-import {BreakpointDetectorService} from "./shared/breakpoint.service";
+import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { Config, ConfigService } from "./shared/config.service";
+import { ArticleService } from "./shared/article.service";
+import { BreakpointDetectorService } from "./shared/breakpoint.service";
 import CONFIG from "../environments/environment";
-import {DOCUMENT} from "@angular/common";
-import {opacityNgIf} from "./animation";
-import {animate, style, transition, trigger} from "@angular/animations";
-import {AppService} from "./app.service";
-import {MatSidenav} from "@angular/material/sidenav";
-import {LoadingEventType, LoadingService} from "./shared/loading.service";
+import { DOCUMENT } from "@angular/common";
+import { opacityNgIf } from "./animation";
+import { animate, style, transition, trigger } from "@angular/animations";
+import { AppService } from "./app.service";
+import { MatSidenav } from "@angular/material/sidenav";
+import { LoadingEventType, LoadingService } from "./shared/loading.service";
 
 @Component({
     selector: 'my-app',
@@ -19,22 +19,22 @@ import {LoadingEventType, LoadingService} from "./shared/loading.service";
 
         trigger("opacityNgIf", [
             transition(':enter', [
-                style({opacity: 0}),
-                animate('1s 0.5s', style({opacity: 1}))
+                style({ opacity: 0 }),
+                animate('1s 0.5s', style({ opacity: 1 }))
             ]),
             transition(':leave', [
-                style({opacity: 1}),
-                animate('1s', style({opacity: 0}))
+                style({ opacity: 1 }),
+                animate('1s', style({ opacity: 0 }))
             ])
         ]),
         trigger("opacityNgIfNoDelay", [
             transition(':enter', [
-                style({opacity: 0}),
-                animate('0.5s', style({opacity: 1}))
+                style({ opacity: 0 }),
+                animate('0.5s', style({ opacity: 1 }))
             ]),
             transition(':leave', [
-                style({opacity: 1}),
-                animate('0.5s', style({opacity: 0}))
+                style({ opacity: 1 }),
+                animate('0.5s', style({ opacity: 0 }))
             ])
         ])
     ]
@@ -47,19 +47,30 @@ export class AppComponent implements OnInit {
     isShowProgressBar = false;
     isRenderSidebar: boolean;
 
-    @ViewChild(MatSidenav, {static: false})
+    @ViewChild(MatSidenav, { static: false })
     sidebar: MatSidenav;
 
     constructor(private router: Router,
-                private configService: ConfigService,
-                private articleService: ArticleService,
-                private breakpointService: BreakpointDetectorService,
-                private route: ActivatedRoute,
-                @Inject(DOCUMENT) private document: Document,
-                private renderer: Renderer2,
-                private appService: AppService,
-                private loadingService: LoadingService
+        private configService: ConfigService,
+        private articleService: ArticleService,
+        private breakpointService: BreakpointDetectorService,
+        private route: ActivatedRoute,
+        @Inject(DOCUMENT) private document: Document,
+        private renderer: Renderer2,
+        private appService: AppService,
+        private loadingService: LoadingService,
+        elementRef: ElementRef
     ) {
+        const hammertime = new Hammer(elementRef.nativeElement, {});
+        hammertime.on('panright', (ev) => {
+            if(ev.center.x < 100){
+                this.sidebar.open();
+                ev.srcEvent.preventDefault()
+            }
+        });
+        hammertime.on('panleft', (ev) => {
+            this.sidebar.close();
+        });
     }
 
     ngOnInit(): void {
@@ -90,15 +101,15 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         });
 
-     
+
     }
     ngAfterViewInit(): void {
         this.loadingService.onLoading.subscribe(data => {
-            setTimeout(() => {                
+            setTimeout(() => {
                 this.isShowProgressBar = data.type == LoadingEventType.START;
             });
         })
-        
+
     }
 
     private track(): void {

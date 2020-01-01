@@ -1,6 +1,23 @@
-.mat-menu-display {
-  width: 200px;
+body{
+  .mat-menu-display {
+    width: auto ;
+    min-width: none;
+    max-width: none;
+  
+    .mat-menu-content {
+      padding: 10px;
+      display: grid;
+      grid-template: auto auto / auto 1fr;
+      align-items: center;
+      grid-gap: 10px;
+  
+      .size-slider {
+        width: 200px;
+      }
+    }
+  }
 }
+
 
 .icon-wrapper {
   position: relative;
@@ -29,5 +46,3 @@
 
 
 }
-
-

@@ -121,16 +121,16 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
     swipeleft() {
-
         this.animationName = SWIPE_LEFT;
         setTimeout(() => this.close(), 0)
-
-
     }
 
-    swiperight() {
-        this.animationName = SWIPE_RIGHT;
-        setTimeout(() => this.close(), 0)
+    swiperight(ev) {
+        if (ev.center.x - ev.deltaX >= 100) {
+
+            this.animationName = SWIPE_RIGHT;
+            setTimeout(() => this.close(), 0)
+        }
     }
 
     protected afterGetArticle(): void {

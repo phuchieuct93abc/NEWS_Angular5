@@ -1,4 +1,5 @@
-<mat-menu #menu="matMenu" [classList]="'mat-menu-display'">
+<mat-menu #menu="matMenu" [classList]="'mat-menu-display'" xPosition='before'>
+    <div class="text mat-h3 mb-0">Theme</div>
     <button mat-menu-item (click)="$event.stopPropagation()">
         <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
                    (ngModelChange)="toggleDarkMode($event)"></nz-switch>
@@ -6,12 +7,14 @@
 
     </button>
 
-    <div mat-menu-item>
-        <div class="icon-wrapper test-class">
+    <div class="text mat-h3 mb-0">Cỡ chữ</div>
+    <div mat-menu-item class="size-slider">
+        <div class="icon-wrapper test-class" >
             <span class="text-icon">A</span>
             <nz-slider (ngModelChange)="changeFontSize($event)" [(ngModel)]="fontSize" [nzMax]="maxFontSize"
                        [nzMin]="minFontSize"
-                       style="flex:1"></nz-slider>
+                       style="flex:1"
+                       (click)="onCickSizeSlider($event)"></nz-slider>
             <span class="text-icon">A</span>
         </div>
 

@@ -1,4 +1,4 @@
-<div class="panel-primary article p-1" #articleView (swipeRight)="swiperight()" [@swipe]="animationName"
+<div class="panel-primary article p-1" #articleView (swipeRight)="swiperight($event)" [@swipe]="animationName"
      (swipeLeft)="swipeleft()"
      [ngStyle]="{'font-size.px':fontSize}"
 >

@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ConfigService} from "../../shared/config.service";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { ConfigService } from "../../shared/config.service";
+import { BreakpointDetectorService } from "../../shared/breakpoint.service";
 
 @Component({
     selector: 'app-display',
@@ -19,8 +19,8 @@ export class DisplayComponent implements OnInit {
 
 
     constructor(private route: ActivatedRoute,
-                private configService: ConfigService,
-                public breakpointService: BreakpointDetectorService,) {
+        private configService: ConfigService,
+        public breakpointService: BreakpointDetectorService, ) {
     }
 
     ngOnInit() {
@@ -33,13 +33,17 @@ export class DisplayComponent implements OnInit {
 
     toggleDarkMode(value) {
         console.log(this.isDarkMode);
-        this.configService.updateConfig({darkTheme: value})
+        this.configService.updateConfig({ darkTheme: value })
     }
 
     changeFontSize(value: number) {
         console.log(value);
-        this.configService.updateConfig({fontSize: value});
+        this.configService.updateConfig({ fontSize: value });
         this.fontSize = value
 
+    }
+    onCickSizeSlider(event:Event) {
+        event.stopPropagation()
+        console.log(event)
     }
 }

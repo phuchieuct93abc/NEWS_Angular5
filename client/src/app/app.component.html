@@ -4,8 +4,8 @@
 </div>
 <div class=" app   mat-app-background app d-flex align-items-center">
     <div *ngIf="!isSmallDevice && image">
-        <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'"  *ngFor="let bgImage of [image]"
-             @opacityNgIf>
+        <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'" *ngFor="let bgImage of [image]"
+            @opacityNgIf>
         </div>
 
     </div>
@@ -14,7 +14,7 @@
         <mat-sidenav-container class="h-100">
 
             <mat-sidenav [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
-                         [fixedInViewport]="isSmallDevice">
+                [fixedInViewport]="isSmallDevice">
                 <app-sidebar class="d-block"></app-sidebar>
 
 
@@ -32,4 +32,3 @@
 
     </div>
 </div>
-

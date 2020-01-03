@@ -95,24 +95,14 @@ export class AppComponent implements OnInit {
             this.sidebar.toggle()
         });
 
-        this.swipeToOpenSideNav();
-
-
     }
-    private swipeToOpenSideNav() {
+    swipeRight(ev) {
         if (this.isSmallDevice) {
-            const hammertime = new Hammer(this.elementRef.nativeElement, {});
-            hammertime.on('panright', (ev) => {
-                if (this.sidebar.opened) return
-                if (ev.center.x < vars.sideNavThreshold) {
-                    this.sidebar.open();
-                    ev.srcEvent.preventDefault();
-                }
-            });
-            // hammertime.on('panleft', (ev) => {
-
-            //     this.sidebar.close();
-            // });
+            if (this.sidebar.opened) return
+            if (ev.center.x - ev.deltaX < vars.sideNavThreshold) {
+                this.sidebar.open();
+                ev.srcEvent.preventDefault();
+            }
         }
     }
 

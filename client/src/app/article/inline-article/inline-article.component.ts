@@ -132,19 +132,27 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => this.close(), 0)
     }
     panMove(event) {
-        if (event.deltaX < event.deltaY) {
+        console.log(event.deltaX, event.deltaY)
+        let articleNativeElement = (<HTMLElement>this.articleView.nativeElement)
+        if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
+            // console.log("1");
             return
         }
-        if (event.center.x - event.deltaX < vars.sideNavThreshold) { return }
-        //Prevent open sidenac bahavior
-        console.log("panmove", event.deltaX);
-
-        (<HTMLElement>this.articleView.nativeElement).style.transform = `translateX(${event.deltaX}px)`
+        if (event.center.x - event.deltaX < vars.sideNavThreshold) {
+            // console.log("2");
+            return
+        }
+        if (event.distance < 30 && articleNativeElement.style.transform == '') {
+            // console.log("3");
+            return
+        }
+        console.log('move', event.deltaX)
+        articleNativeElement.style.transform = `translateX(${event.deltaX}px)`
         if (Math.abs(event.deltaX) > this.closeThreshold) {
-            (<HTMLElement>this.articleView.nativeElement).classList.add("opacity");
+            articleNativeElement.classList.add("opacity");
 
         } else {
-            (<HTMLElement>this.articleView.nativeElement).classList.remove("opacity");
+            articleNativeElement.classList.remove("opacity");
 
         }
 

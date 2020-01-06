@@ -49,6 +49,11 @@ export class ArticleComponent implements OnInit {
     protected articleView: ElementRef;
     @ViewChild('articleHeader', { static: false })
     protected articleHeader: ElementRef
+    @ViewChild("rootArticle", { static: true })
+    private rootArticle: ElementRef;
+    // @ViewChild("headerPlaceHolder", { static: true })
+    // private headerPlaceHolder:ElementRef
+    // headerPlaceHolderHeight = 0;
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
     articleBody: string;
@@ -111,6 +116,8 @@ export class ArticleComponent implements OnInit {
             RequestAnimationFrame(() => {
                 this.parseVideo();
                 this.parseImage();
+                this.resetStickyHeader();
+
             })
 
         }
@@ -118,6 +125,10 @@ export class ArticleComponent implements OnInit {
 
     }
 
+    protected resetStickyHeader() {
+        this.isStickHeader = false;
+        // this.headerPlaceHolderHeight = this.articleHeader.nativeElement.clientHeight
+    }
     protected registerStickyHeader() {
         let thresholds = [0.1];
         let th = 0.1;
@@ -126,18 +137,24 @@ export class ArticleComponent implements OnInit {
             thresholds.push(th);
         }
         let options = {
-            threshold: thresholds
+            threshold: thresholds,
+            root: this.rootArticle.nativeElement
         };
-        let observer = new IntersectionObserver((entries, observer) => {
-            this.isStickHeader = entries[0].intersectionRatio < 0.5 && entries[0].intersectionRatio > 0;
-            if (this.isStickHeader) {
-                observer.disconnect();
-            }
-        }, options);
         setTimeout(() => {
-            observer.observe(this.articleHeader.nativeElement);
 
-        }, 0);
+            let observer = new IntersectionObserver((entries, observer) => {
+                this.isStickHeader = entries[0].intersectionRatio < (48 / this.articleHeader.nativeElement.clientHeight) && entries[0].intersectionRatio > 0;
+                
+                if (this.isStickHeader) {
+                    observer.disconnect();
+                    // this.headerPlaceHolderHeight = this.articleHeader.nativeElement.clientHeight
+                }
+            }, options);
+            setTimeout(() => {
+                observer.observe(this.articleHeader.nativeElement);
+
+            }, 0);
+        }, 500);
     }
 
     private parseImage() {

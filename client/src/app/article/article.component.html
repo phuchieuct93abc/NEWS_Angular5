@@ -1,24 +1,26 @@
-<div class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}">
+<div class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
     <div class="navigator navigator-prev">
         <a (click)="prevArticle()" mat-icon-button>
             <mat-icon>chevron_left</mat-icon>
         </a>
     </div>
-    <div class="scrollable panel-primary "  #articleView>
+    <div class="scrollable panel-primary " #articleView>
         <div *ngFor="let id of [articleId]" style="position: relative" @showArticle>
 
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3">
-                <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">
-                    <div class="mat-display-1 mb-2 accent-color article-title ">
-                        {{article.header}}
+                    <div #articleHeader class="article-header" 
+                    [ngClass]="{'stick':isStickHeader}">
+                        <div class="mat-display-1 mb-2 accent-color article-title ">
+                            {{article.header}}
+                        </div>
+                        <app-actions [article]="article"></app-actions>
+                        <div class="blur-edge blur-top"></div>
+
                     </div>
-                    <app-actions [article]="article"></app-actions>
-                    <div class="blur-edge blur-top"></div>
-
-                </div>
 
 
-                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
+                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"
+                    *ngIf="article.description"></p>
 
                 <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right">
@@ -26,7 +28,7 @@
                         {{article.sourceName}}</a>
                 </div>
                 <app-comments [articleId]="article.id"></app-comments>
-            </div> 
+            </div>
             <ng-template #loading>
                 <app-loading></app-loading>
             </ng-template>

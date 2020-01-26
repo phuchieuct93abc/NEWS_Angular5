@@ -1,6 +1,7 @@
 .title,
 .time {
   color: var(--foreground-color);
+  font-size: 0.9em;
 }
 
 .icon {
@@ -8,4 +9,5 @@
 }
 :host{
   flex: 1;
+  padding: 0.5em 0 0 0;
 }

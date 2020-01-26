@@ -36,7 +36,8 @@ export default class BaomoiStoryParser extends StoryParser {
         let result: StoryImage[] = [];
         for (let i = 0; i < images.length; i++) {
             const image = images[i];
-            result.push(new StoryImage(image.getAttribute('src'), image["width"], image['height'], image['alt']))
+            let srcUrl = image.getAttribute('src') || image.getAttribute('data-src')
+            result.push(new StoryImage(srcUrl, image["width"], image['height'], image['alt']))
         }
 
         const videoElements = this.data.getElementsByTagName('video');

@@ -27,12 +27,12 @@ const SWIPE_RIGHT = "swipeRight";
             state('swipeRight', style({ transform: "translateX(110%)" })),
 
             transition('show=>swipeRight', [
-                style({ opacity: 1 }),
+                style({ opacity: 0.5 }),
 
                 animate('0.2s', style({ opacity: 0, transform: "translateX(100%)" })),
             ]),
             transition('show=>swipeLeft', [
-                style({ opacity: 1 }),
+                style({ opacity: 0.5 }),
 
                 animate('0.2s', style({ opacity: 0, transform: "translateX(-100%)" })),
             ]),

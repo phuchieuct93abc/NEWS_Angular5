@@ -11,9 +11,7 @@
   .article-view {
     transition: opacity 0.2s linear;
 
-    &.animation {
-      transition: transform 0.2s ease-in-out;
-    }
+
 
   }
 
@@ -32,9 +30,7 @@
       transform: scale(1) !important;
     }
 
-    ::ng-deep .fyi.nocontent {
-      //margin-bottom: 2em;
-    }
+  
   }
 
 

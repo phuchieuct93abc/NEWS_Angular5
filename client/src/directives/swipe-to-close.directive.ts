@@ -7,7 +7,7 @@ import vars from '../app/variable';
 export class SwipeToCloseDirective implements OnDestroy {
 
 
-  readonly panThreshold = 50;
+  readonly panThreshold = 80;
   private nativeElement: HTMLElement;
   @Output('appSwipeToClose')
   private onPanEnd = new EventEmitter<'left' | 'right'>();
@@ -49,12 +49,12 @@ export class SwipeToCloseDirective implements OnDestroy {
 
   private revertPosition(animation = true) {
     if (animation) {
-      this.nativeElement.classList.add("animation");
+      this.nativeElement.style.transition = "transform 0.2s ease-in-out";
     }
     setTimeout(() => {
       this.nativeElement.style.transform = ``;
       setTimeout(() => {
-        this.nativeElement.classList.remove("animation");
+        this.nativeElement.style.transition = "";
       }, 200);
     }, 0);
   }
@@ -64,7 +64,6 @@ export class SwipeToCloseDirective implements OnDestroy {
 
       if (Math.abs(event.deltaX) > this.panThreshold) {
         if (event.deltaX > 0) {
-          console.log("emit right")
           this.onPanEnd.emit("right")
         } else {
           this.onPanEnd.emit("left")

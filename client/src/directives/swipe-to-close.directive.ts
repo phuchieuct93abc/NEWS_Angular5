@@ -9,28 +9,24 @@ export class SwipeToCloseDirective implements OnDestroy {
 
   readonly panThreshold = 80;
   private nativeElement: HTMLElement;
+  private mc: HammerManager;
   @Output('appSwipeToClose')
   private onPanEnd = new EventEmitter<'left' | 'right'>();
 
   constructor(element: ElementRef) {
     this.nativeElement = element.nativeElement
-    var mc = new Hammer(this.nativeElement);
-    mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL, threshold: 50 }));
+    this.mc = new Hammer(this.nativeElement);
+    this.mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL, threshold: 50 }));
 
-    mc.on('panmove', ev => this.panMove(ev));
-    mc.on('pancancel', ev => this.panCancel(ev));
-    mc.on('panend', ev => this.panEnd(ev));
+    this.mc.on('panmove', ev => this.panMove(ev));
+    this.mc.on('pancancel', ev => this.panCancel());
+    this.mc.on('panend', ev => this.panEnd(ev));
   }
 
   panMove(event) {
     if (event.center.x - event.deltaX < vars.sideNavThreshold) {
       return
     }
-    // if (event.distance < 30 && articleNativeElement.style.transform == '') {
-    //   // console.log("3");
-    //   return
-    // }
-    console.log(event.deltaX)
     this.nativeElement.style.transform = `translateX(${event.deltaX}px)`
     if (Math.abs(event.deltaX) > this.panThreshold) {
       this.nativeElement.style.opacity = "0.5"
@@ -43,7 +39,7 @@ export class SwipeToCloseDirective implements OnDestroy {
 
   }
 
-  panCancel(e) {
+  panCancel() {
     this.revertPosition(false)
   }
 
@@ -81,7 +77,7 @@ export class SwipeToCloseDirective implements OnDestroy {
 
 
   ngOnDestroy(): void {
-    console.log("ondestroy")
+    this.mc.destroy();
   }
 
 }

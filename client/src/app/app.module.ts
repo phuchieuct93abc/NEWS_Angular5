@@ -50,11 +50,12 @@ import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
 import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.component";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ImageComponent} from "./article/article-content/image/image.component";
+import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 
 
 @NgModule({
     imports: [
-        BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -106,7 +107,7 @@ import {ImageComponent} from "./article/article-content/image/image.component";
         StoryMetaComponent,
         LoadingComponent,
         LoadingStoryComponent,
-        ImageComponent
+        ImageComponent, SwipeToCloseDirective
 
     ],
     bootstrap: [AppComponent],

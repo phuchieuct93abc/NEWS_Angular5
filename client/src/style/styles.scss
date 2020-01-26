@@ -2,7 +2,8 @@
 @import "font";
 @import "dark-theme";
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -10,20 +11,23 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   --text-transition: color .3s cubic-bezier(.645, .045, .355, 1),
-  border-color .3s cubic-bezier(.645, .045, .355, 1),
-  background .3s cubic-bezier(.645, .045, .355, 1),
-  padding .15s cubic-bezier(.645, .045, .355, 1);
+    border-color .3s cubic-bezier(.645, .045, .355, 1),
+    background .3s cubic-bezier(.645, .045, .355, 1),
+    padding .15s cubic-bezier(.645, .045, .355, 1);
 }
+
 @font-face {
   font-display: auto;
 }
+
 :focus {
   outline: none;
 }
 
 a {
-  transition:var(--text-transition);
+  transition: var(--text-transition);
   color: var(--hightlight-color) !important;
+
   &:hover {
     text-decoration: none;
   }
@@ -35,7 +39,8 @@ html {
 }
 
 
-.scrollable, body {
+.scrollable,
+body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -43,14 +48,13 @@ html {
 
 }
 
+
 .blur-top {
   @include blur-edge(var(--blur-edge-color), var(--blur-edge-transparent-color), top, bottom)
-
 }
 
 .blur-bottom {
   @include blur-edge(var(--blur-edge-color), var(--blur-edge-transparent-color), bottom, top)
-
 }
 
 
@@ -62,6 +66,7 @@ html {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -98,7 +103,8 @@ button:focus {
 
 .app:not(.small-device) {
 
-  .scrollable, .vertical.selfScroll {
+  .scrollable,
+  .vertical.selfScroll {
 
 
     &::-webkit-scrollbar {

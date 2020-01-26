@@ -131,66 +131,13 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         this.animationName = SWIPE_RIGHT;
         setTimeout(() => this.close(), 0)
     }
-    panMove(event) {
-        console.log(event.deltaX, event.deltaY)
-        let articleNativeElement = (<HTMLElement>this.articleView.nativeElement)
-        if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
-            // console.log("1");
-            return
-        }
-        if (event.center.x - event.deltaX < vars.sideNavThreshold) {
-            // console.log("2");
-            return
-        }
-        if (event.distance < 30 && articleNativeElement.style.transform == '') {
-            // console.log("3");
-            return
-        }
-        console.log('move', event.deltaX)
-        articleNativeElement.style.transform = `translateX(${event.deltaX}px)`
-        if (Math.abs(event.deltaX) > this.closeThreshold) {
-            articleNativeElement.classList.add("opacity");
-
+    onPanEnd(direction) {
+        console.log(direction)
+        if (direction === 'right') {
+            this.swiperight();
         } else {
-            articleNativeElement.classList.remove("opacity");
-
+            this.swipeleft();
         }
-
-
-    }
-    panEnd(event) {
-        if (event.center.x - event.deltaX > vars.sideNavThreshold) {
-
-            if (Math.abs(event.deltaX) > this.closeThreshold) {
-                if (event.deltaX > 0) {
-                    this.swiperight();
-                } else {
-                    this.swipeleft();
-                }
-            } else {
-                this.revertPosition();
-
-            }
-        } else {
-
-            this.revertPosition();
-        }
-
-    }
-    panCancel(e) {
-        this.revertPosition(false)
-    }
-
-    private revertPosition(animation = true) {
-        if (animation) {
-            (<HTMLElement>this.articleView.nativeElement).classList.add("animation");
-        }
-        setTimeout(() => {
-            (<HTMLElement>this.articleView.nativeElement).style.transform = ``;
-            setTimeout(() => {
-                (<HTMLElement>this.articleView.nativeElement).classList.remove("animation");
-            }, 200);
-        }, 0);
     }
 
     protected afterGetArticle(): void {

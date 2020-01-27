@@ -236,6 +236,7 @@ export class StoryListComponent implements OnInit {
         }
         this.stories[0].isAutoOpen = true;
         this.stories[0].isActive = true;
+        this.scrollToStory(this.firstStory.id);
     }
 
     private scrollToTop() {

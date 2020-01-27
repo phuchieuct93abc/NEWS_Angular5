@@ -1,12 +1,10 @@
-<div class="panel-primary article p-1" #articleView 
-(appSwipeToClose)="onPanEnd($event)"
- [@swipe]="animationName"
+<div class="panel-primary article p-1" #articleView (appSwipeToClose)="onPanEnd($event)" [@swipe]="animationName"
     [ngStyle]="{'font-size.px':fontSize}">
     <div #articleBodyWrapper class="article-view">
-        <div *ngIf="article;else loading" [@showArticle]="isShowArticle" (@showArticle.done)="animEnd($event)"
+        <div *ngIf="article;else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)"
             style="overflow: hidden">
 
-            <app-actions [wrapperElement]="articleBodyElement" (onClosed)="close()" [article]="article"></app-actions>
+            <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article"></app-actions>
             <div #articleBodyElement>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
                 <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "></p>

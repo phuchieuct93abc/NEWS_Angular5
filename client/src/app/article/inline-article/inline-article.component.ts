@@ -27,14 +27,14 @@ const SWIPE_RIGHT = "swipeRight";
             state('swipeRight', style({ transform: "translateX(110%)" })),
 
             transition('show=>swipeRight', [
-                style({ opacity: 0.5 }),
+                style({ opacity: 0.5, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, transform: "translateX(100%)" })),
+                animate('0.2s', style({ opacity: 0, height: 0, transform: "translateX(100%)" })),
             ]),
             transition('show=>swipeLeft', [
-                style({ opacity: 0.5 }),
+                style({ opacity: 0.5, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, transform: "translateX(-100%)" })),
+                animate('0.2s', style({ opacity: 0, height: 0, transform: "translateX(-100%)" })),
             ]),
 
         ]),
@@ -73,7 +73,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     private erd;
 
     animationName: string = 'none';
-    private isShowArticle: boolean = false;
+    isCollapseArticle: boolean = false;
     readonly closeThreshold = 50;
 
     @Output()
@@ -94,7 +94,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     ngOnInit() {
         super.ngOnInit();
-        this.isShowArticle = true;
+        this.isCollapseArticle = true;//Expand article
 
         this.categoryId = this.route.snapshot.params["category"];
         this.articleId = this.story.id;
@@ -117,19 +117,19 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     }
 
 
-    close() {
-        this.isShowArticle = false;
+    collapseArticle() {
+        this.isCollapseArticle = false;
     }
 
     swipeleft() {
         this.animationName = SWIPE_LEFT;
-        setTimeout(() => this.close(), 0)
+        setTimeout(() => this.collapseArticle(), 100)
     }
 
     swiperight() {
 
         this.animationName = SWIPE_RIGHT;
-        setTimeout(() => this.close(), 0)
+        setTimeout(() => this.collapseArticle(), 100)
     }
     onPanEnd(direction) {
         if (direction === 'right') {
@@ -155,12 +155,17 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
     animEnd($event) {
+        console.log("animation end")
         if ($event.toState == false) {
-            this.onClosed.emit();
+            this.story.selected = false;
+            this.story.height = 0;
             this.storyListService.scrollTo.next(this.story);
+         
         } else {
             this.onFinishedGetArticle.emit();
         }
+
+
 
 
     }

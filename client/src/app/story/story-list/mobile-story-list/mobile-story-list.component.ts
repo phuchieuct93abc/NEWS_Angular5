@@ -9,9 +9,6 @@ import { ArticleService } from "../../../shared/article.service";
 import { StoryListComponent } from "../story-list.component";
 import { StorySizechangeDetectorService } from "../../story/mobile-story/story-sizechange-detector.service";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
-import { debounce } from 'rxjs/operators';
-import { timer } from 'rxjs';
-import { Story } from '../../../../../../model/Story';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -42,7 +39,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         this.registerShowingMoveToTop();
 
         this.changeDetector.sizeDetector.subscribe(story => {
-            console.log("invalid cache", story.title)
+            console.log("invalid ", story.title)
             this.virtualScroller.invalidateCachedMeasurementForItem(story);
         });
         this.registerScrollTo();

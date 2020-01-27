@@ -35,6 +35,10 @@ export class MobileStoryComponent extends StoryComponent {
         });
 
     }
+    close() {
+        this.story.selected = false;
+        // this.onSelectedStory.emit(this.index);
+    }
 
     ngOnDestroy(): void {
         if (this.story.isTouch) {

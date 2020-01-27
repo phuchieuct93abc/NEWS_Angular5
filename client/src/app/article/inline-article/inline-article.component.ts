@@ -132,7 +132,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         setTimeout(() => this.close(), 0)
     }
     onPanEnd(direction) {
-        console.log(direction)
         if (direction === 'right') {
             this.swiperight();
         } else {

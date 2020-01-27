@@ -99,12 +99,7 @@ export class StoryListComponent implements OnInit {
             if (prevIndex > -1) {
 
                 let prevStoryId = this.stories[prevIndex].id;
-                this.storyComponents.forEach(story => {
-                    if (story.story.id === prevStoryId) {
-                        story.onSelectStory();
-                        this.scrollTo(story.story, 500, 0);
-                    }
-                })
+                this.scrollToStory(prevStoryId);
             }
 
         });
@@ -113,14 +108,18 @@ export class StoryListComponent implements OnInit {
             let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
             let nextStoryId = this.stories[nextIndex].id;
 
-            this.storyComponents.forEach(story => {
-                if (story.story.id === nextStoryId) {
-                    story.onSelectStory();
-                    this.scrollTo(story.story, 500, 0);
+            this.scrollToStory(nextStoryId);
 
-                }
-            })
         })
+    }
+
+    private scrollToStory(prevStoryId: string) {
+        this.storyComponents.forEach(story => {
+            if (story.story.id === prevStoryId) {
+                story.onSelectStory();
+                this.scrollTo(story.story, 500, 0);
+            }
+        });
     }
 
     private updateStoryList() {

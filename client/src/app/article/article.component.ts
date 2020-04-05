@@ -130,6 +130,10 @@ export class ArticleComponent implements OnInit {
         // this.headerPlaceHolderHeight = this.articleHeader.nativeElement.clientHeight
     }
     protected registerStickyHeader() {
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        if(isSafari)return;
+
         let thresholds = [0.1];
         let th = 0.1;
         while (th < 0.9) {

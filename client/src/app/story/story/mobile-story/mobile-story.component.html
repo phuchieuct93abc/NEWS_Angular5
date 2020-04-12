@@ -1,6 +1,4 @@
-<div #storyElement [style.minHeight.px]="story.height" [class.first-story]="index===0" style="transition: 0.2s linear">
-
-
+<div #storyElement  [class.first-story]="index===0" >
     <mat-card (click)="onSelectStory()" class="m-0 p-0 py-2" [class.read]="story.isRead"
         [routerLink]="[friendlyUrl,story.id]" routerLinkActive="active" [class.active]="story.isActive"
         [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']">

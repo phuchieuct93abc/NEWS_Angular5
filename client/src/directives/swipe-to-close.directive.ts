@@ -32,7 +32,6 @@ export class SwipeToCloseDirective implements OnDestroy {
     if (event.distance < 100 && this.nativeElement.style.transform === '') {
       return
     }
-    console.log(event, event.additionalEvent)
     if (event.center.x - event.deltaX < vars.sideNavThreshold) {
       return
     }

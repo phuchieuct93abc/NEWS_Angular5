@@ -248,11 +248,17 @@ export class StoryListComponent implements OnInit {
 
     private onLoadMore(event: IPageInfo) {
         if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
+        this.loadMoreStories();
+    }
+    protected async  loadMoreStories(){
         this.isLoading = true;
-        this.getLoadMoreObservable().then(value => {
-            this.stories.push(...value);
-            this.isLoading = false;
-        });
+        return  new Promise(resolve=>{
+            this.getLoadMoreObservable().then(value => {
+                this.stories.push(...value);
+                this.isLoading = false;
+                resolve()
+            });
+        }) 
     }
 
     private getLoadMoreObservable() {
@@ -297,12 +303,15 @@ export class StoryListComponent implements OnInit {
 
     autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
-
             RequestAnimationFrame(() => {
                 this.storyComponents.first.onSelectStory();
-
             }, 100)
         }
+        this.afterInitStories();
+
+
+    }
+    protected afterInitStories(){
 
     }
 

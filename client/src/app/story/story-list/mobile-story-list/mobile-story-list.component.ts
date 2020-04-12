@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { StoryService } from "../../../shared/story.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StoryListService } from "../story-list.service";
@@ -9,6 +9,7 @@ import { ArticleService } from "../../../shared/article.service";
 import { StoryListComponent } from "../story-list.component";
 import { StorySizechangeDetectorService } from "../../story/mobile-story/story-sizechange-detector.service";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
+import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -17,6 +18,13 @@ import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 })
 export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 
+    @ViewChild('loadmore',{static:false})
+    loadMoreEl:ElementRef;
+
+    @ViewChildren(MobileStoryComponent)
+    storyMobiles:QueryList<MobileStoryComponent>
+
+    isLoadingMore:boolean;
     constructor(protected storyService: StoryService,
         protected activatedRoute: ActivatedRoute,
         protected route: ActivatedRoute,
@@ -38,20 +46,26 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
         this.registerShowingMoveToTop();
 
-        this.changeDetector.sizeDetector.subscribe(story => {
-            console.log("invalid ", story.title)
-            this.virtualScroller.invalidateCachedMeasurementForItem(story);
-        });
+        /**
+         * Remove virtual scroll
+         */
+        // this.changeDetector.sizeDetector.subscribe(story => {
+        //     this.virtualScroller.invalidateCachedMeasurementForItem(story);
+        // });
         this.registerScrollTo();
 
 
+     
     }
 
     private registerScrollTo() {
         this.storyListService.scrollTo.subscribe(item => {
             const index = this.stories.findIndex(i => i.id === item.id);
-            this.virtualScroller.items = this.stories;
-            this.scrollTo(this.stories[index], 0);
+console.log(this.storyMobiles)
+            this.storyMobiles.toArray()[Math.max(0,index-1)].scrollIntoView();
+
+      // this.virtualScroller.items = this.stories;
+      //this.scrollTo(this.stories[index], 0);
         })
     }
 
@@ -63,7 +77,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
                 clearTimeout(this.hideMoveTopTimeout);
                 this.hideMoveTopTimeout = setTimeout(() => {
                     RequestAnimationFrame(() => this.isShowMoveTop = false)
-
                 }, 5000)
             }
 
@@ -72,6 +85,32 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
     ngOnDestroy(): void {
         this.changeDetector.sizeDetector.unsubscribe();
+    }
+   afterInitStories(){
+        super.afterInitStories();
+
+        setTimeout(() => {
+              
+              let observer = new IntersectionObserver(async ()=>{
+                  if(this.isLoadingMore)return;
+                  console.log('loadmore')
+
+                  this.isLoadingMore = true;
+                  await this.loadMoreStories();
+                  setTimeout(() => {
+                    this.isLoadingMore = false;
+
+                  }, 1000);
+                  
+              },  {                  
+                threshold:0.1,
+                rootMargin:'200px'
+              });
+              observer.observe(this.loadMoreEl.nativeElement)
+        }, 1000);
+       
+
+
     }
 
 

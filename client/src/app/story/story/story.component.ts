@@ -42,8 +42,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
-        protected storyListService: StoryListService
-    ) {
+        protected storyListService: StoryListService    ) {
     }
 
 
@@ -99,6 +98,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         console.log("ondestroy")
         this.configListener.unsubscribe();
     }
+  
 
 
 }

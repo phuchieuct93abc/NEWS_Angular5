@@ -1,13 +1,13 @@
-import { Directive, ElementRef, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import vars from '../app/variable';
 
 @Directive({
   selector: '[appSwipeToClose]'
 })
-export class SwipeToCloseDirective implements OnDestroy {
+export class SwipeToCloseDirective implements OnDestroy,AfterViewInit {
 
 
-  readonly panThreshold = 80;
+  readonly panThreshold = 100;
   readonly closeThreshold = 120;
   private nativeElement: HTMLElement;
   private mc: HammerManager;
@@ -20,22 +20,28 @@ export class SwipeToCloseDirective implements OnDestroy {
     this.mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL, threshold: this.panThreshold }));
 
     this.mc.on('panmove', ev => this.panMove(ev));
-    // this.mc.on('panleft', ev => this.panMove(ev));
     this.mc.on('pancancel', ev => this.panCancel());
     this.mc.on('panend', ev => this.panEnd(ev));
+
+ 
+  
+  }
+  ngAfterViewInit(): void {
+    this.nativeElement.style.transition='translateX 0.1s linear';
+    this.nativeElement.style['will-change']='translateX';
   }
 
+
   panMove(event) {
-    // if ([Hammer.DIRECTION_LEFT, Hammer.DIRECTION_RIGHT].indexOf(event.offsetDirection) === -1) {
-    //   return
-    // }
+
     if (event.distance < 100 && this.nativeElement.style.transform === '') {
       return
     }
     if (event.center.x - event.deltaX < vars.sideNavThreshold) {
       return
     }
-    this.nativeElement.style.transform = `translateX(${event.deltaX}px)`
+
+    this.nativeElement.style.transform = `translateX(${event.deltaX*2}px)`
     if (Math.abs(event.deltaX) > this.closeThreshold) {
       this.nativeElement.style.opacity = "0.5"
 

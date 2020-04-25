@@ -4,8 +4,8 @@
             <mat-icon>chevron_left</mat-icon>
         </a>
     </div>
-    <div class="scrollable panel-primary " #articleView>
-        <div *ngFor="let id of [articleId]" style="position: relative" @showArticle>
+    <div class="scrollable " #articleView>
+        <div *ngFor="let id of [articleId]" style="position: relative" @showArticle class="panel-primary">
 
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3">
                     <div #articleHeader class="article-header" 
@@ -14,8 +14,6 @@
                             {{article.header}}
                         </div>
                         <app-actions [article]="article"></app-actions>
-                        <div class="blur-edge blur-top"></div>
-
                     </div>
 
 

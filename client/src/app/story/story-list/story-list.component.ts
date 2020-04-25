@@ -270,7 +270,7 @@ export class StoryListComponent implements OnInit {
 
         this.virtualScroller.scrollInto(story, true, offset, animation, () => {
 
-        );
+        });
     }
 
 

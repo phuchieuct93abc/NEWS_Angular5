@@ -54,6 +54,9 @@ export class MobileStoryComponent extends StoryComponent {
         this.element.nativeElement.scrollIntoView({behavior: "auto", block: "start", inline: "start"});
       
     }
+    getElement():HTMLElement{
+        return this.element.nativeElement
+    }
 
 
 }

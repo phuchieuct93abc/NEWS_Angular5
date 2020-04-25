@@ -43,7 +43,6 @@ export class StoryListComponent implements OnInit {
     isBrowser;
 
     firstStory: Story;
-    isListeningScroll = true;
     currentScrollIndex = 0;
     loadingStoryNumber = [];
     private readonly LOADING_STORY_NUMBER = 10;
@@ -99,7 +98,7 @@ export class StoryListComponent implements OnInit {
             if (prevIndex > -1) {
 
                 let prevStoryId = this.stories[prevIndex].id;
-                this.scrollToStory(prevStoryId);
+                this.selectStory(prevStoryId);
             }
 
         });
@@ -108,12 +107,12 @@ export class StoryListComponent implements OnInit {
             let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
             let nextStoryId = this.stories[nextIndex].id;
 
-            this.scrollToStory(nextStoryId);
+            this.selectStory(nextStoryId);
 
         })
     }
 
-    private scrollToStory(prevStoryId: string) {
+    private selectStory(prevStoryId: string) {
         this.storyComponents.forEach(story => {
             if (story.story.id === prevStoryId) {
                 story.onSelectStory();
@@ -236,7 +235,7 @@ export class StoryListComponent implements OnInit {
         }
         this.stories[0].isAutoOpen = true;
         this.stories[0].isActive = true;
-        this.scrollToStory(this.firstStory.id);
+        this.selectStory(this.firstStory.id);
     }
 
     private scrollToTop() {
@@ -268,12 +267,9 @@ export class StoryListComponent implements OnInit {
     }
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {
-        this.isListeningScroll = false;
 
         this.virtualScroller.scrollInto(story, true, offset, animation, () => {
 
-            setTimeout(() => RequestAnimationFrame(() => this.isListeningScroll = true), 500)
-        }
         );
     }
 
@@ -307,6 +303,7 @@ export class StoryListComponent implements OnInit {
                 this.storyComponents.first.onSelectStory();
             }, 100)
         }
+        this.scrollTo(this.stories[0]);
         this.afterInitStories();
 
 

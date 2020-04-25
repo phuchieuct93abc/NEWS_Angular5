@@ -23,7 +23,8 @@ export class MobileStoryComponent extends StoryComponent {
                 protected favoriteService: FavoriteService,
                 protected route: Router,
                 protected activatedRoute: ActivatedRoute,
-                protected storyListService: StoryListService
+                protected storyListService: StoryListService,
+                protected element: ElementRef
     ) {
         super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService)
     }
@@ -41,13 +42,20 @@ export class MobileStoryComponent extends StoryComponent {
     }
 
     ngOnDestroy(): void {
-        if (this.story.isTouch) {
-            let clientHeight = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-            this.story.height = clientHeight
-        }
+        // if (this.story.isTouch) {
+        //     let clientHeight = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
+        //     this.story.height = clientHeight
+        // }
         super.ngOnDestroy();
 
 
+    }
+    scrollIntoView(){
+        this.element.nativeElement.scrollIntoView({behavior: "auto", block: "start", inline: "start"});
+      
+    }
+    getElement():HTMLElement{
+        return this.element.nativeElement
     }
 
 

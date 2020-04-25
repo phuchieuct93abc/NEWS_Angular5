@@ -1,7 +1,7 @@
 import { ArticleComponent } from "../article.component";
 import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../../shared/article.service";
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Story } from "../../../../../model/Story";
 import { StoryListService } from "../../story/story-list/story-list.service";
 import { CdkDrag } from "@angular/cdk/drag-drop";
@@ -9,8 +9,6 @@ import { DomService } from "../dom.service";
 import { ConfigService } from "../../shared/config.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { StorySizechangeDetectorService } from "../../story/story/mobile-story/story-sizechange-detector.service";
-import * as  elementResizeDetectorMaker from "element-resize-detector";
-import vars from '../../variable';
 
 
 const SWIPE_LEFT = "swipeLeft";
@@ -27,14 +25,14 @@ const SWIPE_RIGHT = "swipeRight";
             state('swipeRight', style({ transform: "translateX(110%)" })),
 
             transition('show=>swipeRight', [
-                style({ opacity: 0.5, height: '*' }),
+                style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, height: 0, transform: "translateX(100%)" })),
+                animate('0.2s', style({ opacity: 0, transform: "translateX(100%)" })),
             ]),
             transition('show=>swipeLeft', [
-                style({ opacity: 0.5, height: '*' }),
+                style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, height: 0, transform: "translateX(-100%)" })),
+                animate('0.2s', style({ opacity: 0,  transform: "translateX(-100%)" })),
             ]),
 
         ]),
@@ -58,7 +56,7 @@ const SWIPE_RIGHT = "swipeRight";
 
 })
 
-export class InlineArticleComponent extends ArticleComponent implements OnDestroy, AfterViewInit {
+export class InlineArticleComponent extends ArticleComponent implements OnDestroy {
 
     @Output()
     onClosed = new EventEmitter();
@@ -107,14 +105,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         //Override article in desktop mode
     }
 
-    ngAfterViewInit(): void {
-        this.erd = elementResizeDetectorMaker({
 
-        });
-        this.erd.listenTo(this.articleView.nativeElement, () => {
-            this.changeDetector.sizeDetector.next(this.story);
-        });
-    }
 
 
     collapseArticle() {
@@ -148,19 +139,15 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        this.erd.uninstall(this.articleView.nativeElement);
-
-
     }
 
 
     animEnd($event) {
-        console.log("animation end")
         if ($event.toState == false) {
             this.story.selected = false;
             this.story.height = 0;
             this.storyListService.scrollTo.next(this.story);
-         
+
         } else {
             this.onFinishedGetArticle.emit();
         }

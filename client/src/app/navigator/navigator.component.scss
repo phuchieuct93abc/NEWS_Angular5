@@ -20,7 +20,8 @@ $nav-xs-height: 50px;
       @include mat-elevation(5);
       position: relative;
       z-index: 2;
-      background-color: var(--background-color-1);
+      background-color: rgba(var(--background-color-1-code), 0.6  );
+      backdrop-filter: saturate(180%) blur(20px);
 
       .breadcrumb-separator {
         color:var(--background-color-3);

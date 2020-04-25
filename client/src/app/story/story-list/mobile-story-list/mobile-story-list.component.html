@@ -1,25 +1,6 @@
 <div class="story-list">
     <div class=" " *ngIf="isBrowser">
-        <!-- <virtual-scroller #scroll
-                          (vsUpdate)="vsUpdate()"
-                          (vsEnd)="vsEnd()"
-                          [enableUnequalChildrenSizes]="true"
-                          [items]="stories"
-                          [parentScroll]="scroll.window"
-                          [modifyOverflowStyleOfParentScroll]="false"
-                          [compareItems]="compareItem"
-                          [useMarginInsteadOfTranslate]="true"
-                          [bufferAmount]="10"
-                          [checkResizeInterval]="0"
-                          [scrollThrottlingTime]="500"
-                          *ngIf="stories.length>0;else loadingStory"
-        >
-            <app-mobile-story
-                    *ngFor="let item of scroll.viewPortItems;" [story]="item" 
-                    class="d-block" [index]="stories.indexOf(item)"></app-mobile-story>
-
-
-        </virtual-scroller> -->
+        
         <div class="stories"   *ngIf="stories.length>0;else loadingStory">
             <app-mobile-story #storyMobile
             *ngFor="let item of stories;trackBy:compareItem" [story]="item" 

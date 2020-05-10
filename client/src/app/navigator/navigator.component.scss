@@ -1,12 +1,11 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
-$nav-height: 50px;
+$nav-height: 56px;
 $nav-xs-height: 50px;
 
 :host {
   display: block;
   overflow: visible;
-
 
   .navigator {
     height: $nav-height;
@@ -20,11 +19,13 @@ $nav-xs-height: 50px;
       @include mat-elevation(5);
       position: relative;
       z-index: 2;
-      background-color: rgba(var(--background-color-1-code), 0.6  );
-      backdrop-filter: saturate(180%) blur(20px);
+      background-color: rgba(var(--background-color-1-code), 0.6);
 
+      > div {
+        backdrop-filter: saturate(180%) blur(20px);
+      }
       .breadcrumb-separator {
-        color:var(--background-color-3);
+        color: var(--background-color-3);
       }
 
       .mat-toolbar-single-row {
@@ -35,12 +36,8 @@ $nav-xs-height: 50px;
           display: flex;
           align-items: center;
           height: 40px;
-
         }
       }
     }
-
-
   }
 }
-

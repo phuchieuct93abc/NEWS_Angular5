@@ -74,6 +74,7 @@ import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
         MatDividerModule,
         NgZorroAntdModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
+        LazyLoadImageModule
 
     ],
     declarations: [
@@ -107,7 +108,8 @@ import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
         StoryMetaComponent,
         LoadingComponent,
         LoadingStoryComponent,
-        ImageComponent, SwipeToCloseDirective
+        ImageComponent,
+         SwipeToCloseDirective
 
     ],
     bootstrap: [AppComponent],

@@ -1,8 +1,10 @@
 
     <img
-            [src]="convertedImagePath"
             class="mt-0 mb-0 image"
+            defaultImage="assets/news.webp"
+            [offset]="500"
             [alt]="alt"
+            [lazyLoad]="convertedImagePath"
             *ngIf="convertedImagePath"
     />
 

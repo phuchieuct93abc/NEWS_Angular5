@@ -9,14 +9,7 @@ import { ImageSerice } from "../../shared/image.service";
 @Component({
     selector: 'app-image-viewer',
     templateUrl: './image-viewer.component.html',
-    styleUrls: ['./image-viewer.component.scss'],
-    animations: [
-        trigger('spinner', [
-            transition(':leave', [
-                style({ opacity: 1 }),
-                animate("0.5s", style({ opacity: 0 }))])
-        ])
-    ]
+    styleUrls: ['./image-viewer.component.scss']
 })
 export class ImageViewerComponent implements OnInit {
 
@@ -40,10 +33,7 @@ export class ImageViewerComponent implements OnInit {
 
     convertedImagePath: string;
 
-    constructor(private config: ConfigService, private breakpointService: BreakpointDetectorService,
-        private storyListService: StoryListService, private imageService: ImageSerice,
-        private elRef: ElementRef
-    ) {
+    constructor(private imageService: ImageSerice, private elRef: ElementRef) {
 
     }
 

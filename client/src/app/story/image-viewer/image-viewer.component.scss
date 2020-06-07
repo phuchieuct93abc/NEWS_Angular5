@@ -10,14 +10,15 @@
     //opacity: 0;
     transition: transform linear 0.5s;
 
-    object-fit: cover;
+    object-fit: contain;
 
     &.hoverZoom:hover {
       transform: scale(1.1);
     }
 
     &.ng-lazyloaded {
-      //opacity: 1;
+     object-fit: cover;
+
     }
 
   }

@@ -9,7 +9,7 @@
     "run": "nodemon dist/server",
     "serve": "npm-run-all --parallel webpack:watch run"
   },
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "dependencies": {
     "@angular/animations": "^8.0.2",
     "@angular/cdk": "^8.0.1",

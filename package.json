@@ -12,7 +12,7 @@
     "build:func": "npm --prefix \"functions\" run compile",
     "build:client": "npm --prefix \"client\" run-script build:ssr",
     "test": "npm-run-all setup:func build:func setup:client build:client",
-    "deploy": "npm run build:client && npm run build:func && firebase deploy",
+    "deploy": "npm run build:client && npm run build:func && firebase deploy --token \"1//0eVvkFPfaZ5tECgYIARAAGA4SNwF-L9Ir-E03jd_zmjf5JoOEur4eRhw27ZtnpzLRnwqixm01dL0mzz_gjKO8_30nLtLgzJnpzNI\"",
     "deploy:func": " npm run build:func && firebase deploy --only functions",
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",

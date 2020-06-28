@@ -12,7 +12,8 @@ import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 import { StoryComponent } from "../story/story.component";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-story-list',
@@ -49,6 +50,8 @@ export class StoryListComponent implements OnInit {
     private readonly LOADMORE_THRESHOLD = 10;
     private firstStoriesLoaderPromise: any;
     private selectedStory: Story;
+
+    private $stopGetStories = new Subject();
 
 
     constructor(protected storyService: StoryService,
@@ -124,6 +127,7 @@ export class StoryListComponent implements OnInit {
     private updateStoryList() {
         if (this.isLoading) return;
         this.route.params.subscribe(params => {
+            this.$stopGetStories.next();
             this.firstStoriesLoaderPromise && this.firstStoriesLoaderPromise.unsubscribe();
 
             this.resetStoryList();
@@ -196,7 +200,7 @@ export class StoryListComponent implements OnInit {
         this.storyService.onSearch.subscribe(keyword => {
             if (keyword) {
                 this.resetStoryList();
-                this.storyService.search(keyword).then(values => this.stories.push(...values))
+                this.storyService.search(keyword).subscribe(values => this.stories.push(...values))
             } else {
                 this.updateStoryList();
             }
@@ -207,12 +211,7 @@ export class StoryListComponent implements OnInit {
 
 
     private loadFirstPage() {
-        let observable = new Observable<Story[]>(subscriber => {
-            this.storyService.getStories(this.category).then(value => {
-                subscriber.next(value)
-            });
-        });
-        this.firstStoriesLoaderPromise = observable.subscribe(value => {
+        this.storyService.getStories(this.category).pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
@@ -249,10 +248,10 @@ export class StoryListComponent implements OnInit {
         if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
         this.loadMoreStories();
     }
-    protected async  loadMoreStories(){
+    protected async loadMoreStories(){
         this.isLoading = true;
         return  new Promise(resolve=>{
-            this.getLoadMoreObservable().then(value => {
+            this.getLoadMoreObservable().pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
                 this.stories.push(...value);
                 this.isLoading = false;
                 resolve()
@@ -260,8 +259,8 @@ export class StoryListComponent implements OnInit {
         }) 
     }
 
-    private getLoadMoreObservable() {
-        let loadMorePromise: Promise<Story[]>;
+    private getLoadMoreObservable():Observable<Story[]> {
+        let loadMorePromise: Observable<Story[]>;
         loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(this.category);
         return loadMorePromise;
     }

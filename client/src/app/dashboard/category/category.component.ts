@@ -37,7 +37,7 @@ export class TopCategoryComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.storyService.getStoriesFirstPage(this.category.name).then(stories => {
+        this.storyService.getStoriesFirstPage(this.category.name).subscribe(stories => {
             this.stories = stories;
 
         })

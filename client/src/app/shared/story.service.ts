@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {Subject, Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
-import {map, retry} from "rxjs/operators";
+import {map, retry, tap} from "rxjs/operators";
 import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
@@ -34,29 +34,28 @@ export class StoryService {
         this.stories = [];
     }
 
-    getStories(category: string): Promise<any> {
-        return new Promise<any>((resolve => {
+    getStories(category: string): Observable<Story[]> {
 
-            this.getStoryByPage(category, ++this.currentStoryPage).then(stories => {
+            return this.getStoryByPage(category, ++this.currentStoryPage).pipe(
+                tap(stories => {
                 let result = this.filterStory(stories);
                 this.appendStoryList(result);
-                resolve(result);
 
-            });
-        }))
+            }));
+        
 
 
     }
 
-    getStoriesFirstPage(category: string): Promise<any> {
+    getStoriesFirstPage(category: string): Observable<any> {
 
         return this.getStoryByPage(category, 1);
 
     }
 
-    search(keyword: string): Promise<any> {
+    search(keyword: string): Observable<any> {
         if (CONFIG.isRunningInNode) {
-            return Promise.resolve()
+            return of()
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
         return this.httpClient.get(searchUrl, {
@@ -77,7 +76,7 @@ export class StoryService {
                     this.appendStoryList(result);
                     return result
                 }
-            )).toPromise();
+            ));
     }
 
     preloadArticle(result: Story[]) {
@@ -130,12 +129,12 @@ export class StoryService {
         this.stories.unshift(firstStory);
     }
 
-    private getStoryByPage(category: string, pageNumber: number): Promise<any> {
+    private getStoryByPage(category: string, pageNumber: number): Observable<any> {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
         }
         if (CONFIG.isRunningInNode) {
-            return Promise.resolve()
+            return of();
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
 
@@ -159,7 +158,7 @@ export class StoryService {
 
                     return result;
                 }
-            )).toPromise();
+            ));
 
     }
 }

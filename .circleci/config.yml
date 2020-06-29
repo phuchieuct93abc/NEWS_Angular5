@@ -9,6 +9,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
+            - run: npm install
             - run: cd client && npm install
             - run: cd functions && npm install
             - run: npm run deploy

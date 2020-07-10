@@ -26,10 +26,10 @@ api.get('/story', (req, res) => {
 
 
 api.get('/article', (req, res) => {
-    ArticleServiceFactory.get(req).getArticleById(req.query.url).then(article => res.send(article))
+    ArticleServiceFactory.get(req).getArticleById(req.query.url as string).then(article => res.send(article))
 });
 api.get('/comments', (req, res) => {
-    ArticleServiceFactory.get(req).getComment(req.query.id).then(article => res.send(article))
+    ArticleServiceFactory.get(req).getComment(req.query.id as string).then(article => res.send(article))
 });
 api.get('/cachestory', (req, res) => {
 
@@ -41,14 +41,14 @@ api.get('/cachestory', (req, res) => {
 
 api.get('/search', (req, res) => {
 
-    StoryServiceFactory.get(req).search(req.query.pageNumber, req.query.keyword).then((value) => {
+    StoryServiceFactory.get(req).search(req.query.pageNumber as string,  req.query.keyword as string).then((value) => {
         res.send(value);
 
     })
 });
 api.get('/getSource', (req, res) => {
 
-    ArticleServiceFactory.get(req).getSource(req.query.id).then((value) => {
+    ArticleServiceFactory.get(req).getSource(req.query.id as string).then((value) => {
         res.send({url: value});
 
     })
@@ -96,3 +96,7 @@ api.listen(3001, () => {
 });
 
 export default api;
+
+
+import * as textToSpeech from '@google-cloud/text-to-speech'
+console.log(textToSpeech);

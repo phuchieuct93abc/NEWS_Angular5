@@ -146,7 +146,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         if ($event.toState == false) {
             this.story.selected = false;
             this.story.height = 0;
-
+            this.onClosed.emit();
         } else {
             this.onFinishedGetArticle.emit();
         }

@@ -96,7 +96,3 @@ api.listen(3001, () => {
 });
 
 export default api;
-
-
-import * as textToSpeech from '@google-cloud/text-to-speech'
-console.log(textToSpeech);

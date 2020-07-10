@@ -29,29 +29,24 @@ export class MobileStoryComponent extends StoryComponent {
         super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService)
     }
 
+    onSelectStory(){
+        super.onSelectStory();
+        window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+
+
+    }
     onOpenStory() {
-        RequestAnimationFrame(() => {
-            this.story.isTouch = true;
-            this.story.height = 0
-        });
+   
 
     }
     close() {
+        window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+
         this.story.selected = false;
-        // this.onSelectedStory.emit(this.index);
     }
 
-    ngOnDestroy(): void {
-        // if (this.story.isTouch) {
-        //     let clientHeight = (<HTMLDivElement>this.storyElement.nativeElement).clientHeight;
-        //     this.story.height = clientHeight
-        // }
-        super.ngOnDestroy();
-
-
-    }
     scrollIntoView(){
-        this.element.nativeElement.scrollIntoView({behavior: "auto", block: "start", inline: "start"});
+        this.element.nativeElement.scrollIntoView({behavior:'smooth', block: "start", inline: "start"});
       
     }
     getElement():HTMLElement{

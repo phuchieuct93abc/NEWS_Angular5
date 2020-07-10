@@ -45,8 +45,6 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected storyListService: StoryListService    ) {
     }
 
-
-
     public onSelectStory() {
         this.storyListService.currentSelectedStory = this.story;
         let navigate: Promise<any>;
@@ -58,7 +56,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
         navigate.then(() => {
             this.story.selected = true;
-
             this.story.isRead = true;
             this.onSelectedStory.emit(this.index);
         })

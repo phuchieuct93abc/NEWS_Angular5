@@ -7,7 +7,6 @@ import { ConfigService } from "../../../shared/config.service";
 import { LoadingService } from "../../../shared/loading.service";
 import { ArticleService } from "../../../shared/article.service";
 import { StoryListComponent } from "../story-list.component";
-import { StorySizechangeDetectorService } from "../../story/mobile-story/story-sizechange-detector.service";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { Story } from '../../../../../../model/Story';
@@ -35,7 +34,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
-        private changeDetector: StorySizechangeDetectorService
     ) {
         super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
 
@@ -45,21 +43,17 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
         this.registerShowingMoveToTop();
-        this.registerScrollTo();
 
     }
 
-    private registerScrollTo() {
-        this.storyListService.scrollTo.subscribe(item => this.scrollToStory(item))
-    }
+
 
     private scrollToStory(story: Story) {
         setTimeout(() => {
             const index = this.stories.findIndex(i => i.id === story.id);
             const el =this.storyMobiles.toArray()[Math.max(0, index)].getElement();
-            window.scrollTo({top:el.offsetTop-60})
-        }, 0);
-           
+            window.scrollTo({top:el.offsetTop-60,behavior:'smooth'})
+        }, 0);         
       
     }
 
@@ -78,7 +72,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     }
 
     ngOnDestroy(): void {
-        this.changeDetector.sizeDetector.unsubscribe();
     }
     afterInitStories() {
         super.afterInitStories();
@@ -108,7 +101,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     }
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {
-        console.log('scroll to')
         this.scrollToStory(story);
     }
 

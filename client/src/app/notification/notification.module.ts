@@ -33,6 +33,8 @@ export class NotificationModule {
         this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
         this.message.requestPermission().then(() => {
             this.getToken();
+        },()=>{
+            
         })
     }
 

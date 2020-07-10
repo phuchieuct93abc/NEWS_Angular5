@@ -10,7 +10,6 @@ import {IPageInfo} from "ngx-virtual-scroller";
 export class StoryListService {
 
     public onScroll = new Subject<IPageInfo>();
-    public scrollTo = new Subject<Story>();
     public onScrollUp = new Subject<IPageInfo>();
     public onScrollDown = new Subject<IPageInfo>();
 

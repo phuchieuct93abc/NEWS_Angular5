@@ -81,8 +81,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
-        private changeDetector: StorySizechangeDetectorService,
         protected storyListService: StoryListService,
+        private elementRef: ElementRef
 
 
     ) {
@@ -146,7 +146,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         if ($event.toState == false) {
             this.story.selected = false;
             this.story.height = 0;
-            this.storyListService.scrollTo.next(this.story);
 
         } else {
             this.onFinishedGetArticle.emit();

@@ -127,7 +127,6 @@ export class ArticleComponent implements OnInit {
 
     protected resetStickyHeader() {
         this.isStickHeader = false;
-        // this.headerPlaceHolderHeight = this.articleHeader.nativeElement.clientHeight
     }
     protected registerStickyHeader() {
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -148,10 +147,8 @@ export class ArticleComponent implements OnInit {
 
             let observer = new IntersectionObserver((entries, observer) => {
                 this.isStickHeader = entries[0].intersectionRatio < (48 / this.articleHeader.nativeElement.clientHeight) && entries[0].intersectionRatio > 0;
-                
                 if (this.isStickHeader) {
                     observer.disconnect();
-                    // this.headerPlaceHolderHeight = this.articleHeader.nativeElement.clientHeight
                 }
             }, options);
             setTimeout(() => {

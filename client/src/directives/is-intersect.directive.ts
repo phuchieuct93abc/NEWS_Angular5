@@ -20,4 +20,4 @@ export class IsIntersectDirective implements AfterViewInit {
       .observe(this.element.nativeElement)
   }
 
-}
+};

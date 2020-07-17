@@ -16,10 +16,4 @@ exports.api = functions.runWith({
 
 }).region("asia-northeast1").https.onRequest(api);
 
-exports.apissr = functions.runWith({
-    timeoutSeconds: 30,
-    memory: '1GB'
-
-}).https.onRequest(api);
-
 

@@ -73,35 +73,21 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
     ngOnDestroy(): void {
     }
-    afterInitStories() {
-        super.afterInitStories();
-
-        setTimeout(() => {
-
-            let observer = new IntersectionObserver(async () => {
-                if (this.isLoadingMore) return;
-                console.log('loadmore')
-
-                this.isLoadingMore = true;
-                await this.loadMoreStories();
-                setTimeout(() => {
-                    this.isLoadingMore = false;
-
-                }, 1000);
-
-            }, {
-                threshold: 0.1,
-                rootMargin: '200px'
-            });
-            observer.observe(this.loadMoreEl.nativeElement)
-        }, 1000);
-
-
-
-    }
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {
         this.scrollToStory(story);
+    }
+
+    async loadmore(isIntersect: boolean){
+        console.log(isIntersect)
+        if (this.isLoadingMore || !isIntersect) return;
+        this.isLoadingMore = true;
+        await this.loadMoreStories();
+        setTimeout(() => {
+            this.isLoadingMore = false;
+        });
+
+
     }
 
 

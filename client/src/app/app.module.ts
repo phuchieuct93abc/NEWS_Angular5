@@ -51,6 +51,7 @@ import {LoadingStoryComponent} from "./story/story/loading-story/loading-story.c
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ImageComponent} from "./article/article-content/image/image.component";
 import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
+import { IsIntersectDirective } from '../directives/is-intersect.directive';
  
 
 @NgModule({
@@ -109,7 +110,8 @@ import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
         LoadingComponent,
         LoadingStoryComponent,
         ImageComponent,
-         SwipeToCloseDirective
+         SwipeToCloseDirective,
+         IsIntersectDirective
 
     ],
     bootstrap: [AppComponent],

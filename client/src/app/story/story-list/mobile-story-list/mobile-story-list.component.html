@@ -1,11 +1,11 @@
 <div class="story-list">
-    <div class=" " *ngIf="isBrowser">
+    <div  *ngIf="isBrowser">
         
         <div class="stories"   *ngIf="stories.length>0;else loadingStory">
             <app-mobile-story #storyMobile
             *ngFor="let item of stories;trackBy:compareItem" [story]="item" 
             class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
-            <div class="py-3 text-center" #loadmore>Load more</div>
+            <div class="py-3 text-center" (appIsIntersect)="loadmore($event)">Load more</div>
         </div>
       
 

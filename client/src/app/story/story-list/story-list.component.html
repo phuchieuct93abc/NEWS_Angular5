@@ -1,32 +1,21 @@
 <div class="h-100 story-list">
     <div #scrollingBlock class=" scrollable" *ngIf="isBrowser">
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
-        <virtual-scroller #scroll
-                          (vsUpdate)="vsUpdate()"
-                          (vsEnd)="vsEnd()"
-                          [checkResizeInterval]="0"
-                          [items]="stories"
-                          [parentScroll]="scrollingBlock"
-                          [modifyOverflowStyleOfParentScroll]="false"
-                          [compareItems]="compareItem"
-                          *ngIf="stories.length>0;else loadingStory"
-                          [bufferAmount]="15">
-            <div #container>
+       
+            <div  *ngIf="stories.length>0;else loadingStory">
                 <app-story #story (onSelectedStory)="onSelectedStory($event)" 
-                        *ngFor="let item of scroll.viewPortItems" 
+                        *ngFor="let item of stories" 
                         [story]="item" 
                         [index]="stories.indexOf(item)"
-                        class="d-block pb-2"></app-story>
+                        class="d-block pb-2"
+                        [scrollElement]="scrollingBlock"></app-story>
             </div>
 
             <div class="p-2 text-center">
-                <span class="mat-h3">Đang tải</span>
-                <button class="loading_icon icon spin-icon" mat-icon-button aria-label="Đang tải">
-                    <mat-icon>cached</mat-icon>
-                </button>
+                <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
+
             </div>
 
-        </virtual-scroller>
         <ng-template #loadingStory>
             <div class="loading-story">
                 <div *ngFor="let i of loadingStoryNumber">

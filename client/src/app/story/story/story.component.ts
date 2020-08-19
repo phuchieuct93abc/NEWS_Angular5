@@ -37,12 +37,16 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Input()
     category: Category;
 
+    @Input()
+    scrollElement: Element;
+
     constructor(public breakpointService: BreakpointDetectorService,
         protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
-        protected storyListService: StoryListService    ) {
+        protected storyListService: StoryListService,
+        protected element: ElementRef    ) {
     }
 
     public onSelectStory() {
@@ -96,6 +100,10 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.configListener.unsubscribe();
     }
   
+    getElement():HTMLElement{
+        return this.element.nativeElement
+    }
+
 
 
 }

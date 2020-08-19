@@ -26,7 +26,7 @@ export class MobileStoryComponent extends StoryComponent {
                 protected storyListService: StoryListService,
                 protected element: ElementRef
     ) {
-        super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService)
+        super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService,element)
     }
 
     onSelectStory(){
@@ -47,9 +47,7 @@ export class MobileStoryComponent extends StoryComponent {
         this.story.selected = false;
     }
 
-    getElement():HTMLElement{
-        return this.element.nativeElement
-    }
+
 
 
 }

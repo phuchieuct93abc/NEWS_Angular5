@@ -29,6 +29,8 @@ export class ImageViewerComponent implements OnInit {
     wrapperWidth: number;
     @Input()
     alt: string
+    @Input()
+    scrollElement:Element;
 
 
     convertedImagePath: string;

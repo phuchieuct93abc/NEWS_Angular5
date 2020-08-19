@@ -18,9 +18,6 @@ import { Story } from '../../../../../../model/Story';
 })
 export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 
-    @ViewChild('loadmore', { static: false })
-    loadMoreEl: ElementRef;
-
     @ViewChildren(MobileStoryComponent)
     storyMobiles: QueryList<MobileStoryComponent>
 
@@ -55,6 +52,10 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
             window.scrollTo({top:el.offsetTop-60,behavior:'smooth'})
         }, 0);         
       
+    }
+    protected scrollTop(){
+        window.scrollTo({top:60,behavior:'smooth'});
+
     }
 
     private registerShowingMoveToTop() {

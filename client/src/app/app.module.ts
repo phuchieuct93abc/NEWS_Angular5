@@ -29,7 +29,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/article-content/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
-import {intersectionObserverPreset, LazyLoadImageModule} from "ng-lazyload-image";
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image'; // <-- include intersectionObserverPreset
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
@@ -52,7 +52,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {ImageComponent} from "./article/article-content/image/image.component";
 import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
- 
+
 
 @NgModule({
     imports: [
@@ -68,14 +68,12 @@ import { IsIntersectDirective } from '../directives/is-intersect.directive';
         MatButtonModule,
         NotificationModule,
         ClipboardModule,
-        LazyLoadImageModule.forRoot({
-            preset: intersectionObserverPreset
-        }),
         RouterModule,
         MatDividerModule,
         NgZorroAntdModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
-        LazyLoadImageModule
+        LazyLoadImageModule,
+        
 
     ],
     declarations: [

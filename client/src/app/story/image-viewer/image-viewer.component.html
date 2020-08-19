@@ -2,9 +2,10 @@
     <img
             class="mt-0 mb-0 image"
             defaultImage="assets/news.png"
-            [offset]="500"
+            offset="1000"
             [alt]="alt"
             [lazyLoad]="convertedImagePath"
+            [scrollTarget]="scrollElement"
             *ngIf="convertedImagePath"
     />
 

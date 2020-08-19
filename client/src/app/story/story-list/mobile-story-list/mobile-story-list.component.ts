@@ -18,9 +18,6 @@ import { Story } from '../../../../../../model/Story';
 })
 export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 
-    @ViewChild('loadmore', { static: false })
-    loadMoreEl: ElementRef;
-
     @ViewChildren(MobileStoryComponent)
     storyMobiles: QueryList<MobileStoryComponent>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { StoryService } from "../../shared/story.service";
 import { Story } from '../../../../../model/Story';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -26,11 +26,13 @@ export class StoryListComponent implements OnInit {
 
     category: string;
     protected buffer: Story[] = [];
-    @ViewChild(VirtualScrollerComponent, { static: false })
-    protected virtualScroller: VirtualScrollerComponent;
+    // @ViewChild(VirtualScrollerComponent, { static: false })
+    // protected virtualScroller: VirtualScrollerComponent;
 
-    @ViewChildren('story')
-    storyComponents: QueryList<StoryComponent>;
+    @ViewChild("scrollingBlock",{static:false})
+    scrollingBlock:ElementRef;
+    @ViewChildren(StoryComponent)
+    storyComponents: QueryList<StoryComponent>; 
 
     isSmallScreen: boolean;
     isShowMoveTop: boolean;
@@ -193,7 +195,7 @@ export class StoryListComponent implements OnInit {
     private resetStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
-        this.scrollToTop();
+        this.scrollTop();
     }
 
     private registerOnSearch() {
@@ -237,17 +239,7 @@ export class StoryListComponent implements OnInit {
         this.selectStory(this.firstStory.id);
     }
 
-    private scrollToTop() {
-        if (this.virtualScroller) {
-            this.scrollTo(this.stories[0], 500);
-        }
-    }
 
-
-    private onLoadMore(event: IPageInfo) {
-        if (event.endIndex < this.stories.length - this.LOADMORE_THRESHOLD || this.isLoading) return;
-        this.loadMoreStories();
-    }
     protected async loadMoreStories(){
         this.isLoading = true;
         return  new Promise(resolve=>{
@@ -266,16 +258,24 @@ export class StoryListComponent implements OnInit {
     }
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {
+        setTimeout(() => {
+            const index = this.stories.findIndex(i => i.id === story.id);
+            console.log(index)
+            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'})
+        }, 0);    
 
-        this.virtualScroller.scrollInto(story, true, offset, animation, () => {
 
-        });
+    }
+    protected scrollTop(){
+        this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
+
     }
 
 
     moveTop(event: MouseEvent) {
         event.stopPropagation();
-        this.virtualScroller.scrollToIndex(0, true, -60, 500);
+        this.scrollTop();
         RequestAnimationFrame(() => {
             this.resetStoryList();
             this.loadFirstPage();
@@ -285,24 +285,24 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    vsEnd() {
-        this.onLoadMore(this.virtualScroller.viewPortInfo)
+    // vsEnd() {
+    //     this.onLoadMore(this.virtualScroller.viewPortInfo)
 
-    }
+    // }
 
-    vsUpdate() {
-        this.currentScrollIndex = this.virtualScroller.viewPortInfo.startIndex;
-        this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
+    // vsUpdate() {
+    //     this.currentScrollIndex = this.virtualScroller.viewPortInfo.startIndex;
+    //     this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
 
-    }
-
+    // }
+ 
     autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
             RequestAnimationFrame(() => {
                 this.storyComponents.first.onSelectStory();
             }, 100)
         }
-        this.scrollTo(this.stories[0]);
+        this.scrollTop();
         this.afterInitStories();
 
 

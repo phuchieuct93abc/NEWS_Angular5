@@ -101,7 +101,6 @@ export class StoryListComponent implements OnInit {
         this.storyListService.onSelectPrevStory.subscribe(() => {
             let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
             if (prevIndex > -1) {
-
                 let prevStoryId = this.stories[prevIndex].id;
                 this.selectStory(prevStoryId);
             }
@@ -111,9 +110,7 @@ export class StoryListComponent implements OnInit {
         this.storyListService.onSelectNextStory.subscribe(() => {
             let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
             let nextStoryId = this.stories[nextIndex].id;
-
             this.selectStory(nextStoryId);
-
         })
     }
 

@@ -40,10 +40,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
         this.registerShowingMoveToTop();
-
     }
-
-
 
     private scrollToStory(story: Story) {
         setTimeout(() => {
@@ -54,7 +51,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
       
     }
     protected scrollTop(){
-        window.scrollTo({top:60,behavior:'smooth'});
+        window.scrollTo({top:0,behavior:'smooth'});
 
     }
 

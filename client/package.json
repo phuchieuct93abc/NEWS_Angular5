@@ -35,7 +35,6 @@
     "ngx-clipboard": "^12.1.2",
     "ngx-ellipsis": "^2.0.4",
     "ngx-moment": "^3.4.0",
-    "ngx-virtual-scroller": "^3.0.2",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",

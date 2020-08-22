@@ -2,7 +2,6 @@ import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } fro
 import { StoryService } from "../../shared/story.service";
 import { Story } from '../../../../../model/Story';
 import { ActivatedRoute, Router } from "@angular/router";
-import { IPageInfo, VirtualScrollerComponent } from "ngx-virtual-scroller";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
 import { Config, ConfigService } from "../../shared/config.service";
 import { StoryListService } from "./story-list.service";
@@ -26,8 +25,7 @@ export class StoryListComponent implements OnInit {
 
     category: string;
     protected buffer: Story[] = [];
-    // @ViewChild(VirtualScrollerComponent, { static: false })
-    // protected virtualScroller: VirtualScrollerComponent;
+
 
     @ViewChild("scrollingBlock",{static:false})
     scrollingBlock:ElementRef;
@@ -281,18 +279,6 @@ export class StoryListComponent implements OnInit {
 
     }
 
-
-    // vsEnd() {
-    //     this.onLoadMore(this.virtualScroller.viewPortInfo)
-
-    // }
-
-    // vsUpdate() {
-    //     this.currentScrollIndex = this.virtualScroller.viewPortInfo.startIndex;
-    //     this.storyListService.onScroll.next(this.virtualScroller.viewPortInfo);
-
-    // }
- 
     autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
             RequestAnimationFrame(() => {

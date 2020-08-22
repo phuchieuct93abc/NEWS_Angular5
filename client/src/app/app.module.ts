@@ -14,7 +14,6 @@ import {NavigatorComponent} from "./navigator/navigator.component";
 import {MainComponent} from "./main/main.component";
 import {MomentModule} from 'ngx-moment';
 
-import {VirtualScrollerModule} from "ngx-virtual-scroller";
 import {InlineArticleComponent} from "./article/inline-article/inline-article.component";
 import {ImageViewerComponent} from "./story/image-viewer/image-viewer.component";
 import {LoadingComponent} from "./article/loading/loading.component";
@@ -63,7 +62,6 @@ import { IsIntersectDirective } from '../directives/is-intersect.directive';
         MaterialModule,
         AppRoutingModule,
         MomentModule,
-        VirtualScrollerModule,
         RouterModule,
         MatButtonModule,
         NotificationModule,

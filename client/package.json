@@ -38,6 +38,7 @@
     "normalize.css": "^8.0.1",
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",
+    "smoothscroll-polyfill": "^0.4.4",
     "speakingurl": "^14.0.1",
     "webpack-bundle-analyzer": "^3.3.2",
     "zone.js": "^0.9.1"

@@ -8,7 +8,9 @@ import { AppModule } from './app/app.module';
 import CONFIG from "./environments/environment";
 import * as moment from 'moment';
 import 'intersection-observer';
+import smoothscroll from 'smoothscroll-polyfill';
 
+smoothscroll.polyfill();
 
 if (CONFIG.production) {
     enableProdMode();

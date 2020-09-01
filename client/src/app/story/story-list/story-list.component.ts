@@ -87,7 +87,6 @@ export class StoryListComponent implements OnInit {
 
     }
     onSelectedStory(selectedStoryIndex: number) {
-        console.log('onselec')
         if (this.selectedStory) {
             this.selectedStory.isActive = false;
         }

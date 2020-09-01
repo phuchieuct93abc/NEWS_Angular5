@@ -4,12 +4,13 @@ import { ArticleService } from "../shared/article.service";
 import Article from "../../../../model/Article";
 import { DomService } from "./dom.service";
 import { ConfigService } from "../shared/config.service";
-import { Subscription } from "rxjs";
+import { Subscription, interval, Observable, Subject, timer } from "rxjs";
 import { animate, style, transition, trigger } from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
 import RequestAnimationFrame from "../requestAnimationFrame.cons";
 import { StoryListService } from "../story/story-list/story-list.service";
 import ArticleImageParser from "./parsers/article-image.parser";
+import { takeUntil, throttle, debounce } from 'rxjs/operators';
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -51,9 +52,9 @@ export class ArticleComponent implements OnInit {
     protected articleHeader: ElementRef
     @ViewChild("rootArticle", { static: true })
     private rootArticle: ElementRef;
-    // @ViewChild("headerPlaceHolder", { static: true })
-    // private headerPlaceHolder:ElementRef
-    // headerPlaceHolderHeight = 0;
+
+
+
     routeParamSubscription: Subscription;
     configSubsription: Subscription;
     articleBody: string;
@@ -70,9 +71,6 @@ export class ArticleComponent implements OnInit {
     }
 
     ngOnInit() {
-
-
-
         this.fontSize = this.configService.getConfig().fontSize;
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
@@ -83,8 +81,6 @@ export class ArticleComponent implements OnInit {
         this.configSubsription = this.configService.configUpdated.subscribe((config) => {
             this.fontSize = config.new.fontSize
         });
-
-
     }
 
     protected getArticleById(articleId, categoryId) {
@@ -131,7 +127,7 @@ export class ArticleComponent implements OnInit {
     protected registerStickyHeader() {
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-        if(isSafari)return;
+        // if (isSafari) return;
 
         let thresholds = [0.1];
         let th = 0.1;
@@ -175,39 +171,15 @@ export class ArticleComponent implements OnInit {
         }
     }
 
-    @HostListener('document:keyup', ['$event'])
-    handleDeleteKeyboardEvent(event: KeyboardEvent) {
-        event.preventDefault();
-        switch (event.key) {
-            case 'ArrowLeft':
-            case "a":
-                return this.prevArticle();
-
-            case 'ArrowRight':
-            case "d":
-                return this.nextArticle();
-            case "ArrowDown":
-            case "s":
-                return this.down();
-
-            case 'ArrowUp':
-            case "w":
-                return this.up();
-            default:
-
-                break;
-        }
-
-    }
-
     up() {
+
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop - 200, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop - 20, behavior: "smooth" });
     }
 
     down() {
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop + 200, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop + 20, behavior: "smooth" });
     }
 
 

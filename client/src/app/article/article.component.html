@@ -1,4 +1,6 @@
-<div class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
+<div appNavigationKeyboard (up)="up()" (down)="down()" (left)="prevArticle()" (right)="nextArticle()"
+
+class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
     <div class="navigator navigator-prev">
         <a (click)="prevArticle()" mat-icon-button>
             <mat-icon>chevron_left</mat-icon>
@@ -15,6 +17,7 @@
                         </div>
                         <app-actions [article]="article"></app-actions>
                     </div>
+          
 
 
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"

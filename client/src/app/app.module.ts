@@ -51,7 +51,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {ImageComponent} from "./article/article-content/image/image.component";
 import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
-import { NavigationKeyboardDirective } from 'src/directives/navigation-keyboard.directive';
+import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 
 
 @NgModule({

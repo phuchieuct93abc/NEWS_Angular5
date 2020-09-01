@@ -127,7 +127,7 @@ export class ArticleComponent implements OnInit {
     protected registerStickyHeader() {
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-        // if (isSafari) return;
+         if (isSafari) return;
 
         let thresholds = [0.1];
         let th = 0.1;
@@ -174,12 +174,12 @@ export class ArticleComponent implements OnInit {
     up() {
 
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop - 20, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop - 50, behavior: "smooth" });
     }
 
     down() {
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop + 20, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop + 50, behavior: "smooth" });
     }
 
 

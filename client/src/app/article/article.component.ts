@@ -174,12 +174,12 @@ export class ArticleComponent implements OnInit {
     up() {
 
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop - 50, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop - 100,  });
     }
 
     down() {
         let articleView = <HTMLDivElement>this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop + 50, behavior: "smooth" });
+        articleView.scrollTo({ top: articleView.scrollTop + 100,  });
     }
 
 

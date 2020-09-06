@@ -127,6 +127,7 @@ export class StoryListComponent implements OnInit {
             this.firstStoriesLoaderPromise && this.firstStoriesLoaderPromise.unsubscribe();
 
             this.resetStoryList();
+            console.log("set category");
             this.category = params['category'];
 
             this.loadFirstPage();
@@ -208,6 +209,7 @@ export class StoryListComponent implements OnInit {
 
     private loadFirstPage() {
         this.storyService.getStories(this.category).pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
+            console.log("loadFirstPage", this.category)
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
@@ -246,8 +248,9 @@ export class StoryListComponent implements OnInit {
     }
 
     private getLoadMoreObservable():Observable<Story[]> {
+        let category = this.route.firstChild.snapshot.paramMap.get("category");
         let loadMorePromise: Observable<Story[]>;
-        loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(this.category);
+        loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
         return loadMorePromise;
     }
 

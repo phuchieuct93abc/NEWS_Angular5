@@ -61,7 +61,7 @@
     "popper.js": "^1.15.0",
     "request": "^2.88.0",
     "rxjs": "^6.5.2",
-    "sharp": "^0.25.4",
+    "sharp": "^0.22.1",
     "speakingurl": "^14.0.1",
     "typescript": "^3.4.5",
     "webpack-node-externals": "^1.7.2",

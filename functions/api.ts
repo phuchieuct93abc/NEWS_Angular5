@@ -55,16 +55,20 @@ api.get('/getSource', (req, res) => {
 });
 api.get('/blur', (req, res) => {
     request({url: req.query.url, encoding: null}, function (err2, res2, bodyBuffer) {
+
         try {
-            sharp(bodyBuffer).blur(5).overlayWith(
+            let buffer = sharp(bodyBuffer).blur(5).overlayWith(
                 new Buffer([0, 0, 0, 128]),
                 {tile: true, raw: {width: 1, height: 1, channels: 4}}
-            ).jpeg().toBuffer().then(output => {
+            ).jpeg()
+
+            buffer.toBuffer().then(output => {
                 res.set('Content-Type', 'image/jpeg');
                 res.set('Cache-Control', 'public, max-age=31557600')
                 res.send(output)
             })
         } catch (e) {
+            console.error(e)
             res.send(null);
 
         }

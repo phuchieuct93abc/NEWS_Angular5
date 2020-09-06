@@ -52,6 +52,7 @@ import {ImageComponent} from "./article/article-content/image/image.component";
 import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
+import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
 
 
 @NgModule({
@@ -109,7 +110,8 @@ import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.d
         ImageComponent,
          SwipeToCloseDirective,
          IsIntersectDirective,
-         NavigationKeyboardDirective
+         NavigationKeyboardDirective,
+         StoryListManagementComponent
 
     ],
     bootstrap: [AppComponent],

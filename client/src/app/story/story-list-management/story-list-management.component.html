@@ -1,0 +1,5 @@
+<app-mobile-story-list *ngIf="isSmallScreen;else desktopStoryList"></app-mobile-story-list>
+
+<ng-template #desktopStoryList >
+    <app-story-list></app-story-list>
+</ng-template>

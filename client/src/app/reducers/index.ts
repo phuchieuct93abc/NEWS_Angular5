@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import {
   ActionReducer,
   ActionReducerMap,
@@ -6,7 +7,6 @@ import {
   MetaReducer,
   on
 } from '@ngrx/store';
-import CONFIG from 'src/environments/environment';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 
@@ -44,4 +44,4 @@ export const reducers: ActionReducerMap<any> = {
 };
 
 
-export const metaReducers: MetaReducer<ConfigState>[] = !CONFIG.production ? [] : [];
+export const metaReducers: MetaReducer<ConfigState>[] = !environment.production ? [] : [];

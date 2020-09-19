@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {debounce} from "rxjs/operators";
-import {interval, Subject} from "rxjs";
+import {interval, Observable, Subject} from "rxjs";
 import {StoryService} from "../../shared/story.service";
 import {ConfigService} from "../../shared/config.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
+import { ConfigState } from 'src/app/reducers';
+import { select, Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-search',
@@ -13,13 +15,17 @@ import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/l
 export class SearchComponent implements OnInit {
     isSearching = false;
     isLoading = false;
+    store$:Observable<ConfigState>
 
     private keyupSubject = new Subject<string>();
 
-    constructor(private storyService: StoryService, public config: ConfigService, private loadingService: LoadingService) {
+    constructor(private storyService: StoryService, public config: ConfigService, private loadingService: LoadingService,
+        private store:Store<ConfigState>) {
     }
 
     ngOnInit() {
+        this.store$ = this.store.pipe(select('config'));
+
         this.keyupSubject.pipe(debounce(() => interval(1000))).subscribe(searchTextValue => {
             if (!searchTextValue || searchTextValue.length == 0) {
                 this.isSearching = false;

@@ -1,10 +1,10 @@
+import { environment } from './../../environments/environment';
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {StoryService} from "./story.service";
 import {Observable, Subject} from "rxjs";
 import {map, retry} from "rxjs/operators";
 import Article from "../../../../model/Article";
-import CONFIG from "../../environments/environment";
 import {Story} from "../../../../model/Story";
 import ArticleComment from "../../../../model/ArticleComment";
 import {MetaService} from "./meta.service";
@@ -35,7 +35,7 @@ export class ArticleService {
             }
         };
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE})
-        return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
+        return this.httpClient.get(environment.baseUrl + "article", options).pipe(
             retry(3),
             map(result => {
 
@@ -51,7 +51,7 @@ export class ArticleService {
 
 
     getComment(id: string): Observable<ArticleComment[]> {
-        return this.httpClient.get(CONFIG.baseUrl + "comments", {
+        return this.httpClient.get(environment.baseUrl + "comments", {
             params: {
                 id: id
             }

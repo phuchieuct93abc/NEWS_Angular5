@@ -1,9 +1,9 @@
+import { environment } from './../environments/environment';
 import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Config, ConfigService } from "./shared/config.service";
 import { ArticleService } from "./shared/article.service";
 import { BreakpointDetectorService } from "./shared/breakpoint.service";
-import CONFIG from "../environments/environment";
 import { DOCUMENT } from "@angular/common";
 import { opacityNgIf } from "./animation";
 import { animate, style, transition, trigger } from "@angular/animations";
@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
-        this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
+        this.isOpenSidebar = !this.isSmallDevice && !environment.isRunningInNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();
         // this.updateBodyClass();
@@ -125,7 +125,7 @@ export class AppComponent implements OnInit {
 
     getBlurImageUrl(url) {
         if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
-            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+            this.image = `${environment.baseUrl}blur?url=${url}`;
         }
     }
 

@@ -1,12 +1,8 @@
-import { state } from '@angular/animations';
 import {
-  Action,
   ActionReducer,
   ActionReducerMap,
   createAction,
-  createFeatureSelector,
   createReducer,
-  createSelector,
   MetaReducer,
   on
 } from '@ngrx/store';
@@ -32,7 +28,7 @@ const initState:ConfigState ={
 
 
  
-const counterReducer = createReducer<ConfigState>(
+const _configReducer = createReducer<ConfigState>(
   initState,
   on(changeDarkMode, (state) => {
     console.log('change')
@@ -40,8 +36,13 @@ const counterReducer = createReducer<ConfigState>(
 
 );
 
+export function configReducer(state, action) {
+  return _configReducer(state, action)
+}
+
+
 export const reducers: ActionReducerMap<any> = {
-  config:counterReducer
+  config:configReducer
 };
 
 

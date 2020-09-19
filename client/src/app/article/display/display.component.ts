@@ -1,4 +1,4 @@
-import { ConfigState } from './../../reducers/index';
+import { ConfigState, changeDarkMode } from './../../reducers/index';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ConfigService } from "../../shared/config.service";

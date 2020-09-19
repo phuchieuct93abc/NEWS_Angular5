@@ -3,6 +3,8 @@ import CategoryHelper, {Category} from "../../../../model/Categories";
 import {ConfigService} from "../shared/config.service";
 import {trigger} from "@angular/animations";
 import {opacityNgIf} from "../animation";
+import { select, Store } from '@ngrx/store';
+import { changeDarkMode, ConfigState } from '../reducers';
 
 @Component({
     selector: 'app-sidebar',
@@ -21,19 +23,21 @@ export class SidebarComponent implements OnInit {
     @Input()
     isOpen:boolean;
 
-    constructor(private configService: ConfigService,) {
+    constructor(private configService: ConfigService,private store: Store<ConfigState>) {
     }
 
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
+        this.store.pipe(select('config')).subscribe(config=>{
+            this.isDarkMode = config.darkmode;
+        })
 
-        this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;
     }
 
-    toggleDarkMode(value) {
-        this.configService.updateConfig({darkTheme: value})
+    toggleDarkMode() {
+        this.store.dispatch(changeDarkMode());
     }
 
     toogleDisplay(value) {

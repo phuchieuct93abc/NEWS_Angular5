@@ -53,7 +53,11 @@ import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
+import { MetaReducer, StoreModule } from '@ngrx/store';
+import { reducers, localStorageSyncReducer } from './reducers';
 
+
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
     imports: [
@@ -73,6 +77,7 @@ import { StoryListManagementComponent } from './story/story-list-management/stor
         NgZorroAntdModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
         LazyLoadImageModule,
+        StoreModule.forRoot(reducers, { metaReducers}),
         
 
     ],

@@ -1,15 +1,16 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
+import { ConfigState } from "../reducers";
 import {LocalStorageService} from "./storage.service";
 
 export interface Config {
-    darkTheme?: boolean
     category?: string,
     smallImage?: boolean,
     fontSize?: number;
 }
 
-const id = 'config';
+
+const id = 'config(dedicated)';
 
 @Injectable({
     providedIn: 'root'
@@ -20,9 +21,8 @@ export class ConfigService {
     public static MAX_FONTSIZE = 25;
     private config: Config = {
         category: 'tin-nong',
-        darkTheme: true,
         smallImage: true,
-        fontSize: 2
+        fontSize: 2 
     };
 
 

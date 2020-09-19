@@ -5,6 +5,8 @@ import { ConfigService } from "../shared/config.service";
 import { AppComponent } from "../app.component";
 import { AppService } from "../app.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from '@ngrx/store';
+import { changeDarkMode } from '../reducers';
 
 @Component({
     selector: 'app-navigator',
@@ -27,7 +29,8 @@ export class NavigatorComponent implements OnInit {
 
     constructor(public breakpointService: BreakpointDetectorService,
         private configService: ConfigService,
-        private appService: AppService) {
+        private appService: AppService,
+        private store:Store<{darkmode:boolean}>) {
 
     }
 
@@ -39,7 +42,7 @@ export class NavigatorComponent implements OnInit {
     }
 
     toggleDarkMode() {
-        this.configService.updateConfig({ darkTheme: this.isDarkMode })
+        this.store.dispatch(changeDarkMode()); 
     }
 
     toogleDisplay() {

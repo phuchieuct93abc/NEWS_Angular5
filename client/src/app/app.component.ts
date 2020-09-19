@@ -11,6 +11,8 @@ import { AppService } from "./app.service";
 import { MatSidenav } from "@angular/material/sidenav";
 import { LoadingEventType, LoadingService } from "./shared/loading.service";
 import vars from './variable';
+import { select, Store } from '@ngrx/store';
+import { ConfigState } from './reducers';
 
 @Component({
     selector: 'my-app',
@@ -57,24 +59,19 @@ export class AppComponent implements OnInit {
         private configService: ConfigService,
         private articleService: ArticleService,
         private breakpointService: BreakpointDetectorService,
-        private route: ActivatedRoute,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        private elementRef: ElementRef
+        private store:Store<ConfigState>
     ) {
 
     }
 
-    ngOnInit(): void {
-
-
-
-        this.config = this.configService.getConfig();
-        this.configService.configUpdated.subscribe(data => {
-            this.config = data.new;
-            this.updateBodyClass();
+    ngOnInit(): void {        
+  
+        this.store.pipe(select('config')).subscribe(data => {
+            this.updateBodyClass(data.darkmode);
         });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
@@ -89,7 +86,7 @@ export class AppComponent implements OnInit {
         this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();
-        this.updateBodyClass();
+        // this.updateBodyClass();
 
         this.appService.onToogleSidebar.subscribe(() => {
             this.sidebar.toggle()
@@ -132,8 +129,8 @@ export class AppComponent implements OnInit {
         }
     }
 
-    updateBodyClass() {
-        let className = this.config.darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
+    updateBodyClass(darkmode:boolean) {
+        let className = darkmode ? 'unicorn-dark-theme' : 'unicorn-light-theme';
         this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
         this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
         this.renderer.addClass(this.document.body, className);

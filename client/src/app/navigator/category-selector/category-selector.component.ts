@@ -5,6 +5,8 @@ import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {CategoryService} from "../../shared/category.service";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import { changeDarkMode, ConfigState } from 'src/app/reducers';
+import { select, Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-category-selector',
@@ -23,21 +25,25 @@ export class CategorySelectorComponent implements OnInit, AfterViewInit {
     constructor(private route: ActivatedRoute,
                 private configService: ConfigService,
                 public breakpointService: BreakpointDetectorService,
-                private categoryService: CategoryService) {
+                private categoryService: CategoryService,
+                private store: Store<ConfigState>) {
     }
 
 
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        this.isDarkMode = this.configService.getConfig().darkTheme;
+        this.store.pipe(select('config')).subscribe(config=>{
+            this.isDarkMode = config.darkmode;
+
+        })
         this.isSmallImage = this.configService.getConfig().smallImage;
 
 
     }
 
     toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode})
+        this.store.dispatch(changeDarkMode());
     }
 
     toogleDisplay() {

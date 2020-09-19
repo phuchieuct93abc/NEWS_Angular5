@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ConfigService } from "../../shared/config.service";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { changeDarkMode, ConfigState } from 'src/app/reducers';
+import { select, Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-display',
@@ -20,11 +22,15 @@ export class DisplayComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
         private configService: ConfigService,
-        public breakpointService: BreakpointDetectorService, ) {
+        public breakpointService: BreakpointDetectorService,
+        private store:Store<ConfigState> ) {
     }
 
     ngOnInit() {
-        this.isDarkMode = this.configService.getConfig().darkTheme;
+        this.store.pipe(select('config')).subscribe(config=>{
+            this.isDarkMode = config.darkmode;
+
+        })
         this.isSmallImage = this.configService.getConfig().smallImage;
         this.fontSize = this.configService.getConfig().fontSize
 
@@ -32,8 +38,7 @@ export class DisplayComponent implements OnInit {
 
 
     toggleDarkMode(value) {
-        console.log(this.isDarkMode);
-        this.configService.updateConfig({ darkTheme: value })
+        this.store.dispatch(changeDarkMode())
     }
 
     changeFontSize(value: number) {

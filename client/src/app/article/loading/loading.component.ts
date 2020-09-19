@@ -1,8 +1,8 @@
+import { ConfigState } from './../../reducers/index';
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import { select, Store } from '@ngrx/store';
-import { ConfigState } from 'src/app/reducers';
 import { Observable } from 'rxjs';
 
 @Component({

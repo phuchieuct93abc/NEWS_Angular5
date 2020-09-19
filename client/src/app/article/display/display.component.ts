@@ -1,8 +1,8 @@
+import { ConfigState } from './../../reducers/index';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ConfigService } from "../../shared/config.service";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { changeDarkMode, ConfigState } from 'src/app/reducers';
 import { select, Store } from '@ngrx/store';
 
 @Component({

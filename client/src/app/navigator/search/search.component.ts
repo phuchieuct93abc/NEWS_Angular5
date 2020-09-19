@@ -1,10 +1,10 @@
+import { ConfigState } from './../../reducers/index';
 import {Component, OnInit} from '@angular/core';
 import {debounce} from "rxjs/operators";
 import {interval, Observable, Subject} from "rxjs";
 import {StoryService} from "../../shared/story.service";
 import {ConfigService} from "../../shared/config.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
-import { ConfigState } from 'src/app/reducers';
 import { select, Store } from '@ngrx/store';
 
 @Component({

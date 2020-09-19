@@ -30,9 +30,7 @@ const initState:ConfigState ={
  
 const _configReducer = createReducer<ConfigState>(
   initState,
-  on(changeDarkMode, (state) => {
-    console.log('change')
-    return {...state,darkmode:!state.darkmode}}),
+  on(changeDarkMode, (state) => ({...state,darkmode:!state.darkmode})),
 
 );
 

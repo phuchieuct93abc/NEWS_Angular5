@@ -1,4 +1,4 @@
-import { ConfigState } from 'src/app/reducers';
+import { ConfigState } from './../reducers/index';
 import { Store, select } from '@ngrx/store';
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";

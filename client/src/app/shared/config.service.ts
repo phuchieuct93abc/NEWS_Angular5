@@ -5,7 +5,6 @@ import {LocalStorageService} from "./storage.service";
 
 export interface Config {
     category?: string,
-    smallImage?: boolean,
 }
 
 
@@ -20,7 +19,6 @@ export class ConfigService {
     public static MAX_FONTSIZE = 25;
     private config: Config = {
         category: 'tin-nong',
-        smallImage: true,
     };
 
 

@@ -1,3 +1,5 @@
+import { Store, select } from '@ngrx/store';
+import { ConfigState } from './../../reducers/index';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { StoryService } from "../../shared/story.service";
 import { Story } from '../../../../../model/Story';
@@ -40,7 +42,6 @@ export class StoryListComponent implements OnInit {
 
     isLoading = false;
 
-    config: Config;
     isBrowser;
 
     firstStory: Story;
@@ -62,7 +63,8 @@ export class StoryListComponent implements OnInit {
         protected breakpointService: BreakpointDetectorService,
         protected configService: ConfigService,
         protected loadingService: LoadingService,
-        protected articleService: ArticleService) {
+        protected articleService: ArticleService,
+        protected store: Store<ConfigState>) {
     }
 
     async ngOnInit() {
@@ -178,12 +180,10 @@ export class StoryListComponent implements OnInit {
     }
 
     private registerConfigChange() {
-        this.configService.configUpdated.subscribe(config => {
-            this.config = config.new;
-            if (config.old.smallImage !== config.new.smallImage) {
-                this.resetStoryList();
-                this.loadFirstPage();
-            }
+        
+        this.store.pipe<boolean>(select('config','smallImage')).subscribe(config => {
+            this.resetStoryList();
+            this.loadFirstPage();
         });
     }
 

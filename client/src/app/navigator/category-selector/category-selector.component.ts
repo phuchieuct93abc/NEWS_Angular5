@@ -1,4 +1,4 @@
-import { ConfigState, changeDarkMode } from './../../reducers/index';
+import { ConfigState, changeDarkMode, changeImageSize } from './../../reducers/index';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
 import {ActivatedRoute} from "@angular/router";
@@ -22,9 +22,7 @@ export class CategorySelectorComponent implements OnInit, AfterViewInit {
     isDarkMode: boolean;
     isSmallImage: boolean;
 
-    constructor(private route: ActivatedRoute,
-                private configService: ConfigService,
-                public breakpointService: BreakpointDetectorService,
+    constructor(public breakpointService: BreakpointDetectorService,
                 private categoryService: CategoryService,
                 private store: Store<ConfigState>) {
     }
@@ -33,11 +31,11 @@ export class CategorySelectorComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        this.store.pipe(select('config')).subscribe(config=>{
+        this.store.pipe<ConfigState>(select('config')).subscribe(config=>{
             this.isDarkMode = config.darkmode;
+            this.isSmallImage = config.smallImage;
 
         })
-        this.isSmallImage = this.configService.getConfig().smallImage;
 
 
     }
@@ -47,7 +45,7 @@ export class CategorySelectorComponent implements OnInit, AfterViewInit {
     }
 
     toogleDisplay() {
-        this.configService.updateConfig({smallImage: this.isSmallImage})
+        this.store.dispatch(changeImageSize());
 
     }
 

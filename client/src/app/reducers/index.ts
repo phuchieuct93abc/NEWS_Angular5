@@ -17,6 +17,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
 }
 export const changeDarkMode = createAction('[CONFIG] Change dark mode');
 export const changeFontSize = createAction('[CONFIG] Change font size',  props<{ fontSize: number}>());
+export const changeImageSize = createAction('[CONFIG] Change image size');
 
 
 export interface AppState{
@@ -25,10 +26,12 @@ export interface AppState{
 export interface ConfigState {
   darkmode: boolean;
   fontSize: number;
+  smallImage: boolean
 }
 const initState: ConfigState = {
   darkmode: true,
-  fontSize: 15
+  fontSize: 15,
+  smallImage: true
 }
 
 
@@ -36,6 +39,7 @@ const _configReducer = createReducer(
   initState,
   on(changeDarkMode, state => ({ ...state, darkmode: !state.darkmode })),
   on(changeFontSize, (state, {fontSize}) => ({ ...state, fontSize })),
+  on(changeImageSize, state => ({ ...state, smallImage:!state.smallImage })),
 );
 
 export function configReducer(state: ConfigState, action: Action) {

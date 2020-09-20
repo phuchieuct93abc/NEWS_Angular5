@@ -10,6 +10,8 @@ import { StoryListComponent } from "../story-list.component";
 import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { Story } from '../../../../../../model/Story';
+import { ConfigState } from 'src/app/reducers';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -31,8 +33,9 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
+        protected store: Store<ConfigState>
     ) {
-        super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
+        super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService, store)
 
     }
 

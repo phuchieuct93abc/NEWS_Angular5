@@ -1,8 +1,10 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { ConfigState } from './../../reducers/index';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { Story } from "../../../../../model/Story";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { Config, ConfigService } from "../../shared/config.service";
-import { Subscription } from "rxjs";
+import { ConfigService } from "../../shared/config.service";
 import * as url from 'speakingurl';
 import { FavoriteService } from "../../shared/favorite-story.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -14,7 +16,7 @@ import { StoryListService } from "../story-list/story-list.service";
     templateUrl: './story.component.html',
     styleUrls: ['./story.component.scss'],
 })
-export class StoryComponent implements OnInit, OnDestroy {
+export class StoryComponent implements OnInit {
 
     @Input()
     public story: Story;
@@ -29,8 +31,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     public selected: boolean = false;
 
-    public config: Config;
-    public configListener: Subscription;
     public friendlyUrl: string;
     @Input()
     public index: number;
@@ -46,7 +46,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef    ) {
+        protected element: ElementRef   ) {
     }
 
     public onSelectStory() {
@@ -67,7 +67,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.scrollTarget = this.scrollContainer;
-        this.getConfig();
 
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
@@ -86,20 +85,6 @@ export class StoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getConfig() {
-        this.config = this.configService.getConfig();
-        this.configListener = this.configService.configUpdated.subscribe(config => {
-            this.config = config.new;
-        })
-    }
-
- 
-
-    ngOnDestroy(): void {
-        console.log("ondestroy")
-        this.configListener.unsubscribe();
-    }
-  
     getElement():HTMLElement{
         return this.element.nativeElement
     }

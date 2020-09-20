@@ -27,12 +27,12 @@ export class DisplayComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.pipe(select('config')).subscribe(config=>{
+        this.store.pipe<ConfigState>(select('config')).subscribe(config=>{
             this.isDarkMode = config.darkmode;
             this.fontSize = config.fontSize;
+            this.isSmallImage = config.smallImage
 
         })
-        this.isSmallImage = this.configService.getConfig().smallImage;
 
     }
 
@@ -43,11 +43,9 @@ export class DisplayComponent implements OnInit {
 
     changeFontSize(value: number) {
         this.store.dispatch(changeFontSize({fontSize:value}))
-        this.fontSize = value
 
     }
     onCickSizeSlider(event:Event) {
         event.stopPropagation()
-        console.log(event)
     }
 }

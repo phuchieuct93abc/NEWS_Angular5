@@ -1,7 +1,5 @@
 import { ConfigState, changeDarkMode, changeFontSize } from './../../reducers/index';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ConfigService } from "../../shared/config.service";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
 import { select, Store } from '@ngrx/store';
 
@@ -16,18 +14,17 @@ export class DisplayComponent implements OnInit {
     isDarkMode: boolean;
     isSmallImage: boolean;
     fontSize: number;
-    minFontSize = ConfigService.MIN_FONTSIZE;
-    maxFontSize = ConfigService.MAX_FONTSIZE;
+    minFontSize = 15;
+    maxFontSize = 25;
 
 
-    constructor(private route: ActivatedRoute,
-        private configService: ConfigService,
+    constructor(
         public breakpointService: BreakpointDetectorService,
-        private store:Store<ConfigState> ) {
+        private store: Store<ConfigState>) {
     }
 
     ngOnInit() {
-        this.store.pipe<ConfigState>(select('config')).subscribe(config=>{
+        this.store.pipe<ConfigState>(select('config')).subscribe(config => {
             this.isDarkMode = config.darkmode;
             this.fontSize = config.fontSize;
             this.isSmallImage = config.smallImage
@@ -42,10 +39,10 @@ export class DisplayComponent implements OnInit {
     }
 
     changeFontSize(value: number) {
-        this.store.dispatch(changeFontSize({fontSize:value}))
+        this.store.dispatch(changeFontSize({ fontSize: value }))
 
     }
-    onCickSizeSlider(event:Event) {
+    onCickSizeSlider(event: Event) {
         event.stopPropagation()
     }
 }

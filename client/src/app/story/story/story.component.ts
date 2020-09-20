@@ -4,7 +4,6 @@ import { ConfigState } from './../../reducers/index';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { Story } from "../../../../../model/Story";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { ConfigService } from "../../shared/config.service";
 import * as url from 'speakingurl';
 import { FavoriteService } from "../../shared/favorite-story.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -41,7 +40,6 @@ export class StoryComponent implements OnInit {
     scrollElement: Element;
 
     constructor(public breakpointService: BreakpointDetectorService,
-        protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,

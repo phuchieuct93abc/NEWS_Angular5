@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { ConfigState } from './../../../reducers/index';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { StoryComponent } from "../story.component";
 import { BreakpointDetectorService } from "../../../shared/breakpoint.service";
-import { ConfigService } from "../../../shared/config.service";
 import { FavoriteService } from "../../../shared/favorite-story.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 import { StoryListService } from "../../story-list/story-list.service";
 
 @Component({
@@ -22,7 +20,6 @@ export class MobileStoryComponent extends StoryComponent {
     public config$: Observable<ConfigState>;
 
     constructor(public breakpointService: BreakpointDetectorService,
-        protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
@@ -30,7 +27,7 @@ export class MobileStoryComponent extends StoryComponent {
         protected element: ElementRef,
         private store: Store<ConfigState>
     ) {
-        super(breakpointService, configService, favoriteService, route, activatedRoute, storyListService, element)
+        super(breakpointService, favoriteService, route, activatedRoute, storyListService, element)
     }
     ngOnInit() {
         super.ngOnInit();

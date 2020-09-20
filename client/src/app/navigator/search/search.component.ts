@@ -3,7 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {debounce} from "rxjs/operators";
 import {interval, Observable, Subject} from "rxjs";
 import {StoryService} from "../../shared/story.service";
-import {ConfigService} from "../../shared/config.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "../../shared/loading.service";
 import { select, Store } from '@ngrx/store';
 
@@ -19,7 +18,7 @@ export class SearchComponent implements OnInit {
 
     private keyupSubject = new Subject<string>();
 
-    constructor(private storyService: StoryService, public config: ConfigService, private loadingService: LoadingService,
+    constructor(private storyService: StoryService,private loadingService: LoadingService,
         private store:Store<ConfigState>) {
     }
 

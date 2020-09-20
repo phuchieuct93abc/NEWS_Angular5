@@ -1,8 +1,6 @@
 import { ConfigState, changeDarkMode, changeImageSize } from './../../reducers/index';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
-import {ActivatedRoute} from "@angular/router";
-import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {CategoryService} from "../../shared/category.service";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";

@@ -1,6 +1,5 @@
 import { ConfigState } from './../../reducers/index';
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -18,7 +17,7 @@ export class LoadingComponent implements OnInit {
 
     store$:Observable<ConfigState>
 
-    constructor(public config: ConfigService, public breakpointService: BreakpointDetectorService,private store:Store<ConfigState>) {
+    constructor(public breakpointService: BreakpointDetectorService,private store:Store<ConfigState>) {
     }
 
     ngOnInit() {

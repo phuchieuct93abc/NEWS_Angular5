@@ -5,7 +5,6 @@ import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../shared/article.service";
 import Article from "../../../../model/Article";
 import { DomService } from "./dom.service";
-import { ConfigService } from "../shared/config.service";
 import { Subscription, interval, Observable, Subject, timer } from "rxjs";
 import { animate, style, transition, trigger } from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
@@ -67,7 +66,6 @@ export class ArticleComponent implements OnInit {
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
-        protected configService: ConfigService,
         protected storyListService: StoryListService,
         protected store: Store<ConfigState>) {
     }

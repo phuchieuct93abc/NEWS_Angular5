@@ -1,7 +1,6 @@
 import { environment } from './../environments/environment';
 import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Config, ConfigService } from "./shared/config.service";
 import { ArticleService } from "./shared/article.service";
 import { BreakpointDetectorService } from "./shared/breakpoint.service";
 import { DOCUMENT } from "@angular/common";
@@ -43,7 +42,6 @@ import { ConfigState } from './reducers';
     ]
 })
 export class AppComponent implements OnInit {
-    config: Config;
     image: string;
     isSmallDevice: boolean;
     isOpenSidebar: boolean;
@@ -56,7 +54,6 @@ export class AppComponent implements OnInit {
     sidebar: MatSidenav;
 
     constructor(private router: Router,
-        private configService: ConfigService,
         private articleService: ArticleService,
         private breakpointService: BreakpointDetectorService,
         @Inject(DOCUMENT) private document: Document,

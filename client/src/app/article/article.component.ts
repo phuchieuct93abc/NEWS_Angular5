@@ -64,7 +64,7 @@ export class ArticleComponent implements OnInit {
     isStickHeader: boolean = false
 
 
-    public fontSize: number;
+    public config$: Observable<ConfigState>;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
@@ -74,9 +74,7 @@ export class ArticleComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.pipe(select('config')).subscribe(config=>{
-            this.fontSize = config.fontSize;
-        })
+        this.config$ = this.store.pipe(select('config'));
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
             this.getArticleById(params['id'], params['category']);

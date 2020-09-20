@@ -1,5 +1,6 @@
 import { environment } from './../../environments/environment';
 import {
+  Action,
   ActionReducer,
   ActionReducerMap,
   createAction,
@@ -17,6 +18,10 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
 export const changeDarkMode = createAction('[CONFIG] Change dark mode');
 export const changeFontSize = createAction('[CONFIG] Change font size',  props<{ fontSize: number}>());
 
+
+export interface AppState{
+  config:ConfigState
+}
 export interface ConfigState {
   darkmode: boolean;
   fontSize: number;
@@ -27,20 +32,14 @@ const initState: ConfigState = {
 }
 
 
-const _configReducer = createReducer<ConfigState>(
+const _configReducer = createReducer(
   initState,
   on(changeDarkMode, state => ({ ...state, darkmode: !state.darkmode })),
   on(changeFontSize, (state, {fontSize}) => ({ ...state, fontSize })),
 );
 
-export function configReducer(state, action) {
+export function configReducer(state: ConfigState, action: Action) {
   return _configReducer(state, action)
 }
 
-
-export const reducers: ActionReducerMap<any> = {
-  config: configReducer
-};
-
-
-export const metaReducers: MetaReducer<ConfigState>[] = [localStorageSyncReducer];
+export const metaReducers: MetaReducer<AppState>[] = [localStorageSyncReducer];

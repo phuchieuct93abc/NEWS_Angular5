@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        private store:Store<ConfigState>
+        private store:Store<{config:ConfigState}>
     ) {
 
     }

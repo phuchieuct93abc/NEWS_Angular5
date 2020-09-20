@@ -58,7 +58,6 @@ export class ArticleComponent implements OnInit {
 
 
     routeParamSubscription: Subscription;
-    configSubsription: Subscription;
     articleBody: string;
 
     isStickHeader: boolean = false
@@ -194,7 +193,6 @@ export class ArticleComponent implements OnInit {
 
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
-        this.configSubsription.unsubscribe();
     }
 
 

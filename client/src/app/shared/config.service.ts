@@ -6,7 +6,6 @@ import {LocalStorageService} from "./storage.service";
 export interface Config {
     category?: string,
     smallImage?: boolean,
-    fontSize?: number;
 }
 
 
@@ -22,13 +21,11 @@ export class ConfigService {
     private config: Config = {
         category: 'tin-nong',
         smallImage: true,
-        fontSize: 2 
     };
 
 
     constructor(private storage: LocalStorageService) {
         this.config = {...this.config, ...storage.getItem(id, {})};
-        this.migrateConfig();
         setTimeout(() => this.configUpdated.next({old: this.config, new: this.config}))
     }
 
@@ -43,7 +40,5 @@ export class ConfigService {
         return {...this.config}
     }
 
-    private migrateConfig() {
-        this.config.fontSize = Math.min(Math.max(ConfigService.MIN_FONTSIZE, this.config.fontSize), ConfigService.MAX_FONTSIZE);
-    }
+  
 }

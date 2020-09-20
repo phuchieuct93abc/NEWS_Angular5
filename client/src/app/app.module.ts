@@ -1,3 +1,4 @@
+import { metaReducers } from './reducers/index';
 import {NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -57,7 +58,6 @@ import { MetaReducer, StoreModule } from '@ngrx/store';
 import { reducers, localStorageSyncReducer } from './reducers';
 
 
-const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
     imports: [

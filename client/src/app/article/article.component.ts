@@ -1,3 +1,5 @@
+import { ConfigState } from './../reducers/index';
+import { select, Store } from '@ngrx/store';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../shared/article.service";
@@ -67,20 +69,20 @@ export class ArticleComponent implements OnInit {
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
-        protected storyListService: StoryListService) {
+        protected storyListService: StoryListService,
+        protected store: Store<ConfigState>) {
     }
 
     ngOnInit() {
-        this.fontSize = this.configService.getConfig().fontSize;
+        this.store.pipe(select('config')).subscribe(config=>{
+            this.fontSize = config.fontSize;
+        })
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
             this.getArticleById(params['id'], params['category']);
 
         });
 
-        this.configSubsription = this.configService.configUpdated.subscribe((config) => {
-            this.fontSize = config.new.fontSize
-        });
     }
 
     protected getArticleById(articleId, categoryId) {

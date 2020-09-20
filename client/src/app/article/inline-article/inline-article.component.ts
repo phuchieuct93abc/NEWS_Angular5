@@ -1,3 +1,5 @@
+import { Store } from '@ngrx/store';
+import { ConfigState } from './../../reducers/index';
 import { ArticleComponent } from "../article.component";
 import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../../shared/article.service";
@@ -82,11 +84,12 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         protected domService: DomService,
         protected configService: ConfigService,
         protected storyListService: StoryListService,
-        private elementRef: ElementRef
+        private elementRef: ElementRef,
+        protected store: Store<ConfigState>
 
 
     ) {
-        super(route, articleService, domService, configService, storyListService);
+        super(route, articleService, domService, configService, storyListService, store);
     }
 
 

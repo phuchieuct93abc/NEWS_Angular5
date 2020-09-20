@@ -1,4 +1,4 @@
-import { ConfigState, changeDarkMode } from './../../reducers/index';
+import { ConfigState, changeDarkMode, changeFontSize } from './../../reducers/index';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ConfigService } from "../../shared/config.service";
@@ -29,21 +29,20 @@ export class DisplayComponent implements OnInit {
     ngOnInit() {
         this.store.pipe(select('config')).subscribe(config=>{
             this.isDarkMode = config.darkmode;
+            this.fontSize = config.fontSize;
 
         })
         this.isSmallImage = this.configService.getConfig().smallImage;
-        this.fontSize = this.configService.getConfig().fontSize
 
     }
 
 
-    toggleDarkMode(value) {
+    toggleDarkMode() {
         this.store.dispatch(changeDarkMode())
     }
 
     changeFontSize(value: number) {
-        console.log(value);
-        this.configService.updateConfig({ fontSize: value });
+        this.store.dispatch(changeFontSize({fontSize:value}))
         this.fontSize = value
 
     }

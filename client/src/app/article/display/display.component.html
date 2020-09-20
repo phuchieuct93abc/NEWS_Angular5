@@ -2,7 +2,7 @@
     <div class="text mat-h3 mb-0">Theme</div>
     <button mat-menu-item (click)="$event.stopPropagation()">
         <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
-                   (ngModelChange)="toggleDarkMode($event)"></nz-switch>
+                   (ngModelChange)="toggleDarkMode()"></nz-switch>
 
 
     </button>

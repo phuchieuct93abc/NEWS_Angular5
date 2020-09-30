@@ -1,3 +1,5 @@
+import { Store } from '@ngrx/store';
+import { ConfigState } from './../../reducers/index';
 import { ArticleComponent } from "../article.component";
 import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../../shared/article.service";
@@ -6,7 +8,6 @@ import { Story } from "../../../../../model/Story";
 import { StoryListService } from "../../story/story-list/story-list.service";
 import { CdkDrag } from "@angular/cdk/drag-drop";
 import { DomService } from "../dom.service";
-import { ConfigService } from "../../shared/config.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { StorySizechangeDetectorService } from "../../story/story/mobile-story/story-sizechange-detector.service";
 
@@ -80,13 +81,12 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     constructor(protected route: ActivatedRoute,
         protected articleService: ArticleService,
         protected domService: DomService,
-        protected configService: ConfigService,
         protected storyListService: StoryListService,
-        private elementRef: ElementRef
+        protected store: Store<ConfigState>
 
 
     ) {
-        super(route, articleService, domService, configService, storyListService);
+        super(route, articleService, domService, storyListService, store);
     }
 
 

@@ -1,9 +1,10 @@
+import { ConfigState } from './../reducers/index';
+import { select, Store } from '@ngrx/store';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../shared/article.service";
 import Article from "../../../../model/Article";
 import { DomService } from "./dom.service";
-import { ConfigService } from "../shared/config.service";
 import { Subscription, interval, Observable, Subject, timer } from "rxjs";
 import { animate, style, transition, trigger } from "@angular/animations";
 import ArticleVideoParser from "./parsers/article-video.parser";
@@ -56,31 +57,27 @@ export class ArticleComponent implements OnInit {
 
 
     routeParamSubscription: Subscription;
-    configSubsription: Subscription;
     articleBody: string;
 
     isStickHeader: boolean = false
 
 
-    public fontSize: number;
+    public config$: Observable<ConfigState>;
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
-        protected configService: ConfigService,
-        protected storyListService: StoryListService) {
+        protected storyListService: StoryListService,
+        protected store: Store<ConfigState>) {
     }
 
     ngOnInit() {
-        this.fontSize = this.configService.getConfig().fontSize;
+        this.config$ = this.store.pipe(select('config'));
         this.routeParamSubscription = this.route.params.subscribe(params => {
             this.articleId = null;
             this.getArticleById(params['id'], params['category']);
 
         });
 
-        this.configSubsription = this.configService.configUpdated.subscribe((config) => {
-            this.fontSize = config.new.fontSize
-        });
     }
 
     protected getArticleById(articleId, categoryId) {
@@ -194,7 +191,6 @@ export class ArticleComponent implements OnInit {
 
     ngOnDestroy(): void {
         this.routeParamSubscription.unsubscribe();
-        this.configSubsription.unsubscribe();
     }
 
 

@@ -1,7 +1,7 @@
 <div class="panel-primary article p-1" #articleView (swipeleft)="onPanEnd('left')"
 (swiperight)="onPanEnd('right')"
  [@swipe]="animationName"
-    [ngStyle]="{'font-size.px':fontSize}">
+    [ngStyle]="{'font-size.px': (config$| async).fontSize}">
     <div #articleBodyWrapper class="article-view px-1">
         <div *ngIf="article;else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)"
             style="overflow: hidden">

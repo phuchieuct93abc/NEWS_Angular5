@@ -1,7 +1,7 @@
+import { ConfigState, changeDarkMode, changeFontSize } from './../../reducers/index';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ConfigService } from "../../shared/config.service";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { select, Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-display',
@@ -14,36 +14,35 @@ export class DisplayComponent implements OnInit {
     isDarkMode: boolean;
     isSmallImage: boolean;
     fontSize: number;
-    minFontSize = ConfigService.MIN_FONTSIZE;
-    maxFontSize = ConfigService.MAX_FONTSIZE;
+    minFontSize = 15;
+    maxFontSize = 25;
 
 
-    constructor(private route: ActivatedRoute,
-        private configService: ConfigService,
-        public breakpointService: BreakpointDetectorService, ) {
+    constructor(
+        public breakpointService: BreakpointDetectorService,
+        private store: Store<ConfigState>) {
     }
 
     ngOnInit() {
-        this.isDarkMode = this.configService.getConfig().darkTheme;
-        this.isSmallImage = this.configService.getConfig().smallImage;
-        this.fontSize = this.configService.getConfig().fontSize
+        this.store.pipe<ConfigState>(select('config')).subscribe(config => {
+            this.isDarkMode = config.darkmode;
+            this.fontSize = config.fontSize;
+            this.isSmallImage = config.smallImage
+
+        })
 
     }
 
 
-    toggleDarkMode(value) {
-        console.log(this.isDarkMode);
-        this.configService.updateConfig({ darkTheme: value })
+    toggleDarkMode() {
+        this.store.dispatch(changeDarkMode())
     }
 
     changeFontSize(value: number) {
-        console.log(value);
-        this.configService.updateConfig({ fontSize: value });
-        this.fontSize = value
+        this.store.dispatch(changeFontSize({ fontSize: value }))
 
     }
-    onCickSizeSlider(event:Event) {
+    onCickSizeSlider(event: Event) {
         event.stopPropagation()
-        console.log(event)
     }
 }

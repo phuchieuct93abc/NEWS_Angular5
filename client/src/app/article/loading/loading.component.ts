@@ -1,6 +1,8 @@
+import { ConfigState } from './../../reducers/index';
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-loading',
@@ -13,10 +15,13 @@ export class LoadingComponent implements OnInit {
     isSmall: boolean;
     sizeCls: string;
 
-    constructor(public config: ConfigService, public breakpointService: BreakpointDetectorService) {
+    store$:Observable<ConfigState>
+
+    constructor(public breakpointService: BreakpointDetectorService,private store:Store<ConfigState>) {
     }
 
     ngOnInit() {
+        this.store$ = this.store.pipe(select('config'));
         if (this.isSmall != undefined) {
             this.sizeCls = this.isSmall ? 'small' : 'big';
         } else {

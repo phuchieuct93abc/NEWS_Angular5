@@ -1,9 +1,8 @@
+import { environment } from './../environments/environment';
 import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { Config, ConfigService } from "./shared/config.service";
 import { ArticleService } from "./shared/article.service";
 import { BreakpointDetectorService } from "./shared/breakpoint.service";
-import CONFIG from "../environments/environment";
 import { DOCUMENT } from "@angular/common";
 import { opacityNgIf } from "./animation";
 import { animate, style, transition, trigger } from "@angular/animations";
@@ -11,6 +10,8 @@ import { AppService } from "./app.service";
 import { MatSidenav } from "@angular/material/sidenav";
 import { LoadingEventType, LoadingService } from "./shared/loading.service";
 import vars from './variable';
+import { select, Store } from '@ngrx/store';
+import { ConfigState } from './reducers';
 
 @Component({
     selector: 'my-app',
@@ -41,7 +42,6 @@ import vars from './variable';
     ]
 })
 export class AppComponent implements OnInit {
-    config: Config;
     image: string;
     isSmallDevice: boolean;
     isOpenSidebar: boolean;
@@ -54,27 +54,21 @@ export class AppComponent implements OnInit {
     sidebar: MatSidenav;
 
     constructor(private router: Router,
-        private configService: ConfigService,
         private articleService: ArticleService,
         private breakpointService: BreakpointDetectorService,
-        private route: ActivatedRoute,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        private elementRef: ElementRef
+        private store:Store<{config:ConfigState}>
     ) {
 
     }
 
-    ngOnInit(): void {
-
-
-
-        this.config = this.configService.getConfig();
-        this.configService.configUpdated.subscribe(data => {
-            this.config = data.new;
-            this.updateBodyClass();
+    ngOnInit(): void {        
+  
+        this.store.pipe(select('config')).subscribe(data => {
+            this.updateBodyClass(data.darkmode);
         });
         this.articleService.onStorySelected.subscribe(article => {
             if (article.story != null) {
@@ -86,10 +80,10 @@ export class AppComponent implements OnInit {
 
 
         this.isSmallDevice = this.breakpointService.isSmallScreen;
-        this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
+        this.isOpenSidebar = !this.isSmallDevice && !environment.isRunningInNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();
-        this.updateBodyClass();
+        // this.updateBodyClass();
 
         this.appService.onToogleSidebar.subscribe(() => {
             this.sidebar.toggle()
@@ -128,12 +122,12 @@ export class AppComponent implements OnInit {
 
     getBlurImageUrl(url) {
         if (typeof window !== 'undefined' && !this.isSmallDevice && url != undefined) {
-            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+            this.image = `${environment.baseUrl}blur?url=${url}`;
         }
     }
 
-    updateBodyClass() {
-        let className = this.config.darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
+    updateBodyClass(darkmode:boolean) {
+        let className = darkmode ? 'unicorn-dark-theme' : 'unicorn-light-theme';
         this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
         this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
         this.renderer.addClass(this.document.body, className);

@@ -1,15 +1,15 @@
+import { environment } from './../../environments/environment';
 import {Injectable} from '@angular/core';
 import {Subject, Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Story} from "../../../../model/Story";
 import {map, retry, tap} from "rxjs/operators";
-import CONFIG from "../../environments/environment";
 import {LocalStorageService} from "./storage.service";
 import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
 import {FavoriteService} from "./favorite-story.service";
 
-const storyUrl = CONFIG.baseUrl + `story`;
-const searchUrl = CONFIG.baseUrl + `search`;
+const storyUrl = environment.baseUrl + `story`;
+const searchUrl = environment.baseUrl + `search`;
 const readId = "read";
 
 @Injectable({
@@ -54,7 +54,7 @@ export class StoryService {
     }
 
     search(keyword: string): Observable<any> {
-        if (CONFIG.isRunningInNode) {
+        if (environment.isRunningInNode) {
             return of()
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
@@ -133,7 +133,7 @@ export class StoryService {
         if (category == 'yeu-thich') {
             return this.favoriteService.getStories();
         }
-        if (CONFIG.isRunningInNode) {
+        if (environment.isRunningInNode) {
             return of();
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});

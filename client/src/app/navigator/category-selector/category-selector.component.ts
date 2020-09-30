@@ -1,10 +1,10 @@
+import { ConfigState, changeDarkMode, changeImageSize } from './../../reducers/index';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import CategoryHelper, {Category} from "../../../../../model/Categories";
-import {ActivatedRoute} from "@angular/router";
-import {ConfigService} from "../../shared/config.service";
 import {BreakpointDetectorService} from "../../shared/breakpoint.service";
 import {CategoryService} from "../../shared/category.service";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import { select, Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-category-selector',
@@ -20,28 +20,30 @@ export class CategorySelectorComponent implements OnInit, AfterViewInit {
     isDarkMode: boolean;
     isSmallImage: boolean;
 
-    constructor(private route: ActivatedRoute,
-                private configService: ConfigService,
-                public breakpointService: BreakpointDetectorService,
-                private categoryService: CategoryService) {
+    constructor(public breakpointService: BreakpointDetectorService,
+                private categoryService: CategoryService,
+                private store: Store<ConfigState>) {
     }
 
 
     ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        this.isDarkMode = this.configService.getConfig().darkTheme;
-        this.isSmallImage = this.configService.getConfig().smallImage;
+        this.store.pipe<ConfigState>(select('config')).subscribe(config=>{
+            this.isDarkMode = config.darkmode;
+            this.isSmallImage = config.smallImage;
+
+        })
 
 
     }
 
     toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode})
+        this.store.dispatch(changeDarkMode());
     }
 
     toogleDisplay() {
-        this.configService.updateConfig({smallImage: this.isSmallImage})
+        this.store.dispatch(changeImageSize());
 
     }
 

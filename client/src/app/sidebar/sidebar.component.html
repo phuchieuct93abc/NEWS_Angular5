@@ -16,10 +16,10 @@
 
 
     <div class="d-flex sidebar-switch">
-        <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay($event)" [ngModel]="isDarkMode"
+        <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay()" 
             nzCheckedChildren="Ảnh nhỏ" nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
         <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
-            (ngModelChange)="toggleDarkMode($event)"></nz-switch>
+            (ngModelChange)="toggleDarkMode()"></nz-switch>
     </div>
 
     <div class="d-flex">

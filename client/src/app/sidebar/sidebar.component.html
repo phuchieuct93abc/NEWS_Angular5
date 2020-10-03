@@ -16,8 +16,8 @@
 
 
     <div class="d-flex sidebar-switch">
-        <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay()" 
-            nzCheckedChildren="Ảnh nhỏ" nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
+        <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay()" nzCheckedChildren="Ảnh nhỏ"
+            nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
         <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
             (ngModelChange)="toggleDarkMode()"></nz-switch>
     </div>
@@ -30,10 +30,9 @@
     <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
         <div class="mat-h2 mb-0">VietNam</div>
         <mat-nav-list>
-            <mat-list-item *ngFor="let vnCategory of vietnameseCategories" [routerLink]="vnCategory.name"
-                routerLinkActive="active">
-
-
+            <mat-list-item *ngFor="let vnCategory of vietnameseCategories" 
+                (click)="onSelectCategory(vnCategory.name)"
+                [class.active]="activatedCatagory === vnCategory.name">
                 <a matLine class="d-flex align-items-center">
                     <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}
                     </mat-icon>
@@ -44,23 +43,7 @@
 
             </mat-list-item>
         </mat-nav-list>
-        <mat-divider></mat-divider>
-        <div class="mat-h2 mb-0">English</div>
-        <mat-nav-list>
-            <mat-list-item *ngFor="let vnCategory of englishCategories" [routerLink]="vnCategory.name"
-                routerLinkActive="active">
 
-
-                <a matLine class="d-flex align-items-center">
-                    <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}
-                    </mat-icon>
-                    <div class="mat-h3 m-0">
-                        {{ vnCategory.title }}
-                    </div>
-                </a>
-
-            </mat-list-item>
-        </mat-nav-list>
     </div>
 
 </div>

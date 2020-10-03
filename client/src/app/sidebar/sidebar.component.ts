@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { changeImageSize } from './../reducers/index';
 import { Component, Input, OnInit } from '@angular/core';
 import CategoryHelper, { Category } from "../../../../model/Categories";
@@ -22,7 +23,9 @@ export class SidebarComponent implements OnInit {
     @Input()
     isOpen: boolean;
 
-    constructor(private store: Store<ConfigState>) {
+    activatedCatagory:string;
+
+    constructor(private store: Store<ConfigState>, private router:Router) {
     }
 
     ngOnInit() {
@@ -31,6 +34,7 @@ export class SidebarComponent implements OnInit {
         this.store.pipe<ConfigState>(select('config')).subscribe(config => {
             this.isDarkMode = config.darkmode;
             this.isSmallImage = config.smallImage
+            this.activatedCatagory = config.category;
         })
 
     }
@@ -42,5 +46,10 @@ export class SidebarComponent implements OnInit {
     toogleDisplay() {
         this.store.dispatch(changeImageSize());
 
+    }
+
+    onSelectCategory(category: string){
+        this.activatedCatagory = category;
+        this.router.navigate([category]);
     }
 }

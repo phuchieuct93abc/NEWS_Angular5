@@ -47,4 +47,4 @@ export function configReducer(state: ConfigState, action: Action) {
   return _configReducer(state, action)
 }
 
-export const metaReducers: MetaReducer[] = [localStorageSyncReducer];
+export const metaReducers: MetaReducer[] = environment.isRunningInNode?[]:[localStorageSyncReducer];

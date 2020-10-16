@@ -1,5 +1,5 @@
 <div class="loading"
-     [ngClass]="[sizeCls,(store$ | async).darkmode?'dark':'light']">
+     [ngClass]="[sizeCls,config.getConfig().darkTheme?'dark':'light']">
     <div class="wrapper type-2">
         <div class="wrapper-cell">
             <div class="image-placeholder"></div>

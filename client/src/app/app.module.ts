@@ -1,4 +1,3 @@
-import { configReducer, metaReducers } from './reducers/index';
 import {NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -29,7 +28,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/article-content/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
-import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include intersectionObserverPreset
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image'; // <-- include intersectionObserverPreset
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";
@@ -43,6 +42,7 @@ import {ClipboardModule} from "ngx-clipboard";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TopCategoryComponent} from "./dashboard/category/category.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
+import {EllipsisModule} from "ngx-ellipsis";
 import {MatDividerModule} from "@angular/material";
 import {StoryMetaComponent} from "./story/story/story-meta/story-meta.component";
 import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
@@ -53,8 +53,6 @@ import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
-import { StoreModule } from '@ngrx/store';
-
 
 
 @NgModule({
@@ -75,7 +73,6 @@ import { StoreModule } from '@ngrx/store';
         NgZorroAntdModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
         LazyLoadImageModule,
-        StoreModule.forRoot({config: configReducer}, { metaReducers}),
         
 
     ],

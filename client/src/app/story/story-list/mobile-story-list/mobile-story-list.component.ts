@@ -1,15 +1,15 @@
-import { ConfigState } from './../../../reducers/index';
-import { Component, OnDestroy, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { StoryService } from "../../../shared/story.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StoryListService } from "../story-list.service";
 import { BreakpointDetectorService } from "../../../shared/breakpoint.service";
+import { ConfigService } from "../../../shared/config.service";
 import { LoadingService } from "../../../shared/loading.service";
 import { ArticleService } from "../../../shared/article.service";
 import { StoryListComponent } from "../story-list.component";
+import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { Story } from '../../../../../../model/Story';
-import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-mobile-story-list',
@@ -28,11 +28,11 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         protected router: Router,
         protected storyListService: StoryListService,
         protected breakpointService: BreakpointDetectorService,
+        protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
-        protected store: Store<ConfigState>
     ) {
-        super(storyService, activatedRoute, route, router, storyListService, breakpointService,  loadingService, articleService, store)
+        super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
 
     }
 

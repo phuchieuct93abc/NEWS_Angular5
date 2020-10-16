@@ -1,10 +1,9 @@
-import { Store, select } from '@ngrx/store';
-import { ConfigState, changeCategory } from './../../reducers/index';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { StoryService } from "../../shared/story.service";
 import { Story } from '../../../../../model/Story';
 import { ActivatedRoute, Router } from "@angular/router";
 import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { Config, ConfigService } from "../../shared/config.service";
 import { StoryListService } from "./story-list.service";
 import { LoadingEventName, LoadingEventType, LoadingService } from "../../shared/loading.service";
 import { ArticleService } from "../../shared/article.service";
@@ -41,6 +40,7 @@ export class StoryListComponent implements OnInit {
 
     isLoading = false;
 
+    config: Config;
     isBrowser;
 
     firstStory: Story;
@@ -60,9 +60,9 @@ export class StoryListComponent implements OnInit {
         protected router: Router,
         protected storyListService: StoryListService,
         protected breakpointService: BreakpointDetectorService,
+        protected configService: ConfigService,
         protected loadingService: LoadingService,
-        protected articleService: ArticleService,
-        protected store: Store<ConfigState>) {
+        protected articleService: ArticleService) {
     }
 
     async ngOnInit() {
@@ -131,7 +131,7 @@ export class StoryListComponent implements OnInit {
             this.category = params['category'];
 
             this.loadFirstPage();
-            this.store.dispatch(changeCategory({category:this.category}))
+            this.configService.updateConfig({ category: this.category })
 
         });
     }
@@ -178,10 +178,12 @@ export class StoryListComponent implements OnInit {
     }
 
     private registerConfigChange() {
-        
-        this.store.pipe<boolean>(select('config','smallImage')).subscribe(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
+        this.configService.configUpdated.subscribe(config => {
+            this.config = config.new;
+            if (config.old.smallImage !== config.new.smallImage) {
+                this.resetStoryList();
+                this.loadFirstPage();
+            }
         });
     }
 

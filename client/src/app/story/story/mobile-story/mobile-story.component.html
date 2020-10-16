@@ -3,7 +3,7 @@
         [routerLink]="[friendlyUrl,story.id]" routerLinkActive="active"
         [skipLocationChange]="true"
         [class.active]="story.isActive"
-        [ngClass]="[(config$ | async).smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']">
+        [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']">
         <mat-card-content class="m-0">
             <div class="content-story d-flex">
                 <app-image-viewer *ngIf="story.images[0]" [imagePath]="story.images[0].imageUrl"

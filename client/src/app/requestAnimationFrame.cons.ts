@@ -1,7 +1,7 @@
-import { environment } from './../environments/environment';
+import CONFIG from "../environments/environment";
 
 let RequestAnimationFrame = (callback, time = 0) => {
-    if (environment.isRunningInNode) {
+    if (CONFIG.isRunningInNode) {
         setTimeout(callback, time)
     } else {
         setTimeout(() => {

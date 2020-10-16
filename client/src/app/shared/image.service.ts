@@ -1,3 +1,4 @@
+import {ConfigService} from "./config.service";
 import {BreakpointDetectorService} from "./breakpoint.service";
 import {Injectable} from "@angular/core";
 
@@ -13,7 +14,7 @@ export class ImageSerice {
     readonly max = 650;
     readonly min = 150;
 
-    constructor() {
+    constructor(private config: ConfigService, private breakpointService: BreakpointDetectorService) {
     }
 
     getImage(imagePath: string, size: number) {

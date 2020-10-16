@@ -1,6 +1,6 @@
-import { environment } from './../../../../environments/environment';
 import { Component, Input, OnInit } from '@angular/core';
 import { Story } from "../../../../../../model/Story";
+import CONFIG from '../../../../environments/environment';
 
 @Component({
     selector: 'app-story-meta',
@@ -19,7 +19,7 @@ export class StoryMetaComponent implements OnInit {
 
     ngOnInit() {
         if (this.story.storyMeta.sourceIcon && this.story.storyMeta.sourceIcon.indexOf("http") < 0) {
-            this.sourceIcon = `${environment.baseUrl}${this.story.storyMeta.sourceIcon}`
+            this.sourceIcon = `${CONFIG.baseUrl}${this.story.storyMeta.sourceIcon}`
         }
         else {
             this.sourceIcon = this.story.storyMeta.sourceIcon;

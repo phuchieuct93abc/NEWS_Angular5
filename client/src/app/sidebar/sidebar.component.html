@@ -19,7 +19,7 @@
         <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay()" nzCheckedChildren="Ảnh nhỏ"
             nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
         <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
-            (ngModelChange)="toggleDarkMode()"></nz-switch>
+            (ngModelChange)="toggleDarkMode($event)"></nz-switch>
     </div>
 
     <div class="d-flex">

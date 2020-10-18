@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
 
         this.isDarkMode = this.configService.getConfig().darkTheme;
         this.isSmallImage = this.configService.getConfig().smallImage;
+        this.activatedCatagory = this.configService.getConfig().category; 
     }
 
     toggleDarkMode(value) {

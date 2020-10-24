@@ -3,17 +3,17 @@
   height: 100%;
   display: inline-block;
   z-index: 2;
-  background-color: var(--background-color-4);
+  color:white;
+  ::ng-deep{
+    .ant-divider-horizontal,.mat-form-field-label{
+      color: white;
+    }
+  }
 
   .sidebar {
     height: 100%;
 
-    ::ng-deep {
-
-      .ant-divider-inner-text {
-        color: var(--foreground-color);
-      }
-    }
+   
   }
 
   .sidebar-switch {

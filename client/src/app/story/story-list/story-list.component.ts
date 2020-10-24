@@ -13,6 +13,7 @@ import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 import { StoryComponent } from "../story/story.component";
 import { Observable, Subject } from "rxjs";
 import { takeUntil } from 'rxjs/operators';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
 
 @Component({
     selector: 'app-story-list',
@@ -62,10 +63,18 @@ export class StoryListComponent implements OnInit {
         protected breakpointService: BreakpointDetectorService,
         protected configService: ConfigService,
         protected loadingService: LoadingService,
-        protected articleService: ArticleService) {
+        protected articleService: ArticleService,
+        protected scrollDispatcher: ScrollDispatcher
+        ) {
+
     }
 
     async ngOnInit() {
+        //Listen scroll for lazy load image
+        this.scrollDispatcher.scrolled().subscribe(() => {
+            window.dispatchEvent(new CustomEvent('scroll'))
+        });
+
         this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill("");
 
         this.isBrowser = typeof window !== 'undefined';
@@ -127,7 +136,6 @@ export class StoryListComponent implements OnInit {
             this.firstStoriesLoaderPromise && this.firstStoriesLoaderPromise.unsubscribe();
 
             this.resetStoryList();
-            console.log("set category");
             this.category = params['category'];
 
             this.loadFirstPage();
@@ -209,7 +217,6 @@ export class StoryListComponent implements OnInit {
 
     private loadFirstPage() {
         this.storyService.getStories(this.category).pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
-            console.log("loadFirstPage", this.category)
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
@@ -257,7 +264,6 @@ export class StoryListComponent implements OnInit {
     protected scrollTo(story: Story, animation = 500, offset = -60) {
         setTimeout(() => {
             const index = this.stories.findIndex(i => i.id === story.id);
-            console.log(index)
             const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
             this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'})
         }, 0);    

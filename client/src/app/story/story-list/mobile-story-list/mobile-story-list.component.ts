@@ -1,3 +1,4 @@
+import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { Component, OnDestroy, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { StoryService } from "../../../shared/story.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -31,8 +32,11 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
+        protected scrollDispatcher: ScrollDispatcher
+
     ) {
-        super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, loadingService, articleService)
+        super(storyService, activatedRoute, route, router, storyListService, breakpointService, configService, 
+            loadingService, articleService,scrollDispatcher)
 
     }
 
@@ -64,7 +68,6 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     }
 
     async loadmore(isIntersect: boolean){
-        console.log(isIntersect)
         if (this.isLoadingMore || !isIntersect) return;
         this.isLoadingMore = true;
         await this.loadMoreStories();

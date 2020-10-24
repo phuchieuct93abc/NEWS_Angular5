@@ -1,5 +1,5 @@
 <div class="h-100 story-list">
-    <div #scrollingBlock class=" scrollable" *ngIf="isBrowser">
+    <div #scrollingBlock class=" scrollable" *ngIf="isBrowser" cdkScrollable>
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
        
             <div  *ngIf="stories.length>0;else loadingStory">

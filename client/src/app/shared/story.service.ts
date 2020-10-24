@@ -79,20 +79,6 @@ export class StoryService {
             ));
     }
 
-    preloadArticle(result: Story[]) {
-        /*console.log('preload')
-        navigator.serviceWorker.ready.then((ready) => {
-            setTimeout(() => {
-
-                navigator.serviceWorker.controller.postMessage({
-                    command: 'preload',
-                    payload: result.map(story => story.id)
-                })
-            })
-
-        });*/
-    }
-
     private filterStory(result) {
         let stories: Story[] = (<Story[]>result).filter(result => {
             return this.stories.findIndex(story => story.id == result.id) == -1;
@@ -153,9 +139,6 @@ export class StoryService {
                     });
 
                     this.checkReadStory(<Story[]>result);
-
-                    this.preloadArticle(<Story[]>result);
-
                     return result;
                 }
             ));

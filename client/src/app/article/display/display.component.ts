@@ -32,18 +32,15 @@ export class DisplayComponent implements OnInit {
 
 
     toggleDarkMode(value) {
-        console.log(this.isDarkMode);
         this.configService.updateConfig({ darkTheme: value })
     }
 
     changeFontSize(value: number) {
-        console.log(value);
         this.configService.updateConfig({ fontSize: value });
         this.fontSize = value
 
     }
     onCickSizeSlider(event:Event) {
         event.stopPropagation()
-        console.log(event)
     }
 }

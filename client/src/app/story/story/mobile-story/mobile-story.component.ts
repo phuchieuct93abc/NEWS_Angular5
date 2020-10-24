@@ -31,7 +31,6 @@ export class MobileStoryComponent extends StoryComponent {
 
     onSelectStory(){
         super.onSelectStory();
-        console.log('onselec')
         window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
 
 
@@ -41,7 +40,6 @@ export class MobileStoryComponent extends StoryComponent {
 
     }
     close() {
-        console.log('close')
         window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:"auto"})
 
         this.story.selected = false;

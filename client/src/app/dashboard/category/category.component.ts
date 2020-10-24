@@ -49,7 +49,6 @@ export class TopCategoryComponent implements OnInit {
         if (this.isExpanded) {
             this.maximumStories = Math.max(this.maximumStories, 20);
         }
-        console.log(this.maximumStories)
     }
 
 }

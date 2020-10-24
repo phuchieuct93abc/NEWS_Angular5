@@ -28,7 +28,7 @@ import {CachingInterceptor} from "./shared/caching-interceptor";
 import {HammerConfig} from "./hammer.config";
 import {VideoComponent} from "./article/article-content/video/video.component";
 import {MobileStoryComponent} from "./story/story/mobile-story/mobile-story.component";
-import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image'; // <-- include intersectionObserverPreset
+import { LazyLoadImageModule } from 'ng-lazyload-image'; 
 import {DisplayComponent} from "./article/display/display.component";
 import {CategorySelectorComponent} from "./navigator/category-selector/category-selector.component";
 import {CategoryComponent} from "./navigator/category-selector/category/category.component";

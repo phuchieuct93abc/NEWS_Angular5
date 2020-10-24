@@ -10,8 +10,7 @@
         <app-image-viewer *ngIf="story.images[0]"
                           [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
                           [width]="story.images[0].width"
-                          [height]="story.images[0].height"
-                          [scrollElement]="scrollElement"></app-image-viewer>
+                          [height]="story.images[0].height"></app-image-viewer>
         <div class="h-100 col d-flex flex-column justify-content-between pt-2">
             <div class="mt-sm-0 mt-1 mat-title mb-0 title">{{story.title}}</div>
             <app-story-meta [story]="story"></app-story-meta>

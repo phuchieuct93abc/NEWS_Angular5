@@ -2,8 +2,9 @@ export interface Category {
     name: string,
     title: string,
     url?: string,
-    icon: string,
-    color?: string
+    icon?: string,
+    color?: string,
+    image?: string
 }
 
 interface Categories {
@@ -46,6 +47,13 @@ const categories: Categories[] = [
 
             },
             {
+                name: 'giai-tri',
+                title: 'Giải trí',
+                icon: 'music_video',
+                color: 'indigo'
+
+            },
+            {
                 name: 'khoa-hoc-cong-nghe',
                 title: 'Công nghệ',
                 icon: 'phone_iphone',
@@ -53,9 +61,16 @@ const categories: Categories[] = [
 
             },
             {
+                name: 'khoa-hoc',
+                title: 'Khoa học',
+                icon: 'science',
+                color: 'orange'
+
+            },
+            {
                 name: 'tinh-te',
                 title: 'Tinh tế',
-                icon: 'phone_iphone',
+                image: 'https://tinhte.vn/favicon.ico',
                 color: 'green'
 
             },

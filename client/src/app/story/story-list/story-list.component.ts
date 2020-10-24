@@ -11,8 +11,8 @@ import StoryImage from "../../../../../model/StoryImage";
 import StoryMeta from "../../../../../model/StoryMeta";
 import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 import { StoryComponent } from "../story/story.component";
-import { Observable, Subject } from "rxjs";
-import { takeUntil } from 'rxjs/operators';
+import { interval, Observable, Subject } from "rxjs";
+import { takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 
 @Component({
@@ -49,7 +49,6 @@ export class StoryListComponent implements OnInit {
     loadingStoryNumber = [];
     private readonly LOADING_STORY_NUMBER = 10;
     private readonly LOADMORE_THRESHOLD = 10;
-    private firstStoriesLoaderPromise: any;
     private selectedStory: Story;
 
     private $stopGetStories = new Subject();
@@ -86,11 +85,11 @@ export class StoryListComponent implements OnInit {
 
         this.registerSpinner();
 
-        this.getFirstStory().then(firstStory => {
+        this.getFirstStory().subscribe(firstStory => {
             this.firstStory = firstStory;
-        }).finally(() => {
             this.updateStoryList();
         });
+
 
         this.registerPrevAndNext();
 
@@ -130,10 +129,9 @@ export class StoryListComponent implements OnInit {
     }
 
     private updateStoryList() {
-        if (this.isLoading) return;
         this.route.params.subscribe(params => {
+            console.log("get story")
             this.$stopGetStories.next();
-            this.firstStoriesLoaderPromise && this.firstStoriesLoaderPromise.unsubscribe();
 
             this.resetStoryList();
             this.category = params['category'];
@@ -145,20 +143,20 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    private getFirstStory(): Promise<Story> {
-        return new Promise((resolve, reject) => {
+    private getFirstStory(): Observable<Story> {
+        return new Observable(observer => {
             let params = this.route.children[0].snapshot.params;
             if (params["id"]) {
                 let articleId = params["id"];
-                this.articleService.getById(articleId, params['category']).then(article => {
+                this.articleService.getById(articleId, params['category']).subscribe(article => {
 
                     let storyImage: StoryImage = new StoryImage(article.images[0]);
                     let storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
-                    resolve(story)
+                    observer.next(story)
                 })
             } else {
-                reject();
+                observer.next();
             }
 
 
@@ -198,7 +196,7 @@ export class StoryListComponent implements OnInit {
     private resetStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
-        this.scrollTop();
+        setTimeout(this.scrollTop.bind(this))
     }
 
     private registerOnSearch() {
@@ -244,9 +242,10 @@ export class StoryListComponent implements OnInit {
 
 
     protected async loadMoreStories(){
+        if(this.isLoading)return
         this.isLoading = true;
         return  new Promise(resolve=>{
-            this.getLoadMoreObservable().pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
+            this.getLoadMoreObservable().pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000))).subscribe(value => {
                 this.stories.push(...value);
                 this.isLoading = false;
                 resolve()
@@ -271,7 +270,7 @@ export class StoryListComponent implements OnInit {
 
     }
     protected scrollTop(){
-        this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
+        this.scrollingBlock && this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'}); 
 
     }
 
@@ -293,12 +292,16 @@ export class StoryListComponent implements OnInit {
                 this.storyComponents.first.onSelectStory();
             }, 100)
         }
-        this.scrollTop();
+
         this.afterInitStories();
 
 
     }
     protected afterInitStories(){
+        setTimeout(() => {
+            this.scrollTop();
+
+        });
 
     }
 

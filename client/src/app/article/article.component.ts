@@ -53,16 +53,12 @@ export class ArticleComponent implements OnInit {
     @ViewChild("rootArticle", { static: true })
     private rootArticle: ElementRef;
 
-
-
-    routeParamSubscription: Subscription;
-    configSubsription: Subscription;
     articleBody: string;
 
     isStickHeader: boolean = false
-
-
     public fontSize: number;
+    onDestroy$ = new Subject<void>();
+    stopGetArticle$ =  new Subject<void>();
 
     constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
@@ -72,13 +68,13 @@ export class ArticleComponent implements OnInit {
 
     ngOnInit() {
         this.fontSize = this.configService.getConfig().fontSize;
-        this.routeParamSubscription = this.route.params.subscribe(params => {
+        this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(params => {
+            this.stopGetArticle$.next();
             this.articleId = null;
             this.getArticleById(params['id'], params['category']);
-
         });
 
-        this.configSubsription = this.configService.configUpdated.subscribe((config) => {
+        this.configService.configUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((config) => {
             this.fontSize = config.new.fontSize
         });
     }
@@ -88,7 +84,7 @@ export class ArticleComponent implements OnInit {
             this.categoryId = categoryId;
             this.articleId = articleId;
             this.article = null;
-            this.articleService.getById(articleId, categoryId).then(article => {
+            this.articleService.getById(articleId, categoryId).pipe(takeUntil(this.stopGetArticle$)).subscribe(article => {
                 this.article = article;
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();
@@ -100,7 +96,7 @@ export class ArticleComponent implements OnInit {
 
     protected afterGetArticle(): void {
 
-        if (typeof this.articleView.nativeElement.scroll === 'function') {
+        if (this.articleView && typeof this.articleView.nativeElement.scroll === 'function') {
 
             (<HTMLElement>this.articleView.nativeElement).scroll({ top: 0 });
         }
@@ -193,8 +189,7 @@ export class ArticleComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        this.routeParamSubscription.unsubscribe();
-        this.configSubsription.unsubscribe();
+      this.onDestroy$.next();
     }
 
 

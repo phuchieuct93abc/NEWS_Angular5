@@ -98,6 +98,7 @@ export class StoryService {
     }
 
     getById(id: string) {
+        console.log("get article by id",this.stories.length+1)
         let story = this.stories.find(s => s.id == id);
         if (story == null) {
             story = this.favoriteService.findById(id);

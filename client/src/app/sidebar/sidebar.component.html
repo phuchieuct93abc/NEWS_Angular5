@@ -35,7 +35,7 @@
                 [class.active]="activatedCatagory === vnCategory.name">
                 <a matLine class="d-flex align-items-center">
                     <ng-container *ngIf="vnCategory.image;else categoryIcon">
-                        <img width="24"  [src]="vnCategory.image" />
+                        <img width="24" class="mr-2" [src]="vnCategory.image" />
                     </ng-container>
                     <ng-template #categoryIcon>
                         <mat-icon class="mr-2" [ngStyle]="{'color':'var(--'+vnCategory.color+')'}">{{vnCategory.icon}}

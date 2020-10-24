@@ -4,6 +4,7 @@ import CategoryHelper, {Category} from "../../../../model/Categories";
 import {ConfigService} from "../shared/config.service";
 import {trigger} from "@angular/animations";
 import {opacityNgIf} from "../animation";
+import { BreakpointDetectorService } from '../shared/breakpoint.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -23,8 +24,11 @@ export class SidebarComponent implements OnInit {
     isOpen:boolean;
 
     activatedCatagory:string;
+    isMobile:boolean;
 
-    constructor(private configService: ConfigService,private router: Router) {
+    constructor(private configService: ConfigService,private router: Router, breakpointService:BreakpointDetectorService ) {
+        this.isMobile = breakpointService.isSmallScreen;
+
     }
 
     ngOnInit() {

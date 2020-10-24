@@ -8,19 +8,23 @@
         </div>
     </div>
 
-    <div class="d-flex">
-        <nz-divider nzText="Cấu hình"></nz-divider>
-
-    </div>
-    <app-search class="mb-3"></app-search>
+ 
+    <app-search class="my-3"></app-search>
 
 
-    <div class="d-flex sidebar-switch">
-        <nz-switch class="mb-3 d-md-none" (ngModelChange)="toogleDisplay($event)" nzCheckedChildren="Ảnh nhỏ"
-            nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
-        <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
-            (ngModelChange)="toggleDarkMode($event)"></nz-switch>
-    </div>
+    <ng-container *ngIf="isMobile">
+        <div class="d-flex">
+            <nz-divider nzText="Giao diện"></nz-divider>
+    
+        </div>
+        <div class="d-flex sidebar-switch" >
+            <nz-switch class="mb-3" (ngModelChange)="toogleDisplay($event)" nzCheckedChildren="Ảnh nhỏ"
+                nzUnCheckedChildren="Ảnh to" [(ngModel)]="isSmallImage"></nz-switch>
+            <nz-switch [ngModel]="isDarkMode" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
+                (ngModelChange)="toggleDarkMode($event)"></nz-switch>
+        </div>
+    </ng-container>
+
 
     <div class="d-flex">
         <nz-divider nzText="Chuyên mục"></nz-divider>
@@ -28,7 +32,6 @@
     </div>
 
     <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
-        <div class="mat-h2 mb-0">VietNam</div>
         <mat-nav-list>
             <mat-list-item *ngFor="let vnCategory of vietnameseCategories" 
                 (click)="onSelectCategory(vnCategory.name)"

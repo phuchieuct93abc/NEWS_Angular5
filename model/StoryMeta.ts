@@ -1,4 +1,3 @@
-import moment from "../functions/utils/moment.service";
 
 export default class StoryMeta {
     public source: string;
@@ -7,7 +6,7 @@ export default class StoryMeta {
 
     constructor(source: string, sourceIcon: string, time: string | number) {
         this.source = source;
-        this.time = time;
+        this.time = new Date(time).getTime();
         this.sourceIcon = sourceIcon;
     }
 }

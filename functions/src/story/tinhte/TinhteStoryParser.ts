@@ -17,7 +17,7 @@ export default class TinhteStoryParser extends StoryParser {
     }
 
     parseStoryMeta(): StoryMeta {
-        return new StoryMeta("Tinh tế","https://tinhte.vn/favicon.ico", this.data["thread_update_date"] * 1000);//Correct format time for tinhte only
+        return new StoryMeta("Tinh tế","https://tinhte.vn/favicon.ico", (this.data["thread_create_date"] * 1000));//Correct format time for tinhte only
     }
 
     parseImages(): StoryImage[] {

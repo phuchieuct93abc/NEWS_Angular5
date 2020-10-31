@@ -26,6 +26,7 @@ export default class TinhteStoryService extends StoryService {
         let tinhteUri = TinhteStoryService.urlApi.replace("${page}", pageNumber + "");
         const tinhteStoryService = new TinhteStoryService(tinhteUri);
         tinhteStoryService.pageNumber = pageNumber;
+        console.log(tinhteUri)
         return tinhteStoryService;
 
     }

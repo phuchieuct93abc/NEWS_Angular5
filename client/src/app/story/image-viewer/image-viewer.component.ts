@@ -1,15 +1,11 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { ConfigService } from "../../shared/config.service";
-import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { Observable } from "rxjs";
-import { StoryListService } from "../story-list/story-list.service";
-import { animate, style, transition, trigger } from "@angular/animations";
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ImageSerice } from "../../shared/image.service";
 
 @Component({
     selector: 'app-image-viewer',
     templateUrl: './image-viewer.component.html',
-    styleUrls: ['./image-viewer.component.scss']
+    styleUrls: ['./image-viewer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageViewerComponent implements OnInit {
 

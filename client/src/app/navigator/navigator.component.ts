@@ -1,3 +1,4 @@
+import { Category } from './../../../../model/Categories';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointDetectorService } from "../shared/breakpoint.service";
 import { StoryListService } from "../story/story-list/story-list.service";
@@ -5,6 +6,7 @@ import { ConfigService } from "../shared/config.service";
 import { AppComponent } from "../app.component";
 import { AppService } from "../app.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import CategoryHelper from '../../../../model/Categories';
 
 @Component({
     selector: 'app-navigator',
@@ -23,7 +25,7 @@ export class NavigatorComponent implements OnInit {
     isSmallImage: boolean;
     @ViewChild(AppComponent, { static: false })
     app: AppComponent;
-    selectedCategory: string;
+    selectedCategory: Category;
 
     constructor(public breakpointService: BreakpointDetectorService,
         private configService: ConfigService,
@@ -32,6 +34,9 @@ export class NavigatorComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.configService.configUpdated.subscribe(config=>{
+            this.selectedCategory = CategoryHelper.getCategory(config.new.category)
+        })
     }
 
     restrictTop(top: number): number {

@@ -4,13 +4,12 @@
         <div class="mat-toolbar-single-row p-0">
             <div class="toolbar-item">
                 <a mat-button color="accent">
-                    <mat-icon (click)="toogleSidebar()">menu</mat-icon>
-
+                    <img (click)="toogleSidebar()" width="30" height="30" class="rounded-circle logo" alt="logo" src="../../assets/newspaper.png">
                 </a>
 
                 <div class="mat-h1 m-0 mr-4">
                     <a  href="/" class="d-md-none" color="accent">
-                        Báo hiếu
+                        {{selectedCategory?.title}}
                     </a>
 
                 </div>

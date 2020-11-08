@@ -155,6 +155,10 @@ export default class CategoryHelper {
     static englishCategories(): Category[] {
         return categories.find(c => c.language === 'en').categories;
     }
+
+    static getCategory(name: string): Category{
+        return [...CategoryHelper.vietnameseCategories(),...CategoryHelper.englishCategories()].find(c=>c.name===name);
+    }
 }
 
 

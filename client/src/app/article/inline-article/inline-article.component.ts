@@ -1,14 +1,13 @@
-import { ArticleComponent } from "../article.component";
-import { ActivatedRoute } from "@angular/router";
-import { ArticleService } from "../../shared/article.service";
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { Story } from "../../../../../model/Story";
-import { StoryListService } from "../../story/story-list/story-list.service";
-import { CdkDrag } from "@angular/cdk/drag-drop";
-import { DomService } from "../dom.service";
-import { ConfigService } from "../../shared/config.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
-import { StorySizechangeDetectorService } from "../../story/story/mobile-story/story-sizechange-detector.service";
+import { CdkDrag } from "@angular/cdk/drag-drop";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Story } from "../../../../../model/Story";
+import { ArticleService } from "../../shared/article.service";
+import { ConfigService } from "../../shared/config.service";
+import { StoryListService } from "../../story/story-list/story-list.service";
+import { ArticleComponent } from "../article.component";
+import { DomService } from "../dom.service";
 
 
 const SWIPE_LEFT = "swipeLeft";

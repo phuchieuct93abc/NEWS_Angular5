@@ -1,16 +1,10 @@
 img {
-  height: 50px;
+  height: 100px;
   width: auto;
   display: inline-block;
   transform: scale(1) !important;;
   border: none;
   animation: run 4s linear infinite;
-}
-
-@media (min-width: 576px) {
-  img {
-    height: 100px;
-  }
 }
 
 :host {
@@ -81,11 +75,11 @@ img {
         display: flex;
         align-items: inherit;
         flex-direction: column;
-        justify-content: space-between;
 
         .text-line {
           height: $height-line;
           @extend .animated-background;
+          margin-bottom: 1rem;
         }
       }
 
@@ -110,10 +104,10 @@ img {
 .loading {
   &.small {
 
-    @include type2(50px, 10px, #F6F6F6, #e5e5e5);
+    @include type2(120px, 10px, #F6F6F6, #e5e5e5);
 
     &.dark {
-      @include type2(50px, 10px, #303030, #4a4a4d);
+      @include type2(120px, 10px, #303030, #4a4a4d);
 
     }
 
@@ -129,7 +123,7 @@ img {
     }
 
   }
-
+// Not used
   &.big {
     @include type2(200px, 20px, #F6F6F6, #e5e5e5);
 

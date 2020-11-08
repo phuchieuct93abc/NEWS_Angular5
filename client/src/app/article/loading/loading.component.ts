@@ -17,11 +17,9 @@ export class LoadingComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.isSmall != undefined) {
-            this.sizeCls = this.isSmall ? 'small' : 'big';
-        } else {
-            this.sizeCls = this.breakpointService.isSmallScreen ? 'small' : 'big';
-        }
+        this.sizeCls = 'small';
+      
+        
     }
 
 }

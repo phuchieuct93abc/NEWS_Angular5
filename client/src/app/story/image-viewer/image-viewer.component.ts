@@ -5,7 +5,6 @@ import { ImageSerice } from "../../shared/image.service";
     selector: 'app-image-viewer',
     templateUrl: './image-viewer.component.html',
     styleUrls: ['./image-viewer.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageViewerComponent implements OnInit {
 

@@ -12,11 +12,11 @@
                 <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "></p>
             </div>
 
-            <div class="source text-right">
+            <div class="source text-right mb-3">
                 <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
                     {{article.story.storyMeta.source}}</a>
             </div>
-            <app-comments [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
+            <app-comments class="mb-3" [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
 
 
         </div>

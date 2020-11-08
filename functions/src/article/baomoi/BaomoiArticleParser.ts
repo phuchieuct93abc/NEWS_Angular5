@@ -9,10 +9,22 @@ export default class BaomoiArticleParser extends ArticleParser {
         super();
     }
 
-    private convertHtmlBody() {
+    private convertHtmlBody(images:string[]):string {
 
         let body = this.data.getElementsByClassName('article__body')[0].innerHTML;
-        return Utility.replaceAll(body, "data-", "");
+        body =  Utility.replaceAll(body, "data-", "");
+        return this.addThumbnail(images,body)
+    }
+
+    private addThumbnail(images:string[], body:string){
+        if(images.length>0){
+            let thumbnail = images[0];
+            if(body.indexOf(thumbnail)===-1){
+                body = `<img class="thumbnail-inner" src='${thumbnail}'/> ${body} `
+            } 
+        }
+        return body;
+
     }
 
 
@@ -23,7 +35,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         let sourceUrl = this.data.querySelector(".article__action .plsh").getAttribute("href");
         sourceUrl = `https://m.baomoi.com${sourceUrl}`;
 
-        let images = this.extractImages();
+        let images:string[] = this.extractImages();
         const description = this.data.getElementsByClassName('article__sapo')[0].textContent;
 
         let likes = parseInt(this.data.querySelector(".like").textContent);
@@ -31,11 +43,11 @@ export default class BaomoiArticleParser extends ArticleParser {
 
         let sourceIconUrl = BaomoiStoryParser.getSourceIconUrl(this.data.querySelector('.article__meta'))
 
-        return new Article(id, header, null, this.convertHtmlBody(), null, null, null, sourceUrl, sourceName, sourceIconUrl,images, description, likes, time, this.extractRalatedNumber());
+        return new Article(id, header, null, this.convertHtmlBody(images), null, null, null, sourceUrl, sourceName, sourceIconUrl,images, description, likes, time, this.extractRalatedNumber());
     }
 
 
-    private extractImages() {
+    private extractImages(): string[] {
         let images = [];
         const imageElements = this.data.getElementsByTagName('img');
         for (let index = 0; index < imageElements.length; index++) {

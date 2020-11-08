@@ -24,11 +24,11 @@ class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-siz
                     *ngIf="article.description"></p>
 
                 <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
-                <div class="source text-right">
+                <div class="source text-right mb-3">
                     <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
                         {{article.sourceName}}</a>
                 </div>
-                <app-comments [articleId]="article.id"></app-comments>
+                <app-comments [articleId]="article.id" class="mb-3"></app-comments>
             </div>
             <ng-template #loading>
                 <app-loading></app-loading>

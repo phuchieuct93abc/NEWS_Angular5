@@ -26,10 +26,16 @@
     //background-color: white;
     margin: 0;
 
-    ::ng-deep img {
-      transform: scale(1) !important;
-    }
+    ::ng-deep {
+      img {
+        transform: scale(1) !important;
+      }
 
+      .thumbnail-inner{
+        margin-bottom: 1rem;
+      }
+  
+    }
   
   }
 

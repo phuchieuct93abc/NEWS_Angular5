@@ -54,6 +54,12 @@
     width: 100% !important;
   }
 
+  ::ng-deep{
+    .thumbnail-inner{
+      margin-bottom: 1rem;
+    }
+  }
+
 
 }
 

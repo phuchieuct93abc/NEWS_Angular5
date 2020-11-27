@@ -9,17 +9,23 @@ export default class BaomoiArticleParser extends ArticleParser {
     }
 
     private convertHtmlBody(): string {
-        let dataHTML = this.sanityLazyImages();
+        let dataHTML = this.data.getElementsByClassName('article__body')[0] as HTMLElement;
+        this.sanityLazyImages(dataHTML);
+        this.replaceDataAttributes(dataHTML);
         return dataHTML.innerHTML;
     }
 
-    private sanityLazyImages() {
-        let dataHTML = this.data.getElementsByClassName('article__body')[0] as HTMLElement;
+    private sanityLazyImages(dataHTML: HTMLElement) {
         let lazyImages = dataHTML.getElementsByClassName("lazy-img");
         for (let i = 0; i < lazyImages.length; i++) {
             lazyImages[i].setAttribute("src", lazyImages[i].getAttribute("data-src"));
         }
         return dataHTML;
+    }
+
+    private replaceDataAttributes(dataHTML: HTMLElement){
+        dataHTML.innerHTML = dataHTML.innerHTML.replace(/data-/gm,"");
+
     }
 
     parserArticle(): Article {

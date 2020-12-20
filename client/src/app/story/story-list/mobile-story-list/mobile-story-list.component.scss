@@ -1,7 +1,9 @@
 @import "../story-list.component";
-.story-list{
+
+.story-list {
   background-color: var(--background-color-3);
 }
+
 .move-to-top {
 
   position: fixed;
@@ -23,6 +25,9 @@
   position: fixed;
 }
 
-.loading-story {
-  padding-top: 55px;
+.loading-story, .story {
+  &:first-child {
+    padding-top: 60px !important;
+
+  }
 }

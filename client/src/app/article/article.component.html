@@ -1,6 +1,5 @@
 <div appNavigationKeyboard (up)="up()" (down)="down()" (left)="prevArticle()" (right)="nextArticle()"
-
-class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
+    class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
     <div class="navigator navigator-prev">
         <a (click)="prevArticle()" mat-icon-button>
             <mat-icon>chevron_left</mat-icon>
@@ -10,14 +9,13 @@ class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-siz
         <div *ngFor="let id of [articleId]" style="position: relative" class="h-100 panel-primary">
 
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3 panel-primary">
-                    <div #articleHeader class="article-header" 
-                    [ngClass]="{'stick':isStickHeader}">
-                        <div class="mat-display-1 mb-2 accent-color article-title ">
-                            {{article.header}}
-                        </div>
-                        <app-actions [article]="article"></app-actions>
+                <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">
+                    <div class="mat-display-1 mb-2 accent-color article-title ">
+                        {{article.header}}
                     </div>
-          
+                    <app-actions [article]="article"></app-actions>
+                </div>
+
 
 
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"
@@ -31,7 +29,7 @@ class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-siz
                 <app-comments [articleId]="article.id" class="mb-3"></app-comments>
             </div>
             <ng-template #loading>
-                <app-loading></app-loading>
+                <app-loading class="p-2"></app-loading>
             </ng-template>
         </div>
     </div>

@@ -1,21 +1,15 @@
 <div class="story-list">
-    <div  *ngIf="isBrowser">
-        
-        <div class="stories"   *ngIf="stories.length>0;else loadingStory">
-            <app-mobile-story #storyMobile
-            *ngFor="let item of stories;trackBy:compareItem" [story]="item" 
-            class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
+    <div *ngIf="isBrowser">
+
+        <div class="stories" *ngIf="stories.length>0;else loadingStory">
+            <app-mobile-story #storyMobile *ngFor="let item of stories;trackBy:compareItem" [story]="item"
+                class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
             <div class="py-3 text-center" (appIsIntersect)="loadmore($event)">Load more</div>
         </div>
-      
+
 
         <ng-template #loadingStory>
-            <div class="loading-story">
-                <div *ngFor="let i of loadingStoryNumber">
-                    <app-loading-story></app-loading-story>
-
-                </div>
-            </div>
+            <app-loading-story class="loading-story p-2" *ngFor="let i of loadingStoryNumber"></app-loading-story>
 
         </ng-template>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>
@@ -23,8 +17,7 @@
     </div>
 
 
-    <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)"
-            *ngIf="isShowMoveTop">
+    <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)" *ngIf="isShowMoveTop">
         <mat-icon class="mat-accent">play_circle_filled</mat-icon>
     </button>
 </div>

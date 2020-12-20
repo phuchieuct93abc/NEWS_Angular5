@@ -1,50 +1,80 @@
 @import "../story.component";
 
 :host {
-  .first-story{
-    padding-top: 55px;
-  }
   .mat-card {
     height: initial;
     border: none;
     box-shadow: none;
 
-    .image-wrapper {
-      width: 100%;
-      flex: none;
-      border-radius: 8px;
+    .card-content {
+      display: grid;
+      gap: 1rem;
 
-    }
-    .title{
-      font-size: 1.1rem;
-      max-height: 4em;
-      overflow: hidden;
+
+      .image {
+        grid-area: image;
+        width: 100%;
+        max-width: 100%;
+
+        flex: none;
+        border-radius: 8px;
+
+      }
+
+      .title {
+        grid-area: title;
+        font-size: 1.1rem;
+        max-height: 4em;
+        overflow: hidden;
+      }
+
+      .meta {
+        grid-area: meta;
+
+      }
+
+      .content-article {
+        grid-area: content;
+
+      }
+
     }
 
     &.large-image {
-      .content-story {
-        flex-direction: column;
-        height: 21em;
+      .card-content {
+        grid-template: auto auto auto auto / 1fr;
+        grid-template-areas: "image"
+          "title"
+          "meta"
+          "content";
 
-      }
-      .image-wrapper  {
-        width: 100%;
-        height:65%;
-        max-width: 100%;
+        .image {
+
+          height: 30vh;
+        }
       }
     }
 
     &.small-image {
-      .content-story {
-        height: 8em;
-        flex-direction: row;
+      .card-content {
+        grid-template: auto auto auto / auto 1fr;
+        grid-template-areas: "image title"
+          "image meta"
+          "content content";
 
+        .image {
+          width: 120px;
+          height: 120px;
+        }
       }
 
-      .image-wrapper {
-        width: 120px;
-      }
     }
+
+
+
+
+
+
   }
 
 }

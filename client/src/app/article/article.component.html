@@ -23,8 +23,15 @@
 
                 <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
                 <div class="source text-right mb-3">
-                    <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
-                        {{article.sourceName}}</a>
+                    <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+                        <span>Nguồn:</span>
+                        <img class="d-inline-block ml-2"
+                        [alt]="article.sourceName" *ngIf="article.sourceName" 
+                        height="20"
+                        [lazyLoad]="article.sourceName" defaultImage="assets/news.png"              
+                        defaultImage="assets/loading-image.png"
+                        />
+                    </a>
                 </div>
                 <app-comments [articleId]="article.id" class="mb-3"></app-comments>
             </div>

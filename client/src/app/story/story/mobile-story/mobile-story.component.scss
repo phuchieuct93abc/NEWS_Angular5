@@ -1,8 +1,6 @@
 @import "../story.component";
 
 :host {
-
-
   .mat-card {
     height: initial;
     border: none;
@@ -34,14 +32,28 @@
         grid-area: meta;
 
       }
-      .content-article{
+
+      .content-article {
         grid-area: content;
 
       }
 
     }
 
-    &.large-image {}
+    &.large-image {
+      .card-content {
+        grid-template: auto auto auto auto / 1fr;
+        grid-template-areas: "image"
+          "title"
+          "meta"
+          "content";
+
+        .image {
+
+          height: 30vh;
+        }
+      }
+    }
 
     &.small-image {
       .card-content {
@@ -50,31 +62,19 @@
           "image meta"
           "content content";
 
-          .image{
-            width: 120px;
-            height: 120px;
-          }
+        .image {
+          width: 120px;
+          height: 120px;
+        }
       }
 
     }
 
 
 
-    &.large-image {
-
-      .image {
-        width: 100%;
-        height: 65%;
-      }
-    }
-
-    &.small-image {
 
 
-      .image {
-        width: 120px;
-      }
-    }
+
   }
 
 }

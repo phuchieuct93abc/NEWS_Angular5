@@ -1,28 +1,20 @@
 <div class="h-100 story-list">
     <div #scrollingBlock class=" scrollable" *ngIf="isBrowser" cdkScrollable>
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
-       
-            <div  *ngIf="stories.length>0;else loadingStory">
-                <app-story #story (onSelectedStory)="onSelectedStory($event)" 
-                        *ngFor="let item of stories" 
-                        [story]="item" 
-                        [index]="stories.indexOf(item)"
-                        class="d-block pb-2"
-                        [scrollElement]="scrollingBlock"></app-story>
-            </div>
 
-            <div class="p-2 text-center">
-                <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
+        <div *ngIf="stories.length>0;else loadingStory">
+            <app-story #story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of stories" [story]="item"
+                [index]="stories.indexOf(item)" class="d-block pb-2" [scrollElement]="scrollingBlock"></app-story>
+        </div>
 
-            </div>
+        <div class="p-2 text-center">
+            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
+
+        </div>
 
         <ng-template #loadingStory>
-            <div class="loading-story">
-                <div *ngFor="let i of loadingStoryNumber">
-                    <app-loading-story></app-loading-story>
+                <app-loading-story *ngFor="let i of loadingStoryNumber" class="loading-story pb-2"></app-loading-story>
 
-                </div>
-            </div>
 
         </ng-template>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>

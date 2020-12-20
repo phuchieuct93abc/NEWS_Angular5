@@ -13,8 +13,15 @@
             </div>
 
             <div class="source text-right mb-3">
-                <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">Nguồn:
-                    {{article.story.storyMeta.source}}</a>
+                <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+                    <span>Nguồn:</span>
+                    <img class="d-inline-block ml-2"
+                    [alt]="article.story.storyMeta.source" *ngIf="article.story.storyMeta.source" 
+                    height="20"
+                    [lazyLoad]="article.story.storyMeta.source" defaultImage="assets/news.png"              
+                    defaultImage="assets/loading-image.png"
+                    />
+                </a>
             </div>
             <app-comments class="mb-3" [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments>
 

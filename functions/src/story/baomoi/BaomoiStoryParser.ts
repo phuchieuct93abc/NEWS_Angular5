@@ -26,7 +26,7 @@ export default class BaomoiStoryParser extends StoryParser {
 
     parseStoryMeta(): StoryMeta {
         const meta = <HTMLElement>this.data.getElementsByClassName('story__meta')[0];
-        const source = meta.getElementsByClassName('source')[0].textContent;
+        const source = meta.querySelector('.source img').getAttribute("src");
         const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
         return new StoryMeta(source, BaomoiStoryParser.getSourceIconUrl(meta), time);
     }

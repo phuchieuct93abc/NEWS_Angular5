@@ -1,9 +1,9 @@
 <footer class=" text-right   justify-content-start d-flex align-items-end pt-1">
-    <img [alt]="story.storyMeta.source" *ngIf="story.storyMeta.sourceIcon" class="icon mr-1" width="20" height="20"
-        [lazyLoad]="sourceIcon" defaultImage="assets/news.png"              defaultImage="assets/loading-image.png"
+    <img [alt]="story.storyMeta.source" *ngIf="story.storyMeta.source" class="icon mr-1" height="20"
+        [lazyLoad]="story.storyMeta.source" defaultImage="assets/news.png"              
+        defaultImage="assets/loading-image.png"
         />
-    <cite title="Source title" class="title">{{story.storyMeta.source}}</cite>
-    <span class="time ml-2 flex-grow-1 text-left"> - {{story.storyMeta.time | amTimeAgo }}</span>
+    <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | amTimeAgo }}</span>
     <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
     </mat-icon>
 

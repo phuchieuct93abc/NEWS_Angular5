@@ -9,7 +9,11 @@
 
 
         <ng-template #loadingStory>
-            <app-loading-story class="loading-story p-2" *ngFor="let i of loadingStoryNumber"></app-loading-story>
+            <ng-container *ngFor="let i of loadingStoryNumber">
+                <app-loading-story class="loading-story p-2" ></app-loading-story>
+                <mat-divider></mat-divider>
+            </ng-container>
+
 
         </ng-template>
         <div class="blur-edge blur-bottom" *ngIf="stories"></div>

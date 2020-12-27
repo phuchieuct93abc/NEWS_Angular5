@@ -26,9 +26,10 @@ export default class BaomoiStoryParser extends StoryParser {
 
     parseStoryMeta(): StoryMeta {
         const meta = <HTMLElement>this.data.getElementsByClassName('story__meta')[0];
-        const source = meta.querySelector('.source img').getAttribute("src");
+        const source = meta.querySelector('.source img').getAttribute("alt");
+        const sourceIcon = meta.querySelector('.source img').getAttribute("src");
         const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
-        return new StoryMeta(source, BaomoiStoryParser.getSourceIconUrl(meta), time);
+        return new StoryMeta(source, sourceIcon, time);
     }
 
     parseImages(): StoryImage[] {
@@ -66,14 +67,6 @@ export default class BaomoiStoryParser extends StoryParser {
     parseRelated(): number {
         const relatedElement = this.data.querySelector(".story__tools a");
         return parseInt(relatedElement ? relatedElement.textContent : "0");
-    }
-
-    public static getSourceIconUrl(meta: HTMLElement):string {
-        const sourceId = meta.getElementsByTagName("a")[0].getAttribute("href");
-
-        var rx = /\/([0-9]*).epi/g;
-        var arr = rx.exec(sourceId);
-        return `icon_publishers/${arr[1]}.png`
     }
 
 

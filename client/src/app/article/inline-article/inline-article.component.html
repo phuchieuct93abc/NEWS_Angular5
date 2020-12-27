@@ -5,7 +5,6 @@
     <div #articleBodyWrapper class="article-view">
         <div *ngIf="article;else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)"
             style="overflow: hidden">
-
             <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article"></app-actions>
             <div #articleBodyElement>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
@@ -15,9 +14,9 @@
             <div class="source text-right mb-3">
                 <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
                     <img class="d-inline-block ml-2"
-                    alt="Nguồn" 
+                    [alt]="article.story.storyMeta.source" 
                     height="20"
-                    [src]="article.story.storyMeta.source"            
+                    [src]="article.story.storyMeta.sourceIcon"            
                     />
                 </a>
             </div>
@@ -29,6 +28,6 @@
 
 
     <ng-template #loading>
-        <app-loading></app-loading>
+        <app-loading class="mt-3"></app-loading>
     </ng-template>
 </div>

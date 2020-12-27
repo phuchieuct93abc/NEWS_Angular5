@@ -26,9 +26,9 @@
                     <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
                         <span>Nguồn:</span>
                         <img class="d-inline-block ml-2"
-                        alt="Nguồn" 
+                        [alt]="article.sourceName" 
                         height="20"
-                        [src]="article.sourceName"            
+                        [src]="article.sourceIcon"            
                         />
                     </a>
                 </div>

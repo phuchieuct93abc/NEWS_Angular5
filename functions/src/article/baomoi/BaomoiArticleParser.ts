@@ -31,17 +31,18 @@ export default class BaomoiArticleParser extends ArticleParser {
     parserArticle(): Article {
         const header = this.data.getElementsByClassName("article__header")[0].textContent;
         const id = this.data.getElementsByClassName("article")[0].getAttribute("data-aid");
-        const sourceName = this.data.getElementsByClassName("source")[0].textContent;
         let sourceUrl = this.data.querySelector(".article__action .plsh").getAttribute("href");
         sourceUrl = `https://m.baomoi.com${sourceUrl}`;
-
+        
         let images: string[] = this.extractImages();
         const description = this.data.getElementsByClassName("article__sapo")[0].textContent;
-
+        
         let likes = parseInt(this.data.querySelector(".like").textContent);
         let time = this.data.querySelector("time.time").getAttribute("datetime");
-
-        let sourceIconUrl = BaomoiStoryParser.getSourceIconUrl(this.data.querySelector(".article__meta"));
+        
+        const meta = this.data.querySelector(".article__meta");
+        let sourceName = (meta.querySelector(".source .image") as HTMLImageElement).alt;
+        let sourceIconUrl = (meta.querySelector(".source .image") as HTMLImageElement).src;
 
         return new Article(
             id,

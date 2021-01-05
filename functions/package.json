@@ -28,7 +28,7 @@
     "@types/axios": "^0.14.0",
     "@types/hammerjs": "^2.0.36",
     "animate.css": "^3.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "compression": "^1.7.4",
     "connect-timeout": "^1.9.0",

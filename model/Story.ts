@@ -7,14 +7,7 @@ export class Story {
     public isTouch = false;
     public isActive = false;
     public isSelectedBefore = false;
-    private _selected_1 = false;
-    public get selected() {
-        return this._selected_1;
-    }
-    public set selected(value) {
-        console.log(value)
-        this._selected_1 = value;
-    }
+
     constructor(
         public id: string,
         public title: string,
@@ -25,11 +18,10 @@ export class Story {
         public hasVideo: boolean,
         public isRead: boolean = false,
         public isAutoOpen = false,
-        private _selected = false,
+        public selected = false,
         public height = 0,
         public isExpandedComment = false,
         public related = 0,
     ) {
-        this.selected = _selected;
     }
 }

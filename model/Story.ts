@@ -6,6 +6,7 @@ export class Story {
 
     public isTouch = false;
     public isActive = false;
+    public isSelectedBefore = false;
 
     constructor(
         public id: string,

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener } from '@angular/core';
 import { ImageSerice } from "../../shared/image.service";
 
 @Component({
@@ -25,19 +26,31 @@ export class ImageViewerComponent implements OnInit {
     @Input()
     alt: string
 
+    startScrollY: number;
+    deltaY:number;
+
 
 
     convertedImagePath: string;
 
-    constructor(private imageService: ImageSerice, private elRef: ElementRef) {
+    constructor(private imageService: ImageSerice, private elRef: ElementRef, private platform: Platform) {
 
     }
+
+    startParallax() {
+        this.startScrollY = window.scrollY;
+    }
+
+    // @HostListener('window:scroll', ['$event']) // for window scroll events
+    // onScroll(event) {
+    //     this.deltaY = Math.max(0,Math.min(100,window.scrollY - this.startScrollY)/2);
+    // }
 
 
     ngOnInit() {
         if (this.imagePath) {
             setTimeout(() => {
-                let imageWidth = (<HTMLElement>this.elRef.nativeElement).offsetWidth;
+                let imageWidth = window.innerWidth//(<HTMLElement>this.elRef.nativeElement).offsetWidth;
                 this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
             }, 0);
         } else {

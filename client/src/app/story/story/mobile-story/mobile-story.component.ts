@@ -1,3 +1,4 @@
+import { ImageViewerComponent } from './../../image-viewer/image-viewer.component';
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {StoryComponent} from "../story.component";
 import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
@@ -17,6 +18,8 @@ export class MobileStoryComponent extends StoryComponent {
     @ViewChild("storyElement", {static: false})
     storyElement: ElementRef;
 
+    @ViewChild(ImageViewerComponent, {static: false}) imageViewerComponent: ImageViewerComponent
+
 
     constructor(public breakpointService: BreakpointDetectorService,
                 protected configService: ConfigService,
@@ -30,8 +33,16 @@ export class MobileStoryComponent extends StoryComponent {
     }
 
     onSelectStory(){
+        
+        this.story.selected = true;
+        this.story.isSelectedBefore = true;
         super.onSelectStory();
-        window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+        setTimeout(() => {
+
+            window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+            this.imageViewerComponent.startParallax();
+
+        });
 
 
     }

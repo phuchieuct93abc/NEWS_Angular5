@@ -30,8 +30,12 @@ export class MobileStoryComponent extends StoryComponent {
     }
 
     onSelectStory(){
+        this.story.selected = true;
+        this.story.isSelectedBefore = true;
         super.onSelectStory();
-        window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+        setTimeout(() => {
+            window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+        });
 
 
     }

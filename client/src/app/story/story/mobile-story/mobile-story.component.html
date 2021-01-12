@@ -1,7 +1,7 @@
 <div #storyElement [class.first-story]="index===0">
     <mat-card (click)="onSelectStory()" class="m-0 p-0" [class.read]="story.isRead"
         [routerLink]="[friendlyUrl,story.id]" routerLinkActive="active" [skipLocationChange]="true"
-        [class.active]="story.isActive"
+         [class.selected-before]="story.isSelectedBefore"
         [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']">
         <mat-card-content class="m-0  card-content p-2">
             <app-image-viewer *ngIf="story.images[0]" [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
@@ -10,7 +10,7 @@
             </app-image-viewer>
 
             <div class="d-flex mat-title mb-0 title">
-                {{story.title }}
+               {{story.title }}
             </div>
             <app-story-meta [story]="story" class="meta"></app-story-meta>
 

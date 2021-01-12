@@ -51,7 +51,7 @@
     &:hover {
       //transform: scale(1.1);
       transition: all linear 0.5s;
-      background-color: transparent;
+      // background-color: transparent;
 
     }
 
@@ -70,7 +70,7 @@
 
     &.active,
     &:hover {
-      background-color: transparent !important;
+      // background-color: transparent !important;
 
       a {
         color: var(--hightlight-color) !important;

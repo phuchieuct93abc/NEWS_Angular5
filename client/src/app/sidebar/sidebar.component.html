@@ -32,11 +32,10 @@
     </div>
 
     <div class="scrollable w-100 flex-grow-1 d-flex flex-column">
-        <mat-nav-list>
-            <mat-list-item *ngFor="let vnCategory of vietnameseCategories" 
-                (click)="onSelectCategory(vnCategory.name)"
-                [class.active]="activatedCatagory === vnCategory.name">
-                <a matLine class="d-flex align-items-center">
+        <mat-nav-list>           
+            <a mat-list-item *ngFor="let vnCategory of vietnameseCategories" 
+                    [routerLink]="vnCategory.name" [routerLinkActive]="'active'">
+                <div class="d-flex align-items-center" >
                     <ng-container *ngIf="vnCategory.image;else categoryIcon">
                         <img width="24" class="mr-2" [src]="vnCategory.image" />
                     </ng-container>
@@ -46,9 +45,9 @@
                     </ng-template>
 
                     <div class="mat-h3 m-0">{{ vnCategory.title }}</div>
-                </a>
+                </div>
 
-            </mat-list-item>
+            </a>
         </mat-nav-list>
 
     </div>

@@ -51,6 +51,5 @@ export class SidebarComponent implements OnInit {
 
     onSelectCategory(category: string){
         this.activatedCatagory = category;
-        this.router.navigate([category]);
     }
 }

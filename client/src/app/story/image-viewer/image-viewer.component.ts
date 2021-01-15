@@ -90,7 +90,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.scrollListener$();
+        this.scrollListener$ && this.scrollListener$();
     }
 
 

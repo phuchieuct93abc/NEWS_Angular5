@@ -1,11 +1,14 @@
 
-    <img [ngStyle]="{'object-position':'0 '+deltaY+'px'}"
+    <img [ngStyle]="{'top':deltaY+'px'}"
             class="mt-0 mb-0 image"
             [offset]="500"
             [alt]="alt"
             [lazyLoad]="convertedImagePath"
+            [class.parallaxing]="isParallaxing"
+            [class.stopping-parallax]="isParallaxing && isStoppingParallax"
             defaultImage="assets/loading-image.png"
             *ngIf="convertedImagePath"
     />
+ 
 
     <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

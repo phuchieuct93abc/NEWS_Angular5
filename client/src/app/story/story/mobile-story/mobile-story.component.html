@@ -6,6 +6,7 @@
         <mat-card-content class="m-0  card-content p-2">
             <app-image-viewer *ngIf="story.images[0]" [imagePath]="story.images[0].imageUrl" [hasVideo]="story.hasVideo"
                 [width]="story.images[0].width" [height]="story.images[0].height" [alt]="story.title"
+                [parallax]="story.selected"
                 class="image p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
             </app-image-viewer>
 

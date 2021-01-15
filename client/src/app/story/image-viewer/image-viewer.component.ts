@@ -25,6 +25,8 @@ export class ImageViewerComponent implements OnInit {
     wrapperWidth: number;
     @Input()
     alt: string
+    @Input()
+    parallax:boolean;
 
     startScrollY: number;
     deltaY:number;

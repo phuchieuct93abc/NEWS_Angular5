@@ -40,8 +40,9 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         if (value && !this._parallax) {
             this.startParallax();
         }
-        if (this._parallax && !value) {
+        if (!value) {
             this.stopParallax();
+            this.deltaY = 0;
 
         }
         this._parallax = value;
@@ -49,7 +50,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     startScrollY: number;
     deltaY = 0;
-    scrollListener$: () => void;
+    scrollListener$: () => void = ()=>{};
 
 
 
@@ -64,6 +65,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             this.isParallaxing = true;
             this.startScrollY = window.scrollY;
+            this.scrollListener$();
             this.scrollListener$ = this.renderer2.listen('window', 'scroll', (e) => {
                 this.deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
             });
@@ -71,7 +73,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
     stopParallax() {
         this.isStoppingParallax = true;
-        this.scrollListener$();
+         this.scrollListener$();
         setTimeout(() => {
             this.isStoppingParallax = false;
             this.isParallaxing = false
@@ -81,7 +83,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.imagePath) {
             setTimeout(() => {
-                let imageWidth = window.innerWidth//(<HTMLElement>this.elRef.nativeElement).offsetWidth;
+                let imageWidth = window.innerWidth
                 this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
             }, 0);
         } else {
@@ -90,7 +92,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.scrollListener$ && this.scrollListener$();
+       this.scrollListener$();
     }
 
 

@@ -1,17 +1,14 @@
 
-    <img [ngStyle]="{'object-position':'0 '+deltaY+'px'}"
+    <img [ngStyle]="{'top':deltaY+'px'}"
             class="mt-0 mb-0 image"
-            [class.invisible]="parallax"
             [offset]="500"
             [alt]="alt"
             [lazyLoad]="convertedImagePath"
+            [class.parallaxing]="isParallaxing"
+            [class.stopping-parallax]="isParallaxing && isStoppingParallax"
             defaultImage="assets/loading-image.png"
             *ngIf="convertedImagePath"
     />
-    <div *ngIf="parallax" class="parallax-image-wrapper">
-<div class="parallax-image" [lazyLoad]="convertedImagePath"></div>
-
-
-    </div>
+ 
 
     <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

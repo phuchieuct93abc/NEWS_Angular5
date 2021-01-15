@@ -1,5 +1,6 @@
+import { Subject } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener, Renderer2, OnDestroy } from '@angular/core';
 import { ImageSerice } from "../../shared/image.service";
 
 @Component({
@@ -7,7 +8,7 @@ import { ImageSerice } from "../../shared/image.service";
     templateUrl: './image-viewer.component.html',
     styleUrls: ['./image-viewer.component.scss'],
 })
-export class ImageViewerComponent implements OnInit {
+export class ImageViewerComponent implements OnInit, OnDestroy {
 
     @Input()
     imagePath: string;
@@ -25,29 +26,57 @@ export class ImageViewerComponent implements OnInit {
     wrapperWidth: number;
     @Input()
     alt: string
+
+    isParallaxing: boolean;
+    isStoppingParallax: boolean;
+
+
+    private _parallax: boolean;
+    public get parallax(): boolean {
+        return this._parallax;
+    }
     @Input()
-    parallax:boolean;
+    public set parallax(value: boolean) {
+        if (value && !this._parallax) {
+            this.startParallax();
+        }
+        if (this._parallax && !value) {
+            this.stopParallax();
+
+        }
+        this._parallax = value;
+    }
 
     startScrollY: number;
-    deltaY:number;
+    deltaY = 0;
+    scrollListener$: () => void;
 
 
 
     convertedImagePath: string;
 
-    constructor(private imageService: ImageSerice, private elRef: ElementRef, private platform: Platform) {
+    constructor(private imageService: ImageSerice, private elRef: ElementRef, private platform: Platform, private renderer2: Renderer2) {
 
     }
+
 
     startParallax() {
-        this.startScrollY = window.scrollY;
+        setTimeout(() => {
+            this.isParallaxing = true;
+            this.startScrollY = window.scrollY;
+            this.scrollListener$ = this.renderer2.listen('window', 'scroll', (e) => {
+                this.deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
+            });
+        }, 1000);
     }
-
-    // @HostListener('window:scroll', ['$event']) // for window scroll events
-    // onScroll(event) {
-    //     this.deltaY = Math.max(0,Math.min(100,window.scrollY - this.startScrollY)/2);
-    // }
-
+    stopParallax() {
+        this.isStoppingParallax = true;
+        this.scrollListener$();
+        setTimeout(() => {
+            this.isStoppingParallax = false;
+            this.isParallaxing = false
+        }, 1000);
+    }
 
     ngOnInit() {
         if (this.imagePath) {
@@ -59,5 +88,11 @@ export class ImageViewerComponent implements OnInit {
             console.error("empty image path")
         }
     }
+
+    ngOnDestroy(): void {
+        this.scrollListener$();
+    }
+
+
 
 }

@@ -84,17 +84,28 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         })
     }
     private requestAnimation() {
-      return this.updateAnimation();
-         
+        return this.updateAnimation();
+
     }
-    private updateAnimation(startTimestamp?){
+    private updateAnimation(startTimestamp?) {
         return window.requestAnimationFrame((timestamp) => {
             if (startTimestamp === undefined)
                 startTimestamp = timestamp;
             const elapsed = timestamp - startTimestamp;
-            let deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
-            deltaY = Math.round(deltaY);
-this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
+            console.log(Math.min(200, window.scrollY - this.startScrollY) / 2)
+            let deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) * 0.2);
+            // deltaY = deltaY);
+            // if(deltaY > this.deltaY){
+            //     deltaY = this.deltaY + 0.1;
+            // }else if(deltaY<this.deltaY){
+            //     deltaY = this.deltaY -0.1;
+            // }else{
+            //     deltaY = this.deltaY;
+            // }
+
+
+            this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
+            this.deltaY = deltaY
             console.log('run')
             if (elapsed < 1000) { // Stop the animation after 2 seconds
                 this.requestId = this.updateAnimation(startTimestamp);
@@ -115,14 +126,17 @@ this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
     stopParallax() {
         this.isStoppingParallax = true;
         this.scrollListener$();
-        this.imageRef.nativeElement.style.transform = `translateY(0px)`
-window.cancelAnimationFrame(this.requestId)
+        if (this.imageRef) {
+
+            this.imageRef.nativeElement.style.transform = `translateY(0px)`
+        }
+        window.cancelAnimationFrame(this.requestId)
         setTimeout(() => {
             this.isStoppingParallax = false;
             this.isParallaxing = false;
-            
 
-            
+
+
         }, 1000);
     }
 

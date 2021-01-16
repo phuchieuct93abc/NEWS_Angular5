@@ -1,5 +1,5 @@
 <div class="story-list">
-    <div *ngIf="isBrowser">
+    <div *ngIf="isBrowser" style="padding-top: 58px;">
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">
             <app-mobile-story #storyMobile *ngFor="let item of stories;trackBy:compareItem" [story]="item"

@@ -1,6 +1,7 @@
-import { Subject } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener, Renderer2, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { asyncScheduler, Subject } from 'rxjs';
+import { takeUntil, throttleTime } from 'rxjs/operators';
 import { ImageSerice } from "../../shared/image.service";
 
 @Component({
@@ -35,6 +36,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     public get parallax(): boolean {
         return this._parallax;
     }
+
     @Input()
     public set parallax(value: boolean) {
         if (value && !this._parallax) {
@@ -50,7 +52,9 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     startScrollY: number;
     deltaY = 0;
-    scrollListener$: () => void = ()=>{};
+    scrollListener$: () => void = () => { };
+    scroll$ = new Subject<void>();
+    onDestroy$ = new Subject<void>();
 
 
 
@@ -58,26 +62,6 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     constructor(private imageService: ImageSerice, private elRef: ElementRef, private platform: Platform, private renderer2: Renderer2) {
 
-    }
-
-
-    startParallax() {
-        setTimeout(() => {
-            this.isParallaxing = true;
-            this.startScrollY = window.scrollY;
-            this.scrollListener$();
-            this.scrollListener$ = this.renderer2.listen('window', 'scroll', (e) => {
-                this.deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
-            });
-        }, 1000);
-    }
-    stopParallax() {
-        this.isStoppingParallax = true;
-         this.scrollListener$();
-        setTimeout(() => {
-            this.isStoppingParallax = false;
-            this.isParallaxing = false
-        }, 1000);
     }
 
     ngOnInit() {
@@ -89,10 +73,34 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         } else {
             console.error("empty image path")
         }
+
+        this.scroll$.pipe(throttleTime(200, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$)).subscribe(() => {
+            this.deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
+
+        })
     }
 
+    startParallax() {
+        setTimeout(() => {
+            this.isParallaxing = true;
+            this.startScrollY = window.scrollY;
+            this.scrollListener$();
+            this.scrollListener$ = this.renderer2.listen('window', 'scroll', (e) => this.scroll$.next());
+        }, 1000);
+    }
+    stopParallax() {
+        this.isStoppingParallax = true;
+        this.scrollListener$();
+        setTimeout(() => {
+            this.isStoppingParallax = false;
+            this.isParallaxing = false
+        }, 1000);
+    }
+
+
     ngOnDestroy(): void {
-       this.scrollListener$();
+        this.scrollListener$();
+        this.onDestroy$.next()
     }
 
 

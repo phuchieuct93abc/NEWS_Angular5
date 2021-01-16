@@ -101,7 +101,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         })
     }
 
-    startParallax() {
+    startParallax() {/*
         setTimeout(() => {
             this.isParallaxing = true;
             this.startScrollY = window.scrollY;
@@ -110,6 +110,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             this.requestAnimation();
 
         }, 1000);
+*/
     }
     stopParallax() {
         this.isStoppingParallax = true;

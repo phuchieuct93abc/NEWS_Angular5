@@ -94,6 +94,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             const elapsed = timestamp - startTimestamp;
             const deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
             this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
+            console.log('run')
             if (elapsed < 1000) { // Stop the animation after 2 seconds
                 this.requestId = this.updateAnimation(startTimestamp);
             }

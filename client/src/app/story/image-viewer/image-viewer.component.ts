@@ -103,7 +103,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             // }
 
 
-            this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
+            this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px) scale(1.1)`;
             this.deltaY = deltaY
             if (elapsed < 1000) { // Stop the animation after 2 seconds
                 this.requestId = this.updateAnimation(startTimestamp);
@@ -126,7 +126,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.scrollListener$();
         if (this.imageRef) {
 
-            this.imageRef.nativeElement.style.transform = `translateY(0px)`
+            this.imageRef.nativeElement.style.transform = `translateY(0px) scale(1.1)`
         }
         window.cancelAnimationFrame(this.requestId)
         setTimeout(() => {

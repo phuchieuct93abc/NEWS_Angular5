@@ -39,7 +39,7 @@ export class MobileStoryComponent extends StoryComponent {
         super.onSelectStory();
         setTimeout(() => {
 
-            window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:'smooth'})
+            window.scrollTo({top:this.element.nativeElement.offsetTop-50,behavior:'smooth'})
             this.imageViewerComponent.startParallax();
 
         });
@@ -51,7 +51,7 @@ export class MobileStoryComponent extends StoryComponent {
 
     }
     close() {
-        window.scrollTo({top:this.element.nativeElement.offsetTop-60,behavior:"auto"})
+        window.scrollTo({top:this.element.nativeElement.offsetTop-50,behavior:"auto"})
 
         this.story.selected = false;
     }

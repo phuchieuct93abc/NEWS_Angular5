@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
-import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { asyncScheduler, Subject } from 'rxjs';
 import { takeUntil, throttleTime } from 'rxjs/operators';
 import { ImageSerice } from "../../shared/image.service";
@@ -27,6 +28,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     wrapperWidth: number;
     @Input()
     alt: string
+    @ViewChild('image', { static: false })
+    imageRef: ElementRef<HTMLImageElement>;
 
     isParallaxing: boolean;
     isStoppingParallax: boolean;
@@ -59,6 +62,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
 
     convertedImagePath: string;
+    requestId: any;
 
     constructor(private imageService: ImageSerice, private elRef: ElementRef, private platform: Platform, private renderer2: Renderer2) {
 
@@ -74,9 +78,25 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             console.error("empty image path")
         }
 
-        this.scroll$.pipe(throttleTime(200, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$)).subscribe(() => {
-            this.deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
+        this.scroll$.pipe(throttleTime(1000, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$)).subscribe(() => {
+            this.requestAnimation();
 
+        })
+    }
+    private requestAnimation() {
+      return this.updateAnimation();
+         
+    }
+    private updateAnimation(startTimestamp?){
+        return window.requestAnimationFrame((timestamp) => {
+            if (startTimestamp === undefined)
+                startTimestamp = timestamp;
+            const elapsed = timestamp - startTimestamp;
+            const deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) / 2);
+            this.imageRef.nativeElement.style.transform = `translateY(${deltaY}px)`;
+            if (elapsed < 1000) { // Stop the animation after 2 seconds
+                this.requestId = this.updateAnimation(startTimestamp);
+            }
         })
     }
 
@@ -86,6 +106,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             this.startScrollY = window.scrollY;
             this.scrollListener$();
             this.scrollListener$ = this.renderer2.listen('window', 'scroll', (e) => this.scroll$.next());
+            this.requestAnimation();
+
         }, 1000);
     }
     stopParallax() {
@@ -93,7 +115,10 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.scrollListener$();
         setTimeout(() => {
             this.isStoppingParallax = false;
-            this.isParallaxing = false
+            this.isParallaxing = false;
+            window.cancelAnimationFrame(this.requestId)
+
+            
         }, 1000);
     }
 

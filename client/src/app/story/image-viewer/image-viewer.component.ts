@@ -114,10 +114,12 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     stopParallax() {
         this.isStoppingParallax = true;
         this.scrollListener$();
+        this.imageRef.nativeElement.style.transform = `translateY(0px)`
+window.cancelAnimationFrame(this.requestId)
         setTimeout(() => {
             this.isStoppingParallax = false;
             this.isParallaxing = false;
-            window.cancelAnimationFrame(this.requestId)
+            
 
             
         }, 1000);

@@ -7,7 +7,6 @@
     </div>
     <div class="scrollable " #articleView>
         <div *ngFor="let id of [articleId]" style="position: relative" class="h-100 panel-primary">
-
             <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3 panel-primary">
                 <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">
                     <div class="mat-display-1 mb-2 accent-color article-title ">

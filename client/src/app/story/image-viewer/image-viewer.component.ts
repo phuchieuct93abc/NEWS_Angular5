@@ -15,16 +15,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     imagePath: string;
 
     @Input()
-    width: number;
-
-    @Input()
-    height: number;
-    @Input()
     hasVideo: false;
-    @Input()
-    fullSize: false;
-    @Input()
-    wrapperWidth: number;
+
     @Input()
     alt: string
     @ViewChild('image', { static: false })

@@ -1,0 +1,57 @@
+:host{
+    display: block;
+    position: sticky;
+    top:0;
+}
+.wrapper{
+    position: relative;
+    width: 100%;
+    .title-wrapper{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(74,74,77,0.8);
+
+    }
+
+    .sticky {
+        position: sticky;
+        top: 10px;
+        z-index: 10;
+      
+      }
+      
+      .article-header.stick {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        animation: article-header-stick 200ms linear;
+        backdrop-filter: saturate(180%) blur(20px);
+        background-color: rgba(var(--background-color-2-code), 0.6  );
+        margin-left: -8px;
+        margin-right: -8px;
+        width: calc(100% + 1em);
+        padding:0 0.5em;
+      
+      
+      
+        .article-title {
+          font-size: 25px;
+          flex: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          transition: all 200ms linear;
+      
+      
+        }
+      
+        .blur-edge.blur-top {
+          top: 48px;
+        }
+      }
+      
+}

@@ -1,3 +1,4 @@
+import { ArticleThumbnailComponent } from './article/article-thumbnail/article-thumbnail.component';
 import { ParallaxDirective } from './../directives/parallax.directive';
 import {NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title} from '@angular/platform-browser';
@@ -113,7 +114,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
          IsIntersectDirective,
          NavigationKeyboardDirective,
          StoryListManagementComponent,
-         ParallaxDirective
+         ParallaxDirective,
+         ArticleThumbnailComponent
 
     ],
     bootstrap: [AppComponent],

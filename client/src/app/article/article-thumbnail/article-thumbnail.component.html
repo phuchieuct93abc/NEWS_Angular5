@@ -1,0 +1,12 @@
+<section class="wrapper" *ngIf="article">
+  <app-image-viewer [imagePath]="thumbnailPath" [parallax]="true"></app-image-viewer>
+  <div class="title-wrapper">
+
+    <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">
+      <div class="mat-display-1 mb-2 accent-color article-title ">
+        {{article.header}}
+      </div>
+      <app-actions [article]="article"></app-actions>
+    </div>
+  </div>
+</section>

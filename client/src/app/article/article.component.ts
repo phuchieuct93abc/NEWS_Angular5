@@ -48,14 +48,9 @@ export class ArticleComponent implements OnInit {
 
     @ViewChild('articleView', { static: false })
     protected articleView: ElementRef;
-    @ViewChild('articleHeader', { static: false })
-    protected articleHeader: ElementRef
-    @ViewChild("rootArticle", { static: true })
-    private rootArticle: ElementRef;
 
     articleBody: string;
 
-    isStickHeader: boolean = false
     public fontSize: number;
     onDestroy$ = new Subject<void>();
     stopGetArticle$ =  new Subject<void>();
@@ -103,12 +98,12 @@ export class ArticleComponent implements OnInit {
         this.articleBody = this.article.body;
 
         if (typeof window !== 'undefined') {
-            this.registerStickyHeader();
+            // this.registerStickyHeader();
 
             RequestAnimationFrame(() => {
                 this.parseVideo();
                 this.parseImage();
-                this.resetStickyHeader();
+                // this.resetStickyHeader();
 
             })
 
@@ -117,38 +112,7 @@ export class ArticleComponent implements OnInit {
 
     }
 
-    protected resetStickyHeader() {
-        this.isStickHeader = false;
-    }
-    protected registerStickyHeader() {
-        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-         if (isSafari) return;
-
-        let thresholds = [0.1];
-        let th = 0.1;
-        while (th < 0.9) {
-            th = th + 0.1;
-            thresholds.push(th);
-        }
-        let options = {
-            threshold: thresholds,
-            root: this.rootArticle.nativeElement
-        };
-        setTimeout(() => {
-
-            let observer = new IntersectionObserver((entries, observer) => {
-                this.isStickHeader = entries[0].intersectionRatio < (48 / this.articleHeader.nativeElement.clientHeight) && entries[0].intersectionRatio > 0;
-                if (this.isStickHeader) {
-                    observer.disconnect();
-                }
-            }, options);
-            setTimeout(() => {
-                observer.observe(this.articleHeader.nativeElement);
-
-            }, 0);
-        }, 500);
-    }
+    
 
     private parseImage() {
 

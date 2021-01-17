@@ -4,12 +4,10 @@
             [class.zoom]="parallax"
             [offset]="500"
             [alt]="alt"
-            [lazyLoad]="convertedImagePath"
-          
+            [lazyLoad]="convertedImagePath"          
             defaultImage="assets/loading-image.png"
             *ngIf="convertedImagePath"
             #image
     />
- 
 
     <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

@@ -1,3 +1,4 @@
+import { ParallaxDirective } from './../directives/parallax.directive';
 import {NgModule} from '@angular/core';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -111,7 +112,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
          SwipeToCloseDirective,
          IsIntersectDirective,
          NavigationKeyboardDirective,
-         StoryListManagementComponent
+         StoryListManagementComponent,
+         ParallaxDirective
 
     ],
     bootstrap: [AppComponent],

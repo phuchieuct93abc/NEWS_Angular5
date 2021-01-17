@@ -1,11 +1,10 @@
 
-    <img 
+    <img [appParallax]="parallax"
             class="mt-0 mb-0 image"
             [offset]="500"
             [alt]="alt"
             [lazyLoad]="convertedImagePath"
-            [class.parallaxing]="isParallaxing"
-            [class.stopping-parallax]="isParallaxing && isStoppingParallax"
+          
             defaultImage="assets/loading-image.png"
             *ngIf="convertedImagePath"
             #image
@@ -13,3 +12,5 @@
  
 
     <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
+    <!-- [class.parallaxing]="isParallaxing"
+    [class.stopping-parallax]="isParallaxing && isStoppingParallax" -->

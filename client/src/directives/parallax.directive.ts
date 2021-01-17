@@ -35,8 +35,10 @@ export class ParallaxDirective implements OnInit, OnDestroy {
   }
 
   startParallax() {
-    this.originalTransform = this.imageRef.nativeElement.style.transform;
     setTimeout(() => {
+      this.originalTransform = window.getComputedStyle(this.imageRef.nativeElement).getPropertyValue('transform');
+      console.log(this.originalTransform)
+
       this.setParallaxing(true);
       this.startScrollY = window.scrollY;
       this.imageRef.nativeElement.style['willChange'] = 'transform';

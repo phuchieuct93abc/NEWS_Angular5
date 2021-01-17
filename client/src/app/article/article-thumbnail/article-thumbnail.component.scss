@@ -12,6 +12,11 @@
       }
       .title-wrapper{
         background: none;
+        top: 0;
+        bottom: unset;
+      }
+      .article-header{
+        //padding: 0 !important;
       }
     }
     .title-wrapper{
@@ -19,7 +24,9 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: rgba(74,74,77,0.8);
+        background-image: linear-gradient(rgba(74,74,77,0.8), rgba(0,0,0,0.8));
+
+        // background-color: rgba(74,74,77,0.8);
 
     }
 

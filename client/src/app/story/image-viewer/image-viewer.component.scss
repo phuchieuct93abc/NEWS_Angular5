@@ -21,9 +21,10 @@
     &.stopping-parallax{
       transition: none;
     }
-    &.hoverZoom:hover {
+    &.hoverZoom:hover,&.zoom {
       transform: scale(1.1);
     }
+
 
   }
 

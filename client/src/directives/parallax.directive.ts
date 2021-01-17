@@ -12,6 +12,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
   scroll$ = new Subject<void>();
   requestId: any;
   onDestroy$ = new Subject<void>();
+  _parallax:boolean;
 
   @Input()
   public set appParallax(value: boolean) {
@@ -19,10 +20,11 @@ export class ParallaxDirective implements OnInit, OnDestroy {
     if (value) {
       this.startParallax();
     }
-    if (!value) {
+    if (!value && this._parallax) {
       this.stopParallax();
 
     }
+    this._parallax = value
   }
 
   constructor(private imageRef: ElementRef<HTMLImageElement>, private renderer2: Renderer2) { }
@@ -79,7 +81,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
     return this.imageRef.nativeElement.getBoundingClientRect().top;
 
   }
-  
+
   private requestAnimation() {
     return this.updateAnimation();
 

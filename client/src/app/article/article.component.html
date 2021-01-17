@@ -9,7 +9,7 @@
         <div *ngFor="let id of [articleId]" style="position: relative" class="h-100 panel-primary">
         
 
-            <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3 panel-primary">
+            <div *ngIf="article; else loading" class="article-content px-2  pb-5  panel-primary">
                 <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.images[1] || article.images[0]" 
                 [title]="article.header" [article]="article"></app-article-thumbnail>
               

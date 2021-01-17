@@ -11,11 +11,8 @@
 
             <div *ngIf="article; else loading" class="article-content px-2  pb-5  panel-primary">
                 <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.images[1] || article.images[0]" 
-                [title]="article.header" [article]="article"></app-article-thumbnail>
-              
+                [title]="article.header" [article]="article"></app-article-thumbnail>     
         
-
-
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"
                     *ngIf="article.description"></p>
 

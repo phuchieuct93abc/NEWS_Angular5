@@ -8,6 +8,7 @@ import Article from '../../../../../model/Article';
   styleUrls: ['./article-thumbnail.component.scss']
 })
 export class ArticleThumbnailComponent implements OnInit {
+  readonly THRESHOLDS = [0,1];
 
   @Input()
   thumbnailPath: string;
@@ -33,20 +34,14 @@ export class ArticleThumbnailComponent implements OnInit {
 
     if (isSafari) return;
 
-    let thresholds = [0,1];
-    // let th = 0.1;
-    // while (th < 0.9) {
-    //   th = th + 0.1;
-    //   thresholds.push(th);
-    // }
     let options = {
-      threshold: thresholds,
+      threshold: this.THRESHOLDS,
       root: this.rootArticle.nativeElement
     };
     setTimeout(() => {
 
-      let observer = new IntersectionObserver((entries, observer) => {
-        this.isStickHeader = !entries[0].isIntersecting && entries[0].intersectionRatio === 0;
+      let observer = new IntersectionObserver(([entry], observer) => {
+        this.isStickHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
         if (this.isStickHeader) {
           this.element.nativeElement.style.position = 'sticky';
           this.element.nativeElement.style.top = '0';          

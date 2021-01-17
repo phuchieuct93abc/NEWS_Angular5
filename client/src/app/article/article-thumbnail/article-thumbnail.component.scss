@@ -1,11 +1,19 @@
 :host{
     display: block;
-    position: sticky;
-    top:0;
+
 }
 .wrapper{
     position: relative;
     width: 100%;
+    &.sticky{
+      height: 48px;
+      .thumbnail{
+        visibility: hidden;
+      }
+      .title-wrapper{
+        background: none;
+      }
+    }
     .title-wrapper{
         position: absolute;
         bottom: 0;

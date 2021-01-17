@@ -1,5 +1,5 @@
-<section class="wrapper" *ngIf="article">
-  <app-image-viewer [imagePath]="thumbnailPath" [parallax]="true"></app-image-viewer>
+<section class="wrapper" *ngIf="article" [class.sticky]="isStickHeader">
+  <app-image-viewer class="thumbnail" [imagePath]="thumbnailPath" [parallax]="true"></app-image-viewer>
   <div class="title-wrapper">
 
     <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">

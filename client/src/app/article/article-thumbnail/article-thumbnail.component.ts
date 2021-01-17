@@ -19,7 +19,7 @@ export class ArticleThumbnailComponent implements OnInit {
   @Input()
   rootArticle: ElementRef<HTMLElement>;
 
-  constructor() { }
+  constructor(private element:ElementRef<HTMLElement>) { }
 
   ngOnInit() {
     this.registerStickyHeader();
@@ -47,6 +47,9 @@ export class ArticleThumbnailComponent implements OnInit {
       let observer = new IntersectionObserver((entries, observer) => {
         this.isStickHeader = entries[0].intersectionRatio < (48 / this.articleHeader.nativeElement.clientHeight) && entries[0].intersectionRatio > 0;
         if (this.isStickHeader) {
+          this.element.nativeElement.style.position = 'sticky';
+          this.element.nativeElement.style.top = '0';
+          
           observer.disconnect();
         }
       }, options);

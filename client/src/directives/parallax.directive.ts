@@ -12,7 +12,6 @@ export class ParallaxDirective implements OnInit, OnDestroy {
   scroll$ = new Subject<void>();
   requestId: any;
   onDestroy$ = new Subject<void>();
-  originalTransform:string;
 
   @Input()
   public set appParallax(value: boolean) {
@@ -36,8 +35,6 @@ export class ParallaxDirective implements OnInit, OnDestroy {
 
   startParallax() {
     setTimeout(() => {
-      this.originalTransform = window.getComputedStyle(this.imageRef.nativeElement).getPropertyValue('transform');
-      console.log(this.originalTransform)
 
       this.setParallaxing(true);
       this.startScrollY = window.scrollY;
@@ -50,7 +47,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
   stopParallax() {
     this.setStoppongParallax(true);
     this.scrollListener$();
-    this.imageRef.nativeElement.style.transform = this.originalTransform;
+    this.imageRef.nativeElement.style.transform = 'scale(1.1)';
     window.cancelAnimationFrame(this.requestId)
     setTimeout(() => {
       this.setStoppongParallax(false);
@@ -88,7 +85,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
       }
       const elapsed = timestamp - startTimestamp;
       let deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) * 0.2);
-      this.imageRef.nativeElement.style.transform = `${this.originalTransform} translateY(${deltaY}px)`;
+      this.imageRef.nativeElement.style.transform = `scale(1.1) translateY(${deltaY}px)`;
 
       if (elapsed < 1000) { // Stop the animation after 1 second
         this.requestId = this.updateAnimation(startTimestamp);

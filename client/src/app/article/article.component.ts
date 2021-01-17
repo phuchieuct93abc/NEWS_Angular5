@@ -73,6 +73,11 @@ export class ArticleComponent implements OnInit {
             this.fontSize = config.new.fontSize
         });
     }
+    
+    onScroll(){
+        window.dispatchEvent(new CustomEvent('scroll'))
+    
+      }
 
     protected getArticleById(articleId, categoryId) {
         if (articleId && categoryId) {

@@ -15,6 +15,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
 
   @Input()
   public set appParallax(value: boolean) {
+
     if (value) {
       this.startParallax();
     }
@@ -28,6 +29,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.scroll$.pipe(throttleTime(1000, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$)).subscribe(() => {
+
       this.requestAnimation();
 
     })
@@ -37,8 +39,8 @@ export class ParallaxDirective implements OnInit, OnDestroy {
     setTimeout(() => {
 
       this.setParallaxing(true);
-      this.startScrollY = window.scrollY;
-      this.imageRef.nativeElement.style['willChange'] = 'transform';
+      this.startScrollY = this.getOffsetTop();
+    this.imageRef.nativeElement.style['willChange'] = 'transform';
       this.scrollListener$();
       this.scrollListener$ = this.renderer2.listen('window', 'scroll', () => this.scroll$.next());
     }, 1000);
@@ -73,7 +75,11 @@ export class ParallaxDirective implements OnInit, OnDestroy {
     }
   }
 
+  getOffsetTop(){
+    return this.imageRef.nativeElement.getBoundingClientRect().top;
 
+  }
+  
   private requestAnimation() {
     return this.updateAnimation();
 
@@ -84,7 +90,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
         startTimestamp = timestamp;
       }
       const elapsed = timestamp - startTimestamp;
-      let deltaY = Math.max(0, Math.min(200, window.scrollY - this.startScrollY) * 0.2);
+      let deltaY = Math.max(0, Math.min(200, this.startScrollY-  this.getOffsetTop() ) * 0.2);
       this.imageRef.nativeElement.style.transform = `scale(1.1) translateY(${deltaY}px)`;
 
       if (elapsed < 1000) { // Stop the animation after 1 second

@@ -24,6 +24,7 @@ export class ArticleThumbnailComponent implements OnInit {
   ngOnInit() {
     this.registerStickyHeader();
   }
+
   protected resetStickyHeader() {
     this.isStickHeader = false;
   }
@@ -32,12 +33,12 @@ export class ArticleThumbnailComponent implements OnInit {
 
     if (isSafari) return;
 
-    let thresholds = [0.1];
-    let th = 0.1;
-    while (th < 0.9) {
-      th = th + 0.1;
-      thresholds.push(th);
-    }
+    let thresholds = [0,1];
+    // let th = 0.1;
+    // while (th < 0.9) {
+    //   th = th + 0.1;
+    //   thresholds.push(th);
+    // }
     let options = {
       threshold: thresholds,
       root: this.rootArticle.nativeElement
@@ -45,12 +46,11 @@ export class ArticleThumbnailComponent implements OnInit {
     setTimeout(() => {
 
       let observer = new IntersectionObserver((entries, observer) => {
-        this.isStickHeader = entries[0].intersectionRatio < (48 / this.articleHeader.nativeElement.clientHeight) && entries[0].intersectionRatio > 0;
+        this.isStickHeader = !entries[0].isIntersecting && entries[0].intersectionRatio === 0;
         if (this.isStickHeader) {
           this.element.nativeElement.style.position = 'sticky';
-          this.element.nativeElement.style.top = '0';
-          
-          observer.disconnect();
+          this.element.nativeElement.style.top = '0';          
+           observer.disconnect();
         }
       }, options);
       setTimeout(() => {

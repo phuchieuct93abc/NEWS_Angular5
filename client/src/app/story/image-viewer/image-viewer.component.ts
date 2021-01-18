@@ -23,6 +23,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     imageRef: ElementRef<HTMLImageElement>;
     @Input()
     parallax:boolean;
+    @Input()
+    maxParallax:number = 200;
 
 
     onDestroy$ = new Subject<void>();

@@ -13,6 +13,8 @@ export class ParallaxDirective implements OnInit, OnDestroy {
   requestId: any;
   onDestroy$ = new Subject<void>();
   _parallax: boolean;
+  @Input()
+  maxParallax = 200;
 
   @Input()
   public set appParallax(value: boolean) {
@@ -90,7 +92,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
         startTimestamp = timestamp;
       }
       const elapsed = timestamp - startTimestamp;
-      let deltaY = Math.max(0, Math.min(200, this.startScrollY - this.getOffsetTop()) * 0.2);
+      let deltaY = Math.max(0, Math.min(this.maxParallax, this.startScrollY - this.getOffsetTop()) * 0.2);
       this.imageRef.nativeElement.style.transform = `scale(1.1) translateY(${deltaY}px)`;
 
       if (elapsed < 1000) { // Stop the animation after 1 second

@@ -39,6 +39,7 @@ export class ParallaxDirective implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setParallaxing(true);
       this.startScrollY = this.getOffsetTop();
+      this.imageRef.nativeElement.style.transform = 'scale(1.1)';
       this.imageRef.nativeElement.style['willChange'] = 'transform';
       this.scrollListener$();
       this.scrollListener$ = this.renderer2.listen('window', 'scroll', () => this.scroll$.next());

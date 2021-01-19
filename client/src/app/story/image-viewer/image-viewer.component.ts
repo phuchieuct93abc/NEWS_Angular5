@@ -24,7 +24,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @Input()
     parallax:boolean;
     @Input()
-    maxParallax:number = 200;
+    maxParallax:number = 40;
 
 
     onDestroy$ = new Subject<void>();

@@ -11,9 +11,9 @@
     object-fit: cover;
     position: relative;
 
+
     &.parallaxing{
-     // transition: none;
-      // transform: scale(1) !important;
+
        transition-duration: 50ms;
 
 
@@ -21,10 +21,6 @@
     &.stopping-parallax{
       transition: none;
     }
-    &.hoverZoom:hover,&.zoom {
-      transform: scale(1.1);
-    }
-
 
   }
 

@@ -61,7 +61,7 @@ export class ParallaxDirective implements OnDestroy {
 
   startListenScroll(){
     this.scroll$.pipe(
-      throttleTime(200, asyncScheduler, { leading: true, trailing: true }), 
+      throttleTime(1000, asyncScheduler, { leading: true, trailing: true }), 
       takeUntil(this.onDestroy$),
       takeUntil(this.onStopParallax$)).subscribe(() => {
       this.requestAnimation();
@@ -108,7 +108,7 @@ export class ParallaxDirective implements OnDestroy {
       let adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
       this.imageRef.nativeElement.style.transform = `scale(${this.originalScale}) translateY(${adjustDeltaY}px)`;
 
-       if (elapsed < 200) { 
+       if (elapsed < 1000) { 
         this.requestId = this.updateAnimation(startTimestamp);
       }
     })

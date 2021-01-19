@@ -61,7 +61,7 @@ export class ParallaxDirective implements OnDestroy {
 
   startListenScroll(){
     this.scroll$.pipe(
-      throttleTime(1000, asyncScheduler, { leading: true, trailing: true }), 
+      throttleTime(900, asyncScheduler, { leading: true, trailing: true }), 
       takeUntil(this.onDestroy$),
       takeUntil(this.onStopParallax$)).subscribe(() => {
       this.requestAnimation();
@@ -123,7 +123,7 @@ export class ParallaxDirective implements OnDestroy {
   isScrollTooFar(){
     const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.2
     if(deltaY<0){
-      return deltaY < this.limitRangeParallax
+      return deltaY < 0 - this.limitRangeParallax
     }
     else if(deltaY>this.maxParallax ){
       return (deltaY - this.maxParallax) > this.limitRangeParallax

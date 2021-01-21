@@ -18,7 +18,7 @@ export class ParallaxDirective implements OnDestroy {
   originalScale:number;
   onStopParallax$ = new Subject<void>();
 
-  readonly limitRangeParallax = 100;
+  readonly limitRangeParallax = 200;
 
   @Input()
   public set appParallax(value: boolean) {

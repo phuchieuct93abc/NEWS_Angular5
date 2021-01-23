@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 
 $card-height: 9em;
+
 .mat-card {
   cursor: pointer;
   padding: 1em;
@@ -14,10 +15,12 @@ $card-height: 9em;
     border-radius: 4px;
   }
 
-  &:hover ::ng-deep .image {
-
-    transform: scale(1.1);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover ::ng-deep .image {
+      transform: scale(1.1);
+    }
   }
+
 
 
   &.is-read:not(.active) {
@@ -43,7 +46,8 @@ $card-height: 9em;
     opacity: 1 !important;
   }
 
-  &:hover, &.active {
+  &:hover,
+  &.active {
     @include mat-elevation(5);
 
     .title {

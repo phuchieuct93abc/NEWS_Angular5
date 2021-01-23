@@ -7,18 +7,15 @@
     width: 100%;
     height: 100%;
     transition: all linear 0.5s;
-    transition-property: scale,transform;
+    transition-property: scale, transform;
     object-fit: cover;
     position: relative;
 
-
-    &.parallaxing{
-
-       transition-duration: 50ms;
-
-
+    &.parallaxing {
+      transition-duration: 50ms;
     }
-    &.stopping-parallax{
+
+    &.stopping-parallax {
       transition: none;
     }
 

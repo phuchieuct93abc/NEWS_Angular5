@@ -19,7 +19,7 @@
       },
       {
         "source": "**",
-        "function": "/index.html"
+        "destination": "/index.html"
       }
     ],
     "headers": [

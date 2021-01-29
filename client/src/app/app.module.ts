@@ -1,24 +1,24 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from "@angular/router";
+import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
-import { ClipboardModule } from "ngx-clipboard";
+import { ClipboardModule } from 'ngx-clipboard';
 import { MomentModule } from 'ngx-moment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { SwipeToCloseDirective } from '../directives/swipe-to-close.directive';
 import { ParallaxDirective } from './../directives/parallax.directive';
 import { AppComponent } from './app.component';
-import { ActionsComponent } from "./article/actions/actions.component";
-import { ShareComponent } from "./article/actions/share/share.component";
-import { ImageComponent } from "./article/article-content/image/image.component";
-import { VideoComponent } from "./article/article-content/video/video.component";
+import { ActionsComponent } from './article/actions/actions.component';
+import { ShareComponent } from './article/actions/share/share.component';
+import { ImageComponent } from './article/article-content/image/image.component';
+import { VideoComponent } from './article/article-content/video/video.component';
 import { ArticleThumbnailComponent } from './article/article-thumbnail/article-thumbnail.component';
 import { ArticleComponent } from "./article/article.component";
 import { CommentComponent } from './article/comments/comment/comment.component';
@@ -45,18 +45,18 @@ import { TruncatePipe } from "./shared/trauncate.pipe";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ImageViewerComponent } from "./story/image-viewer/image-viewer.component";
 import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
-import { MobileStoryListComponent } from "./story/story-list/mobile-story-list/mobile-story-list.component";
-import { StoryListComponent } from "./story/story-list/story-list.component";
-import { LoadingStoryComponent } from "./story/story/loading-story/loading-story.component";
-import { MobileStoryComponent } from "./story/story/mobile-story/mobile-story.component";
-import { StoryMetaComponent } from "./story/story/story-meta/story-meta.component";
-import { StoryComponent } from "./story/story/story.component";
+import { MobileStoryListComponent } from './story/story-list/mobile-story-list/mobile-story-list.component';
+import { StoryListComponent } from './story/story-list/story-list.component';
+import { LoadingStoryComponent } from './story/story/loading-story/loading-story.component';
+import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
+import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
+import { StoryComponent } from './story/story/story.component';
 
-let x = 1;
+const x = 1;
 
 @NgModule({
     imports: [
-    BrowserModule.withServerTransition({appId: "serverApp"}),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -69,7 +69,7 @@ let x = 1;
         NgZorroAntdModule,
         LazyLoadImageModule,
         ScrollingModule,
-        ServiceWorkerModule.register("ngsw-worker.js", {enabled: true}),
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     ],
     declarations: [
         AppComponent,
@@ -109,7 +109,6 @@ let x = 1;
          StoryListManagementComponent,
          ParallaxDirective,
          ArticleThumbnailComponent,
-
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -124,7 +123,6 @@ let x = 1;
     entryComponents: [
         VideoComponent, ImageViewerComponent, ImageComponent,
     ],
-
 })
 export class AppModule {
 }

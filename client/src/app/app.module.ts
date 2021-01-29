@@ -21,6 +21,8 @@ import { ImageComponent } from "./article/article-content/image/image.component"
 import { VideoComponent } from "./article/article-content/video/video.component";
 import { ArticleThumbnailComponent } from './article/article-thumbnail/article-thumbnail.component';
 import { ArticleComponent } from "./article/article.component";
+import { CommentComponent } from './article/comments/comment/comment.component';
+import { CommentsComponent } from './article/comments/comments.component';
 import { DisplayComponent } from "./article/display/display.component";
 import { InlineArticleComponent } from "./article/inline-article/inline-article.component";
 import { LoadingComponent } from "./article/loading/loading.component";
@@ -84,8 +86,8 @@ let x = 1;
         CapitalizeFirstPipe,
         TruncatePipe,
         SanitizeHtmlPipe,
-        // CommentComponent,
-        // CommentsComponent,
+        CommentComponent,
+        CommentsComponent,
         VideoComponent,
         CategorySelectorComponent,
         MobileStoryComponent,

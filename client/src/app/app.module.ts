@@ -2,8 +2,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDividerModule } from '@angular/material';
-import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -23,8 +21,6 @@ import { ImageComponent } from './article/article-content/image/image.component'
 import { VideoComponent } from './article/article-content/video/video.component';
 import { ArticleThumbnailComponent } from './article/article-thumbnail/article-thumbnail.component';
 import { ArticleComponent } from './article/article.component';
-import { CommentComponent } from './article/comments/comment/comment.component';
-import { CommentsComponent } from './article/comments/comments.component';
 import { DisplayComponent } from './article/display/display.component';
 import { InlineArticleComponent } from './article/inline-article/inline-article.component';
 import { LoadingComponent } from './article/loading/loading.component';
@@ -54,6 +50,7 @@ import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.co
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
 
+const x = 1;
 
 @NgModule({
     imports: [
@@ -65,14 +62,12 @@ import { StoryComponent } from './story/story/story.component';
         AppRoutingModule,
         MomentModule,
         RouterModule,
-        MatButtonModule,
         NotificationModule,
         ClipboardModule,
-        RouterModule,
         NgZorroAntdModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
         LazyLoadImageModule,
         ScrollingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     ],
     declarations: [
         AppComponent,
@@ -89,8 +84,8 @@ import { StoryComponent } from './story/story/story.component';
         CapitalizeFirstPipe,
         TruncatePipe,
         SanitizeHtmlPipe,
-        CommentComponent,
-        CommentsComponent,
+        // CommentComponent,
+        // CommentsComponent,
         VideoComponent,
         CategorySelectorComponent,
         MobileStoryComponent,
@@ -121,7 +116,6 @@ import { StoryComponent } from './story/story/story.component';
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         Title,
         Meta,
-
 
     ],
     entryComponents: [

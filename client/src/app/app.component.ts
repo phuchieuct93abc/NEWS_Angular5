@@ -13,7 +13,7 @@ import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
 
 @Component({
-    selector: 'app-main',
+    selector: 'main',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [
@@ -45,22 +45,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     private sidebar: MatSidenav;
 
     private config: Config;
-    private image: string;
+    public image: string;
     private isSmallDevice: boolean;
     private isOpenSidebar: boolean;
-    private isShowProgressBar = false;
-    private isRenderSidebar: boolean;
+    public isShowProgressBar = false;
+    public isRenderSidebar: boolean;
 
     public constructor(private router: Router,
         private configService: ConfigService,
         private articleService: ArticleService,
         private breakpointService: BreakpointDetectorService,
-        private route: ActivatedRoute,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        private elementRef: ElementRef,
     ) {
 
     }

@@ -1,10 +1,7 @@
 const CONFIG = {
-    //baseUrl: "https://us-central1-angularhero-3b066.cloudfunctions.net/apissr/",
-    baseUrl: " https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/",
-
+    baseUrl: "https://us-central1-angularhero-3b066.cloudfunctions.net/apissr/",
     production: true,
-    isRunningInNode:true
-
+    isRunningInNode: true
 };
 
-export default CONFIG
+export default CONFIG;

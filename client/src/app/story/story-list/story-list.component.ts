@@ -1,52 +1,51 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-import { StoryService } from "../../shared/story.service";
-import { Story } from '../../../../../model/Story';
-import { ActivatedRoute, Router } from "@angular/router";
-import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { Config, ConfigService } from "../../shared/config.service";
-import { StoryListService } from "./story-list.service";
-import { LoadingEventName, LoadingEventType, LoadingService } from "../../shared/loading.service";
-import { ArticleService } from "../../shared/article.service";
-import StoryImage from "../../../../../model/StoryImage";
-import StoryMeta from "../../../../../model/StoryMeta";
-import RequestAnimationFrame from "../../requestAnimationFrame.cons";
-import { StoryComponent } from "../story/story.component";
-import { interval, Observable, Subject } from "rxjs";
+import { ActivatedRoute, Router } from '@angular/router';
+import { interval, Observable, Subject } from 'rxjs';
 import { takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
+import { StoryService } from '../../shared/story.service';
+import { Story } from '../../../../../model/Story';
+import { BreakpointDetectorService } from '../../shared/breakpoint.service';
+import { Config, ConfigService } from '../../shared/config.service';
+import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
+import { ArticleService } from '../../shared/article.service';
+import StoryImage from '../../../../../model/StoryImage';
+import StoryMeta from '../../../../../model/StoryMeta';
+import RequestAnimationFrame from '../../requestAnimationFrame.cons';
+import { StoryComponent } from '../story/story.component';
+import { StoryListService } from './story-list.service';
 
 @Component({
     selector: 'app-story-list',
     templateUrl: './story-list.component.html',
-    styleUrls: ['./story-list.component.scss']
+    styleUrls: ['./story-list.component.scss'],
 })
 export class StoryListComponent implements OnInit {
 
-    stories: Story[] = [];
 
-    category: string;
-    protected buffer: Story[] = [];
-
-
-    @ViewChild("scrollingBlock",{static:false})
-    scrollingBlock:ElementRef;
+    @ViewChild('scrollingBlock',{static:false})
+    public scrollingBlock: ElementRef;
     @ViewChildren(StoryComponent)
-    storyComponents: QueryList<StoryComponent>; 
+    public storyComponents: QueryList<StoryComponent>;
 
-    isSmallScreen: boolean;
-    isShowMoveTop: boolean;
-    hideMoveTopTimeout;
+    public stories: Story[] = [];
 
-    searchKeyword: string;
+    public category: string;
+    public isSmallScreen: boolean;
+    public isShowMoveTop: boolean;
+    public hideMoveTopTimeout;
 
-    isLoading = false;
+    public searchKeyword: string;
 
-    config: Config;
-    isBrowser;
+    public isLoading = false;
 
-    firstStory: Story;
-    currentScrollIndex = 0;
-    loadingStoryNumber = [];
+    public config: Config;
+    public isBrowser;
+
+    public firstStory: Story;
+    public currentScrollIndex = 0;
+    public loadingStoryNumber = [];
+    protected buffer: Story[] = [];
     private readonly LOADING_STORY_NUMBER = 10;
     private readonly LOADMORE_THRESHOLD = 10;
     private selectedStory: Story;
@@ -54,7 +53,7 @@ export class StoryListComponent implements OnInit {
     private $stopGetStories = new Subject();
 
 
-    constructor(protected storyService: StoryService,
+    public constructor(protected storyService: StoryService,
         protected activatedRoute: ActivatedRoute,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -63,18 +62,18 @@ export class StoryListComponent implements OnInit {
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
-        protected scrollDispatcher: ScrollDispatcher
+        protected scrollDispatcher: ScrollDispatcher,
         ) {
 
     }
 
-    async ngOnInit() {
+    public async ngOnInit() {
         //Listen scroll for lazy load image
         this.scrollDispatcher.scrolled().subscribe(() => {
-            window.dispatchEvent(new CustomEvent('scroll'))
+            window.dispatchEvent(new CustomEvent('scroll'));
         });
 
-        this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill("");
+        this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
 
         this.isBrowser = typeof window !== 'undefined';
         this.isSmallScreen = this.breakpointService.isSmallScreen;
@@ -85,7 +84,7 @@ export class StoryListComponent implements OnInit {
 
         this.registerSpinner();
 
-        this.getFirstStory().subscribe(firstStory => {
+        this.getFirstStory().subscribe((firstStory) => {
             this.firstStory = firstStory;
             this.updateStoryList();
         });
@@ -94,7 +93,7 @@ export class StoryListComponent implements OnInit {
         this.registerPrevAndNext();
 
     }
-    onSelectedStory(selectedStoryIndex: number) {
+    public onSelectedStory(selectedStoryIndex: number) {
         if (this.selectedStory) {
             this.selectedStory.isActive = false;
         }
@@ -102,25 +101,43 @@ export class StoryListComponent implements OnInit {
         this.selectedStory.isActive = true;
 
     }
+
+    protected async loadMoreStories(){
+        if(this.isLoading){
+            return;
+        }
+        this.isLoading = true;
+        return  new Promise((resolve)=>{
+            this.getLoadMoreObservable()
+            .pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000)))
+            .subscribe((value) => {
+                console.log(value)
+                this.stories.push(...value);
+                this.isLoading = false;
+                resolve(true);
+            });
+        });
+    }
+
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {
-            let prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
+            const prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
             if (prevIndex > -1) {
-                let prevStoryId = this.stories[prevIndex].id;
+                const prevStoryId = this.stories[prevIndex].id;
                 this.selectStory(prevStoryId);
             }
 
         });
 
         this.storyListService.onSelectNextStory.subscribe(() => {
-            let nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
-            let nextStoryId = this.stories[nextIndex].id;
+            const nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
+            const nextStoryId = this.stories[nextIndex].id;
             this.selectStory(nextStoryId);
-        })
+        });
     }
 
     private selectStory(prevStoryId: string) {
-        this.storyComponents.forEach(story => {
+        this.storyComponents.forEach((story) => {
             if (story.story.id === prevStoryId) {
                 story.onSelectStory();
                 this.scrollTo(story.story, 500, 0);
@@ -129,62 +146,62 @@ export class StoryListComponent implements OnInit {
     }
 
     private updateStoryList() {
-        this.route.params.subscribe(params => {
-            console.log("get story")
+        this.route.params.subscribe((params) => {
+            console.log('get story');
             this.$stopGetStories.next();
 
             this.resetStoryList();
-            this.category = params['category'];
+            this.category = params.category;
 
             this.loadFirstPage();
-            this.configService.updateConfig({ category: this.category })
+            this.configService.updateConfig({ category: this.category });
 
         });
     }
 
 
     private getFirstStory(): Observable<Story> {
-        return new Observable(observer => {
-            let params = this.route.children[0].snapshot.params;
-            if (params["id"]) {
-                let articleId = params["id"];
-                this.articleService.getById(articleId, params['category']).subscribe(article => {
+        return new Observable((observer) => {
+            const params = this.route.children[0].snapshot.params;
+            if (params.id) {
+                const articleId = params.id;
+                this.articleService.getById(articleId, params.category).subscribe((article) => {
 
-                    let storyImage: StoryImage = new StoryImage(article.images[0]);
-                    let storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
-                    let story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
-                    observer.next(story)
-                })
+                    const storyImage: StoryImage = new StoryImage(article.images[0]);
+                    const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
+                    const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    observer.next(story);
+                });
             } else {
                 observer.next();
             }
 
 
-        })
+        });
 
     }
 
     private registerSpinner() {
         if (typeof window !== 'undefined') {
 
-            this.loadingService.onLoading.subscribe(event => {
+            this.loadingService.onLoading.subscribe((event) => {
                 if (event.name == LoadingEventName.MORE_STORY) {
                     if (event.type === LoadingEventType.START) {
 
-                        this.isLoading = true
+                        this.isLoading = true;
                     } else {
 
                         setTimeout(() => RequestAnimationFrame(() => {
-                            this.isLoading = false
-                        }), 2000)
+                            this.isLoading = false;
+                        }), 2000);
                     }
                 }
-            })
+            });
         }
     }
 
     private registerConfigChange() {
-        this.configService.configUpdated.subscribe(config => {
+        this.configService.configUpdated.subscribe((config) => {
             this.config = config.new;
             if (config.old.smallImage !== config.new.smallImage) {
                 this.resetStoryList();
@@ -196,25 +213,26 @@ export class StoryListComponent implements OnInit {
     private resetStoryList() {
         this.stories = [];
         this.storyService.resetPageNumber();
-        setTimeout(this.scrollTop.bind(this))
+        setTimeout(this.scrollTop.bind(this));
     }
 
     private registerOnSearch() {
-        this.storyService.onSearch.subscribe(keyword => {
+        this.storyService.onSearch.subscribe((keyword) => {
             if (keyword) {
                 this.resetStoryList();
-                this.storyService.search(keyword).subscribe(values => this.stories.push(...values))
+                this.storyService.search(keyword).subscribe((values) => this.stories.push(...values));
             } else {
                 this.updateStoryList();
             }
             this.searchKeyword = keyword;
 
-        })
+        });
     }
 
 
     private loadFirstPage() {
-        this.storyService.getStories(this.category).pipe(takeUntil(this.$stopGetStories)).subscribe(value => {
+
+        this.storyService.getStories(this.category,10).pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();
@@ -225,11 +243,11 @@ export class StoryListComponent implements OnInit {
     }
 
     private addFirstStoryToTheTop() {
-        let firstStoryIndex = this.stories.findIndex(story => story.id === this.firstStory.id);
+        const firstStoryIndex = this.stories.findIndex((story) => story.id === this.firstStory.id);
         if (firstStoryIndex !== -1) {
-            let temp = this.stories[0];
+            const temp = this.stories[0];
             this.stories[0] = this.stories[firstStoryIndex];
-            this.stories[firstStoryIndex] = temp
+            this.stories[firstStoryIndex] = temp;
         } else {
             this.stories.unshift(this.firstStory);
             this.storyService.unshift(this.firstStory);
@@ -241,20 +259,8 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    protected async loadMoreStories(){
-        if(this.isLoading)return
-        this.isLoading = true;
-        return  new Promise(resolve=>{
-            this.getLoadMoreObservable().pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000))).subscribe(value => {
-                this.stories.push(...value);
-                this.isLoading = false;
-                resolve()
-            });
-        }) 
-    }
-
-    private getLoadMoreObservable():Observable<Story[]> {
-        let category = this.route.firstChild.snapshot.paramMap.get("category");
+    private getLoadMoreObservable(): Observable<Story[]> {
+        const category = this.route.firstChild.snapshot.paramMap.get('category');
         let loadMorePromise: Observable<Story[]>;
         loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
         return loadMorePromise;
@@ -262,15 +268,15 @@ export class StoryListComponent implements OnInit {
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {
         setTimeout(() => {
-            const index = this.stories.findIndex(i => i.id === story.id);
+            const index = this.stories.findIndex((i) => i.id === story.id);
             const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'})
-        }, 0);    
+            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
+        }, 0);
 
 
     }
     protected scrollTop(){
-        this.scrollingBlock && this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'}); 
+        this.scrollingBlock && this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
 
     }
 
@@ -282,15 +288,15 @@ export class StoryListComponent implements OnInit {
             this.resetStoryList();
             this.loadFirstPage();
 
-        })
+        });
 
     }
 
     autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params['id']) {
+        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
             RequestAnimationFrame(() => {
                 this.storyComponents.first.onSelectStory();
-            }, 100)
+            }, 100);
         }
 
         this.afterInitStories();
@@ -306,7 +312,7 @@ export class StoryListComponent implements OnInit {
     }
 
     compareItem(a: Story, b: Story) {
-        return a != null && b != null && a.id === b.id
+        return a != null && b != null && a.id === b.id;
 
     }
 

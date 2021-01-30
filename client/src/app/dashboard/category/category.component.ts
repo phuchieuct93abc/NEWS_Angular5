@@ -1,50 +1,49 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Category} from "../../../../../model/Categories";
-import {StoryService} from "../../shared/story.service";
-import {Story} from "../../../../../model/Story";
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {opacityNgIf} from "../../animation";
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Category} from '../../../../../model/Categories';
+import {StoryService} from '../../shared/story.service';
+import {Story} from '../../../../../model/Story';
+import {opacityNgIf} from '../../animation';
 
 @Component({
     selector: 'app-top-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss'],
     animations: [
-        trigger("expand", [
+        trigger('expand', [
             state('collapse', style({
-                height: '350px'
+                height: '350px',
             })),
             state('expand', style({
-                height: '*'
+                height: '*',
             })),
             transition('collapse <=> expand', [
-                animate('0.5s')
+                animate('0.5s'),
             ]),
         ]),
-        opacityNgIf
-    ]
+        opacityNgIf,
+    ],
 })
 export class TopCategoryComponent implements OnInit {
 
     @Input()
-    category: Category;
-    stories: Story[] = [];
-    isExpanded = false;
-    maximumStories: number = 9;
+    public category: Category;
+    public  stories: Story[] = [];
+    public isExpanded = false;
+    public maximumStories = 9;
 
 
-    constructor(private storyService: StoryService) {
+    public  constructor(private storyService: StoryService) {
     }
 
-    ngOnInit() {
-        this.storyService.getStoriesFirstPage(this.category.name).subscribe(stories => {
+    public ngOnInit() {
+        this.storyService.getStoriesFirstPage(this.category.name).subscribe((stories) => {
             this.stories = stories;
-
-        })
+        });
 
     }
 
-    toggleExpand() {
+    public  toggleExpand() {
         this.isExpanded = !this.isExpanded;
         if (this.isExpanded) {
             this.maximumStories = Math.max(this.maximumStories, 20);

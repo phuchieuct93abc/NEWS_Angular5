@@ -20,6 +20,7 @@ export class StoryService {
     private currentStoryPage = 0;
 
     private stories: Story[] = [];
+    private storiesQueue: Story[] = [];
     private readStory: Story[];
 
     public constructor(
@@ -29,25 +30,27 @@ export class StoryService {
         private favoriteService: FavoriteService,
     ) {
         this.readStory = storage.getItem(readId, []) as Story[];
-
     }
 
     public resetPageNumber() {
         this.currentStoryPage = 0;
         this.stories = [];
+        this.storiesQueue = [];
     }
 
-   public getStories(category: string): Observable<Story[]> {
-
-            return this.getStoryByPage(category, ++this.currentStoryPage).pipe(
-                tap((stories) => {
-                const result = this.filterStory(stories);
-                this.appendStoryList(result);
-
-            }));
-
-
+   public getStories(category: string, numberOfStories: number = 5): Observable<Story[]> {
+        if(this.storiesQueue.length>0){
+            return of(this.storiesQueue.splice(0, numberOfStories));
+        }
+        return this.getStoryByPage(category, ++this.currentStoryPage).pipe(
+        map((stories: Story[]) => {
+            const result = this.filterStory(stories);
+            this.appendStoryList(result);
+            this.storiesQueue = result;
+            return result;
+        }),map(()=>this.storiesQueue.splice(0, numberOfStories)));
     }
+
 
     public getStoriesFirstPage(category: string): Observable<any> {
 
@@ -67,13 +70,14 @@ export class StoryService {
             },
         }).pipe(
             retry(3),
+            map((result)=>result as Story[]),
             map(
                 (result) => {
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.SEARCHING,
                     });
-                    this.checkReadStory(result as Story[]) ;
+                    this.checkReadStory(result) ;
                     result = this.filterStory(result);
                     this.appendStoryList(result);
                     return result;
@@ -90,8 +94,7 @@ export class StoryService {
     }
 
     public getById(id: string) {
-        console.log('get article by id',this.stories.length+1);
-        let story = this.stories.find((s) => s.id == id);
+        let story = this.stories.find((s) => s.id === id);
         if (story == null) {
             story = this.favoriteService.findById(id);
         }

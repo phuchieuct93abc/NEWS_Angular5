@@ -13,7 +13,7 @@ import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
 
 @Component({
-    selector: 'main',
+    selector: 'app-news',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [
@@ -41,15 +41,17 @@ import vars from './variable';
     ],
 })
 export class AppComponent implements OnInit, AfterViewInit {
+
     @ViewChild(MatSidenav, { static: false })
     private sidebar: MatSidenav;
 
-    private config: Config;
-    public image: string;
-    private isSmallDevice: boolean;
-    private isOpenSidebar: boolean;
     public isShowProgressBar = false;
     public isRenderSidebar: boolean;
+    public image: string;
+
+    private config: Config;
+    private isSmallDevice: boolean;
+    private isOpenSidebar: boolean;
 
     public constructor(private router: Router,
         private configService: ConfigService,
@@ -94,8 +96,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     public swipeRight(ev) {
         if (this.isSmallDevice) {
             if (this.sidebar.opened) {
-return;
-}
+                return;
+            }
             if (ev.center.x - ev.deltaX < vars.sideNavThreshold) {
                 this.sidebar.open();
                 ev.srcEvent.preventDefault();

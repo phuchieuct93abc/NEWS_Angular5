@@ -5,19 +5,14 @@
             <mat-icon>chevron_left</mat-icon>
         </a>
     </div>
-    <div class="scrollable " #articleView>
+    <div class="scrollable " #articleView (scroll)="onScroll()">
         <div *ngFor="let id of [articleId]" style="position: relative" class="h-100 panel-primary">
+        
 
-            <div *ngIf="article; else loading" class="article-content p-2  pb-5 pt-3 panel-primary">
-                <div #articleHeader class="article-header" [ngClass]="{'stick':isStickHeader}">
-                    <div class="mat-display-1 mb-2 accent-color article-title ">
-                        {{article.header}}
-                    </div>
-                    <app-actions [article]="article"></app-actions>
-                </div>
-
-
-
+            <div *ngIf="article; else loading" class="article-content px-3  pb-5  panel-primary">
+                <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.images[1] || article.images[0]" 
+                [title]="article.header" [article]="article"></app-article-thumbnail>     
+        
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"
                     *ngIf="article.description"></p>
 
@@ -32,7 +27,7 @@
                         />
                     </a>
                 </div>
-                <app-comments [articleId]="article.id" class="mb-3"></app-comments>
+                <!-- <app-comments [articleId]="article.id" class="mb-3"></app-comments> -->
             </div>
             <ng-template #loading>
                 <app-loading class="p-2"></app-loading>

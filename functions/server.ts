@@ -5,15 +5,17 @@ import app from "./app";
 
 exports.app = functions.runWith({
     timeoutSeconds: 15,
-    memory: '512MB'
-
+    memory: '1GB'
 }).https.onRequest(app);
 
+exports.apissr = functions.runWith({
+    timeoutSeconds: 30,
+    memory: '1GB'
+}).https.onRequest(api);
 
 exports.api = functions.runWith({
     timeoutSeconds: 300,
     memory: '1GB'
-
 }).region("asia-northeast1").https.onRequest(api);
 
 

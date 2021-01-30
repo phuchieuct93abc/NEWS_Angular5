@@ -14,8 +14,12 @@
         "function": "apissr"
       },
       {
-        "source": "**/**",
+        "source": "*/*/*",
         "function": "app"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ],
     "headers": [

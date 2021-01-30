@@ -49,9 +49,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     public isRenderSidebar: boolean;
     public image: string;
 
-    private config: Config;
-    private isSmallDevice: boolean;
-    private isOpenSidebar: boolean;
+    public config: Config;
+    public isSmallDevice: boolean;
+    public isOpenSidebar: boolean;
 
     public constructor(private router: Router,
         private configService: ConfigService,

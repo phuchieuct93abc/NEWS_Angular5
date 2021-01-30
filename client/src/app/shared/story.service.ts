@@ -107,9 +107,8 @@ export class StoryService {
     public unshift(firstStory: Story) {
         this.stories.unshift(firstStory);
     }
-    private filterStory(result) {
-        const stories: Story[] = (<Story[]>result).filter((result) => this.stories.findIndex((story) => story.id == result.id) == -1);
-        return stories;
+    private filterStory(stories: Story[]) {
+        return stories.filter((result) => this.stories.findIndex((story) => story.id === result.id) === -1);
     }
 
     private appendStoryList(moreStories) {
@@ -117,7 +116,7 @@ export class StoryService {
     }
 
     private getStoryByPage(category: string, pageNumber: number): Observable<any> {
-        if (category == 'yeu-thich') {
+        if (category === 'yeu-thich') {
             return this.favoriteService.getStories();
         }
         if (CONFIG.isRunningInNode) {

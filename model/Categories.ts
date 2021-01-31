@@ -138,16 +138,6 @@ const categories: Categories[] = [
 
 export default class CategoryHelper {
 
-    static findByName(name: string): Category {
-
-        let vietnameCategory = this.vietnameseCategories();
-        let englishCategory = this.englishCategories();
-        let categories = [];
-        categories = categories.concat(vietnameCategory);
-        categories = categories.concat(englishCategory);
-        return categories.find(category => category.name === name)
-    }
-
     static vietnameseCategories(): Category[] {
         return categories.find(c => c.language === 'vi').categories;
     }

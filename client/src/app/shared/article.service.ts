@@ -41,7 +41,7 @@ export class ArticleService {
 
                 this.loadingService.onLoading.next({type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE})
 
-                let article = <Article>result;
+                let article = Object.assign(new Article(),result);
                 article.story = story;
                 this.meta.updateMeta(article);
 

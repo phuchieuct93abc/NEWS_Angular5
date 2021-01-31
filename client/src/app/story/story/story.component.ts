@@ -1,13 +1,15 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, } from '@angular/core';
-import { Story } from "../../../../../model/Story";
-import { BreakpointDetectorService } from "../../shared/breakpoint.service";
-import { Config, ConfigService } from "../../shared/config.service";
-import { Subscription } from "rxjs";
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
-import { FavoriteService } from "../../shared/favorite-story.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Category } from "../../../../../model/Categories";
-import { StoryListService } from "../story-list/story-list.service";
+import { Category } from '../../../../../model/Categories';
+import { Story } from '../../../../../model/Story';
+import { BreakpointDetectorService } from '../../shared/breakpoint.service';
+import { Config, ConfigService } from '../../shared/config.service';
+import { FavoriteService } from '../../shared/favorite-story.service';
+import { StoryListService } from '../story-list/story-list.service';
 
 @Component({
     selector: 'app-story',
@@ -20,62 +22,66 @@ export class StoryComponent implements OnInit, OnDestroy {
     public story: Story;
     @Input()
     public scrollContainer: ElementRef;
-    @ViewChild("ell", { static: false })
-    ell: any;
+    @Input()
+    public index: number;
+    @Input()
+    public category: Category;
+    @ViewChild('ell', { static: false })
+    public ell: any;
+    @Input()
+    public scrollElement: Element;
     @Output()
     public onSelectedStory = new EventEmitter<number>();
 
     public scrollTarget: any;
 
-    public selected: boolean = false;
+    public selected = false;
 
     public config: Config;
     public configListener: Subscription;
     public friendlyUrl: string;
-    @Input()
-    public index: number;
-    @Input()
-    category: Category;
+    private onDestroy$ = new Subject<void>();
 
-    @Input()
-    scrollElement: Element;
 
-    constructor(public breakpointService: BreakpointDetectorService,
+    public constructor(public breakpointService: BreakpointDetectorService,
         protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef    ) {
+        protected element: ElementRef) {
     }
 
     public onSelectStory() {
         this.storyListService.currentSelectedStory = this.story;
         let navigate: Promise<any>;
         if (this.category) {
-            navigate = this.route.navigate(["/", this.category.name, this.friendlyUrl, this.story.id])
+            navigate = this.route.navigate(['/', this.category.name, this.friendlyUrl, this.story.id]);
         } else {
-            navigate = this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute })
+            navigate = this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
         }
 
         navigate.then(() => {
             this.story.selected = true;
             this.story.isRead = true;
             this.onSelectedStory.emit(this.index);
-        })
+        });
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.scrollTarget = this.scrollContainer;
         this.getConfig();
-
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
-
         this.handleAutoOpenStory();
+    }
 
+    public ngOnDestroy(): void {
+        this.onDestroy$.next();
+    }
 
-
+    public getElement(): HTMLElement {
+        return this.element.nativeElement;
     }
 
     private handleAutoOpenStory() {
@@ -87,22 +93,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     }
 
     private getConfig() {
-        this.config = this.configService.getConfig();
-        this.configListener = this.configService.configUpdated.subscribe(config => {
-            this.config = config.new;
-        })
+        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe((config) => this.config = config);
     }
-
- 
-
-    ngOnDestroy(): void {
-        this.configListener.unsubscribe();
-    }
-  
-    getElement():HTMLElement{
-        return this.element.nativeElement
-    }
-
-
-
 }

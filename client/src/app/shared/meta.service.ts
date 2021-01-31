@@ -29,7 +29,7 @@ export class MetaService {
         );
         
         this.meta.updateTag(
-            {name: 'og:image', content: article.images[1] ||  article.images[0]},
+            {name: 'og:image', content: article.getThumbnail()},
         );
         this.meta.updateTag(
             {name: 'og:image:width', content: "2048"},

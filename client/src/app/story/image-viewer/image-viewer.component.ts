@@ -1,8 +1,9 @@
+import { BreakpointDetectorService } from './../../shared/breakpoint.service';
 import { Platform } from '@angular/cdk/platform';
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { asyncScheduler, Subject } from 'rxjs';
 import { takeUntil, throttleTime } from 'rxjs/operators';
-import { ImageSerice } from "../../shared/image.service";
+import { ImageSerice } from '../../shared/image.service';
 
 @Component({
     selector: 'app-image-viewer',
@@ -12,51 +13,50 @@ import { ImageSerice } from "../../shared/image.service";
 export class ImageViewerComponent implements OnInit, OnDestroy {
 
     @Input()
-    imagePath: string;
+    public imagePath: string;
 
     @Input()
-    hasVideo: false;
+    public hasVideo: false;
 
     @Input()
-    alt: string
+    public alt: string;
     @ViewChild('image', { static: false })
-    imageRef: ElementRef<HTMLImageElement>;
+    public imageRef: ElementRef<HTMLImageElement>;
     @Input()
-    parallax:boolean;
+    public parallax: boolean;
     @Input()
-    maxParallax:number = 40;
+    public maxParallax = 40;
 
 
-    onDestroy$ = new Subject<void>();
+    public onDestroy$ = new Subject<void>();
 
 
+    public convertedImagePath: string;
+    private isMobile;
 
-    convertedImagePath: string;
-
-    constructor(private imageService: ImageSerice,) {
-
+    public constructor(private imageService: ImageSerice,
+        private elRef: ElementRef<HTMLElement>,
+        breakpointService: BreakpointDetectorService) {
+        this.isMobile = breakpointService.isSmallScreen;
     }
 
-    ngOnInit() {
+    public ngOnInit() {
+        this.refreshImageResolution();
+    }
+
+
+    public ngOnDestroy(): void {
+        this.onDestroy$.next();
+    }
+    private refreshImageResolution() {
         if (this.imagePath) {
             setTimeout(() => {
-                let imageWidth = window.innerWidth
+                const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
                 this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
-            }, 0);
+            });
         } else {
-            console.error("empty image path")
+            console.error('empty image path');
         }
-
-
     }
-
-
-
-
-    ngOnDestroy(): void {
-        this.onDestroy$.next()
-    }
-
-
 
 }

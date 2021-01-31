@@ -47,7 +47,7 @@ export default class BaomoiStoryService extends StoryService {
 
     private static getCategoryUrl(name: string): string {
 
-        const category = CategoryHelper.findByName(name);
+        const category = CategoryHelper.getCategory(name);
         if (category == null) {
             return ""
         }

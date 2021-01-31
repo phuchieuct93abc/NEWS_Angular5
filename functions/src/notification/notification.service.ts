@@ -14,7 +14,7 @@ export default class NotificationService {
                 url: `https://baohieu.cf/${category}/${url(article.header)}/${article.id}`,
                 title: "Tin nóng",
                 body: article.header,
-                image:article.images[0]
+                image:article.getThumbnail()
             },
             topic: this.topic
         };

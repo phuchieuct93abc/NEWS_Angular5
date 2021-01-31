@@ -1,58 +1,53 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import CategoryHelper, {Category} from "../../../../../model/Categories";
-import {ActivatedRoute} from "@angular/router";
-import {ConfigService} from "../../shared/config.service";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import {CategoryService} from "../../shared/category.service";
-import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import CategoryHelper, { Category } from '../../../../../model/Categories';
+import { BreakpointDetectorService } from '../../shared/breakpoint.service';
+import { ConfigService } from '../../shared/config.service';
+import { Config } from './../../shared/config.service';
 
 @Component({
     selector: 'app-category-selector',
     templateUrl: './category-selector.component.html',
-    styleUrls: ['./category-selector.component.scss']
+    styleUrls: ['./category-selector.component.scss'],
 })
-export class CategorySelectorComponent implements OnInit, AfterViewInit {
+export class CategorySelectorComponent implements OnInit, OnDestroy {
 
 
-    vietnameseCategories: Category[];
-    englishCategories: Category[];
-    selectedCategory: Category;
-    isDarkMode: boolean;
-    isSmallImage: boolean;
+    public vietnameseCategories: Category[];
+    public englishCategories: Category[];
+    public selectedCategory: Category;
+    public isDarkMode: boolean;
+    public isSmallImage: boolean;
+    public config$: Observable<Config>;
+    private onDestroy$ = new Subject<void>();
 
-    constructor(private route: ActivatedRoute,
-                private configService: ConfigService,
-                public breakpointService: BreakpointDetectorService,
-                private categoryService: CategoryService) {
+    public constructor(private configService: ConfigService,
+                public breakpointService: BreakpointDetectorService) {
+    }
+    public ngOnDestroy(): void {
+        this.onDestroy$.next();
     }
 
 
-    ngOnInit() {
+    public ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        this.isDarkMode = this.configService.getConfig().darkTheme;
-        this.isSmallImage = this.configService.getConfig().smallImage;
 
-
-    }
-
-    toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode})
-    }
-
-    toogleDisplay() {
-        this.configService.updateConfig({smallImage: this.isSmallImage})
-
-    }
-
-
-    ngAfterViewInit(): void {
-        this.categoryService.onUpdateCategory().subscribe(selectedCategory => {
-            setTimeout(() => {
-                RequestAnimationFrame(() => this.selectedCategory = selectedCategory)
-
-            })
-
+        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({darkTheme,smallImage,category})=>{
+            this.isDarkMode = darkTheme;
+            this.isSmallImage = smallImage;
+            this.selectedCategory = CategoryHelper.getCategory(category);
         });
     }
+
+    public toggleDarkMode() {
+        this.configService.updateConfig({darkTheme: this.isDarkMode});
+    }
+
+    public  toogleDisplay() {
+        this.configService.updateConfig({smallImage: this.isSmallImage});
+
+    }
+
 }

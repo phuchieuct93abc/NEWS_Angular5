@@ -1,4 +1,6 @@
-import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { pipe, Subject } from 'rxjs';
+import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -40,7 +42,7 @@ import vars from './variable';
         ]),
     ],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatSidenav, { static: false })
     private sidebar: MatSidenav;
@@ -49,9 +51,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     public isRenderSidebar: boolean;
     public image: string;
 
-    private config: Config;
-    private isSmallDevice: boolean;
-    private isOpenSidebar: boolean;
+    public isSmallDevice: boolean;
+    public isOpenSidebar: boolean;
+    private onDestroy$ = new Subject<void>();
 
     public constructor(private router: Router,
         private configService: ConfigService,
@@ -64,20 +66,22 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
 
     }
+    public ngOnDestroy(): void {
+        this.onDestroy$.next();
+    }
 
     public ngOnInit(): void {
 
 
-        this.config = this.configService.getConfig();
-        this.configService.configUpdated.subscribe((data) => {
-            this.config = data.new;
-            this.updateBodyClass();
+        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ darkTheme }) => {
+            this.updateBodyClass(darkTheme);
         });
+
         this.articleService.onStorySelected.subscribe((article) => {
             if (article.story != null) {
-                this.getBlurImageUrl(article.story.images[0].imageUrl);
+                this.getBlurImageUrl(article.story.getThumbnail());
             } else if (article.images.length > 0) {
-                this.getBlurImageUrl(article.images[0]);
+                this.getBlurImageUrl(article.getThumbnail());
             }
         });
 
@@ -86,11 +90,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();
-        this.updateBodyClass();
 
-        this.appService.onToogleSidebar.subscribe(() => {
-            this.sidebar.toggle();
-        });
+        this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
 
     }
     public swipeRight(ev) {
@@ -121,8 +122,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public updateBodyClass() {
-        const className = this.config.darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
+    public updateBodyClass(darkTheme: boolean) {
+        const className = darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
         this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
         this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
         this.renderer.addClass(this.document.body, className);

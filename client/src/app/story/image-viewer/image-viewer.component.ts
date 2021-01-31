@@ -34,6 +34,9 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     public convertedImagePath: string;
     private isMobile;
 
+    public width:number;
+    public height:number;
+
     public constructor(private imageService: ImageSerice,
         private elRef: ElementRef<HTMLElement>,
         breakpointService: BreakpointDetectorService) {
@@ -49,7 +52,14 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.onDestroy$.next();
     }
     private refreshImageResolution() {
+        
         if (this.imagePath) {
+           const resolution =  new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
+            if(resolution){
+                this.width = parseInt(resolution[1],10);
+                this.height = parseInt(resolution[2],10);
+            }
+     
             setTimeout(() => {
                 const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
                 this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);

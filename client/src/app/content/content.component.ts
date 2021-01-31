@@ -1,27 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {BreakpointDetectorService} from "../shared/breakpoint.service";
-import {ActivatedRoute} from "@angular/router";
-import {CategoryService} from "../shared/category.service";
-import CONFIG from "../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import CONFIG from '../../environments/environment';
+import { BreakpointDetectorService } from '../shared/breakpoint.service';
+import { ConfigService } from './../shared/config.service';
 
 @Component({
     selector: 'app-content',
     templateUrl: './content.component.html',
-    styleUrls: ['./content.component.scss']
+    styleUrls: ['./content.component.scss'],
 })
 export class ContentComponent implements OnInit {
 
-    isSmallScreen: boolean;
-    isBrowser:boolean;
-    constructor(public breakpointService: BreakpointDetectorService, private route: ActivatedRoute,private categoryService:CategoryService) {
+    public isSmallScreen: boolean;
+    public isBrowser: boolean;
+    public constructor(
+        public breakpointService: BreakpointDetectorService,
+        private route: ActivatedRoute,
+        private configService: ConfigService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
+
         this.isSmallScreen = this.breakpointService.isSmallScreen;
-        this.isBrowser = !CONFIG.isRunningInNode
+        this.isBrowser = !CONFIG.isRunningInNode;
+
         this.route.params.subscribe((param)=>{
-            this.categoryService.setSelectedCategory(param['category']);
-        })
+            this.configService.updateConfig({category:param.category});
+        });
     }
 
 }

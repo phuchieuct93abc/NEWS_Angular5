@@ -1,55 +1,60 @@
+import { DestroySubscriber } from './../shared/destroy-subscriber';
 import { Router } from '@angular/router';
-import {Component, Input, OnInit} from '@angular/core';
-import CategoryHelper, {Category} from "../../../../model/Categories";
-import {ConfigService} from "../shared/config.service";
-import {trigger} from "@angular/animations";
-import {opacityNgIf} from "../animation";
+import { Component, Input, OnInit } from '@angular/core';
+import { trigger } from '@angular/animations';
+import CategoryHelper, { Category } from '../../../../model/Categories';
+import { ConfigService } from '../shared/config.service';
+import { opacityNgIf } from '../animation';
 import { BreakpointDetectorService } from '../shared/breakpoint.service';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    animations:[
-        opacityNgIf
-    ]
+    animations: [
+        opacityNgIf,
+    ],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent extends DestroySubscriber implements OnInit {
 
+    @Input()
+    public isOpen: boolean;
     public vietnameseCategories: Category[];
     public englishCategories: Category[];
-    isDarkMode: boolean;
-    isSmallImage: boolean;
-    @Input()
-    isOpen:boolean;
+    public isDarkMode: boolean;
+    public isSmallImage: boolean;
 
-    activatedCatagory:string;
-    isMobile:boolean;
+    public activatedCatagory: string;
+    public isMobile: boolean;
 
-    constructor(private configService: ConfigService,private router: Router, breakpointService:BreakpointDetectorService ) {
+    public constructor(private configService: ConfigService,
+        breakpointService: BreakpointDetectorService) {
+        super();
         this.isMobile = breakpointService.isSmallScreen;
-
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-
-        this.isDarkMode = this.configService.getConfig().darkTheme;
-        this.isSmallImage = this.configService.getConfig().smallImage;
-        this.activatedCatagory = this.configService.getConfig().category; 
+        
+        this.configService.getConfig().pipe(this.getTakeUntilDestroy())
+        .subscribe(({ darkTheme, smallImage, category }) => {
+            this.isDarkMode = darkTheme;
+            this.isSmallImage = smallImage;
+            this.activatedCatagory = category;
+        });
     }
 
-    toggleDarkMode(value) {
-        this.configService.updateConfig({darkTheme: value})
+    public toggleDarkMode(value) {
+        this.configService.updateConfig({ darkTheme: value });
     }
 
-    toogleDisplay(value) {
-        this.configService.updateConfig({smallImage: value})
+    public toogleDisplay(value) {
+        this.configService.updateConfig({ smallImage: value });
 
     }
 
-    onSelectCategory(category: string){
-        this.activatedCatagory = category;
+    public onSelectCategory(category: string) {
+        this.configService.updateConfig({ category });
     }
 }

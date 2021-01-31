@@ -1,46 +1,38 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ConfigService } from "../../shared/config.service";
-import { BreakpointDetectorService } from "../../shared/breakpoint.service";
+import { BreakpointDetectorService } from '../../shared/breakpoint.service';
+import { ConfigService } from '../../shared/config.service';
+import { Config } from './../../shared/config.service';
+import { DestroySubscriber } from './../../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-display',
     templateUrl: './display.component.html',
     styleUrls: ['./display.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
-export class DisplayComponent implements OnInit {
+export class DisplayComponent extends DestroySubscriber implements OnInit {
+    public minFontSize = ConfigService.MIN_FONTSIZE;
+    public maxFontSize = ConfigService.MAX_FONTSIZE;
+    public config: Config;
 
-    isDarkMode: boolean;
-    isSmallImage: boolean;
-    fontSize: number;
-    minFontSize = ConfigService.MIN_FONTSIZE;
-    maxFontSize = ConfigService.MAX_FONTSIZE;
-
-
-    constructor(private route: ActivatedRoute,
-        private configService: ConfigService,
-        public breakpointService: BreakpointDetectorService, ) {
+    public constructor(private configService: ConfigService,
+        public breakpointService: BreakpointDetectorService) {
+        super();
     }
 
-    ngOnInit() {
-        this.isDarkMode = this.configService.getConfig().darkTheme;
-        this.isSmallImage = this.configService.getConfig().smallImage;
-        this.fontSize = this.configService.getConfig().fontSize
-
+    public ngOnInit() {
+        this.configService.getConfig().pipe(this.getTakeUntilDestroy()).subscribe((config) => this.config = config);
     }
 
-
-    toggleDarkMode(value) {
-        this.configService.updateConfig({ darkTheme: value })
+    public toggleDarkMode(value) {
+        this.configService.updateConfig({ darkTheme: value });
     }
 
-    changeFontSize(value: number) {
+    public changeFontSize(value: number) {
         this.configService.updateConfig({ fontSize: value });
-        this.fontSize = value
-
     }
-    onCickSizeSlider(event:Event) {
-        event.stopPropagation()
+
+    public onCickSizeSlider(event: Event) {
+        event.stopPropagation();
     }
 }

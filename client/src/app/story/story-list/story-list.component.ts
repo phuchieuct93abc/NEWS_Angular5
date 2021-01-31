@@ -1,7 +1,8 @@
+import { DestroySubscriber } from './../../shared/destroy-subscriber';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
+import { pairwise, take, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
@@ -20,7 +21,7 @@ import { StoryListService } from './story-list.service';
     templateUrl: './story-list.component.html',
     styleUrls: ['./story-list.component.scss'],
 })
-export class StoryListComponent implements OnInit {
+export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     @ViewChild('scrollingBlock',{static:false})
@@ -64,7 +65,7 @@ export class StoryListComponent implements OnInit {
         protected articleService: ArticleService,
         protected scrollDispatcher: ScrollDispatcher,
         ) {
-
+super();
     }
 
     public async ngOnInit() {
@@ -242,9 +243,11 @@ export class StoryListComponent implements OnInit {
     }
 
     private registerConfigChange() {
-        this.configService.configUpdated.subscribe((config) => {
-            this.config = config.new;
-            if (config.old.smallImage !== config.new.smallImage) {
+        this.configService.getConfig()
+        .pipe(this.getTakeUntilDestroy(),pairwise())
+        .subscribe(([oldConfig,newConfig]) => {
+            this.config = newConfig;
+            if (oldConfig.smallImage !== newConfig.smallImage) {
                 this.resetStoryList();
                 this.loadFirstPage();
             }

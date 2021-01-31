@@ -15,8 +15,8 @@ const id = 'config';
     providedIn: 'root',
 })
 export class ConfigService {
-    private readonly minFontSize = 15;
-    private readonly maxFontsize = 25;
+    public static MIN_FONTSIZE = 15;
+    public static MAX_FONTSIZE = 25;
 
     private config$: BehaviorSubject<Config>;
     private config: Config = {
@@ -44,6 +44,6 @@ export class ConfigService {
     }
 
     private migrateConfig() {
-        this.config.fontSize = Math.min(Math.max(this.minFontSize, this.config.fontSize), this.maxFontsize);
+        this.config.fontSize = Math.min(Math.max(ConfigService.MIN_FONTSIZE, this.config.fontSize), ConfigService.MAX_FONTSIZE);
     }
 }

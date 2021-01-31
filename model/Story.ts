@@ -8,6 +8,8 @@ export class Story {
     public isActive = false;
     public isSelectedBefore = false;
 
+    private thumbnail:string;
+
     constructor(
         public id?: string,
         public title?: string,
@@ -26,9 +28,13 @@ export class Story {
     }
 
     getThumbnail(): string{
-        return this.images.map(image=>image.imageUrl).find(imageUrl=>{
+        if(this.thumbnail){
+            return this.thumbnail;
+        }
+        this.thumbnail = this.images.map(image=>image.imageUrl).find(imageUrl=>{
             //Ignore news source icon
             return !new RegExp(/https:\/\/photo-baomoi\.zadn\.vn\/\w*\.png/gm).test(imageUrl);
         })
+        return this.thumbnail;
     }
 }

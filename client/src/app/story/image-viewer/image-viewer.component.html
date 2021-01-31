@@ -8,6 +8,8 @@
             defaultImage="assets/loading-image.png"
             *ngIf="convertedImagePath"
             #image
+            [width]="width"
+            [height]="height"
     />
 
     <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

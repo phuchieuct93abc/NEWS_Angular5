@@ -9,11 +9,11 @@ import {ImageSerice} from "../../../shared/image.service";
 export class ImageComponent implements OnInit {
 
     @Input()
-    src: string;
+    public src: string;
     @Input()
-    width: number;
+    public width: number;
     @Input()
-    height: number;
+    public height: number;
 
 
     constructor(private imageService: ImageSerice, private elRef: ElementRef) {

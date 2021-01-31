@@ -7,7 +7,7 @@ import CONFIG from "../../environments/environment";
 })
 export class NotificationService {
 
-    constructor(private httpClient: HttpClient) {
+    public constructor(private httpClient: HttpClient) {
 
 
     }

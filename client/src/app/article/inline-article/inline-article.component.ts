@@ -1,17 +1,17 @@
-import { animate, state, style, transition, trigger } from "@angular/animations";
-import { CdkDrag } from "@angular/cdk/drag-drop";
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Story } from "../../../../../model/Story";
-import { ArticleService } from "../../shared/article.service";
-import { ConfigService } from "../../shared/config.service";
-import { StoryListService } from "../../story/story-list/story-list.service";
-import { ArticleComponent } from "../article.component";
-import { DomService } from "../dom.service";
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Story } from '../../../../../model/Story';
+import { ArticleService } from '../../shared/article.service';
+import { ConfigService } from '../../shared/config.service';
+import { StoryListService } from '../../story/story-list/story-list.service';
+import { ArticleComponent } from '../article.component';
+import { DomService } from '../dom.service';
 
 
-const SWIPE_LEFT = "swipeLeft";
-const SWIPE_RIGHT = "swipeRight";
+const SWIPE_LEFT = 'swipeLeft';
+const SWIPE_RIGHT = 'swipeRight';
 
 @Component({
     selector: 'app-inline-article',
@@ -20,108 +20,89 @@ const SWIPE_RIGHT = "swipeRight";
     animations: [
         trigger('swipe', [
 
-            state('swipeLeft', style({ transform: "translateX(-110%)" })),
-            state('swipeRight', style({ transform: "translateX(110%)" })),
+            state('swipeLeft', style({ transform: 'translateX(-110%)' })),
+            state('swipeRight', style({ transform: 'translateX(110%)' })),
 
             transition('show=>swipeRight', [
                 style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, transform: "translateX(100%)" })),
+                animate('0.2s', style({ opacity: 0, transform: 'translateX(100%)' })),
             ]),
             transition('show=>swipeLeft', [
                 style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0,  transform: "translateX(-100%)" })),
+                animate('0.2s', style({ opacity: 0, transform: 'translateX(-100%)' })),
             ]),
 
         ]),
         trigger('showArticle', [
-
-
             transition('void=>true', [
-                style({ height: "0px" }),
+                style({ height: '0px' }),
 
-                animate('0.1s', style({ height: "*" })),
+                animate('0.1s', style({ height: '*' })),
             ]),
-            transition("true=>false", [
-                style({ height: "*" }),
-                animate('0.1s', style({ height: "0" })),
-            ])
+            transition('true=>false', [
+                style({ height: '*' }),
+                animate('0.1s', style({ height: '0' })),
+            ]),
         ]),
 
 
-    ]
+    ],
 
 
 })
 
-export class InlineArticleComponent extends ArticleComponent implements OnDestroy {
+export class InlineArticleComponent extends ArticleComponent implements OnDestroy, OnInit {
 
     @Output()
-    onClosed = new EventEmitter();
+    public onClosed = new EventEmitter();
+    @Output()
+    public onFinishedGetArticle = new EventEmitter<void>();
     @ViewChild('articleBodyWrapper', { static: false })
-    articleView: ElementRef;
+    public articleView: ElementRef;
     @ViewChild(CdkDrag, { static: false })
-    view: CdkDrag;
+    public view: CdkDrag;
 
     @Input()
-    story: Story;
+    public story: Story;
 
-    private erd;
+    public animationName = 'none';
+    public isCollapseArticle = false;
 
-    animationName: string = 'none';
-    isCollapseArticle: boolean = false;
-    readonly closeThreshold = 50;
-
-    @Output()
-    onFinishedGetArticle = new EventEmitter<void>();
-
-    constructor(protected route: ActivatedRoute,
-        protected articleService: ArticleService,
-        protected domService: DomService,
-        protected configService: ConfigService,
-        protected storyListService: StoryListService,
-        private elementRef: ElementRef
+    public readonly closeThreshold = 50;
 
 
-    ) {
-        super(route, articleService, domService, configService, storyListService);
-    }
-
-
-    ngOnInit() {
+    public ngOnInit() {
         super.ngOnInit();
         this.isCollapseArticle = true;//Expand article
 
-        this.categoryId = this.route.snapshot.params["category"];
+        this.categoryId = this.route.snapshot.params.category;
         this.articleId = this.story.id;
 
 
         super.getArticleById(this.articleId, this.categoryId);
 
     }
-    registerStickyHeader() {
+    public registerStickyHeader() {
         //Override article in desktop mode
     }
 
 
-
-
-    collapseArticle() {
+    public collapseArticle() {
         this.isCollapseArticle = false;
     }
 
-    swipeleft() {
+    public swipeleft() {
         this.animationName = SWIPE_LEFT;
-        setTimeout(() => this.collapseArticle(), 100)
+        setTimeout(() => this.collapseArticle(), 100);
     }
 
-    swiperight() {
-
+    public swiperight() {
         this.animationName = SWIPE_RIGHT;
-        setTimeout(() => this.collapseArticle(), 100)
+        setTimeout(() => this.collapseArticle(), 100);
     }
-    onPanEnd(direction) {
+    public onPanEnd(direction) {
         if (direction === 'right') {
             this.swiperight();
         } else {
@@ -129,31 +110,23 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         }
     }
 
-    protected afterGetArticle(): void {
-        super.afterGetArticle();
-        this.animationName = "show";
-
-    }
-
-
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         super.ngOnDestroy();
     }
 
-
-    animEnd($event) {
-        if ($event.toState == false) {
+    public animEnd($event) {
+        if (!$event.toState) {
             this.story.selected = false;
             this.story.height = 0;
             this.onClosed.emit();
         } else {
             this.onFinishedGetArticle.emit();
         }
-
-
-
-
     }
 
+    protected afterGetArticle(): void {
+        super.afterGetArticle();
+        this.animationName = 'show';
+    }
 
 }

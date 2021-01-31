@@ -1,41 +1,51 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY} from "../../../../model/firebase.config";
-import * as firebaseApp from "firebase/app";
-import {NotificationService} from "./notification.service";
-import "firebase/messaging"
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import * as firebaseApp from 'firebase/app';
+import { FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY } from '../../../../model/firebase.config';
+import { NotificationService } from './notification.service';
+import 'firebase/messaging';
 
 @NgModule({
     declarations: [],
     imports: [
-        CommonModule
-    ]
+        CommonModule,
+    ],
 })
 export class NotificationModule {
-    message: any;
-
-    constructor(private notificationService: NotificationService) {
+    public message: any;
+    private readonly numberOfNavigationBeforeNotification = 5;
+    private numberOfNavigation: 0;
+    private stopRegisterNotification$ = new Subject<void>();
+    public constructor(private router: Router, private notificationService: NotificationService) {
         try {
             firebaseApp.initializeApp(FIREBASE_CONFIG);
-            this.message = firebaseApp.messaging();
-            this.initFirebase();
-            this.message.onTokenRefresh(() => {
-                this.getToken();
-            });
+            this.registerNotification();
+
+
         } catch (e) {
             console.error(e);
         }
 
     }
 
-    initFirebase() {
-
-        this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
-        this.message.requestPermission().then(() => {
-            this.getToken();
-        },()=>{
-            
-        })
+    public registerNotification() {
+        this.router.events.pipe(takeUntil(this.stopRegisterNotification$)).subscribe((event) => {
+            if (typeof window !== 'undefined') {
+                if (++this.numberOfNavigation < this.numberOfNavigationBeforeNotification) {
+                    return;
+                }
+                if (event instanceof NavigationEnd) {
+                    this.message = firebaseApp.messaging();
+                    this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
+                    this.message.requestPermission().then(() => this.getToken());
+                    this.message.onTokenRefresh(() => this.getToken());
+                    this.stopRegisterNotification$.next();
+                }
+            }
+        });
     }
 
 

@@ -17,7 +17,7 @@ import 'firebase/messaging';
 export class NotificationModule {
     public message: any;
     private readonly numberOfNavigationBeforeNotification = 5;
-    private numberOfNavigation: 0;
+    private numberOfNavigation = 0;
     private stopRegisterNotification$ = new Subject<void>();
     public constructor(private router: Router, private notificationService: NotificationService) {
         try {
@@ -34,10 +34,10 @@ export class NotificationModule {
     public registerNotification() {
         this.router.events.pipe(takeUntil(this.stopRegisterNotification$)).subscribe((event) => {
             if (typeof window !== 'undefined') {
-                if (++this.numberOfNavigation < this.numberOfNavigationBeforeNotification) {
-                    return;
-                }
                 if (event instanceof NavigationEnd) {
+                    if (++this.numberOfNavigation < this.numberOfNavigationBeforeNotification) {
+                        return;
+                    }
                     this.message = firebaseApp.messaging();
                     this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
                     this.message.requestPermission().then(() => this.getToken());

@@ -1,7 +1,8 @@
+import { DestroySubscriber } from './../../shared/destroy-subscriber';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
+import { pairwise, take, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
@@ -20,7 +21,7 @@ import { StoryListService } from './story-list.service';
     templateUrl: './story-list.component.html',
     styleUrls: ['./story-list.component.scss'],
 })
-export class StoryListComponent implements OnInit {
+export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     @ViewChild('scrollingBlock',{static:false})
@@ -64,7 +65,7 @@ export class StoryListComponent implements OnInit {
         protected articleService: ArticleService,
         protected scrollDispatcher: ScrollDispatcher,
         ) {
-
+super();
     }
 
     public async ngOnInit() {
@@ -102,6 +103,53 @@ export class StoryListComponent implements OnInit {
 
     }
 
+    public moveTop(event: MouseEvent) {
+        event.stopPropagation();
+        this.scrollTop();
+        RequestAnimationFrame(() => {
+            this.resetStoryList();
+            this.loadFirstPage();
+        });
+    }
+
+    public autoSelectFirstStory() {
+        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
+            RequestAnimationFrame(() => {
+                this.storyComponents.first.onSelectStory();
+            }, 100);
+        }
+
+        this.afterInitStories();
+
+
+    }
+    public compareItem(a: Story, b: Story) {
+        return a != null && b != null && a.id === b.id;
+
+    }
+    protected scrollTo(story: Story) {
+        setTimeout(() => {
+            const index = this.stories.findIndex((i) => i.id === story.id);
+            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
+        }, 0);
+    }
+
+    protected scrollTop(){
+       if(this.scrollingBlock){
+           this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
+       }
+    }
+
+    protected afterInitStories(){
+        setTimeout(() => {
+            this.scrollTop();
+
+        });
+
+    }
+
+
     protected async loadMoreStories(){
         if(this.isLoading){
             return;
@@ -111,7 +159,6 @@ export class StoryListComponent implements OnInit {
             this.getLoadMoreObservable()
             .pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000)))
             .subscribe((value) => {
-                console.log(value)
                 this.stories.push(...value);
                 this.isLoading = false;
                 resolve(true);
@@ -140,7 +187,7 @@ export class StoryListComponent implements OnInit {
         this.storyComponents.forEach((story) => {
             if (story.story.id === prevStoryId) {
                 story.onSelectStory();
-                this.scrollTo(story.story, 500, 0);
+                this.scrollTo(story.story);
             }
         });
     }
@@ -183,17 +230,12 @@ export class StoryListComponent implements OnInit {
 
     private registerSpinner() {
         if (typeof window !== 'undefined') {
-
             this.loadingService.onLoading.subscribe((event) => {
-                if (event.name == LoadingEventName.MORE_STORY) {
+                if (event.name === LoadingEventName.MORE_STORY) {
                     if (event.type === LoadingEventType.START) {
-
                         this.isLoading = true;
                     } else {
-
-                        setTimeout(() => RequestAnimationFrame(() => {
-                            this.isLoading = false;
-                        }), 2000);
+                        this.isLoading = false;
                     }
                 }
             });
@@ -201,9 +243,11 @@ export class StoryListComponent implements OnInit {
     }
 
     private registerConfigChange() {
-        this.configService.configUpdated.subscribe((config) => {
-            this.config = config.new;
-            if (config.old.smallImage !== config.new.smallImage) {
+        this.configService.getConfig()
+        .pipe(this.getTakeUntilDestroy(),pairwise())
+        .subscribe(([oldConfig,newConfig]) => {
+            this.config = newConfig;
+            if (oldConfig.smallImage !== newConfig.smallImage) {
                 this.resetStoryList();
                 this.loadFirstPage();
             }
@@ -261,59 +305,8 @@ export class StoryListComponent implements OnInit {
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
-        let loadMorePromise: Observable<Story[]>;
-        loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
-        return loadMorePromise;
+        return this.searchKeyword ?this.storyService.search(this.searchKeyword)  : this.storyService.getStories(category);
     }
 
-    protected scrollTo(story: Story, animation = 500, offset = -60) {
-        setTimeout(() => {
-            const index = this.stories.findIndex((i) => i.id === story.id);
-            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
-        }, 0);
-
-
-    }
-    protected scrollTop(){
-        this.scrollingBlock && this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
-
-    }
-
-
-    moveTop(event: MouseEvent) {
-        event.stopPropagation();
-        this.scrollTop();
-        RequestAnimationFrame(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
-
-        });
-
-    }
-
-    autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
-            RequestAnimationFrame(() => {
-                this.storyComponents.first.onSelectStory();
-            }, 100);
-        }
-
-        this.afterInitStories();
-
-
-    }
-    protected afterInitStories(){
-        setTimeout(() => {
-            this.scrollTop();
-
-        });
-
-    }
-
-    compareItem(a: Story, b: Story) {
-        return a != null && b != null && a.id === b.id;
-
-    }
 
 }

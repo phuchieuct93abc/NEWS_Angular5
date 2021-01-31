@@ -42,11 +42,14 @@ export class StoryService {
         if(this.storiesQueue.length>0){
             return of(this.storiesQueue.splice(0, numberOfStories));
         }
-        return this.getStoryByPage(category, ++this.currentStoryPage).pipe(
+        console.log('get by page', this.currentStoryPage);
+
+        return this.getStoryByPage(category, this.currentStoryPage).pipe(
         map((stories: Story[]) => {
             const result = this.filterStory(stories);
             this.appendStoryList(result);
             this.storiesQueue = result;
+            this.currentStoryPage++;
             return result;
         }),map(()=>this.storiesQueue.splice(0, numberOfStories)));
     }
@@ -59,6 +62,7 @@ export class StoryService {
     }
 
     public search(keyword: string): Observable<any> {
+        console.log('search');
         if (CONFIG.isRunningInNode) {
             return of();
         }

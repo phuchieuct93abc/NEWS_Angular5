@@ -1,57 +1,54 @@
-import { Category } from './../../../../model/Categories';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BreakpointDetectorService } from "../shared/breakpoint.service";
-import { StoryListService } from "../story/story-list/story-list.service";
-import { ConfigService } from "../shared/config.service";
-import { AppComponent } from "../app.component";
-import { AppService } from "../app.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import CategoryHelper from '../../../../model/Categories';
+import { AppComponent } from '../app.component';
+import { AppService } from '../app.service';
+import { BreakpointDetectorService } from '../shared/breakpoint.service';
+import { ConfigService } from '../shared/config.service';
+import { DestroySubscriber } from './../shared/destroy-subscriber';
+import { Category } from './../../../../model/Categories';
 
 @Component({
     selector: 'app-navigator',
     templateUrl: './navigator.component.html',
     styleUrls: ['./navigator.component.scss'],
 })
-export class NavigatorComponent implements OnInit {
-    toolbarTop = 0;
-
-
-
-
-    readonly MIN_TOP = -63;
-    readonly MAX_TOP = 0;
-    isDarkMode: boolean;
-    isSmallImage: boolean;
+export class NavigatorComponent extends DestroySubscriber implements OnInit  {
     @ViewChild(AppComponent, { static: false })
-    app: AppComponent;
-    selectedCategory: Category;
+    public app: AppComponent;
+    public toolbarTop = 0;
 
-    constructor(public breakpointService: BreakpointDetectorService,
+
+    public  readonly MIN_TOP = -63;
+    public readonly MAX_TOP = 0;
+    public isDarkMode: boolean;
+    public isSmallImage: boolean;
+    public selectedCategory: Category;
+
+    public constructor(public breakpointService: BreakpointDetectorService,
         private configService: ConfigService,
         private appService: AppService) {
-
+            super();
     }
 
-    ngOnInit() {
-        this.configService.configUpdated.subscribe(config=>{
-            this.selectedCategory = CategoryHelper.getCategory(config.new.category)
-        })
+    public ngOnInit() {
+        this.configService.getConfig().pipe(this.getTakeUntilDestroy()).subscribe(({category})=>{
+            this.selectedCategory = CategoryHelper.getCategory(category);
+        });
     }
 
-    restrictTop(top: number): number {
+    public restrictTop(top: number): number {
         return Math.min(this.MAX_TOP, Math.max(this.MIN_TOP, top));
     }
 
-    toggleDarkMode() {
-        this.configService.updateConfig({ darkTheme: this.isDarkMode })
+    public toggleDarkMode() {
+        this.configService.updateConfig({ darkTheme: this.isDarkMode });
     }
 
-    toogleDisplay() {
-        this.configService.updateConfig({ smallImage: this.isSmallImage })
+    public toogleDisplay() {
+        this.configService.updateConfig({ smallImage: this.isSmallImage });
     }
 
-    toogleSidebar() {
+    public toogleSidebar() {
         this.appService.toggleSidebar();
     }
 }

@@ -102,6 +102,53 @@ export class StoryListComponent implements OnInit {
 
     }
 
+    public moveTop(event: MouseEvent) {
+        event.stopPropagation();
+        this.scrollTop();
+        RequestAnimationFrame(() => {
+            this.resetStoryList();
+            this.loadFirstPage();
+        });
+    }
+
+    public autoSelectFirstStory() {
+        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
+            RequestAnimationFrame(() => {
+                this.storyComponents.first.onSelectStory();
+            }, 100);
+        }
+
+        this.afterInitStories();
+
+
+    }
+    public compareItem(a: Story, b: Story) {
+        return a != null && b != null && a.id === b.id;
+
+    }
+    protected scrollTo(story: Story) {
+        setTimeout(() => {
+            const index = this.stories.findIndex((i) => i.id === story.id);
+            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
+        }, 0);
+    }
+
+    protected scrollTop(){
+       if(this.scrollingBlock){
+           this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
+       }
+    }
+
+    protected afterInitStories(){
+        setTimeout(() => {
+            this.scrollTop();
+
+        });
+
+    }
+
+
     protected async loadMoreStories(){
         if(this.isLoading){
             return;
@@ -139,7 +186,7 @@ export class StoryListComponent implements OnInit {
         this.storyComponents.forEach((story) => {
             if (story.story.id === prevStoryId) {
                 story.onSelectStory();
-                this.scrollTo(story.story, 500, 0);
+                this.scrollTo(story.story);
             }
         });
     }
@@ -183,7 +230,7 @@ export class StoryListComponent implements OnInit {
     private registerSpinner() {
         if (typeof window !== 'undefined') {
             this.loadingService.onLoading.subscribe((event) => {
-                if (event.name == LoadingEventName.MORE_STORY) {
+                if (event.name === LoadingEventName.MORE_STORY) {
                     if (event.type === LoadingEventType.START) {
                         this.isLoading = true;
                     } else {
@@ -255,57 +302,10 @@ export class StoryListComponent implements OnInit {
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
-        let loadMorePromise: Observable<Story[]>;
-        loadMorePromise = this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
-        return loadMorePromise;
+        const searchFn = this.storyService.search(this.searchKeyword);
+        const loadStoriesFn = this.storyService.getStories(category);
+        return this.searchKeyword ?searchFn  : loadStoriesFn;
     }
 
-    protected scrollTo(story: Story, animation = 500, offset = -60) {
-        setTimeout(() => {
-            const index = this.stories.findIndex((i) => i.id === story.id);
-            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
-        }, 0);
-
-
-    }
-    protected scrollTop(){
-        this.scrollingBlock && this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
-
-    }
-
-
-    public moveTop(event: MouseEvent) {
-        event.stopPropagation();
-        this.scrollTop();
-        RequestAnimationFrame(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
-        });
-    }
-
-    autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
-            RequestAnimationFrame(() => {
-                this.storyComponents.first.onSelectStory();
-            }, 100);
-        }
-
-        this.afterInitStories();
-
-
-    }
-    protected afterInitStories(){
-        setTimeout(() => {
-            this.scrollTop();
-
-        });
-
-    }
-
-    compareItem(a: Story, b: Story) {
-        return a != null && b != null && a.id === b.id;
-
-    }
 
 }

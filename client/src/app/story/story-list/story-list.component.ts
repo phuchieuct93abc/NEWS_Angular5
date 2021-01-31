@@ -111,7 +111,6 @@ export class StoryListComponent implements OnInit {
             this.getLoadMoreObservable()
             .pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000)))
             .subscribe((value) => {
-                console.log(value)
                 this.stories.push(...value);
                 this.isLoading = false;
                 resolve(true);
@@ -183,17 +182,12 @@ export class StoryListComponent implements OnInit {
 
     private registerSpinner() {
         if (typeof window !== 'undefined') {
-
             this.loadingService.onLoading.subscribe((event) => {
                 if (event.name == LoadingEventName.MORE_STORY) {
                     if (event.type === LoadingEventType.START) {
-
                         this.isLoading = true;
                     } else {
-
-                        setTimeout(() => RequestAnimationFrame(() => {
-                            this.isLoading = false;
-                        }), 2000);
+                        this.isLoading = false;
                     }
                 }
             });
@@ -281,15 +275,13 @@ export class StoryListComponent implements OnInit {
     }
 
 
-    moveTop(event: MouseEvent) {
+    public moveTop(event: MouseEvent) {
         event.stopPropagation();
         this.scrollTop();
         RequestAnimationFrame(() => {
             this.resetStoryList();
             this.loadFirstPage();
-
         });
-
     }
 
     autoSelectFirstStory() {

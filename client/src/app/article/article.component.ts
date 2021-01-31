@@ -37,7 +37,7 @@ import ArticleVideoParser from './parsers/article-video.parser';
 
 })
 export class ArticleComponent implements OnInit, OnDestroy {
-
+   
     @ViewChild('articleContent', { static: false })
     public articleContent: ElementRef<HTMLParagraphElement>;
     @ViewChild('articleView', { static: false })
@@ -48,6 +48,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public categoryId: string;
     public isFavorite: boolean;
 
+   
 
     public articleBody: string;
 

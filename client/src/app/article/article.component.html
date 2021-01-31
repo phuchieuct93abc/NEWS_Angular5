@@ -10,7 +10,7 @@
         
 
             <div *ngIf="article; else loading" class="article-content px-3  pb-5  panel-primary">
-                <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.images[1] || article.images[0]" 
+                <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.getThumbnail()" 
                 [title]="article.header" [article]="article"></app-article-thumbnail>     
         
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"

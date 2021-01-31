@@ -67,20 +67,21 @@ export class StoryService {
             return of();
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
-        return this.httpClient.get(searchUrl, {
+        return this.httpClient.get<Story[]>(searchUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
                 keyword,
             },
         }).pipe(
             retry(3),
-            map((result)=>result as Story[]),
             map(
                 (result) => {
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.SEARCHING,
                     });
+
+                    result =  result.map((r)=>(Object.assign(new Story(),r)));
                     this.checkReadStory(result) ;
                     result = this.filterStory(result);
                     this.appendStoryList(result);
@@ -131,7 +132,7 @@ export class StoryService {
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
 
-        return this.httpClient.get(storyUrl, {
+        return this.httpClient.get<Story[]>(storyUrl, {
             params: {
                 pageNumber: pageNumber + '',
                 category,
@@ -140,10 +141,13 @@ export class StoryService {
             retry(3),
             map(
                 (result) => {
+                    result =  result.map((r)=>(Object.assign(new Story(),r)));
+
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
                         name: LoadingEventName.MORE_STORY,
                     });
+
 
                     this.checkReadStory(result as Story[]);
                     return result;

@@ -214,7 +214,7 @@ super();
                 const articleId = params.id;
                 this.articleService.getById(articleId, params.category).subscribe((article) => {
 
-                    const storyImage: StoryImage = new StoryImage(article.images[0]);
+                    const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     observer.next(story);

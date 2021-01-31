@@ -79,9 +79,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.articleService.onStorySelected.subscribe((article) => {
             if (article.story != null) {
-                this.getBlurImageUrl(article.story.images[0].imageUrl);
+                this.getBlurImageUrl(article.story.getThumbnail());
             } else if (article.images.length > 0) {
-                this.getBlurImageUrl(article.images[0]);
+                this.getBlurImageUrl(article.getThumbnail());
             }
         });
 

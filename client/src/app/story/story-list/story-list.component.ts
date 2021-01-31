@@ -305,9 +305,7 @@ super();
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
-        const searchFn = this.storyService.search(this.searchKeyword);
-        const loadStoriesFn = this.storyService.getStories(category);
-        return this.searchKeyword ?searchFn  : loadStoriesFn;
+        return this.searchKeyword ?this.storyService.search(this.searchKeyword)  : this.storyService.getStories(category);
     }
 
 

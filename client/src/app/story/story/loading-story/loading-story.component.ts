@@ -6,12 +6,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
   styleUrls: ['./loading-story.component.scss', '../mobile-story/mobile-story.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingStoryComponent implements OnInit {
+export class LoadingStoryComponent {
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
 }

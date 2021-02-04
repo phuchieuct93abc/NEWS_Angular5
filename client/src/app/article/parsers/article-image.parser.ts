@@ -1,12 +1,12 @@
-import {DomService} from "../dom.service";
-import {ImageComponent} from "../article-content/image/image.component";
+import {DomService} from '../dom.service';
+import {ImageComponent} from '../article-content/image/image.component';
 
 export default class ArticleImageParser {
 
     private originalImageElement: HTMLImageElement;
 
-    constructor(private originalImageWrapperElement: Element, private domService: DomService) {
-        this.originalImageElement = <HTMLImageElement>this.originalImageWrapperElement.firstElementChild
+    public constructor(private originalImageWrapperElement: Element, private domService: DomService) {
+        this.originalImageElement = this.originalImageWrapperElement.firstElementChild as HTMLImageElement;
 
     }
 

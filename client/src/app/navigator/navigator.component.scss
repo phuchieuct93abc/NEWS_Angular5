@@ -20,6 +20,7 @@ $nav-xs-height: 50px;
       position: relative;
       z-index: 2;
       background-color: rgba(var(--background-color-1-code), 0.6);
+      height: max-content;
 
       > div {
         backdrop-filter: saturate(180%) blur(20px);

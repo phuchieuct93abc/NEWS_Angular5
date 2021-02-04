@@ -1,10 +1,10 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {ImageSerice} from "../../../shared/image.service";
+import {ImageSerice} from '../../../shared/image.service';
 
 @Component({
     selector: 'app-image',
     templateUrl: './image.component.html',
-    styleUrls: ['./image.component.scss']
+    styleUrls: ['./image.component.scss'],
 })
 export class ImageComponent implements OnInit {
 
@@ -16,16 +16,15 @@ export class ImageComponent implements OnInit {
     public height: number;
 
 
-    constructor(private imageService: ImageSerice, private elRef: ElementRef) {
+    public constructor(private imageService: ImageSerice, private elRef: ElementRef<HTMLElement>) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.replaceImageFormat();
     }
 
     private replaceImageFormat() {
-        let imageWidth = (<HTMLElement>this.elRef.nativeElement).offsetWidth;
-
-        this.src = this.imageService.getImage(this.src, imageWidth)
+        const imageWidth = this.elRef.nativeElement.offsetWidth;
+        this.src = this.imageService.getImage(this.src, imageWidth);
     }
 }

@@ -37,7 +37,7 @@ import ArticleVideoParser from './parsers/article-video.parser';
 
 })
 export class ArticleComponent implements OnInit, OnDestroy {
-   
+
     @ViewChild('articleContent', { static: false })
     public articleContent: ElementRef<HTMLParagraphElement>;
     @ViewChild('articleView', { static: false })
@@ -47,14 +47,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public articleId: string;
     public categoryId: string;
     public isFavorite: boolean;
-
-   
-
     public articleBody: string;
 
     public fontSize: number;
     private onDestroy$ = new Subject<void>();
-    private stopGetArticle$ =  new Subject<void>();
+    private stopGetArticle$ = new Subject<void>();
 
     public constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
@@ -69,30 +66,27 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.getArticleById(params.id, params.category);
         });
 
-        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({fontSize}) => {
+        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ fontSize }) => {
             this.fontSize = fontSize;
         });
     }
 
-    public onScroll(){
+    public onScroll() {
         window.dispatchEvent(new CustomEvent('scroll'));
+    }
 
-      }
-
-      public up() {
-
+    public up() {
         const articleView = this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop - 100  });
+        articleView.scrollTo({ top: articleView.scrollTop - 100 });
     }
 
     public down() {
         const articleView = this.articleView.nativeElement;
-        articleView.scrollTo({ top: articleView.scrollTop + 100  });
+        articleView.scrollTo({ top: articleView.scrollTop + 100 });
     }
 
 
     public prevArticle() {
-
         this.storyListService.selectPrevStory();
     }
 
@@ -101,9 +95,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-      this.onDestroy$.next();
+        this.onDestroy$.next();
     }
-
 
     protected getArticleById(articleId, categoryId) {
         if (articleId && categoryId) {
@@ -115,51 +108,35 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 this.articleService.onStorySelected.next(this.article);
                 this.afterGetArticle();
             });
-
-
         }
     }
 
     protected afterGetArticle(): void {
 
         if (this.articleView && typeof this.articleView.nativeElement.scroll === 'function') {
-
             this.articleView.nativeElement.scroll({ top: 0 });
         }
         this.articleBody = this.article.body;
 
         if (typeof window !== 'undefined') {
-            // this.registerStickyHeader();
-
             RequestAnimationFrame(() => {
                 this.parseVideo();
                 this.parseImage();
-                // this.resetStickyHeader();
-
             });
-
         }
-
-
     }
 
 
     private parseImage() {
-
         const element = this.articleContent.nativeElement;
-        const images: HTMLCollectionOf<Element> = element.getElementsByClassName('body-image');
-        for (let i = 0; i < images.length; i++) {
-            new ArticleImageParser(images[i], this.domService).parse();
-        }
+        const images: NodeListOf<HTMLElement> = element.querySelectorAll('.body-image img');
+        images.forEach((image) => new ArticleImageParser(image, this.domService).parse());
+
     }
 
     private parseVideo() {
         const element = this.articleContent.nativeElement;
-        const videos: HTMLCollectionOf<Element> = element.getElementsByClassName('body-video');
-        for (let i = 0; i < videos.length; i++) {
-            new ArticleVideoParser(videos[i], this.domService).parse();
-        }
+        const videos: NodeListOf<HTMLElement> = element.querySelectorAll('.body-video');
+        videos.forEach((video)=>new ArticleVideoParser(video, this.domService).parse());
     }
-
-
 }

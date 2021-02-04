@@ -13,6 +13,10 @@
   animation: fixed linear 0.5s;
   animation-fill-mode: forwards;
   z-index: 9;
+  top: 0px !important;
+  height: 64px;
+  display: flex;
+  align-items: center;
 }
 
 @keyframes fixed {

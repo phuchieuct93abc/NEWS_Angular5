@@ -28,7 +28,7 @@
     "jquery": "^3.5.1",
     "moment": "^2.24.0",
     "ng-lazyload-image": "9.0.1",
-    "ng-zorro-antd": "^8.1.2",
+    "ng-zorro-antd": "^11.1.0",
     "ngx-clipboard": "^12.1.2",
     "ngx-moment": "^3.4.0",
     "normalize.css": "^8.0.1",
@@ -51,7 +51,9 @@
     "build:ssr_back": "npm run build:client-and-server-bundles && npm run compile:server",
     "compile:server_bak": "webpack --config webpack.server.config.js --progress --colors",
     "build:ssr_bak": "ng build --prod --aot --stats-json&& ng run demo:server:production",
-    "serve:ssr_bak": "node dist/server"
+    "serve:ssr_bak": "node dist/server",
+    "postinstall": "ngcc"
+
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.0.2",

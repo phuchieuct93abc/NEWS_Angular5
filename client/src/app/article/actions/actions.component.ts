@@ -32,9 +32,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
     article: Article;
     @Output()
     onClosed = new EventEmitter<void>();
-    @ViewChild("actionsElement",{static:false})
+    @ViewChild("actionsElement")
     actionsElement: ElementRef;
-    @ViewChild("stickyElement",{static:false})
+    @ViewChild("stickyElement")
     stickyElement: ElementRef;
 
 

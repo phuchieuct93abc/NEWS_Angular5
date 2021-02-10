@@ -20,7 +20,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     @Input()
     public alt: string;
-    @ViewChild('image', { static: false })
+    @ViewChild('image')
     public imageRef: ElementRef<HTMLImageElement>;
     @Input()
     public parallax: boolean;

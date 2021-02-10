@@ -44,7 +44,7 @@ import vars from './variable';
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    @ViewChild(MatSidenav, { static: false })
+    @ViewChild(MatSidenav)
     private sidebar: MatSidenav;
 
     public isShowProgressBar = false;

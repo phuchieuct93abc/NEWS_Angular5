@@ -26,7 +26,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     public index: number;
     @Input()
     public category: Category;
-    @ViewChild('ell', { static: false })
+    @ViewChild('ell')
     public ell: any;
     @Input()
     public scrollElement: Element;

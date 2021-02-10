@@ -24,7 +24,7 @@ import { StoryListService } from './story-list.service';
 export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
-    @ViewChild('scrollingBlock',{static:false})
+    @ViewChild('scrollingBlock')
     public scrollingBlock: ElementRef;
     @ViewChildren(StoryComponent)
     public storyComponents: QueryList<StoryComponent>;

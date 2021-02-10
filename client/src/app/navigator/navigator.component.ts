@@ -13,7 +13,7 @@ import { Category } from './../../../../model/Categories';
     styleUrls: ['./navigator.component.scss'],
 })
 export class NavigatorComponent extends DestroySubscriber implements OnInit  {
-    @ViewChild(AppComponent, { static: false })
+    @ViewChild(AppComponent)
     public app: AppComponent;
     public toolbarTop = 0;
 

@@ -15,10 +15,10 @@ import { StoryListService } from "../../story-list/story-list.service";
 })
 export class MobileStoryComponent extends StoryComponent {
 
-    @ViewChild("storyElement", { static: false })
+    @ViewChild("storyElement")
     storyElement: ElementRef;
 
-    @ViewChild(ImageViewerComponent, { static: false }) 
+    @ViewChild(ImageViewerComponent) 
     imageViewerComponent: ImageViewerComponent;
 
     constructor(public breakpointService: BreakpointDetectorService,

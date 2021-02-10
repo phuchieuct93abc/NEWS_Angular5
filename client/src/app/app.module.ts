@@ -1,4 +1,3 @@
-import { NZModule } from './nz.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -13,6 +12,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MomentModule } from 'ngx-moment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
+import { NZModule } from './nz.module';
 import { ParallaxDirective } from './../directives/parallax.directive';
 import { AppComponent } from './app.component';
 import { ActionsComponent } from './article/actions/actions.component';

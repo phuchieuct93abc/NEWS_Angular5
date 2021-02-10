@@ -29,20 +29,13 @@ const modules = [
     MatSnackBarModule,
     MatRippleModule,
     MatButtonModule,
-    MatDividerModule
-    // MatSelectModule,
-    // MatSliderModule,
-    // MatProgressSpinnerModule,
-    // MatDialogModule,
-    // MatTooltipModule,
-    // MatTabsModule,
-    // MatExpansionModule,
-    // MatButtonToggleModule,
+    MatDividerModule,
+    MatSnackBarModule,
 ];
 
 @NgModule({
     exports: modules,
-    imports: modules
+    imports: modules,
 })
 export class MaterialModule {
 }

@@ -1,67 +1,68 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Component, OnInit} from '@angular/core';
-import GetSocialMediaSiteLinks_WithShareLinks from "./social-share-media";
-import {animate, style, transition, trigger} from "@angular/animations";
-import {ClipboardService} from "ngx-clipboard";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import {animate, style, transition, trigger} from '@angular/animations';
+import {ClipboardService} from 'ngx-clipboard';
+import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
 
 @Component({
     selector: 'app-share',
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.scss'],
     animations: [
-        trigger("shareSites", [
-            transition(":leave", [
-                animate("0.5s", style({height: 0}))
+        trigger('shareSites', [
+            transition(':leave', [
+                animate('0.5s', style({height: 0})),
             ]),
-            transition(":enter", [
+            transition(':enter', [
                 style({height: 0}),
-                animate("0.5s", style({height: '*'}))
-            ])
+                animate('0.5s', style({height: '*'})),
+            ]),
 
 
-        ])
-    ]
+        ]),
+    ],
 })
 export class ShareComponent implements OnInit {
 
-    isShowShareSites = false;
+    public isShowShareSites = false;
 
-    constructor(private _clipboardService: ClipboardService,private snackBar: MatSnackBar) {
+    public constructor(private clipboardService: ClipboardService, private matSnackBar: MatSnackBar) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
     }
 
-    share(provider: string) {
+    public share(provider: string) {
 
-        let url = GetSocialMediaSiteLinks_WithShareLinks({
-            url: window.location.href
-        })
-        window.open(url[provider], "_blank");
-
-    }
-
-    shareFaceBook() {
-        this.share("facebook")
-    }
-
-    shareSkype() {
-        this.share("skype")
-    }
-
-    sharePocket() {
-        this.share("getpocket")
+        const url = GetSocialMediaSiteLinks_WithShareLinks({
+            url: window.location.href,
+        });
+        window.open(url[provider], '_blank');
 
     }
 
-    shareEvernote() {
-        this.share("evernote")
+    public shareFaceBook() {
+        this.share('facebook');
+    }
+
+    public shareSkype() {
+        this.share('skype');
+    }
+
+    public sharePocket() {
+        this.share('getpocket');
 
     }
 
-    copyUrl() {
-        this._clipboardService.copyFromContent(window.location.href)
-        this.snackBar.open("Copied link successful", null, {
+    public shareEvernote() {
+        this.share('evernote');
+
+    }
+
+    public copyUrl() {
+        this.clipboardService.copyFromContent(window.location.href);
+        this.snackBar.open('Copied link successful', null, {
             duration: 2000,
         });
     }

@@ -45,14 +45,13 @@
     "setup": "npm install",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
-    "build": "ng build --prod --aot --stats-json",
+    "build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:ssr_back": "npm run build:client-and-server-bundles && npm run compile:server",
-    "compile:server_bak": "webpack --config webpack.server.config.js --progress --colors",
-    "build:ssr_bak": "ng build --prod --aot --stats-json&& ng run demo:server:production",
-    "serve:ssr_bak": "node dist/server",
+    "compile:server": "webpack --config webpack.server.config.js --progress --colors",
+    "build:ssr": "ng build --prod --aot&& ng run demo:server:production",
+    "serve:ssr": "node dist/server",
     "postinstall": "ngcc"
   },
   "devDependencies": {

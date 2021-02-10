@@ -7,9 +7,8 @@
     "webpack:watch": "webpack --watch --progress --colors",
     "webpack:build": "webpack --progress --colors",
     "run": "nodemon dist/server",
-    "serve": "npm-run-all --parallel webpack:watch run",
-    "postinstall": "ngcc"
-  },
+    "serve": "npm-run-all --parallel webpack:watch run"
+    },
   "main": "dist/server.js",
   "dependencies": {
     "@google-cloud/text-to-speech": "^3.0.0",

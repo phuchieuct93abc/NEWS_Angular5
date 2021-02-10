@@ -11,6 +11,7 @@ import CONFIG from './environments/environment';
 import 'intersection-observer';
 
 smoothscroll.polyfill();
+moment.locale('vi');
 
 if (CONFIG.production) {
     enableProdMode();
@@ -21,17 +22,12 @@ if (CONFIG.production) {
     }
 }
 
-moment.locale('vi');
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    platformBrowserDynamic().bootstrapModule(AppModule).then((ref) => {
-        // Ensure Angular destroys itself on hot reloads.
-        if ((window as any).ngRef) {
-            (window as any).ngRef.destroy();
-        }
-        (window as any).ngRef = ref;
 
-        // Otherwise, log the boot error
-    }).catch((err) => console.error(err));
-}, { passive: true });
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+  });
+  

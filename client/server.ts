@@ -38,7 +38,7 @@ export function app(server, distFolder) {
 function run() {
   const port = process.env.PORT || 4000;
 
-  const distFolder = join(process.cwd(), 'dist/browser');
+  const distFolder = join(process.cwd(), '../functions/dist/browser');
   const baseServer = express();
   // Start up the Node server
   const server = app(baseServer, distFolder);

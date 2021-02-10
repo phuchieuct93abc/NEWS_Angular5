@@ -21,4 +21,6 @@ workflows:
     - build:
         filters:
           branches:
-            only: master
+            only: 
+              - master
+              - migrate_Angular_11

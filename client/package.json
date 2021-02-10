@@ -51,7 +51,7 @@
     "e2e": "ng e2e",
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "build:ssr": "ng build --prod --aot&& ng run demo:server:production",
-    "serve:ssr": "node dist/server",
+    "serve:ssr": "ng run demo:serve-ssr",
     "postinstall": "ngcc"
   },
   "devDependencies": {

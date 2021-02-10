@@ -1,3 +1,4 @@
+import { NZModule } from './nz.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -65,7 +66,7 @@ const x = 1;
         RouterModule,
         NotificationModule,
         ClipboardModule,
-        // NgZorroAntdModule,
+        NZModule,
         LazyLoadImageModule,
         ScrollingModule,
         HammerModule,

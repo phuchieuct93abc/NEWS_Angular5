@@ -29,7 +29,7 @@ import { LoadingComponent } from './article/loading/loading.component';
 import { ContentComponent } from './content/content.component';
 import { TopCategoryComponent } from './dashboard/category/category.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HammerConfig } from './hammer.config';
+// import { HammerConfig } from './hammer.config';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from './material.module';
 import { CategorySelectorComponent } from './navigator/category-selector/category-selector.component';
@@ -113,7 +113,7 @@ const x = 1;
     bootstrap: [AppComponent],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
-        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+        // { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         Title,

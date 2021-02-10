@@ -2,12 +2,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
+import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
-import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
+// import { en_US, NgZorroAntdModule } from 'ng-zorro-antd';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MomentModule } from 'ngx-moment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
@@ -65,9 +65,10 @@ const x = 1;
         RouterModule,
         NotificationModule,
         ClipboardModule,
-        NgZorroAntdModule,
+        // NgZorroAntdModule,
         LazyLoadImageModule,
         ScrollingModule,
+        HammerModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
     ],
     declarations: [
@@ -112,7 +113,7 @@ const x = 1;
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
-        { provide: NZ_I18N, useValue: en_US },
+        // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         Title,
         Meta,

@@ -1,8 +1,7 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {Component, OnInit} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {ClipboardService} from 'ngx-clipboard';
+import { Component, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { ClipboardService } from 'ngx-clipboard';
 import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
 
 @Component({
@@ -12,25 +11,22 @@ import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
     animations: [
         trigger('shareSites', [
             transition(':leave', [
-                animate('0.5s', style({height: 0})),
+                animate('0.5s', style({ height: 0 })),
             ]),
             transition(':enter', [
-                style({height: 0}),
-                animate('0.5s', style({height: '*'})),
+                style({ height: 0 }),
+                animate('0.5s', style({ height: '*' })),
             ]),
 
 
         ]),
     ],
 })
-export class ShareComponent implements OnInit {
+export class ShareComponent {
 
     public isShowShareSites = false;
 
-    public constructor(private clipboardService: ClipboardService, private matSnackBar: MatSnackBar) {
-    }
-
-    public ngOnInit() {
+    public constructor(private clipboardService: ClipboardService, private snackBar: MatSnackBar) {
     }
 
     public share(provider: string) {

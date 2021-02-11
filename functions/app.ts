@@ -8,8 +8,8 @@ const app = express();
 
 const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
-const universal = require(`${process.cwd()}/dist/server`).app;
+const {ssrApp} = require(`./dist/server/main`);
 
-universal(app,DIST_FOLDER)
+ssrApp(app,DIST_FOLDER);
 
 export default app;

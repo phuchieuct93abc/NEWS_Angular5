@@ -59,9 +59,9 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     public onClosed = new EventEmitter();
     @Output()
     public onFinishedGetArticle = new EventEmitter<void>();
-    @ViewChild('articleBodyWrapper', { static: false })
+    @ViewChild('articleBodyWrapper')
     public articleView: ElementRef;
-    @ViewChild(CdkDrag, { static: false })
+    @ViewChild(CdkDrag)
     public view: CdkDrag;
 
     @Input()

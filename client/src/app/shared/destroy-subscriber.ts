@@ -1,7 +1,9 @@
 import { takeUntil } from 'rxjs/operators';
 import { MonoTypeOperatorFunction, Subject } from 'rxjs';
-import { OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 
+// TODO: Add Angular decorator.
+@Directive()
 export class DestroySubscriber implements OnDestroy {
     protected onDestroy$ = new Subject<void>();
 

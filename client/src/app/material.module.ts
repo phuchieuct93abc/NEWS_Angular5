@@ -1,4 +1,4 @@
-import { MatDividerModule } from '@angular/material';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -29,20 +29,14 @@ const modules = [
     MatSnackBarModule,
     MatRippleModule,
     MatButtonModule,
-    MatDividerModule
-    // MatSelectModule,
-    // MatSliderModule,
-    // MatProgressSpinnerModule,
-    // MatDialogModule,
-    // MatTooltipModule,
-    // MatTabsModule,
-    // MatExpansionModule,
-    // MatButtonToggleModule,
+    MatDividerModule,
+    MatSnackBarModule,
 ];
 
 @NgModule({
     exports: modules,
-    imports: modules
+    imports: modules,
 })
 export class MaterialModule {
 }
+

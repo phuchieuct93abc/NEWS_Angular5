@@ -29,9 +29,10 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, {
-            initialNavigation: 'enabled',
-            paramsInheritanceStrategy: 'always'
-        })],
+    initialNavigation: 'enabled',
+    paramsInheritanceStrategy: 'always',
+    relativeLinkResolution: 'legacy'
+})],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

@@ -14,7 +14,7 @@ export class ArticleThumbnailComponent implements OnInit {
   thumbnailPath: string;
   @Input()
   article: Article;
-  @ViewChild('articleHeader', { static: false })
+  @ViewChild('articleHeader')
   protected articleHeader: ElementRef
   isStickHeader: boolean = false
   @Input()

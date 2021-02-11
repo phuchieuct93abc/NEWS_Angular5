@@ -20,12 +20,12 @@ export class VideoComponent implements OnInit {
     @Input()
     height: number;
 
-    @ViewChild('videoComponent', {static: false})
+    @ViewChild('videoComponent')
     videoComponent: ElementRef;
 
     heightIframe: number;
     widthIframe: number;
-    @ViewChild('videoFrame', {static: false})
+    @ViewChild('videoFrame')
     videoFrame: ElementRef;
     isPlaying = false;
 

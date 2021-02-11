@@ -38,9 +38,9 @@ import ArticleVideoParser from './parsers/article-video.parser';
 })
 export class ArticleComponent implements OnInit, OnDestroy {
 
-    @ViewChild('articleContent', { static: false })
+    @ViewChild('articleContent')
     public articleContent: ElementRef<HTMLParagraphElement>;
-    @ViewChild('articleView', { static: false })
+    @ViewChild('articleView')
     protected articleView: ElementRef<HTMLElement>;
 
     public article: Article;

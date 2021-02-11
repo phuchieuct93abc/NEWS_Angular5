@@ -122,30 +122,23 @@
           }
         },
         "server": {
-          "builder": "@angular-builders/custom-webpack:server",
+          "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./extra-webpack.config.js",
-              "replaceDuplicatePlugins": true,
-              "mergeStrategies": {
-                "externals": "prepend"
-              }
-            },
             "outputPath": "../functions/dist/server",
             "main": "server.ts",
-            "tsConfig": "tsconfig.server.json",
-            "sourceMap": false
+            "tsConfig": "tsconfig.server.json"
           },
           "configurations": {
             "production": {
-              "optimization": true,
-              "sourceMap": false,
+              "outputHashing": "media",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.server.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "sourceMap": false,
+              "optimization": true
             }
           }
         },
@@ -175,6 +168,7 @@
             "production": {}
           }
         }
+      
       
       }
     }

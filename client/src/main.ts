@@ -1,4 +1,4 @@
-
+import 'hammerjs';
 import './polyfills';
 
 import { enableProdMode } from '@angular/core';
@@ -14,20 +14,15 @@ smoothscroll.polyfill();
 moment.locale('vi');
 
 if (CONFIG.production) {
-    enableProdMode();
-    if (window) {
-        window.console.log = () => {
-            //Do nothing
-        };
-    }
+  enableProdMode();
+  if (window) {
+    window.console.log = () => {
+      //Do nothing
+    };
+  }
 }
 
-
-
-
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    platformBrowserDynamic().bootstrapModule(AppModule)
+document.addEventListener('DOMContentLoaded', () => {
+  platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.error(err));
-  });
-  
+});

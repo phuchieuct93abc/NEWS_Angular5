@@ -51,6 +51,7 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
+import { HammerConfig } from './hammer.config';
 
 const x = 1;
 
@@ -113,7 +114,7 @@ const x = 1;
     bootstrap: [AppComponent],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
-        // { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         Title,

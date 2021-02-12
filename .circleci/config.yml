@@ -8,12 +8,27 @@ jobs:
       tag: '10.15'
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: cd client && npm install
-            - run: cd functions && npm install
-            - run: npm run deploy
+      - restore_cache:
+          key: root-cache-{{ checksum "package-lock.json" }}-{{ checksum "client/package-lock.json" }}-{{ checksum "functions/package-lock.json" }}
+
+      - run: npm install
+      - run: cd client && npm install
+      - run: cd functions && npm install
+      
+      - save_cache:
+          key: root-cache-{{ checksum "package-lock.json" }}-{{ checksum "client/package-lock.json" }}-{{ checksum "functions/package-lock.json" }}
+          paths:
+            - node_modules
+            - client/node_modules
+            - functions/node_modules
+      - run: npm run deploy
+           
+
+
+
+
+
+
 # workflows:
 #   version: 2
 #   main:

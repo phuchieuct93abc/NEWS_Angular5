@@ -9,43 +9,43 @@ fs.copy(index[0], index[1], function (err) {
         return console.error(err)
     }
 });
-var manifest = ['../client/dist/browser/manifest.json', './dist/browser/manifest.json']
+// var manifest = ['../client/dist/browser/manifest.json', './dist/browser/manifest.json']
 
-fs.copy(manifest[0], manifest[1], function (err) {
-    if (err) {
-        return console.error(err)
-    }
-});
+// fs.copy(manifest[0], manifest[1], function (err) {
+//     if (err) {
+//         return console.error(err)
+//     }
+// });
 
 
 
-var licenses = ['../client/dist/browser/3rdpartylicenses.txt', './dist/browser/3rdpartylicenses.txt']
+// var licenses = ['../client/dist/browser/3rdpartylicenses.txt', './dist/browser/3rdpartylicenses.txt']
 
-fs.copy(licenses[0], licenses[1], function (err) {
-    if (err) {
-        return console.error(err)
-    }
-});
+// fs.copy(licenses[0], licenses[1], function (err) {
+//     if (err) {
+//         return console.error(err)
+//     }
+// });
 
-var assest = ['../client/dist/browser/assets', './dist/browser/assets']
+// var assest = ['../client/dist/browser/assets', './dist/browser/assets']
 
-fs.copy(assest[0], assest[1], function (err) {
-    if (err) {
-        return console.error(err)
-    }
-});
+// fs.copy(assest[0], assest[1], function (err) {
+//     if (err) {
+//         return console.error(err)
+//     }
+// });
 
-var robot = ['../client/dist/browser/robots.txt', './dist/browser/robots.txt']
+// var robot = ['../client/dist/browser/robots.txt', './dist/browser/robots.txt']
 
-fs.copy(robot[0], robot[1], function (err) {
-    if (err) {
-        return console.error(err)
-    }
-});
-var robot = ['../client/dist/browser/sitemap.xml', './dist/browser/sitemap.xml']
+// fs.copy(robot[0], robot[1], function (err) {
+//     if (err) {
+//         return console.error(err)
+//     }
+// });
+// var robot = ['../client/dist/browser/sitemap.xml', './dist/browser/sitemap.xml']
 
-fs.copy(robot[0], robot[1], function (err) {
-    if (err) {
-        return console.error(err)
-    }
-});
+// fs.copy(robot[0], robot[1], function (err) {
+//     if (err) {
+//         return console.error(err)
+//     }
+// });

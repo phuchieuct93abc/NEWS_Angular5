@@ -7,7 +7,7 @@
             <div class="commennt col">
                 <span class="display-name pr-1">{{comment.displayName}}: </span>
                 <span class="comment mat-body pr-1">{{comment.comment}}</span>
-                <span class="mat-small display-name pr-1"> - {{comment.date * 1000|amTimeAgo}}:</span>
+                <span class="mat-small display-name pr-1"> - {{comment.date * 1000 | toNow}}:</span>
 
             </div>
         </div>

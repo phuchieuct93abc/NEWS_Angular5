@@ -5,7 +5,7 @@ import app from "./app";
 
 exports.app = functions.runWith({
     timeoutSeconds: 15,
-    memory: '1GB'
+    memory: '2GB'
 }).https.onRequest(app);
 
 exports.apissr = functions.runWith({

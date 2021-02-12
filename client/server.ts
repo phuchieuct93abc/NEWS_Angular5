@@ -23,9 +23,9 @@ export function ssrApp(server, distFolder) {
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
-  }));
+  // server.get('*.*', express.static(distFolder, {
+  //   maxAge: '1y'
+  // }));
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {

@@ -1,3 +1,4 @@
+import { ToNowPipe } from './shared/toNow.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
 // import { en_US, NgZorroAntdModule } from 'ng-zorro-antd';
 import { ClipboardModule } from 'ngx-clipboard';
-import { MomentModule } from 'ngx-moment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { NZModule } from './nz.module';
@@ -63,7 +63,6 @@ const x = 1;
         BrowserAnimationsModule,
         MaterialModule,
         AppRoutingModule,
-        MomentModule,
         RouterModule,
         NotificationModule,
         ClipboardModule,
@@ -110,6 +109,7 @@ const x = 1;
         StoryListManagementComponent,
         ParallaxDirective,
         ArticleThumbnailComponent,
+        ToNowPipe
     ],
     bootstrap: [AppComponent],
     providers: [

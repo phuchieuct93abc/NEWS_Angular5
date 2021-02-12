@@ -2,7 +2,7 @@
     <img alt="source-icon" *ngIf="story?.storyMeta?.sourceIcon" class="icon mr-1" height="20"
         [lazyLoad]="story.storyMeta.sourceIcon"           
         defaultImage="assets/loading-image.png"/>
-    <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | amTimeAgo }}</span>
+    <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | toNow }}</span>
     <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
     </mat-icon>
 </footer>

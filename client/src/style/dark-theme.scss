@@ -31,8 +31,9 @@ $dark-background-gray: rgba(48, 48, 48, 1);
 $transparent: transparent;
 
 
+
 .unicorn-dark-theme {
-  @include angular-material-theme($dark-theme);
+  @include angular-material-color($dark-theme);
   background-color: $dark-background-gray !important;
 
   .panel-primary {
@@ -57,7 +58,6 @@ $transparent: transparent;
 }
 
 .unicorn-light-theme {
-  @include angular-material-theme($light-theme);
 
   .panel-primary {
     background-color: $light-background-dark;

@@ -45,6 +45,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod --aot",
+    "build:stat": "ng build --prod --aot --stats-json=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

@@ -14,13 +14,12 @@ jobs:
             - run: cd client && npm install
             - run: cd functions && npm install
             - run: npm run deploy
-workflows:
-  version: 2
-  main:
-    jobs:
-    - build:
-        filters:
-          branches:
-            only: 
-              - master
-              - migrate_Angular_11
+# workflows:
+#   version: 2
+#   main:
+#     jobs:
+#     - build:
+#         filters:
+#           branches:
+#             only: 
+#               - master

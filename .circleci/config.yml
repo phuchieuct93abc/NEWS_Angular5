@@ -22,19 +22,12 @@ jobs:
             - client/node_modules
             - functions/node_modules
       - run: npm run deploy
-           
-
-
-
-
-
-
-# workflows:
-#   version: 2
-#   main:
-#     jobs:
-#     - build:
-#         filters:
-#           branches:
-#             only: 
-#               - master
+workflows:
+  version: 2
+  main:
+    jobs:
+    - build:
+        filters:
+          branches:
+            only: 
+              - master

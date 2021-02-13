@@ -1,37 +1,39 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import CategoryHelper from '../../../../model/Categories';
 import { AppComponent } from '../app.component';
 import { AppService } from '../app.service';
-import { BreakpointDetectorService } from '../shared/breakpoint.service';
 import { ConfigService } from '../shared/config.service';
 import { DestroySubscriber } from './../shared/destroy-subscriber';
 import { Category } from './../../../../model/Categories';
+import { IS_MOBILE } from 'src/app/shared/const';
 
 @Component({
     selector: 'app-navigator',
     templateUrl: './navigator.component.html',
     styleUrls: ['./navigator.component.scss'],
 })
-export class NavigatorComponent extends DestroySubscriber implements OnInit  {
+export class NavigatorComponent extends DestroySubscriber implements OnInit {
     @ViewChild(AppComponent)
     public app: AppComponent;
     public toolbarTop = 0;
 
 
-    public  readonly MIN_TOP = -63;
+    public readonly MIN_TOP = -63;
     public readonly MAX_TOP = 0;
     public isDarkMode: boolean;
     public isSmallImage: boolean;
     public selectedCategory: Category;
 
-    public constructor(public breakpointService: BreakpointDetectorService,
+    public constructor(
+        @Inject(IS_MOBILE) public isMobile: boolean,
+
         private configService: ConfigService,
         private appService: AppService) {
-            super();
+        super();
     }
 
     public ngOnInit() {
-        this.configService.getConfig().pipe(this.getTakeUntilDestroy()).subscribe(({category})=>{
+        this.configService.getConfig().pipe(this.getTakeUntilDestroy()).subscribe(({ category }) => {
             this.selectedCategory = CategoryHelper.getCategory(category);
         });
     }

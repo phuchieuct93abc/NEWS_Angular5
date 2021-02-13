@@ -1,8 +1,6 @@
-import { BreakpointDetectorService } from './../../shared/breakpoint.service';
-import { Platform } from '@angular/cdk/platform';
-import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { asyncScheduler, Subject } from 'rxjs';
-import { takeUntil, throttleTime } from 'rxjs/operators';
+import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { ImageSerice } from '../../shared/image.service';
 
 @Component({
@@ -32,15 +30,13 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
 
     public convertedImagePath: string;
-    private isMobile;
 
     public width:number;
     public height:number;
 
     public constructor(private imageService: ImageSerice,
         private elRef: ElementRef<HTMLElement>,
-        breakpointService: BreakpointDetectorService) {
-        this.isMobile = breakpointService.isSmallScreen;
+        @Inject(IS_MOBILE) private isMobile: boolean) {
     }
 
     public ngOnInit() {

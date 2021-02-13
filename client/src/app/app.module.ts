@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -50,7 +51,7 @@ import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.co
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
-
+import { IS_MOBILE } from './shared/const';
 
 @NgModule({
     imports: [
@@ -113,6 +114,11 @@ import { HammerConfig } from './hammer.config';
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
+        {
+            provide: IS_MOBILE,
+            useFactory: (breakpointObserver) => breakpointObserver.isMatched(['(max-width: 767px)']),
+            deps: [BreakpointObserver],
+        },
         Title,
         Meta,
 
@@ -123,3 +129,4 @@ import { HammerConfig } from './hammer.config';
 })
 export class AppModule {
 }
+

@@ -1,15 +1,14 @@
 import { takeUntil } from 'rxjs/operators';
-import { pipe, Subject } from 'rxjs';
-import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatSidenav } from '@angular/material/sidenav';
 import CONFIG from '../environments/environment';
-import { Config, ConfigService } from './shared/config.service';
+import { IS_MOBILE } from 'src/app/shared/const';
+import { ConfigService } from './shared/config.service';
 import { ArticleService } from './shared/article.service';
-import { BreakpointDetectorService } from './shared/breakpoint.service';
-import { opacityNgIf } from './animation';
 import { AppService } from './app.service';
 import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
@@ -58,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     public constructor(private router: Router,
         private configService: ConfigService,
         private articleService: ArticleService,
-        private breakpointService: BreakpointDetectorService,
+        @Inject(IS_MOBILE) private isMobile: boolean,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
@@ -86,7 +85,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
 
-        this.isSmallDevice = this.breakpointService.isSmallScreen;
+        this.isSmallDevice = this.isMobile;
         this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();

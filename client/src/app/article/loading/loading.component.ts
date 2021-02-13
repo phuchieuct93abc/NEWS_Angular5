@@ -1,25 +1,24 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ConfigService} from "../../shared/config.service";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { ConfigService } from '../../shared/config.service';
 
 @Component({
     selector: 'app-loading',
     templateUrl: './loading.component.html',
-    styleUrls: ['./loading.component.scss']
+    styleUrls: ['./loading.component.scss'],
 })
 export class LoadingComponent implements OnInit {
 
     @Input()
-    isSmall: boolean;
-    sizeCls: string;
+    public isSmall: boolean;
+    public sizeCls: string;
 
-    constructor(public config: ConfigService, public breakpointService: BreakpointDetectorService) {
+    public constructor(public config: ConfigService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.sizeCls = 'small';
-      
-        
+
+
     }
 
 }

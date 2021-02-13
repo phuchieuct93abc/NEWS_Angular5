@@ -7,7 +7,7 @@
 
 <mat-menu #menu="matMenu" class="menu-panel">
     <!--Search-->
-    <div *ngIf="breakpointService.isSmallScreen" style="height: 50px" (click)="$event.stopPropagation()"
+    <div *ngIf="isMobile" style="height: 50px" (click)="$event.stopPropagation()"
          class="ml-1 mr-1">
         <app-search></app-search>
         <mat-divider class="mt-2"></mat-divider>
@@ -16,7 +16,7 @@
     <!--Chế độ -->
     <div class="container-fluid">
         <div class="row">
-            <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="breakpointService.isSmallScreen"
+            <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="isMobile"
                     class="col-12">
                 <mat-slide-toggle labelPosition="before" class=" h-100" [(ngModel)]="isSmallImage"
                                   (change)="toogleDisplay()">

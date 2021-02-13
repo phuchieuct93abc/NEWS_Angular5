@@ -3,7 +3,7 @@
           [class.active]="story.isActive"
           [class.read]="story.isRead"
           [ngClass]="[story.isRead?'is-read':'not-read']"
-          [matRippleDisabled]="breakpointService.isSmallScreen && selected"
+          [matRippleDisabled]="isMobile && selected"
           matRipple
 >
     <mat-card-content class="h-100 d-flex flex-direction-row">

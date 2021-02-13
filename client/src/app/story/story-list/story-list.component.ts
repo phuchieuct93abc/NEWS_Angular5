@@ -1,12 +1,11 @@
-import { DestroySubscriber } from './../../shared/destroy-subscriber';
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
-import { pairwise, take, takeUntil, throttle } from 'rxjs/operators';
+import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
-import { BreakpointDetectorService } from '../../shared/breakpoint.service';
 import { Config, ConfigService } from '../../shared/config.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
 import { ArticleService } from '../../shared/article.service';
@@ -15,6 +14,7 @@ import StoryMeta from '../../../../../model/StoryMeta';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { StoryComponent } from '../story/story.component';
 import { StoryListService } from './story-list.service';
+import { DestroySubscriber } from './../../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-story-list',
@@ -32,7 +32,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public stories: Story[] = [];
 
     public category: string;
-    public isSmallScreen: boolean;
     public isShowMoveTop: boolean;
     public hideMoveTopTimeout;
 
@@ -48,7 +47,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public loadingStoryNumber = [];
     protected buffer: Story[] = [];
     private readonly LOADING_STORY_NUMBER = 10;
-    private readonly LOADMORE_THRESHOLD = 10;
     private selectedStory: Story;
 
     private $stopGetStories = new Subject();
@@ -59,7 +57,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         protected route: ActivatedRoute,
         protected router: Router,
         protected storyListService: StoryListService,
-        protected breakpointService: BreakpointDetectorService,
+        @Inject(IS_MOBILE) public isSmallScreen: boolean,
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
@@ -77,7 +75,6 @@ super();
         this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
 
         this.isBrowser = typeof window !== 'undefined';
-        this.isSmallScreen = this.breakpointService.isSmallScreen;
 
         this.registerOnSearch();
 
@@ -157,7 +154,7 @@ super();
         this.isLoading = true;
         return  new Promise((resolve)=>{
             this.getLoadMoreObservable()
-            .pipe(takeUntil(this.$stopGetStories),throttle((val) => interval(10000)))
+            .pipe(takeUntil(this.$stopGetStories),throttle(() => interval(10000)))
             .subscribe((value) => {
                 this.stories.push(...value);
                 this.isLoading = false;

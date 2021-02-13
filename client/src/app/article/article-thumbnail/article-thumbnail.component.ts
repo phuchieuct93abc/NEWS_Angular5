@@ -1,53 +1,62 @@
 import { ElementRef, Input, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
 
 @Component({
   selector: 'app-article-thumbnail',
   templateUrl: './article-thumbnail.component.html',
-  styleUrls: ['./article-thumbnail.component.scss']
+  styleUrls: ['./article-thumbnail.component.scss'],
 })
 export class ArticleThumbnailComponent implements OnInit {
-  readonly THRESHOLDS = [0,1];
 
   @Input()
-  thumbnailPath: string;
+  public thumbnailPath: string;
   @Input()
-  article: Article;
+  public article: Article;
+  @Input()
+  public rootArticle: ElementRef<HTMLElement>;
   @ViewChild('articleHeader')
-  protected articleHeader: ElementRef
-  isStickHeader: boolean = false
-  @Input()
-  rootArticle: ElementRef<HTMLElement>;
+  protected articleHeader: ElementRef;
 
-  constructor(private element:ElementRef<HTMLElement>) { }
+  public isStickHeader = false;
 
-  ngOnInit() {
-    this.registerStickyHeader();
+  private readonly thresholds = [0, 1];
+
+
+  public constructor(private element: ElementRef<HTMLElement>) { }
+
+  public ngOnInit() {
+    if (!CONFIG.isRunningInNode) {
+      this.registerStickyHeader();
+    }
   }
 
   protected resetStickyHeader() {
     this.isStickHeader = false;
   }
   protected registerStickyHeader() {
-    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-    if (isSafari) return;
+    if (isSafari) {
+      return;
+    };
 
-    let options = {
-      threshold: this.THRESHOLDS,
-      root: this.rootArticle.nativeElement
+    const options = {
+      threshold: this.thresholds,
+      root: this.rootArticle.nativeElement,
     };
     setTimeout(() => {
 
-      let observer = new IntersectionObserver(([entry], observer) => {
+      const observer = new IntersectionObserver(([entry]) => {
         this.isStickHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
         if (this.isStickHeader) {
           this.element.nativeElement.style.position = 'sticky';
-          this.element.nativeElement.style.top = '0';          
-           observer.disconnect();
+          this.element.nativeElement.style.top = '0';
+          observer.disconnect();
         }
       }, options);
+      
       setTimeout(() => {
         observer.observe(this.articleHeader.nativeElement);
 

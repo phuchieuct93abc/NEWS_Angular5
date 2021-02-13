@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper, { Category } from '../../../../../model/Categories';
-import { BreakpointDetectorService } from '../../shared/breakpoint.service';
 import { ConfigService } from '../../shared/config.service';
 import { Config } from './../../shared/config.service';
 
@@ -22,8 +22,8 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
     public config$: Observable<Config>;
     private onDestroy$ = new Subject<void>();
 
-    public constructor(private configService: ConfigService,
-                public breakpointService: BreakpointDetectorService) {
+    public constructor(private configService: ConfigService, @Inject(IS_MOBILE) public isMobile: boolean,
+    ) {
     }
     public ngOnDestroy(): void {
         this.onDestroy$.next();
@@ -34,7 +34,7 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
 
-        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({darkTheme,smallImage,category})=>{
+        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ darkTheme, smallImage, category }) => {
             this.isDarkMode = darkTheme;
             this.isSmallImage = smallImage;
             this.selectedCategory = CategoryHelper.getCategory(category);
@@ -42,11 +42,11 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
     }
 
     public toggleDarkMode() {
-        this.configService.updateConfig({darkTheme: this.isDarkMode});
+        this.configService.updateConfig({ darkTheme: this.isDarkMode });
     }
 
-    public  toogleDisplay() {
-        this.configService.updateConfig({smallImage: this.isSmallImage});
+    public toogleDisplay() {
+        this.configService.updateConfig({ smallImage: this.isSmallImage });
 
     }
 

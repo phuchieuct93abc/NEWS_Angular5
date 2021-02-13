@@ -1,11 +1,9 @@
-import { DestroySubscriber } from './../shared/destroy-subscriber';
-import { Router } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
-import { trigger } from '@angular/animations';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import CategoryHelper, { Category } from '../../../../model/Categories';
 import { ConfigService } from '../shared/config.service';
 import { opacityNgIf } from '../animation';
-import { BreakpointDetectorService } from '../shared/breakpoint.service';
+import { IS_MOBILE } from 'src/app/shared/const';
+import { DestroySubscriber } from './../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-sidebar',
@@ -25,18 +23,16 @@ export class SidebarComponent extends DestroySubscriber implements OnInit {
     public isSmallImage: boolean;
 
     public activatedCatagory: string;
-    public isMobile: boolean;
 
     public constructor(private configService: ConfigService,
-        breakpointService: BreakpointDetectorService) {
+        @Inject(IS_MOBILE) public isMobile: boolean        ) {
         super();
-        this.isMobile = breakpointService.isSmallScreen;
     }
 
     public ngOnInit() {
         this.vietnameseCategories = CategoryHelper.vietnameseCategories();
         this.englishCategories = CategoryHelper.englishCategories();
-        
+
         this.configService.getConfig().pipe(this.getTakeUntilDestroy())
         .subscribe(({ darkTheme, smallImage, category }) => {
             this.isDarkMode = darkTheme;

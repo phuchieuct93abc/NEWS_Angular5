@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import CONFIG from '../../environments/environment';
-import { BreakpointDetectorService } from '../shared/breakpoint.service';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { ConfigService } from './../shared/config.service';
 
 @Component({
@@ -11,17 +11,15 @@ import { ConfigService } from './../shared/config.service';
 })
 export class ContentComponent implements OnInit {
 
-    public isSmallScreen: boolean;
     public isBrowser: boolean;
     public constructor(
-        public breakpointService: BreakpointDetectorService,
+        @Inject(IS_MOBILE) public isSmallScreen: boolean,
         private route: ActivatedRoute,
         private configService: ConfigService) {
     }
 
     public ngOnInit() {
 
-        this.isSmallScreen = this.breakpointService.isSmallScreen;
         this.isBrowser = !CONFIG.isRunningInNode;
 
         this.route.params.subscribe((param)=>{

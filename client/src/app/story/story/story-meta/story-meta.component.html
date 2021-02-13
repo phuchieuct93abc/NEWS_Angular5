@@ -1,5 +1,5 @@
 <footer class=" text-right   justify-content-start d-flex align-items-end pt-1">
-    <img alt="source-icon" *ngIf="story?.storyMeta?.sourceIcon" class="icon mr-1" height="20"
+    <img alt="source-icon" *ngIf="story?.storyMeta?.sourceIcon" class="icon mr-1" height="20" width="20"
         [lazyLoad]="story.storyMeta.sourceIcon"           
         defaultImage="assets/loading-image.png"/>
     <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | toNow }}</span>

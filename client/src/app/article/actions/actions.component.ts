@@ -1,11 +1,11 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import Article from "../../../../../model/Article";
-import {FavoriteService} from "../../shared/favorite-story.service";
-import {animate, style, transition, trigger} from "@angular/animations";
-import {Router} from "@angular/router";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import {BreakpointDetectorService} from "../../shared/breakpoint.service";
-import RequestAnimationFrame from "../../requestAnimationFrame.cons";
+import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IS_MOBILE } from 'src/app/shared/const';
+import { FavoriteService } from '../../shared/favorite-story.service';
+import Article from '../../../../../model/Article';
+import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 
 @Component({
     selector: 'app-actions',
@@ -15,14 +15,14 @@ import RequestAnimationFrame from "../../requestAnimationFrame.cons";
 
         trigger('animate', [
 
-            transition("*=>*", [
-                style({transform: 'translateX(100%)', opacity: 0}),
-                animate("500ms", style({transform: 'translateX(0)', opacity: 1}))
+            transition('*=>*', [
+                style({ transform: 'translateX(100%)', opacity: 0 }),
+                animate('500ms', style({ transform: 'translateX(0)', opacity: 1 })),
 
             ]),
-        ])
+        ]),
 
-    ]
+    ],
 })
 export class ActionsComponent implements OnInit, OnDestroy {
 
@@ -32,9 +32,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
     article: Article;
     @Output()
     onClosed = new EventEmitter<void>();
-    @ViewChild("actionsElement")
+    @ViewChild('actionsElement')
     actionsElement: ElementRef;
-    @ViewChild("stickyElement")
+    @ViewChild('stickyElement')
     stickyElement: ElementRef;
 
 
@@ -48,14 +48,15 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
-                private ngZone: NgZone, private breakpointDetector: BreakpointDetectorService) {
+        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean,
+    ) {
     }
 
 
     ngOnInit() {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
 
-        if (this.breakpointDetector.isSmallScreen) {
+        if (this.isMobile) {
             this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
 
                 if (data[0].target == this.actionsElement.nativeElement) {
@@ -63,32 +64,32 @@ export class ActionsComponent implements OnInit, OnDestroy {
                     this.ngZone.run(() => {
                         this.isDisplayingAction = data[0].isIntersecting;
                         this.checkPosition();
-                    })
+                    });
 
                 }
             }, {
                 rootMargin: '-80px 0px 0px 0px',
-                threshold: [0]
+                threshold: [0],
             });
             this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
                 if (data[0].target == this.wrapperElement) {
 
                     this.ngZone.run(() => {
-                        this.isDisplayingArticle = data[0].isIntersecting
+                        this.isDisplayingArticle = data[0].isIntersecting;
                         this.checkPosition();
-                    })
+                    });
                 }
             }, {
                 rootMargin: '0px 0px 0px 0px',
-                threshold: [0]
+                threshold: [0],
             });
             setTimeout(() => {
                 RequestAnimationFrame(() => {
 
                     this.observerWindow.observe(this.actionsElement.nativeElement);
-                    this.observerWrapper.observe(this.wrapperElement)
-                })
-            }, 2000)
+                    this.observerWrapper.observe(this.wrapperElement);
+                });
+            }, 2000);
 
 
         }
@@ -103,7 +104,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
         }
 
 
-        this.isFixedTop = isFixed
+        this.isFixedTop = isFixed;
     }
 
     toggleFavorite() {
@@ -111,13 +112,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
         if (this.article.story != null) {
             if (this.isFavorite) {
                 this.favoriteService.addFavorite(this.article.story);
-                this.snackBar.open("Add to favorite category successful", null, {
+                this.snackBar.open('Add to favorite category successful', null, {
                     duration: 2000,
                 });
             } else {
-                this.favoriteService.removeFavorite(this.article.story)
+                this.favoriteService.removeFavorite(this.article.story);
             }
-            this.article.story.isFavorite = this.isFavorite
+            this.article.story.isFavorite = this.isFavorite;
         }
 
     }

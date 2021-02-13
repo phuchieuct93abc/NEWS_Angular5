@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BreakpointDetectorService } from '../../shared/breakpoint.service';
 import { ConfigService } from '../../shared/config.service';
 import { Config } from './../../shared/config.service';
 import { DestroySubscriber } from './../../shared/destroy-subscriber';
@@ -15,8 +14,7 @@ export class DisplayComponent extends DestroySubscriber implements OnInit {
     public maxFontSize = ConfigService.MAX_FONTSIZE;
     public config: Config;
 
-    public constructor(private configService: ConfigService,
-        public breakpointService: BreakpointDetectorService) {
+    public constructor(private configService: ConfigService) {
         super();
     }
 

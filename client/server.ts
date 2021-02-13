@@ -1,15 +1,16 @@
 import 'zone.js/dist/zone-node';
 
+import { join } from 'path';
+import { existsSync } from 'fs';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import { join } from 'path';
 
-import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
+import isMobile from 'ismobilejs';
+import { AppServerModule } from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function ssrApp(server, distFolder) {
+export const ssrApp = (server, distFolder) => {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -29,13 +30,21 @@ export function ssrApp(server, distFolder) {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    const userAgent = req.headers['user-agent'];
+    console.log(isMobile(userAgent).any);
+
+
+    res.render(indexHtml, {
+      req, providers: [
+        { provide: APP_BASE_HREF, useValue: req.baseUrl },
+        { provide: 'IS_MOBILE_SSR', useValue: isMobile(userAgent).any },
+      ]});
   });
 
   return server;
-}
+};
 
-function run() {
+const run = () => {
   const port = process.env.PORT || 4000;
 
   const distFolder = join(process.cwd(), '../functions/dist/browser');
@@ -45,7 +54,7 @@ function run() {
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
-}
+};
 
 // Webpack will replace 'require' with '__webpack_require__'
 // '__non_webpack_require__' is a proxy to Node 'require'

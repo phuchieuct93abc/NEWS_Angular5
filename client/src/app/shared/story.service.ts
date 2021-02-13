@@ -4,6 +4,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
+import { Cache } from './cache.service';
 import { FavoriteService } from './favorite-story.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
@@ -30,6 +31,40 @@ export class StoryService {
         private favoriteService: FavoriteService,
     ) {
         this.readStory = storage.getItem(readId, []) as Story[];
+    }
+
+    @Cache()
+    public getStoryByPage(category: string, pageNumber: number): Observable<any> {
+        if (category === 'yeu-thich') {
+            return this.favoriteService.getStories();
+        }
+        // if (CONFIG.isRunningInNode) {
+        //     return of();
+        // }
+        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
+
+        return this.httpClient.get<Story[]>(storyUrl, {
+            params: {
+                pageNumber: pageNumber + '',
+                category,
+            },
+        }).pipe(
+            retry(3),
+            map(
+                (result) => {
+                    result =  result.map((r)=>(Object.assign(new Story(),r)));
+
+                    this.loadingService.onLoading.next({
+                        type: LoadingEventType.FINISH,
+                        name: LoadingEventName.MORE_STORY,
+                    });
+
+
+                    this.checkReadStory(result as Story[]);
+                    return result;
+                },
+                ));
+
     }
 
     public resetPageNumber() {
@@ -115,44 +150,14 @@ export class StoryService {
     public unshift(firstStory: Story) {
         this.stories.unshift(firstStory);
     }
+
+    
+
     private filterStory(stories: Story[]) {
         return stories.filter((result) => this.stories.findIndex((story) => story.id === result.id) === -1);
     }
 
     private appendStoryList(moreStories) {
         this.stories.push(...moreStories);
-    }
-
-    private getStoryByPage(category: string, pageNumber: number): Observable<any> {
-        if (category === 'yeu-thich') {
-            return this.favoriteService.getStories();
-        }
-        if (CONFIG.isRunningInNode) {
-            return of();
-        }
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
-
-        return this.httpClient.get<Story[]>(storyUrl, {
-            params: {
-                pageNumber: pageNumber + '',
-                category,
-            },
-        }).pipe(
-            retry(3),
-            map(
-                (result) => {
-                    result =  result.map((r)=>(Object.assign(new Story(),r)));
-
-                    this.loadingService.onLoading.next({
-                        type: LoadingEventType.FINISH,
-                        name: LoadingEventName.MORE_STORY,
-                    });
-
-
-                    this.checkReadStory(result as Story[]);
-                    return result;
-                },
-                ));
-
     }
 }

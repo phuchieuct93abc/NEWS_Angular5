@@ -1,52 +1,46 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DomSanitizer} from "@angular/platform-browser";
-import {BreakpointDetectorService} from "../../../shared/breakpoint.service";
-import RequestAnimationFrame from "../../../requestAnimationFrame.cons";
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'app-video',
     templateUrl: './video.component.html',
-    styleUrls: ['./video.component.scss']
+    styleUrls: ['./video.component.scss'],
 })
 export class VideoComponent implements OnInit {
 
     @Input()
-    url: string;
+    public url: string;
 
     @Input()
-    poster: string;
+    public poster: string;
     @Input()
-    width: number;
+    public width: number;
     @Input()
-    height: number;
+    public height: number;
 
     @ViewChild('videoComponent')
-    videoComponent: ElementRef;
+    public videoComponent: ElementRef;
 
-    heightIframe: number;
-    widthIframe: number;
     @ViewChild('videoFrame')
-    videoFrame: ElementRef;
-    isPlaying = false;
+    public videoFrame: ElementRef<HTMLDivElement>;
+    public isPlaying = false;
+    public heightIframe: number;
+    public widthIframe: number;
 
-    constructor(private _sanitizer: DomSanitizer, private breakpointDetector: BreakpointDetectorService) {
-    }
 
-    ngOnInit() {
+    public ngOnInit() {
 
-        RequestAnimationFrame(() => {
-            this.widthIframe = (<HTMLDivElement>this.videoComponent.nativeElement).clientWidth;
+        setTimeout(() => {
+            this.widthIframe = this.videoComponent.nativeElement.clientWidth;
             this.heightIframe = this.height / this.width * this.widthIframe;
-
-        })
+        }, 100);
     }
 
-    parseUrl(): string {
-        return `javascript:window.location.replace("${this.url}")`
+    public parseUrl(): string {
+        return `javascript:window.location.replace("${this.url}")`;
     }
 
 
-    play() {
+    public play() {
         if (typeof window !== 'undefined') {
 
             this.isPlaying = true;

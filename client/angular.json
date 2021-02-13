@@ -15,15 +15,8 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "./extra-webpack.config.js",
-              "replaceDuplicatePlugins": true,
-              "mergeStrategies": {
-                "externals": "prepend"
-              }
-            },
             "outputPath": "./dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -36,11 +29,6 @@
               "src/article-loader-worker.js",
               "src/robots.txt",
               "src/sitemap.xml",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              }
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",

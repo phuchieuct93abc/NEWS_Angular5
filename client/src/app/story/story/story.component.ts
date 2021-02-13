@@ -1,15 +1,15 @@
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
 import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
-import { BreakpointDetectorService } from '../../shared/breakpoint.service';
 import { Config, ConfigService } from '../../shared/config.service';
 import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
+import { IS_MOBILE } from 'src/app/shared/const';
 
 @Component({
     selector: 'app-story',
@@ -18,6 +18,8 @@ import { StoryListService } from '../story-list/story-list.service';
 })
 export class StoryComponent implements OnInit, OnDestroy {
 
+    @Output()
+    public onSelectedStory = new EventEmitter<number>();
     @Input()
     public story: Story;
     @Input()
@@ -30,8 +32,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     public ell: any;
     @Input()
     public scrollElement: Element;
-    @Output()
-    public onSelectedStory = new EventEmitter<number>();
 
     public scrollTarget: any;
 
@@ -43,7 +43,8 @@ export class StoryComponent implements OnInit, OnDestroy {
     private onDestroy$ = new Subject<void>();
 
 
-    public constructor(public breakpointService: BreakpointDetectorService,
+    public constructor(
+        @Inject(IS_MOBILE) public isMobile: boolean,
         protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,

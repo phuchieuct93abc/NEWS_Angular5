@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable} from 'rxjs';
-import {BreakpointDetectorService} from '../shared/breakpoint.service';
 import {ConfigService} from '../shared/config.service';
 import CategoryHelper from '../../../../model/Categories';
+import { IS_MOBILE } from 'src/app/shared/const';
 
 
 @Injectable({
@@ -11,13 +10,13 @@ import CategoryHelper from '../../../../model/Categories';
 })
 export class CanActivateDashboard implements CanActivate {
     public constructor(
-        private breakpointDetector: BreakpointDetectorService,
+        @Inject(IS_MOBILE) private isMobile: boolean,
         private router: Router,
         private config: ConfigService) {
     }
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):  boolean | UrlTree {
-        if (this.breakpointDetector.isSmallScreen) {
+        if (this.isMobile) {
             const config = this.config.getConfig().getValue();
             const firstCategory = CategoryHelper.vietnameseCategories()[0].name;
             let url = config.category == null || config.category === 'null' ? firstCategory : config.category;

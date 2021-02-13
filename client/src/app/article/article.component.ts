@@ -129,7 +129,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
     private parseImage() {
         const element = this.articleContent.nativeElement;
-        const images: NodeListOf<HTMLElement> = element.querySelectorAll('.body-image img');
+        const images: NodeListOf<HTMLElement> = element.querySelectorAll('.body-image');
         images.forEach((image) => new ArticleImageParser(image, this.domService).parse());
 
     }

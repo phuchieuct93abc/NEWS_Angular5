@@ -1,6 +1,5 @@
-import { ToNowPipe } from './shared/toNow.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
@@ -8,10 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
-// import { en_US, NgZorroAntdModule } from 'ng-zorro-antd';
 import { ClipboardModule } from 'ngx-clipboard';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
+import { ToNowPipe } from './shared/toNow.pipe';
 import { NZModule } from './nz.module';
 import { ParallaxDirective } from './../directives/parallax.directive';
 import { AppComponent } from './app.component';
@@ -38,7 +37,6 @@ import { NavigatorComponent } from './navigator/navigator.component';
 import { SearchComponent } from './navigator/search/search.component';
 import { NotificationModule } from './notification/notification.module';
 import { AppRoutingModule } from './routing.module';
-import { CachingInterceptor } from './shared/caching-interceptor';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
@@ -53,7 +51,6 @@ import { StoryMetaComponent } from './story/story/story-meta/story-meta.componen
 import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 
-const x = 1;
 
 @NgModule({
     imports: [
@@ -109,11 +106,10 @@ const x = 1;
         StoryListManagementComponent,
         ParallaxDirective,
         ArticleThumbnailComponent,
-        ToNowPipe
+        ToNowPipe,
     ],
     bootstrap: [AppComponent],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },

@@ -1,27 +1,32 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {StoryService} from "./story.service";
-import {Observable, Subject} from "rxjs";
-import {map, retry} from "rxjs/operators";
-import Article from "../../../../model/Article";
-import CONFIG from "../../environments/environment";
-import {Story} from "../../../../model/Story";
-import ArticleComment from "../../../../model/ArticleComment";
-import {MetaService} from "./meta.service";
-import {LoadingEventName, LoadingEventType, LoadingService} from "./loading.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { map, retry } from 'rxjs/operators';
+import Article from '../../../../model/Article';
+import CONFIG from '../../environments/environment';
+import { Story } from '../../../../model/Story';
+import ArticleComment from '../../../../model/ArticleComment';
+import { StoryService } from './story.service';
+import { MetaService } from './meta.service';
+import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
+import { Cache } from './cache.service';
 
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ArticleService {
 
     public onStorySelected = new Subject<Article>();
 
-    constructor(private httpClient: HttpClient, private storyService: StoryService, private  meta: MetaService, private loadingService: LoadingService) {
+    public constructor(private httpClient: HttpClient,
+        private storyService: StoryService,
+        private meta: MetaService,
+        private loadingService: LoadingService) {
     }
 
-    getById(id: string, category: string): Observable<Article> {
+    @Cache()
+    public getById(id: string, category: string): Observable<Article> {
         const story: Story = this.storyService.getById(id);
 
         if (story != null) {
@@ -31,17 +36,18 @@ export class ArticleService {
         const options = {
             params: {
                 url: id,
-                category: category
-            }
+                category,
+            },
         };
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE})
-        return this.httpClient.get(CONFIG.baseUrl + "article", options).pipe(
+        this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
+        return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
             retry(3),
-            map(result => {
+            map((result) => {
 
-                this.loadingService.onLoading.next({type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE})
+                this.loadingService.onLoading
+                    .next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });
 
-                let article = Object.assign(new Article(),result);
+                const article = Object.assign(new Article(), result);
                 article.story = story;
                 this.meta.updateMeta(article);
 
@@ -50,12 +56,13 @@ export class ArticleService {
     }
 
 
-    getComment(id: string): Observable<ArticleComment[]> {
-        return this.httpClient.get(CONFIG.baseUrl + "comments", {
+    @Cache()
+    public getComment(id: string): Observable<ArticleComment[]> {
+        return this.httpClient.get(CONFIG.baseUrl + 'comments', {
             params: {
-                id: id
-            }
-        }).pipe(retry(3), map(comments => <ArticleComment[]>comments))
+                id,
+            },
+        }).pipe(retry(3), map((comments) => comments as ArticleComment[]));
     }
 
 

@@ -34,7 +34,9 @@ export class NavigatorComponent extends DestroySubscriber implements OnInit {
 
     public ngOnInit() {
         this.configService.getConfig().pipe(this.getTakeUntilDestroy()).subscribe(({ category }) => {
-            this.selectedCategory = CategoryHelper.getCategory(category);
+            setTimeout(() => {
+                this.selectedCategory = CategoryHelper.getCategory(category);
+            });
         });
     }
 

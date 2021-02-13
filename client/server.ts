@@ -37,7 +37,7 @@ export const ssrApp = (server, distFolder) => {
     res.render(indexHtml, {
       req, providers: [
         { provide: APP_BASE_HREF, useValue: req.baseUrl },
-        { provide: 'IS_MOBILE', useValue: isMobile(userAgent).any },
+        { provide: 'IS_MOBILE_SSR', useValue: isMobile(userAgent).any },
       ]});
   });
 

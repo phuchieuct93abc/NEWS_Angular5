@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
+import CONFIG from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { ToNowPipe } from './shared/toNow.pipe';
@@ -52,6 +53,21 @@ import { StoryMetaComponent } from './story/story/story-meta/story-meta.componen
 import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 import { IS_MOBILE } from './shared/const';
+
+const isMobileProvider = CONFIG.isRunningInNode ? {
+
+    provide: IS_MOBILE,
+    useExisting: true,
+    useFactory: (isMobileSSR) => isMobileSSR,
+    deps: ['IS_MOBILE_SSR'],
+} :
+    {
+
+        provide: IS_MOBILE,
+        useExisting: true,
+        useFactory: (breakpointObserver, isMobileSSR) => breakpointObserver.isMatched(['(max-width: 767px)']),
+        deps: [BreakpointObserver],
+    };
 
 @NgModule({
     imports: [
@@ -114,11 +130,7 @@ import { IS_MOBILE } from './shared/const';
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
-        {
-            provide: IS_MOBILE,
-            useFactory: (breakpointObserver) => breakpointObserver.isMatched(['(max-width: 767px)']),
-            deps: [BreakpointObserver],
-        },
+        isMobileProvider,
         Title,
         Meta,
 

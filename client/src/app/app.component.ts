@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private appService: AppService,
         private loadingService: LoadingService,
     ) {
-
+        console.log("IS mobile",this.isMobile);
     }
     public ngOnDestroy(): void {
         this.onDestroy$.next();

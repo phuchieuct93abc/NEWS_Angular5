@@ -23,31 +23,28 @@ export const ssrApp = (server, distFolder) => {
 
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });
+
   // Serve static files from /browser
-  // server.get('*.*', express.static(distFolder, {
-  //   maxAge: '1y'
-  // }));
+  server.get('*.*', express.static(distFolder, {
+    maxAge: '1y'
+  }));
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     const userAgent = req.headers['user-agent'];
-    console.log(isMobile(userAgent).any);
-
-
     res.render(indexHtml, {
       req, providers: [
         { provide: APP_BASE_HREF, useValue: req.baseUrl },
         { provide: 'IS_MOBILE_SSR', useValue: isMobile(userAgent).any },
       ]});
   });
-
   return server;
 };
 
 const run = () => {
   const port = process.env.PORT || 4000;
 
-  const distFolder = join(process.cwd(), '../functions/dist/browser');
+  const distFolder = join(process.cwd(), './dist/browser');
   const baseServer = express();
   // Start up the Node server
   const server = ssrApp(baseServer, distFolder);

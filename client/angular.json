@@ -28,7 +28,7 @@
               "src/firebase-messaging-sw.js",
               "src/article-loader-worker.js",
               "src/robots.txt",
-              "src/sitemap.xml",
+              "src/sitemap.xml"
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",
@@ -112,7 +112,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "../functions/dist/server",
+            "outputPath": "./dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json"
           },

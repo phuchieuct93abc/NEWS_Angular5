@@ -1,7 +1,7 @@
 // include fs-extra package
 var fs = require("fs-extra");
 
-var index = ['../client/dist/browser/index.html', './dist/browser/index.html']
+var index = ['../client/dist/browser', './dist/browser']
 
 // copy source folder to destination
 fs.copy(index[0], index[1], function (err) {

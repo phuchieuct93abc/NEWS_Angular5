@@ -1,8 +1,6 @@
 const CONFIG = {
-    baseUrl: "http://192.168.1.99:3001/", 
+    baseUrl: 'https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/',
     production: false,
-    isRunningInNode:false,
-
 };
 
 export default CONFIG;

@@ -11,6 +11,7 @@ import CONFIG from './environments/environment';
 import 'intersection-observer';
  
 smoothscroll.polyfill();
+declare var navigator: any;
 
 if (CONFIG.production) {
   enableProdMode();

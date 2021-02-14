@@ -1,3 +1,4 @@
+import { IS_NODE } from './../../shared/const';
 import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -36,10 +37,14 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     public constructor(private imageService: ImageSerice,
         private elRef: ElementRef<HTMLElement>,
-        @Inject(IS_MOBILE) private isMobile: boolean) {
+        @Inject(IS_MOBILE) private isMobile: boolean,
+        @Inject(IS_NODE) private isNode: boolean) {
     }
 
     public ngOnInit() {
+        if(this.isNode){
+            return
+        }
         this.refreshImageResolution();
     }
 

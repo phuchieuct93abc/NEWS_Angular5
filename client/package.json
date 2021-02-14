@@ -28,6 +28,7 @@
     "ionicons": "^4.6.3",
     "ismobilejs": "^1.1.1",
     "jquery": "^3.5.1",
+    "mock-browser": "^0.92.14",
     "ng-lazyload-image": "9.0.1",
     "ng-zorro-antd": "^11.1.0",
     "ngx-clipboard": "^12.3.1",

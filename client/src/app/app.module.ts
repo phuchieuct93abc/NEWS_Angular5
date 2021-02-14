@@ -1,15 +1,16 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
+import { isPlatformServer } from '@angular/common';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { ToNowPipe } from './shared/toNow.pipe';
@@ -52,21 +53,24 @@ import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.co
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
-import { IS_MOBILE } from './shared/const';
+import { IS_MOBILE, IS_NODE } from './shared/const';
 
-const isMobileProvider = CONFIG.isRunningInNode ? {
-
-    provide: IS_MOBILE,
-    useExisting: true,
-    useFactory: (isMobileSSR) => isMobileSSR,
-    deps: ['IS_MOBILE_SSR'],
-} :
+const isMobileProvider =
     {
 
         provide: IS_MOBILE,
         useExisting: true,
-        useFactory: (breakpointObserver, isMobileSSR) => breakpointObserver.isMatched(['(max-width: 767px)']),
-        deps: [BreakpointObserver],
+        useFactory: (breakpointObserver, injector) =>{
+            try {
+                return injector.get('IS_MOBILE_SSR');
+
+            } catch (error) {
+                return breakpointObserver.isMatched(['(max-width: 767px)']);
+ 
+            }
+
+        },
+        deps: [BreakpointObserver, Injector],
     };
 
 @NgModule({
@@ -84,6 +88,7 @@ const isMobileProvider = CONFIG.isRunningInNode ? {
         LazyLoadImageModule,
         ScrollingModule,
         HammerModule,
+        BrowserTransferStateModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
     ],
     declarations: [
@@ -130,6 +135,7 @@ const isMobileProvider = CONFIG.isRunningInNode ? {
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
+        { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
         isMobileProvider,
         Title,
         Meta,

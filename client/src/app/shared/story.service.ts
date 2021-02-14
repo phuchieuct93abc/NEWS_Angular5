@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { map, retry, tap } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
+import { IS_NODE } from './const';
 import { Cache } from './cache.service';
 import { FavoriteService } from './favorite-story.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
@@ -29,12 +31,21 @@ export class StoryService {
         private storage: LocalStorageService,
         private loadingService: LoadingService,
         private favoriteService: FavoriteService,
+        @Inject(IS_NODE) private isNode: boolean,
+        private transferState: TransferState,
     ) {
         this.readStory = storage.getItem(readId, []) as Story[];
     }
 
     @Cache()
-    public getStoryByPage(category: string, pageNumber: number): Observable<any> {
+    public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
+        const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
+
+        if (this.transferState.hasKey(COURSE_KEY)) {
+            const stories = this.transferState.get<Story[]>(COURSE_KEY, null);
+            this.transferState.remove(COURSE_KEY);
+            return of(stories.map((story)=>Object.assign(new Story(),story)));
+        }
         if (category === 'yeu-thich') {
             return this.favoriteService.getStories();
         }
@@ -60,7 +71,12 @@ export class StoryService {
                     });
 
 
-                    this.checkReadStory(result as Story[]);
+                    this.checkReadStory(result);
+                    if(this.isNode){
+                            this.transferState.set(COURSE_KEY, result);
+                        
+
+                    }
                     return result;
                 },
                 ));
@@ -77,7 +93,6 @@ export class StoryService {
         if(this.storiesQueue.length>0){
             return of(this.storiesQueue.splice(0, numberOfStories));
         }
-        console.log('get by page', this.currentStoryPage);
 
         return this.getStoryByPage(category, this.currentStoryPage).pipe(
         map((stories: Story[]) => {
@@ -97,8 +112,7 @@ export class StoryService {
     }
 
     public search(keyword: string): Observable<any> {
-        console.log('search');
-        if (CONFIG.isRunningInNode) {
+        if (this.isNode) {
             return of();
         }
         this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
@@ -151,7 +165,6 @@ export class StoryService {
         this.stories.unshift(firstStory);
     }
 
-    
 
     private filterStory(stories: Story[]) {
         return stories.filter((result) => this.stories.findIndex((story) => story.id === result.id) === -1);

@@ -1,3 +1,4 @@
+import { IS_NODE } from './shared/const';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
@@ -58,12 +59,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private configService: ConfigService,
         private articleService: ArticleService,
         @Inject(IS_MOBILE) private isMobile: boolean,
+        @Inject(IS_NODE) private isNode: boolean,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
     ) {
-        console.log("IS mobile",this.isMobile);
     }
     public ngOnDestroy(): void {
         this.onDestroy$.next();
@@ -86,7 +87,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
         this.isSmallDevice = this.isMobile;
-        this.isOpenSidebar = !this.isSmallDevice && !CONFIG.isRunningInNode;
+        this.isOpenSidebar = !this.isSmallDevice && !this.isNode;
         this.isRenderSidebar = this.isOpenSidebar;
         this.track();
 
@@ -117,7 +118,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public getBlurImageUrl(url) {
         if (typeof window !== 'undefined' && !this.isSmallDevice && url !== undefined) {
-            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+           setTimeout(() => {
+               this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+           });
         }
     }
 

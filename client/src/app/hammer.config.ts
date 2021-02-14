@@ -1,7 +1,8 @@
 
 import {HammerGestureConfig} from '@angular/platform-browser';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import CONFIG from 'src/environments/environment';
+import { IS_NODE } from './shared/const';
 
 // const HammerLoader = () => import('hammerjs')
 
@@ -16,17 +17,18 @@ import CONFIG from 'src/environments/environment';
 //         console.log(e)
 //       })
 // }
-declare var Hammer: any;
-
+declare const Hammer: any;
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
+    public constructor(@Inject(IS_NODE) private isNode: boolean){
+        super();
+    }
     public buildHammer(element: HTMLElement) {
-        if(!CONFIG.isRunningInNode){
+        if(!this.isNode){
             return new Hammer(element, {
                  touchAction: 'pan-y',
             });
         }
         return undefined;
-      
     }
 }

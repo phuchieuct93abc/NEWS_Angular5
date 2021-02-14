@@ -1,3 +1,4 @@
+import { IS_NODE } from './../../../shared/const';
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StoryComponent } from '../story.component';
@@ -22,6 +23,7 @@ export class MobileStoryComponent extends StoryComponent {
 
     public constructor(
         @Inject(IS_MOBILE) public isMobile: boolean,
+        @Inject(IS_NODE) public isNode: boolean,
         protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
@@ -36,9 +38,12 @@ export class MobileStoryComponent extends StoryComponent {
         this.story.selected = true;
         this.story.isSelectedBefore = true;
         super.onSelectStory();
-        setTimeout(() => {
-            window.scrollTo({ top: this.element.nativeElement.offsetTop - 50, behavior: 'smooth' });
-        });
+        if(!this.isNode){
+
+            setTimeout(() => {
+                window.scrollTo({ top: this.element.nativeElement.offsetTop - 50, behavior: 'smooth' });
+            });
+        }
     }
     public onOpenStory() {
         //Open story;

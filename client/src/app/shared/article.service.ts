@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 import Article from '../../../../model/Article';
 import CONFIG from '../../environments/environment';
 import { Story } from '../../../../model/Story';
@@ -10,6 +11,7 @@ import { StoryService } from './story.service';
 import { MetaService } from './meta.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { Cache } from './cache.service';
+import { IS_NODE } from './const';
 
 
 @Injectable({
@@ -22,12 +24,21 @@ export class ArticleService {
     public constructor(private httpClient: HttpClient,
         private storyService: StoryService,
         private meta: MetaService,
-        private loadingService: LoadingService) {
+        private loadingService: LoadingService,
+        @Inject(IS_NODE) private isNode: boolean,
+        private transferState: TransferState) {
     }
 
     @Cache()
     public getById(id: string, category: string): Observable<Article> {
+        const COURSE_KEY = makeStateKey<Article>(`article-${id}-${category}`);
+
         const story: Story = this.storyService.getById(id);
+        if (this.transferState.hasKey(COURSE_KEY) && !this.isNode) {
+            const article = this.transferState.get<Article>(COURSE_KEY, null);
+            this.transferState.remove(COURSE_KEY);
+            return of(Object.assign(new Article(), article));
+        }
 
         if (story != null) {
             this.storyService.saveReadStory(story);
@@ -50,7 +61,9 @@ export class ArticleService {
                 const article = Object.assign(new Article(), result);
                 article.story = story;
                 this.meta.updateMeta(article);
-
+                if (this.isNode) {
+                    this.transferState.set(COURSE_KEY, article);
+                }
                 return article;
             }));
     }

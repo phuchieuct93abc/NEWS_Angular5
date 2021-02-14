@@ -1,3 +1,4 @@
+import { IS_NODE } from './../../shared/const';
 import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
@@ -48,7 +49,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
-        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean,
+        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean 
     ) {
     }
 
@@ -56,7 +57,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
 
-        if (this.isMobile) {
+        if (this.isMobile && !this.isNode) {
             this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
 
                 if (data[0].target == this.actionsElement.nativeElement) {

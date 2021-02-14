@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
@@ -54,6 +54,7 @@ import { StoryMetaComponent } from './story/story/story-meta/story-meta.componen
 import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 import { IS_MOBILE, IS_NODE } from './shared/const';
+import { NoopInterceptor } from './interceptor';
 
 const isMobileProvider =
     {
@@ -135,6 +136,8 @@ const isMobileProvider =
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
+        { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
+
         { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
         isMobileProvider,
         Title,

@@ -9,13 +9,13 @@ fs.copy(index[0], index[1], function (err) {
         return console.error(err)
     }
 });
-// var manifest = ['../client/dist/browser/manifest.json', './dist/browser/manifest.json']
+var manifest = ['../client/dist/server', './dist/server']
 
-// fs.copy(manifest[0], manifest[1], function (err) {
-//     if (err) {
-//         return console.error(err)
-//     }
-// });
+fs.copy(manifest[0], manifest[1], function (err) {
+    if (err) {
+        return console.error(err)
+    }
+});
 
 
 

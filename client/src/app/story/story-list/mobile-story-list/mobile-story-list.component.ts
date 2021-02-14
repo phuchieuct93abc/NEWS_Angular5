@@ -14,6 +14,9 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     public storyMobiles: QueryList<MobileStoryComponent>;
 
     protected scrollTop() {
+        if(this.isNode){
+            return;
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
     }

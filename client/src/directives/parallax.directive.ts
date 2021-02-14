@@ -1,24 +1,24 @@
-import { Platform } from '@angular/cdk/platform';
-import { Directive, ElementRef, Input, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2, OnDestroy, Inject } from '@angular/core';
 import { Subject, asyncScheduler } from 'rxjs';
 import { throttleTime, takeUntil } from 'rxjs/operators';
+import { IS_NODE } from 'src/app/shared/const';
 
 @Directive({
   selector: '[appParallax]'
 })
 export class ParallaxDirective implements OnDestroy {
-  startScrollY: number;
-  scrollListener$: () => void = () => { };
-  scroll$ = new Subject<void>();
-  requestId: any;
-  onDestroy$ = new Subject<void>();
-  _parallax: boolean;
   @Input()
-  maxParallax;
-  originalScale:number;
-  onStopParallax$ = new Subject<void>();
+  public maxParallax;
+  public readonly limitRangeParallax = 200;
+  public originalScale:number;
+  public onStopParallax$ = new Subject<void>();
+  public scroll$ = new Subject<void>();
+  public requestId: any;
+  public onDestroy$ = new Subject<void>();
+  public _parallax: boolean;
+  public startScrollY: number;
+  public scrollListener$: () => void = () => {};
 
-  readonly limitRangeParallax = 200;
 
   @Input()
   public set appParallax(value: boolean) {
@@ -30,12 +30,20 @@ export class ParallaxDirective implements OnDestroy {
       this.stopParallax();
 
     }
-    this._parallax = value
+    this._parallax = value;
   }
 
-  constructor(private imageRef: ElementRef<HTMLImageElement>, private renderer2: Renderer2) { }
+  public constructor(private imageRef: ElementRef<HTMLImageElement>, 
+    private renderer2: Renderer2, 
+    @Inject(IS_NODE) private isNode: boolean) { 
 
-  startParallax() {
+     }
+
+  public startParallax() {
+    if(this.isNode){
+      return
+    }
+
     setTimeout(() => {
       this.setParallaxing(true);
       this.startScrollY = this.getOffsetTop();

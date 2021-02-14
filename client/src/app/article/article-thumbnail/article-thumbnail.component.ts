@@ -1,7 +1,7 @@
-import { ElementRef, Input, ViewChild } from '@angular/core';
+import { ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
+import { IS_NODE } from './../../shared/const';
 
 @Component({
   selector: 'app-article-thumbnail',
@@ -24,10 +24,10 @@ export class ArticleThumbnailComponent implements OnInit {
   private readonly thresholds = [0, 1];
 
 
-  public constructor(private element: ElementRef<HTMLElement>) { }
+  public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) { }
 
   public ngOnInit() {
-    if (!CONFIG.isRunningInNode) {
+    if (!this.isNode) {
       this.registerStickyHeader();
     }
   }
@@ -56,7 +56,7 @@ export class ArticleThumbnailComponent implements OnInit {
           observer.disconnect();
         }
       }, options);
-      
+
       setTimeout(() => {
         observer.observe(this.articleHeader.nativeElement);
 

@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
-
+import { IS_NODE } from './const';
+import { Inject, Injectable } from '@angular/core';
+import CONFIG from 'src/environments/environment';
 @Injectable({
     providedIn: 'root',
 })
@@ -7,6 +8,7 @@ export class ImageSerice {
 
     private readonly max = 650;
     private readonly min = 150;
+    public constructor(@Inject(IS_NODE) private isNode: boolean) { }
 
     public getImage(imagePath: string, size: number) {
 
@@ -17,7 +19,8 @@ export class ImageSerice {
             let result = imagePath;
 
             result = result.replace(new RegExp(/\/w(\d)*/gm), '/w' + size);
-            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            const isChrome = this.isNode || /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
             if (isChrome) {
                 result = result + '.webp';
             }

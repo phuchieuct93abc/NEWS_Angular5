@@ -1,3 +1,4 @@
+import { IS_NODE } from './../../shared/const';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
@@ -58,6 +59,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         protected router: Router,
         protected storyListService: StoryListService,
         @Inject(IS_MOBILE) public isSmallScreen: boolean,
+        @Inject(IS_NODE) public isNode: boolean,
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
@@ -112,7 +114,7 @@ super();
     public autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
             RequestAnimationFrame(() => {
-                this.storyComponents.first.onSelectStory();
+                this.storyComponents.first?.onSelectStory();
             }, 100);
         }
 
@@ -181,7 +183,7 @@ super();
     }
 
     private selectStory(prevStoryId: string) {
-        this.storyComponents.forEach((story) => {
+        this.storyComponents?.forEach((story) => {
             if (story.story.id === prevStoryId) {
                 story.onSelectStory();
                 this.scrollTo(story.story);
@@ -191,7 +193,6 @@ super();
 
     private updateStoryList() {
         this.route.params.subscribe((params) => {
-            console.log('get story');
             this.$stopGetStories.next();
 
             this.resetStoryList();

@@ -14,9 +14,9 @@
             <div class="source text-right mb-3">
                 <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
                     <img class="d-inline-block ml-2"
-                    [alt]="article.story.storyMeta.source" 
+                    [alt]="article.story?.storyMeta?.source" 
                     height="20"
-                    [src]="article.story.storyMeta.sourceIcon"            
+                    [src]="article.story?.storyMeta?.sourceIcon"            
                     />
                 </a>
             </div>

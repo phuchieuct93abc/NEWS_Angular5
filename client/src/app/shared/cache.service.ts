@@ -43,6 +43,9 @@ interface CacheConfiguaration {
 
 export function Cache(cacheConfiguaration?: CacheConfiguaration) {
     return (target: any, propertyKey: string, descriptor) => {
+        if (typeof window === 'undefined') {
+            cacheConfiguaration = {...cacheConfiguaration,ttl:10000};
+        }
         const groupCache = cacheConfiguaration?.id ? `${cacheConfiguaration.id}_cached` : `${propertyKey}_cached`;
         const originalFunction = descriptor.value;
         target[groupCache] = {};

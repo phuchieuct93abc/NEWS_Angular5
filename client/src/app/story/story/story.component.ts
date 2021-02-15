@@ -75,6 +75,9 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.friendlyUrl = url(this.story.title);
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
         this.handleAutoOpenStory();
+        if(this.story.isOpenning){
+            this.onSelectStory();
+        }
     }
 
     public ngOnDestroy(): void {

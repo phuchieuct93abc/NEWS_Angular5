@@ -9,6 +9,7 @@ export class Story {
     public isSelectedBefore = false;
 
     private thumbnail:string;
+    public isOpenning:boolean;
 
     constructor(
         public id?: string,

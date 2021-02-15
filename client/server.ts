@@ -32,6 +32,7 @@ export const ssrApp = (server, distFolder) => {
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     const userAgent = req.headers['user-agent'];
+    console.log(`SSR with ${req.url} is mobile: ${isMobile(userAgent).any}`);
     res.render(indexHtml, {
       req, providers: [
         { provide: APP_BASE_HREF, useValue: req.baseUrl },

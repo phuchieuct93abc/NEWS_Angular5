@@ -37,22 +37,20 @@ export class StoryService {
         this.readStory = storage.getItem(readId, []) as Story[];
     }
 
-    @Cache()
     public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
-        const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
-
-        if (this.transferState.hasKey(COURSE_KEY)) {
-            const stories = this.transferState.get<Story[]>(COURSE_KEY, null);
-            
-            return of(stories.map((story)=>Object.assign(new Story(),story)));
-        }
         if (category === 'yeu-thich') {
             return this.favoriteService.getStories();
         }
-         if (this.isNode) {
-          //  return of([]);
-         }
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
+
+         if (this.isNode) {
+            this.loadingService.onLoading.next({
+                type: LoadingEventType.FINISH,
+                name: LoadingEventName.MORE_STORY,
+            });
+
+           return of([]);
+         }
 
         return this.httpClient.get<Story[]>(storyUrl, {
             params: {
@@ -72,11 +70,9 @@ export class StoryService {
 
 
                     this.checkReadStory(result);
-                    if (this.isNode) {
-                        
-                       this.transferState.set(COURSE_KEY, result.slice(0,20));
-
-                    }
+                    // if (this.isNode) {                        
+                    //    this.transferState.set(COURSE_KEY, result.slice(0,20));
+                    // }
                     return result;
                 },
             ));

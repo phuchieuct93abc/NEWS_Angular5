@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { interval, Observable, Subject } from 'rxjs';
+import { forkJoin, interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -84,10 +84,9 @@ super();
 
         this.registerSpinner();
 
-        this.getFirstStory().subscribe((firstStory) => {
-            this.firstStory = firstStory;
+      
             this.updateStoryList();
-        });
+        
 
 
         this.registerPrevAndNext();
@@ -216,9 +215,12 @@ super();
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     observer.next(story);
+                    observer.complete();
                 });
             } else {
                 observer.next();
+
+                observer.complete();
             }
 
 
@@ -273,8 +275,9 @@ super();
 
 
     private loadFirstPage() {
-
-        this.storyService.getStories(this.category,10).pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
+        forkJoin([ this.getFirstStory(),this.storyService.getStories(this.category,10)])
+        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
+            this.firstStory = fistStory;
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();

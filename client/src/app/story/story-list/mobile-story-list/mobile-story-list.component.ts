@@ -30,7 +30,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyMobiles.toArray()[Math.max(0, index)].getElement();
-            window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+            window.scrollTo({ top: el.offsetTop - 58, behavior: 'smooth' });
         }, 0);
 
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
+    HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -12,7 +12,11 @@ export class NoopInterceptor implements HttpInterceptor {
 
     public intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
-        console.time(req.url);
-        return next.handle(req).pipe(tap(()=>console.timeLog(req.url)));
+        console.time(req.url + '?' + req.params);
+        return next.handle(req).pipe(tap((data) => {
+            if (data instanceof HttpResponse) {
+                console.timeLog(req.url + '?' + req.params);
+            }
+        }));
     }
 }

@@ -34,9 +34,9 @@ export class ArticleService {
         const COURSE_KEY = makeStateKey<Article>(`article-${id}-${category}`);
 
         const story: Story = this.storyService.getById(id);
-        if (this.transferState.hasKey(COURSE_KEY) && !this.isNode) {
+        if (this.transferState.hasKey(COURSE_KEY)) {
             const article = this.transferState.get<Article>(COURSE_KEY, null);
-            this.transferState.remove(COURSE_KEY);
+            
             return of(Object.assign(new Article(), article));
         }
 

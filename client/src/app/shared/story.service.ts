@@ -74,7 +74,7 @@ export class StoryService {
                     this.checkReadStory(result);
                     if (this.isNode) {
                         
-                       // this.transferState.set(COURSE_KEY, result.slice(0,20));
+                       this.transferState.set(COURSE_KEY, result.slice(0,20));
 
                     }
                     return result;

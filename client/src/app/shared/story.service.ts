@@ -50,7 +50,7 @@ export class StoryService {
             return this.favoriteService.getStories();
         }
          if (this.isNode) {
-            return of([]);
+          //  return of([]);
          }
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 

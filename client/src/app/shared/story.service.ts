@@ -41,9 +41,9 @@ export class StoryService {
     public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
         const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
 
-        if (this.transferState.hasKey(COURSE_KEY) && !this.isNode) {
+        if (this.transferState.hasKey(COURSE_KEY)) {
             const stories = this.transferState.get<Story[]>(COURSE_KEY, null);
-            this.transferState.remove(COURSE_KEY);
+            
             return of(stories.map((story)=>Object.assign(new Story(),story)));
         }
         if (category === 'yeu-thich') {

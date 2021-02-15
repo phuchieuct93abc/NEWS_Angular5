@@ -1,4 +1,3 @@
-import { IS_NODE } from './../../shared/const';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
@@ -14,6 +13,7 @@ import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { StoryComponent } from '../story/story.component';
+import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
 import { DestroySubscriber } from './../../shared/destroy-subscriber';
 
@@ -126,30 +126,8 @@ super();
         return a != null && b != null && a.id === b.id;
 
     }
-    protected scrollTo(story: Story) {
-        setTimeout(() => {
-            const index = this.stories.findIndex((i) => i.id === story.id);
-            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
-        }, 0);
-    }
 
-    protected scrollTop(){
-       if(this.scrollingBlock){
-           this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
-       }
-    }
-
-    protected afterInitStories(){
-        setTimeout(() => {
-            this.scrollTop();
-
-        });
-
-    }
-
-
-    protected async loadMoreStories(){
+    public async loadMoreStories(){
         if(this.isLoading){
             return;
         }
@@ -164,6 +142,28 @@ super();
             });
         });
     }
+    protected scrollTo(story: Story) {
+        setTimeout(() => {
+            const index = this.stories.findIndex((i) => i.id === story.id);
+            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo?.({top:el.offsetTop,behavior:'smooth'});
+        }, 0);
+    }
+
+    protected scrollTop(){
+       if(this.scrollingBlock){
+           this.scrollingBlock.nativeElement.scrollTo?.({top:0,behavior:'smooth'});
+       }
+    }
+
+    protected afterInitStories(){
+        setTimeout(() => {
+            this.scrollTop();
+
+        });
+
+    }
+
 
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {

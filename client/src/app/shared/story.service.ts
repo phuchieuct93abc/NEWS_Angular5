@@ -44,7 +44,7 @@ export class StoryService {
         if (this.transferState.hasKey(COURSE_KEY) && !this.isNode) {
             const stories = this.transferState.get<Story[]>(COURSE_KEY, null);
             this.transferState.remove(COURSE_KEY);
-            return of(stories.map((story)=>Object.assign(new Story(),story)));
+            return of(stories.map((story) => Object.assign(new Story(), story)));
         }
         if (category === 'yeu-thich') {
             return this.favoriteService.getStories();
@@ -52,7 +52,7 @@ export class StoryService {
         // if (CONFIG.isRunningInNode) {
         //     return of();
         // }
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.MORE_STORY});
+        this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
         return this.httpClient.get<Story[]>(storyUrl, {
             params: {
@@ -63,7 +63,7 @@ export class StoryService {
             retry(3),
             map(
                 (result) => {
-                    result =  result.map((r)=>(Object.assign(new Story(),r)));
+                    result = result.map((r) => (Object.assign(new Story(), r)));
 
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
@@ -72,14 +72,13 @@ export class StoryService {
 
 
                     this.checkReadStory(result);
-                    if(this.isNode){
-                            this.transferState.set(COURSE_KEY, result);
-                        
+                    if (this.isNode) {
+                        this.transferState.set(COURSE_KEY, result); 
 
                     }
                     return result;
                 },
-                ));
+            ));
 
     }
 
@@ -89,19 +88,19 @@ export class StoryService {
         this.storiesQueue = [];
     }
 
-   public getStories(category: string, numberOfStories: number = 5): Observable<Story[]> {
-        if(this.storiesQueue.length>0){
+    public getStories(category: string, numberOfStories: number = 5): Observable<Story[]> {
+        if (this.storiesQueue.length > 0) {
             return of(this.storiesQueue.splice(0, numberOfStories));
         }
 
         return this.getStoryByPage(category, this.currentStoryPage).pipe(
-        map((stories: Story[]) => {
-            const result = this.filterStory(stories);
-            this.appendStoryList(result);
-            this.storiesQueue = result;
-            this.currentStoryPage++;
-            return result;
-        }),map(()=>this.storiesQueue.splice(0, numberOfStories)));
+            map((stories: Story[]) => {
+                const result = this.filterStory(stories);
+                this.appendStoryList(result);
+                this.storiesQueue = result;
+                this.currentStoryPage++;
+                return result;
+            }), map(() => this.storiesQueue.splice(0, numberOfStories)));
     }
 
 
@@ -115,7 +114,7 @@ export class StoryService {
         if (this.isNode) {
             return of();
         }
-        this.loadingService.onLoading.next({type: LoadingEventType.START, name: LoadingEventName.SEARCHING});
+        this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.SEARCHING });
         return this.httpClient.get<Story[]>(searchUrl, {
             params: {
                 pageNumber: ++this.currentStoryPage + '',
@@ -130,8 +129,8 @@ export class StoryService {
                         name: LoadingEventName.SEARCHING,
                     });
 
-                    result =  result.map((r)=>(Object.assign(new Story(),r)));
-                    this.checkReadStory(result) ;
+                    result = result.map((r) => (Object.assign(new Story(), r)));
+                    this.checkReadStory(result);
                     result = this.filterStory(result);
                     this.appendStoryList(result);
                     return result;
@@ -157,7 +156,7 @@ export class StoryService {
 
     public checkReadStory(stories: Story[]) {
         stories.filter((story) => this.readStory.findIndex((readStory) => readStory.id === story.id) >= 0)
-        .forEach((read) => read.isRead = true);
+            .forEach((read) => read.isRead = true);
     }
 
 

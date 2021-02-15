@@ -48,7 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private sidebar: MatSidenav;
 
     public isShowProgressBar = false;
-    public isRenderSidebar: boolean;
     public image: string;
 
     public isSmallDevice: boolean;
@@ -87,8 +86,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
         this.isSmallDevice = this.isMobile;
-        this.isOpenSidebar = !this.isSmallDevice && !this.isNode;
-        this.isRenderSidebar = this.isOpenSidebar;
+        this.isOpenSidebar = !this.isSmallDevice ;
+        console.log( this.isSmallDevice ,this.isOpenSidebar)
         this.track();
 
         this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());

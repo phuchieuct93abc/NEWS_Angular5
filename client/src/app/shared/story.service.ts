@@ -49,9 +49,9 @@ export class StoryService {
         if (category === 'yeu-thich') {
             return this.favoriteService.getStories();
         }
-        // if (CONFIG.isRunningInNode) {
-        //     return of();
-        // }
+         if (this.isNode) {
+          //  return of([]);
+         }
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
         return this.httpClient.get<Story[]>(storyUrl, {
@@ -74,7 +74,7 @@ export class StoryService {
                     this.checkReadStory(result);
                     if (this.isNode) {
                         
-                        this.transferState.set(COURSE_KEY, result.slice(0,20));
+                       this.transferState.set(COURSE_KEY, result.slice(0,20));
 
                     }
                     return result;

@@ -96,37 +96,44 @@ button:focus {
   left: 0;
 
 }
+body:not(.small-device){
+  .app {
 
-
-.app:not(.small-device) {
-
-  .scrollable,
-  .vertical.selfScroll {
-
-
-    &::-webkit-scrollbar {
-      width: 5px
+    .scrollable,
+    .vertical.selfScroll {
+  
+  
+      &::-webkit-scrollbar {
+        width: 5px
+      }
+  
+      /* background of the scrollbar except button or resizer */
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+  
+      }
+  
+      /* scrollbar itself */
+      &::-webkit-scrollbar-thumb {
+        background-color: #babac0;
+        border-radius: 16px;
+        border: 4px solid transparent;
+      }
+  
+      /* set button(top and bottom of the scrollbar) */
+      &::-webkit-scrollbar-button {
+        display: none
+      }
     }
-
-    /* background of the scrollbar except button or resizer */
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-
-    }
-
-    /* scrollbar itself */
-    &::-webkit-scrollbar-thumb {
-      background-color: #babac0;
-      border-radius: 16px;
-      border: 4px solid transparent;
-    }
-
-    /* set button(top and bottom of the scrollbar) */
-    &::-webkit-scrollbar-button {
-      display: none
+  
+    mat-sidenav-content{
+      margin-left: 200px; 
     }
   }
+  
+
 }
+
 
 @media (min-width: 880px) {
   .container {
@@ -143,3 +150,4 @@ button:focus {
 .pan-y{
  touch-action: pan-y; 
 }
+

@@ -1,7 +1,6 @@
-import { IS_NODE } from './../../shared/const';
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { interval, Observable, Subject } from 'rxjs';
+import { forkJoin, interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -14,6 +13,7 @@ import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { StoryComponent } from '../story/story.component';
+import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
 import { DestroySubscriber } from './../../shared/destroy-subscriber';
 
@@ -84,10 +84,9 @@ super();
 
         this.registerSpinner();
 
-        this.getFirstStory().subscribe((firstStory) => {
-            this.firstStory = firstStory;
+      
             this.updateStoryList();
-        });
+        
 
 
         this.registerPrevAndNext();
@@ -126,30 +125,8 @@ super();
         return a != null && b != null && a.id === b.id;
 
     }
-    protected scrollTo(story: Story) {
-        setTimeout(() => {
-            const index = this.stories.findIndex((i) => i.id === story.id);
-            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo({top:el.offsetTop,behavior:'smooth'});
-        }, 0);
-    }
 
-    protected scrollTop(){
-       if(this.scrollingBlock){
-           this.scrollingBlock.nativeElement.scrollTo({top:0,behavior:'smooth'});
-       }
-    }
-
-    protected afterInitStories(){
-        setTimeout(() => {
-            this.scrollTop();
-
-        });
-
-    }
-
-
-    protected async loadMoreStories(){
+    public async loadMoreStories(){
         if(this.isLoading){
             return;
         }
@@ -164,6 +141,28 @@ super();
             });
         });
     }
+    protected scrollTo(story: Story) {
+        setTimeout(() => {
+            const index = this.stories.findIndex((i) => i.id === story.id);
+            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo?.({top:el.offsetTop,behavior:'smooth'});
+        }, 0);
+    }
+
+    protected scrollTop(){
+       if(this.scrollingBlock){
+           this.scrollingBlock.nativeElement.scrollTo?.({top:0,behavior:'smooth'});
+       }
+    }
+
+    protected afterInitStories(){
+        setTimeout(() => {
+            this.scrollTop();
+
+        });
+
+    }
+
 
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {
@@ -216,9 +215,12 @@ super();
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
                     observer.next(story);
+                    observer.complete();
                 });
             } else {
                 observer.next();
+
+                observer.complete();
             }
 
 
@@ -273,8 +275,9 @@ super();
 
 
     private loadFirstPage() {
-
-        this.storyService.getStories(this.category,10).pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
+        forkJoin([ this.getFirstStory(),this.storyService.getStories(this.category,10)])
+        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
+            this.firstStory = fistStory;
             this.stories.push(...value);
             if (this.firstStory) {
                 this.addFirstStoryToTheTop();

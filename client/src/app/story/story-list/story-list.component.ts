@@ -111,11 +111,7 @@ super();
     }
 
     public autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
-            RequestAnimationFrame(() => {
-                this.storyComponents.first?.onSelectStory();
-            }, 100);
-        }
+
 
         this.afterInitStories();
 
@@ -158,7 +154,6 @@ super();
     protected afterInitStories(){
         setTimeout(() => {
             this.scrollTop();
-
         });
 
     }
@@ -280,6 +275,7 @@ super();
             this.firstStory = fistStory;
             this.stories.push(...value);
             if (this.firstStory) {
+                this.firstStory.isOpenning = true;
                 this.addFirstStoryToTheTop();
                 this.firstStory = null;
             }

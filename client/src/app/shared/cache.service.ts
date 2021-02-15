@@ -38,13 +38,16 @@ const completeObservable = <T>(observable: Observable<T>): Observable<T> =>
 
 interface CacheConfiguaration {
     id?: string;
-    ttl?: number;
+    ttl: number;
 }
-
-export function Cache(cacheConfiguaration?: CacheConfiguaration) {
+interface CacheItem{
+    payload?: any;
+    timeToExpired?: number;
+}
+export function Cache(cacheConfiguaration: CacheConfiguaration = {ttl:1000*60*10}) {
     return (target: any, propertyKey: string, descriptor) => {
         if(typeof window === 'undefined'){
-            return descriptor;
+            cacheConfiguaration.ttl = 1000;
         }
  
         const groupCache = cacheConfiguaration?.id ? `${cacheConfiguaration.id}_cached` : `${propertyKey}_cached`;
@@ -52,20 +55,23 @@ export function Cache(cacheConfiguaration?: CacheConfiguaration) {
         target[groupCache] = {};
 
         descriptor.value = function(...args) {
-            if (target[groupCache][JSON.stringify(args)]) {
-                return completeObservable(target[groupCache][JSON.stringify(args)]);
-            }
-            const replaySubject = target[groupCache][JSON.stringify(args)] = target[groupCache][JSON.stringify(args)] ?? new ReplaySubject(1);
-            originalFunction.apply(this, args).subscribe((response) => {
-                if (cacheConfiguaration?.ttl) {
-                    setTimeout(() => {
-                        target[groupCache][JSON.stringify(args)] = null;
-                    }, cacheConfiguaration.ttl);
+            let cacheItem: CacheItem = target[groupCache][JSON.stringify(args)];
+            if (cacheItem) {
+                const {payload,timeToExpired} = cacheItem;
+                if(cacheConfiguaration.ttl !== undefined && new Date().getTime() < timeToExpired){
+                    return completeObservable(payload);
                 }
-                replaySubject.next(response);
-                replaySubject.complete();
+                target[groupCache][JSON.stringify(args)] = null;
+
+            }
+            cacheItem = target[groupCache][JSON.stringify(args)] = {};
+            cacheItem.timeToExpired = new Date().getTime() + cacheConfiguaration.ttl;
+            cacheItem.payload =  new ReplaySubject(1);
+            originalFunction.apply(this, args).subscribe((response) => {
+                cacheItem.payload.next(response);
+                cacheItem.payload.complete();
             });
-            return completeObservable(replaySubject);
+            return completeObservable(cacheItem.payload);
         };
 
         return descriptor;

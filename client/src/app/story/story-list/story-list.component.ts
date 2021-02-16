@@ -64,8 +64,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
         protected scrollDispatcher: ScrollDispatcher,
-        ) {
-super();
+    ) {
+        super();
     }
 
     public async ngOnInit() {
@@ -84,9 +84,9 @@ super();
 
         this.registerSpinner();
 
-      
-            this.updateStoryList();
-        
+
+        this.updateStoryList();
+
 
 
         this.registerPrevAndNext();
@@ -111,47 +111,48 @@ super();
     }
 
     public autoSelectFirstStory() {
-
-
+        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
+            setTimeout(() => {
+                this.storyComponents.first?.onSelectStory();
+            });
+        }
         this.afterInitStories();
-
-
     }
     public compareItem(a: Story, b: Story) {
         return a != null && b != null && a.id === b.id;
 
     }
 
-    public async loadMoreStories(){
-        if(this.isLoading){
+    public async loadMoreStories() {
+        if (this.isLoading) {
             return;
         }
         this.isLoading = true;
-        return  new Promise((resolve)=>{
+        return new Promise((resolve) => {
             this.getLoadMoreObservable()
-            .pipe(takeUntil(this.$stopGetStories),throttle(() => interval(10000)))
-            .subscribe((value) => {
-                this.stories.push(...value);
-                this.isLoading = false;
-                resolve(true);
-            });
+                .pipe(takeUntil(this.$stopGetStories), throttle(() => interval(10000)))
+                .subscribe((value) => {
+                    this.stories.push(...value);
+                    this.isLoading = false;
+                    resolve(true);
+                });
         });
     }
     protected scrollTo(story: Story) {
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
-            const el =this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo?.({top:el.offsetTop,behavior:'smooth'});
+            const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop, behavior: 'smooth' });
         }, 0);
     }
 
-    protected scrollTop(){
-       if(this.scrollingBlock){
-           this.scrollingBlock.nativeElement.scrollTo?.({top:0,behavior:'smooth'});
-       }
+    protected scrollTop() {
+        if (this.scrollingBlock) {
+            this.scrollingBlock.nativeElement.scrollTo?.({ top: 0, behavior: 'smooth' });
+        }
     }
 
-    protected afterInitStories(){
+    protected afterInitStories() {
         setTimeout(() => {
             this.scrollTop();
         });
@@ -239,14 +240,14 @@ super();
 
     private registerConfigChange() {
         this.configService.getConfig()
-        .pipe(this.getTakeUntilDestroy(),pairwise())
-        .subscribe(([oldConfig,newConfig]) => {
-            this.config = newConfig;
-            if (oldConfig.smallImage !== newConfig.smallImage) {
-                this.resetStoryList();
-                this.loadFirstPage();
-            }
-        });
+            .pipe(this.getTakeUntilDestroy(), pairwise())
+            .subscribe(([oldConfig, newConfig]) => {
+                this.config = newConfig;
+                if (oldConfig.smallImage !== newConfig.smallImage) {
+                    this.resetStoryList();
+                    this.loadFirstPage();
+                }
+            });
     }
 
     private resetStoryList() {
@@ -270,17 +271,17 @@ super();
 
 
     private loadFirstPage() {
-        forkJoin([ this.getFirstStory(),this.storyService.getStories(this.category,10)])
-        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
-            this.firstStory = fistStory;
-            this.stories.push(...value);
-            if (this.firstStory) {
-                this.firstStory.isOpenning = true;
-                this.addFirstStoryToTheTop();
-                this.firstStory = null;
-            }
-            this.autoSelectFirstStory();
-        });
+        forkJoin([this.getFirstStory(), this.storyService.getStories(this.category, 10)])
+            .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
+                this.firstStory = fistStory;
+                this.stories.push(...value);
+                if (this.firstStory) {
+                    this.firstStory.isOpenning = true;
+                    this.addFirstStoryToTheTop();
+                    this.firstStory = null;
+                }
+                this.autoSelectFirstStory();
+            });
     }
 
     private addFirstStoryToTheTop() {
@@ -302,7 +303,7 @@ super();
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
-        return this.searchKeyword ?this.storyService.search(this.searchKeyword)  : this.storyService.getStories(category);
+        return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
     }
 
 

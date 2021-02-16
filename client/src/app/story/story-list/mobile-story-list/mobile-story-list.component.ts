@@ -19,6 +19,7 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        window.dispatchEvent(new CustomEvent('scroll'))
     }
 
     protected scrollTo(story: Story, animation = 500, offset = -60) {

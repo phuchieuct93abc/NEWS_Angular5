@@ -65,10 +65,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();
-            if(!this.isMobile){
+            
                  this.articleId = null;
                  this.article = null;
-            }
+            
             
             this.getArticleById(params.id, params.category);
         });

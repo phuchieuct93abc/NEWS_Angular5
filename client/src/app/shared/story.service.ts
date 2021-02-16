@@ -42,7 +42,7 @@ export class StoryService {
  
         if (this.transferState.hasKey(COURSE_KEY)) {
             const stories = this.transferState.get<Story[]>(COURSE_KEY, null);
-            
+            this.transferState.remove(COURSE_KEY);
             return of(stories.map((story)=>Object.assign(new Story(),story)));
         }
         if (category === 'yeu-thich') {

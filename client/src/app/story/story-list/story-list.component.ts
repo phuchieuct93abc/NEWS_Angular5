@@ -155,7 +155,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     protected afterInitStories() {
         setTimeout(() => {
             this.scrollTop();
-        }, 1000);
+        });
 
     }
 

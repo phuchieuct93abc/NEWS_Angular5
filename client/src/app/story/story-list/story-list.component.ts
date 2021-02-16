@@ -111,10 +111,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     public autoSelectFirstStory() {
-        setTimeout(() => {
-            this.storyComponents.first?.onSelectStory();
+        // setTimeout(() => {
+        //     this.storyComponents.first?.onSelectStory();
            
-        });
+        // });
         this.afterInitStories();
     }
     public compareItem(a: Story, b: Story) {
@@ -147,7 +147,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     protected scrollTop() {
         this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 1, behavior: 'smooth' });
-        window.dispatchEvent(new CustomEvent('scroll'));
+        window?.dispatchEvent(new CustomEvent('scroll'));
 
     }
 

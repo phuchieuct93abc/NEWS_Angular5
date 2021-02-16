@@ -145,8 +145,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         }, 0);
     }
 
-    protected scrollTop() {
-        this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 1, behavior: 'smooth' });
+    protected scrollTop(){
+      
+  this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
         window?.dispatchEvent(new CustomEvent('scroll'));
 
     }
@@ -154,7 +155,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     protected afterInitStories() {
         setTimeout(() => {
             this.scrollTop();
-        });
+        }, 100);
 
     }
 

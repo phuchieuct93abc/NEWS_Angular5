@@ -76,6 +76,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
         this.handleAutoOpenStory();
         if(this.story.isOpenning){
+            console.log("open story");
             this.onSelectStory();
         }
     }

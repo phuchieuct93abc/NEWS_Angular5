@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import Article from '../../../../model/Article';
 import RequestAnimationFrame from '../requestAnimationFrame.cons';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
+import { IS_MOBILE } from '../shared/const';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
@@ -53,7 +54,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
     private onDestroy$ = new Subject<void>();
     private stopGetArticle$ = new Subject<void>();
 
-    public constructor(protected route: ActivatedRoute, protected articleService: ArticleService,
+    public constructor(
+        @Inject(IS_MOBILE) private isMobile: boolean,
+        protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
         protected storyListService: StoryListService) {
@@ -62,7 +65,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();
-            this.articleId = null;
+            
+                 this.articleId = null;
+                 this.article = null;
+            
+            
             this.getArticleById(params.id, params.category);
         });
 
@@ -102,7 +109,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
         if (articleId && categoryId) {
             this.categoryId = categoryId;
             this.articleId = articleId;
-            this.article = null;
             this.articleService.getById(articleId, categoryId).pipe(takeUntil(this.onDestroy$)).subscribe((article) => {
                 this.article = article;
                 this.articleService.onStorySelected.next(this.article);

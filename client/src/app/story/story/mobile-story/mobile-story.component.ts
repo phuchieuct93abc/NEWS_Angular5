@@ -41,7 +41,7 @@ export class MobileStoryComponent extends StoryComponent {
         if(!this.isNode){
 
             setTimeout(() => {
-                window.scrollTo({ top: this.element.nativeElement.offsetTop - 50, behavior: 'smooth' });
+                window.scrollTo({ top: this.element.nativeElement.offsetTop - 58, behavior: 'smooth' });
             });
         }
     }
@@ -50,7 +50,7 @@ export class MobileStoryComponent extends StoryComponent {
     }
 
     public close() {
-        window.scrollTo({ top: this.element.nativeElement.offsetTop - 50, behavior: 'auto' });
+        window.scrollTo({ top: this.element.nativeElement.offsetTop - 58, behavior: 'auto' });
         this.story.selected = false;
     }
 

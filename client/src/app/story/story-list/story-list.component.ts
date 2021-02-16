@@ -111,11 +111,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     public autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
-            setTimeout(() => {
-                this.storyComponents.first?.onSelectStory();
-            });
-        }
+        // setTimeout(() => {
+        //     this.storyComponents.first?.onSelectStory();
+           
+        // });
         this.afterInitStories();
     }
     public compareItem(a: Story, b: Story) {
@@ -147,9 +146,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     protected scrollTop() {
-        if (this.scrollingBlock) {
-            this.scrollingBlock.nativeElement.scrollTo?.({ top: 0, behavior: 'smooth' });
-        }
+        this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 1, behavior: 'smooth' });
+        window?.dispatchEvent(new CustomEvent('scroll'));
+
     }
 
     protected afterInitStories() {
@@ -202,8 +201,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     private getFirstStory(): Observable<Story> {
         return new Observable((observer) => {
-            const params = this.route.children[0].snapshot.params;
-            if (params.id) {
+            const params = this.route.children[0].snapshot?.params;
+            if (params?.id) {
                 const articleId = params.id;
                 this.articleService.getById(articleId, params.category).subscribe((article) => {
 
@@ -272,8 +271,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     private loadFirstPage() {
         forkJoin([this.getFirstStory(), this.storyService.getStories(this.category, 10)])
-            .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
-                this.firstStory = fistStory;
+        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
+            this.firstStory = fistStory;
                 this.stories.push(...value);
                 if (this.firstStory) {
                     this.firstStory.isOpenning = true;

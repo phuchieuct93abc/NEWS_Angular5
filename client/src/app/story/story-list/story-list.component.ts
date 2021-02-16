@@ -111,11 +111,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     public autoSelectFirstStory() {
-        if (!this.isSmallScreen && !this.activatedRoute.snapshot.firstChild.params.id) {
-            setTimeout(() => {
-                this.storyComponents.first?.onSelectStory();
-            });
-        }
+        setTimeout(() => {
+            this.storyComponents.first?.onSelectStory();
+            this.scrollTop();
+        });
         this.afterInitStories();
     }
     public compareItem(a: Story, b: Story) {

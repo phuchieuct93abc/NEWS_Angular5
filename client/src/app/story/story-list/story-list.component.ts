@@ -52,6 +52,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     private $stopGetStories = new Subject();
 
+    
 
     public constructor(protected storyService: StoryService,
         protected activatedRoute: ActivatedRoute,
@@ -78,18 +79,16 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
         this.isBrowser = typeof window !== 'undefined';
 
-        this.registerOnSearch();
-
-        this.registerConfigChange();
-
-        this.registerSpinner();
-
-
         this.updateStoryList();
 
+        if(!this.isNode){
+            this.registerPrevAndNext();
+            this.registerOnSearch();
+            this.registerConfigChange();
+            this.registerSpinner();
+        }
 
-
-        this.registerPrevAndNext();
+       
 
     }
     public onSelectedStory(selectedStoryIndex: number) {
@@ -114,17 +113,20 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         if(!this.isSmallScreen){
 
             setTimeout(() => {
-                this.storyComponents.first?.onSelectStory();           
+                this.storyComponents.first?.onSelectStory();
             });
         }
         this.afterInitStories();
     }
-    public compareItem(a: Story, b: Story) {
-        return a != null && b != null && a.id === b.id;
 
-    }
+    public trackByFn(index, item) {
+        return item.id;
+      }
 
     public async loadMoreStories() {
+        if(this.isNode){
+            return;
+        }
         if (this.isLoading) {
             return;
         }
@@ -148,9 +150,11 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     protected scrollTop(){
-      
-  this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
-        window?.dispatchEvent(new CustomEvent('scroll'));
+        if(this.isNode){
+            return;
+        }
+        this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('scroll'));
 
     }
 
@@ -212,6 +216,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                     const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    story.article = article;
                     observer.next(story);
                     observer.complete();
                 });
@@ -279,6 +284,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                 this.stories.push(...value);
                 if (this.firstStory) {
                     this.firstStory.isOpenning = true;
+                    this.firstStory.selected = true;
                     this.addFirstStoryToTheTop();
                     this.firstStory = null;
                 }

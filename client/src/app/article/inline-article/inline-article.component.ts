@@ -64,8 +64,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     @ViewChild(CdkDrag)
     public view: CdkDrag;
 
-    @Input()
-    public story: Story;
+  
 
     public animationName = 'none';
     public isCollapseArticle = false;
@@ -82,12 +81,14 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
        super.getArticleById(this.articleId, this.categoryId);
+       console.log(this.article)
 
     }
     public registerStickyHeader() {
         //Override article in desktop mode
     }
 
+ 
 
     public collapseArticle() {
         this.isCollapseArticle = false;
@@ -127,6 +128,9 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     protected afterGetArticle(): void {
         super.afterGetArticle();
         this.animationName = 'show';
+    }
+    protected resetArticle(){
+        //Don't need to reset article
     }
 
 }

@@ -1,8 +1,9 @@
+
 <div class="story-list">
     <div style="padding-top: 58px;">
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">
-            <app-mobile-story #storyMobile *ngFor="let item of stories;trackBy:compareItem" [story]="item"
+            <app-mobile-story #storyMobile *ngFor="let item of stories;trackBy:trackBy" [story]="item"
                 class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
             <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
         </div>

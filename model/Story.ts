@@ -1,5 +1,6 @@
 import StoryMeta from "./StoryMeta";
 import StoryImage from "./StoryImage";
+import Article from "./Article";
 
 export class Story {
     public isFavorite: boolean;
@@ -10,6 +11,8 @@ export class Story {
 
     private thumbnail:string;
     public isOpenning:boolean;
+
+    public article:Article
 
     constructor(
         public id?: string,

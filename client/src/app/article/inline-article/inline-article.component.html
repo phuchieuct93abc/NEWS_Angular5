@@ -1,10 +1,12 @@
 <div class="panel-primary article pan-y" #articleView (swipeleft)="onPanEnd('left')"
 (swiperight)="onPanEnd('right')"
  [@swipe]="animationName"
-    [ngStyle]="{'font-size.px':fontSize}">
+    [ngStyle]="{'font-size.px':fontSize}"
+    [@.disabled]="isOpeningArticle"
+    [class.no-transition]="isOpeningArticle">
     <div #articleBodyWrapper class="article-view">
         <div *ngIf="article;else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)"
-            style="overflow: hidden">
+            class="overflow-hidden">
             <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article"></app-actions>
             <div #articleBodyElement>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>

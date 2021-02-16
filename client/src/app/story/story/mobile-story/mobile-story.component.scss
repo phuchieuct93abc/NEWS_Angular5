@@ -9,38 +9,41 @@
 
       transform: scale(1);
     }
-    .card-content {
-      display: grid;
-      column-gap: 1rem;
-
-      .image {
-        grid-area: image;
-        width: 100%;
-        max-width: 100%;
-
-        flex: none;
-        border-radius: 8px;
-
+    // ::ng-deep{
+      .card-content {
+        display: grid;
+        column-gap: 1rem;
+  
+        .image {
+          grid-area: image;
+          width: 100%;
+          max-width: 100%;
+  
+          flex: none;
+          border-radius: 8px;
+  
+        }
+  
+        .title {
+          grid-area: title;
+          font-size: 1.1rem;
+          max-height: 4em;
+          overflow: hidden;
+        }
+  
+        .meta {
+          grid-area: meta;
+  
+        }
+  
+        .content-article {
+          grid-area: content;
+  
+        }
+  
       }
-
-      .title {
-        grid-area: title;
-        font-size: 1.1rem;
-        max-height: 4em;
-        overflow: hidden;
-      }
-
-      .meta {
-        grid-area: meta;
-
-      }
-
-      .content-article {
-        grid-area: content;
-
-      }
-
-    }
+    // }
+    
 
 
 

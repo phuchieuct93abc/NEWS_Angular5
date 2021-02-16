@@ -1,13 +1,13 @@
+import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Article from '../../../../model/Article';
-import RequestAnimationFrame from '../requestAnimationFrame.cons';
+import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
-import { IS_MOBILE } from '../shared/const';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
@@ -43,6 +43,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public articleContent: ElementRef<HTMLParagraphElement>;
     @ViewChild('articleView')
     protected articleView: ElementRef<HTMLElement>;
+    @Input()
+    protected story: Story;
 
     public article: Article;
     public articleId: string;
@@ -51,11 +53,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public articleBody: string;
 
     public fontSize: number;
+    public isOpeningArticle: boolean;
     private onDestroy$ = new Subject<void>();
     private stopGetArticle$ = new Subject<void>();
 
     public constructor(
-        @Inject(IS_MOBILE) private isMobile: boolean,
+        @Inject(IS_NODE) private isNode: boolean,
         protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
@@ -65,11 +68,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();
-            
-                 this.articleId = null;
-                 this.article = null;
-            
-            
+            this.resetArticle();
             this.getArticleById(params.id, params.category);
         });
 
@@ -77,6 +76,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.fontSize = fontSize;
         });
     }
+
+
 
     public onScroll() {
         window.dispatchEvent(new CustomEvent('scroll'));
@@ -104,34 +105,45 @@ export class ArticleComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.onDestroy$.next();
     }
-
+    protected resetArticle(){
+        this.articleId = null;
+        this.article = null;
+    }
     protected getArticleById(articleId, categoryId) {
         if (articleId && categoryId) {
             this.categoryId = categoryId;
             this.articleId = articleId;
-            this.articleService.getById(articleId, categoryId).pipe(takeUntil(this.onDestroy$)).subscribe((article) => {
-                this.article = article;
-                this.articleService.onStorySelected.next(this.article);
-                this.afterGetArticle();
-            });
+            if (this.story?.article) {
+                this.loadArticle(this.story.article); 
+            } else {
+
+                this.articleService.getById(articleId, categoryId)
+                    .pipe(takeUntil(this.onDestroy$)).subscribe((article) => {
+                        this.loadArticle(article);
+                    });
+            }
         }
     }
 
+
     protected afterGetArticle(): void {
-
-        if (this.articleView && typeof this.articleView.nativeElement.scroll === 'function') {
-            this.articleView.nativeElement.scroll({ top: 0 });
-        }
         this.articleBody = this.article.body;
+        this.articleView?.nativeElement?.scroll?.({ top: 0 });
 
-        if (typeof window !== 'undefined') {
-            RequestAnimationFrame(() => {
+        if (!this.isNode) {
+            setTimeout(() => {
                 this.parseVideo();
                 this.parseImage();
             });
         }
     }
 
+    private loadArticle(article: Article) {
+        this.article = article;
+        this.articleService.onStorySelected.next(this.article);
+        this.isOpeningArticle = this.story?.article !== undefined;
+        this.afterGetArticle();
+    }
 
     private parseImage() {
         const element = this.articleContent.nativeElement;
@@ -143,6 +155,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
     private parseVideo() {
         const element = this.articleContent.nativeElement;
         const videos: NodeListOf<HTMLElement> = element.querySelectorAll('.body-video');
-        videos.forEach((video)=>new ArticleVideoParser(video, this.domService).parse());
+        videos.forEach((video) => new ArticleVideoParser(video, this.domService).parse());
     }
 }

@@ -3,7 +3,7 @@
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
 
         <div *ngIf="stories.length>0;else loadingStory">
-            <app-story #story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of stories" [story]="item"
+            <app-story #story (onSelectedStory)="onSelectedStory($event)" *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
                 [index]="stories.indexOf(item)" class="d-block pb-2" [scrollElement]="scrollingBlock"></app-story>
         </div>
 

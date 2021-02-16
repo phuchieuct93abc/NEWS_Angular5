@@ -81,7 +81,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
 
        super.getArticleById(this.articleId, this.categoryId);
-       console.log(this.article)
 
     }
     public registerStickyHeader() {

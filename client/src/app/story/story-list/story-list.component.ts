@@ -173,9 +173,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     protected resetStoryList() {
+        this.stories = [];
         const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
         if (hasSwitchCategory) {
-            this.openningStory = {};
+            this.openningStory = {};            
             setTimeout(this.scrollTop.bind(this));
         }
         this.storyService.resetPageNumber();

@@ -85,7 +85,15 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.loadOpenningStory();
 
         if (!this.isNode) {
-            this.updateStoryList();
+            this.isLoading = true;
+            if(this.openningStory.id){
+                // Delay loading story list to improve UX when first load
+                setTimeout(() => {
+                    this.isLoading = false;
+                    this.updateStoryList(); 
+
+                },5000);
+            }
             this.registerPrevAndNext();
             this.registerOnSearch();
             this.registerConfigChange();
@@ -95,6 +103,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public loadOpenningStory() {
         this.getFirstStory().subscribe((story) => {
+            if(story === undefined){
+                return;
+            }
             this.openningStory.story = story;
             this.openningStory.story.isAutoOpen = true;
             this.openningStory.story.isActive = true;

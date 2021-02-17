@@ -29,11 +29,8 @@ export class AppShellNoRenderDirective{
 
     @Input()
     public set appShellNoRender(isNoRender){
-        if(!isNoRender){
-            return;
-        }
-
-        if (isPlatformServer(this.platformId)) {
+   
+        if (isPlatformServer(this.platformId) && isNoRender) {
             this.viewContainer.clear();
         } else {
             this.viewContainer.createEmbeddedView(this.templateRef);

@@ -13,7 +13,7 @@
     <div class="main-content" >
         <mat-sidenav-container class="h-100">
 
-            <mat-sidenav [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
+            <mat-sidenav *appShellNoRender="isSmallDevice" [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
                 [fixedInViewport]="isSmallDevice">
                 <app-sidebar class="d-block"></app-sidebar>
 

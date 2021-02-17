@@ -15,7 +15,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     public imagePath: string;
 
     @Input()
-    public hasVideo: false;
+    public hasVideo = false;
 
     @Input()
     public alt: string;

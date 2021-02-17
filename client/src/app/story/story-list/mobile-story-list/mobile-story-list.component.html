@@ -7,7 +7,7 @@
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">
             <ng-container *ngFor="let item of stories;trackBy:trackByFn" >
-                <app-mobile-story *appShellNoRender #storyMobile [story]="item"
+                <app-mobile-story #storyMobile [story]="item"
                 class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
 
             </ng-container>

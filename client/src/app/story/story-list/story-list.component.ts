@@ -85,14 +85,15 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.loadOpenningStory();
 
         if (!this.isNode) {
-            this.isLoading = true;
             if(this.openningStory.id){
                 // Delay loading story list to improve UX when first load
+                this.isLoading = true;
                 setTimeout(() => {
                     this.isLoading = false;
-                    this.updateStoryList(); 
-
+                    this.updateStoryList();
                 },5000);
+            }else{
+                this.updateStoryList();
             }
             this.registerPrevAndNext();
             this.registerOnSearch();
@@ -179,10 +180,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     protected afterInitStories() {
-        setTimeout(() => {
-            this.scrollTop();
-        });
-
+        window?.dispatchEvent(new CustomEvent('scroll'));
     }
 
 
@@ -236,6 +234,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                     const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    article.story = story;
                     story.article = article;
                     observer.next(story);
                     observer.complete();
@@ -281,9 +280,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
         if (hasSwitchCategory) {
             this.openningStory = {};
+            this.scrollTop();
         }
         this.storyService.resetPageNumber();
-        setTimeout(this.scrollTop.bind(this));
     }
 
     private registerOnSearch() {

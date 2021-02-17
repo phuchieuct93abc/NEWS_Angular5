@@ -2,7 +2,7 @@
     <div #scrollingBlock class=" scrollable" cdkScrollable>
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
 
-        <app-story *ngIf="openningStory"   [story]="openningStory"
+        <app-story *ngIf="openningStory.story"   [story]="openningStory.story"
         [index]="0" class="d-block pb-2" ></app-story>
         
         <ng-container *ngIf="stories.length>0;else loadingStory">

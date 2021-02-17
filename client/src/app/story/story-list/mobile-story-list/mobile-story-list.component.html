@@ -2,7 +2,7 @@
 <div class="story-list">
     <div style="padding-top: 58px;">
 
-        <app-mobile-story  #storyMobile [story]="openningStory"
+        <app-mobile-story  #storyMobile [story]="openningStory.story" *ngIf="openningStory.story"
         class="d-block story" [index]="0"></app-mobile-story>
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">

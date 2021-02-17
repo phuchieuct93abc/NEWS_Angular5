@@ -6,10 +6,10 @@
             <ng-container *ngFor="let item of stories;trackBy:trackByFn" >
                 <app-mobile-story #storyMobile [story]="item"
                 class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
-            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
 
             </ng-container>
-           
+            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
+
         </div>
 
 

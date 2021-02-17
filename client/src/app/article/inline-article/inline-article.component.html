@@ -1,13 +1,11 @@
-<div class="panel-primary article pan-y" #articleView (swipeleft)="onPanEnd('left')"
-(swiperight)="onPanEnd('right')"
- [@swipe]="animationName"
-    [ngStyle]="{'font-size.px':fontSize}"
-    [@.disabled]="isOpeningArticle"
+<div class="panel-primary article pan-y" #articleView (swipeleft)="onPanEnd('left')" (swiperight)="onPanEnd('right')"
+    [@swipe]="animationName" [ngStyle]="{'font-size.px':fontSize}" [@.disabled]="isOpeningArticle"
     [class.no-transition]="isOpeningArticle">
     <div #articleBodyWrapper class="article-view">
         <div *ngIf="article;else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)"
             class="overflow-hidden">
-            <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article"></app-actions>
+            <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article">
+            </app-actions>
             <div #articleBodyElement>
                 <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein "></p>
                 <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein "></p>
@@ -15,11 +13,8 @@
 
             <div class="source text-right mb-3">
                 <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
-                    <img class="d-inline-block ml-2"
-                    [alt]="article.story?.storyMeta?.source" 
-                    height="20"
-                    [src]="article.story?.storyMeta?.sourceIcon"            
-                    />
+                    <img class="d-inline-block ml-2" [alt]="article.story?.storyMeta?.source" height="20"
+                        [src]="article.story?.storyMeta?.sourceIcon" />
                 </a>
             </div>
             <!-- <app-comments class="mb-3" [(isExpanded)]="this.story.isExpandedComment" [articleId]="article.id"></app-comments> -->

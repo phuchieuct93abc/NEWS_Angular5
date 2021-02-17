@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, interval, Observable, Subject } from 'rxjs';
-import { pairwise, takeUntil, throttle } from 'rxjs/operators';
+import { pairwise, takeUntil, throttle, throttleTime } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { StoryService } from '../../shared/story.service';
@@ -71,7 +71,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public async ngOnInit() {
         //Listen scroll for lazy load image
-        this.scrollDispatcher.scrolled().subscribe(() => {
+        this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
             window.dispatchEvent(new CustomEvent('scroll'));
         });
 

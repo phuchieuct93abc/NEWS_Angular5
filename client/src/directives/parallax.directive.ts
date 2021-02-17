@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, Renderer2, OnDestroy, Inject } from '@angular/core';
-import { Subject, asyncScheduler } from 'rxjs';
-import { throttleTime, takeUntil } from 'rxjs/operators';
+import { Subject, asyncScheduler, fromEvent, interval } from 'rxjs';
+import { throttleTime, takeUntil, throttle } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 
 @Directive({
@@ -17,7 +17,6 @@ export class ParallaxDirective implements OnDestroy {
   public onDestroy$ = new Subject<void>();
   public startScrollY = 0;
 
-  public scrollListener$: () => void;
 
   public constructor(private imageRef: ElementRef<HTMLImageElement>,
     private renderer2: Renderer2,
@@ -47,15 +46,19 @@ export class ParallaxDirective implements OnDestroy {
       const offSetWidth = this.imageRef.nativeElement.offsetWidth;
       this.originalScale = boundingClientWidth / offSetWidth;
       this.imageRef.nativeElement.style.willChange = 'transform';
-      this.scrollListener$?.();
-      this.scrollListener$ = this.renderer2.listen('window', 'scroll', () => this.scroll$.next());
-      this.startListenScroll();
+
+      fromEvent(window,'scroll').pipe(
+        throttleTime(900, asyncScheduler, { leading: true, trailing: true }),
+        takeUntil(this.onDestroy$),
+        takeUntil(this.onStopParallax$)).subscribe(() => {
+          console.log('start')
+          this.requestAnimation();
+        });
     }, 1000);
   }
 
   public stopParallax() {
     this.setStoppongParallax(true);
-    this.scrollListener$?.();
     this.onStopParallax$.next();
     this.imageRef.nativeElement.style.transform = `scale(${this.originalScale})`;
     window.cancelAnimationFrame(this.requestId);
@@ -68,18 +71,7 @@ export class ParallaxDirective implements OnDestroy {
 
 
   public ngOnDestroy(): void {
-    this.scrollListener$?.();
     this.onDestroy$.next();
-  }
-
-
-  private startListenScroll() {
-    this.scroll$.pipe(
-      throttleTime(900, asyncScheduler, { leading: true, trailing: true }),
-      takeUntil(this.onDestroy$),
-      takeUntil(this.onStopParallax$)).subscribe(() => {
-        this.requestAnimation();
-      });
   }
 
   private setParallaxing(isParallaxing: boolean) {
@@ -138,7 +130,7 @@ export class ParallaxDirective implements OnDestroy {
     } else if (deltaY > this.maxParallax) {
       return (deltaY - this.maxParallax) > this.limitRangeParallax;
     }
-    return true;
+    return false;
 
   }
 

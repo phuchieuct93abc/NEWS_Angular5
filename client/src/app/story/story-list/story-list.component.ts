@@ -31,6 +31,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public storyComponents: QueryList<StoryComponent>;
 
     public stories: Story[] = [];
+    public openningStory: { id?: string; story?: Story; category?: string } = {};
 
     public category: string;
     public isShowMoveTop: boolean;
@@ -43,7 +44,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public config: Config;
     public isBrowser;
 
-    public firstStory: Story;
+
     public currentScrollIndex = 0;
     public loadingStoryNumber = [];
     protected buffer: Story[] = [];
@@ -51,8 +52,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     private selectedStory: Story;
 
     private $stopGetStories = new Subject();
-
-    
 
     public constructor(protected storyService: StoryService,
         protected activatedRoute: ActivatedRoute,
@@ -78,18 +77,29 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
 
         this.isBrowser = typeof window !== 'undefined';
+        const params = this.route.children[0].snapshot?.params;
+        this.openningStory = {
+            id: params?.id,
+            category: params?.category,
+        };
+        this.loadOpenningStory();
 
-        this.updateStoryList();
-
-        if(!this.isNode){
+        if (!this.isNode) {
+            this.updateStoryList();
             this.registerPrevAndNext();
             this.registerOnSearch();
             this.registerConfigChange();
             this.registerSpinner();
         }
+    }
 
-       
-
+    public loadOpenningStory() {
+        this.getFirstStory().subscribe((story) => {
+            this.openningStory.story = story;
+            this.openningStory.story.isAutoOpen = true;
+            this.openningStory.story.isActive = true;
+            this.selectStory(this.openningStory.id);
+        });
     }
     public onSelectedStory(selectedStoryIndex: number) {
         if (this.selectedStory) {
@@ -110,8 +120,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     public autoSelectFirstStory() {
-        if(!this.isSmallScreen){
-
+        if (!this.isSmallScreen && !this.openningStory.id) {
             setTimeout(() => {
                 this.storyComponents.first?.onSelectStory();
             });
@@ -121,10 +130,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public trackByFn(index, item) {
         return item.id;
-      }
+    }
 
     public async loadMoreStories() {
-        if(this.isNode){
+        if (this.isNode) {
             return;
         }
         if (this.isLoading) {
@@ -149,8 +158,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         }, 0);
     }
 
-    protected scrollTop(){
-        if(this.isNode){
+    protected scrollTop() {
+        if (this.isNode) {
             return;
         }
         this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
@@ -222,7 +231,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                 });
             } else {
                 observer.next();
-
                 observer.complete();
             }
 
@@ -259,6 +267,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     private resetStoryList() {
         this.stories = [];
+        const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
+        if (hasSwitchCategory) {
+            this.openningStory = {};
+        }
         this.storyService.resetPageNumber();
         setTimeout(this.scrollTop.bind(this));
     }
@@ -278,35 +290,31 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     private loadFirstPage() {
-        forkJoin([this.getFirstStory(), this.storyService.getStories(this.category, 10)])
-        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
-            this.firstStory = fistStory;
-                this.stories.push(...value);
-                if (this.firstStory) {
-                    this.firstStory.isOpenning = true;
-                    this.firstStory.selected = true;
-                    this.addFirstStoryToTheTop();
-                    this.firstStory = null;
-                }
+        this.isLoading = true;
+        this.storyService.getStories(this.category, 10)
+            .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
+                const stories: Story[] = value.filter((s) => s.id !== this.openningStory.id);
+                this.stories.push(...stories);
+                this.isLoading = false;
                 this.autoSelectFirstStory();
             });
     }
 
-    private addFirstStoryToTheTop() {
-        const firstStoryIndex = this.stories.findIndex((story) => story.id === this.firstStory.id);
-        if (firstStoryIndex !== -1) {
-            const temp = this.stories[0];
-            this.stories[0] = this.stories[firstStoryIndex];
-            this.stories[firstStoryIndex] = temp;
-        } else {
-            this.stories.unshift(this.firstStory);
-            this.storyService.unshift(this.firstStory);
+    // private addFirstStoryToTheTop() {
+    //     const firstStoryIndex = this.stories.findIndex((story) => story.id === this.firstStory.id);
+    //     if (firstStoryIndex !== -1) {
+    //         const temp = this.stories[0];
+    //         this.stories[0] = this.stories[firstStoryIndex];
+    //         this.stories[firstStoryIndex] = temp;
+    //     } else {
+    //         this.stories.unshift(this.firstStory);
+    //         this.storyService.unshift(this.firstStory);
 
-        }
-        this.stories[0].isAutoOpen = true;
-        this.stories[0].isActive = true;
-        this.selectStory(this.firstStory.id);
-    }
+    //     }
+    //     this.stories[0].isAutoOpen = true;
+    //     this.stories[0].isActive = true;
+    //     this.selectStory(this.firstStory.id);
+    // }
 
 
     private getLoadMoreObservable(): Observable<Story[]> {

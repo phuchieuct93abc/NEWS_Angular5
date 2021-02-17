@@ -38,6 +38,7 @@ export class StoryService {
     }
 
     public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
+        console.log(1)
         const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
  
         if (this.transferState.hasKey(COURSE_KEY)) {

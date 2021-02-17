@@ -248,7 +248,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                     const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
-                    article.story = story;
+                    article.story = Object.assign(new Story(),story);
                     story.article = article;
                     observer.next(story);
                     observer.complete();

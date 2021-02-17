@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, interval, Observable, Subject } from 'rxjs';
-import { pairwise, takeUntil, throttle, throttleTime } from 'rxjs/operators';
+import { interval, Observable, Subject } from 'rxjs';
+import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { StoryService } from '../../shared/story.service';
@@ -11,7 +11,6 @@ import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared
 import { ArticleService } from '../../shared/article.service';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
-import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { StoryComponent } from '../story/story.component';
 import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
@@ -122,14 +121,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     }
 
-    public moveTop(event: MouseEvent) {
-        event.stopPropagation();
-        this.scrollTop();
-        RequestAnimationFrame(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
-        });
-    }
+  
 
     public autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.openningStory.id) {
@@ -140,7 +132,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.afterInitStories();
     }
 
-    public trackByFn(index, item) {
+    public trackByFn(item) {
         return item.id;
     }
 
@@ -179,10 +171,32 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     }
 
-    protected afterInitStories() {
-        window?.dispatchEvent(new CustomEvent('scroll'));
+
+    protected resetStoryList() {
+        const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
+        if (hasSwitchCategory) {
+            this.openningStory = {};
+            setTimeout(this.scrollTop.bind(this));
+        }
+        this.storyService.resetPageNumber();
     }
 
+    protected loadFirstPage() {
+        this.isLoading = true;
+        this.storyService.getStories(this.category, 10)
+            .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
+                const stories: Story[] = value.filter((s) => s.id !== this.openningStory.id);
+                this.stories.push(...stories);
+                this.isLoading = false;
+                this.autoSelectFirstStory();
+            });
+    }
+
+    private afterInitStories() {
+        setTimeout(() => {
+            window?.dispatchEvent(new CustomEvent('scroll'));
+        });
+    }
 
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {
@@ -275,15 +289,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
             });
     }
 
-    private resetStoryList() {
-        this.stories = [];
-        const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
-        if (hasSwitchCategory) {
-            this.openningStory = {};
-            this.scrollTop();
-        }
-        this.storyService.resetPageNumber();
-    }
 
     private registerOnSearch() {
         this.storyService.onSearch.subscribe((keyword) => {
@@ -299,38 +304,11 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
 
-    private loadFirstPage() {
-        this.isLoading = true;
-        this.storyService.getStories(this.category, 10)
-            .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
-                const stories: Story[] = value.filter((s) => s.id !== this.openningStory.id);
-                this.stories.push(...stories);
-                this.isLoading = false;
-                this.autoSelectFirstStory();
-            });
-    }
-
-    // private addFirstStoryToTheTop() {
-    //     const firstStoryIndex = this.stories.findIndex((story) => story.id === this.firstStory.id);
-    //     if (firstStoryIndex !== -1) {
-    //         const temp = this.stories[0];
-    //         this.stories[0] = this.stories[firstStoryIndex];
-    //         this.stories[firstStoryIndex] = temp;
-    //     } else {
-    //         this.stories.unshift(this.firstStory);
-    //         this.storyService.unshift(this.firstStory);
-
-    //     }
-    //     this.stories[0].isAutoOpen = true;
-    //     this.stories[0].isActive = true;
-    //     this.selectStory(this.firstStory.id);
-    // }
 
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
         return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
     }
-
 
 }

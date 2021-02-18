@@ -6,7 +6,6 @@ import CONFIG from '../../../../environments/environment';
     selector: 'app-story-meta',
     templateUrl: './story-meta.component.html',
     styleUrls: ['./story-meta.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoryMetaComponent implements OnInit {
 

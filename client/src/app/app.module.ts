@@ -11,8 +11,10 @@ import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyl
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { isPlatformServer } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
+import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { ToNowPipe } from './shared/toNow.pipe';
 import { NZModule } from './nz.module';
 import { ParallaxDirective } from './../directives/parallax.directive';
@@ -90,7 +92,8 @@ const isMobileProvider =
         ScrollingModule,
         HammerModule,
         BrowserTransferStateModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: CONFIG.production }),
+        NgbModule,
     ],
     declarations: [
         AppComponent,

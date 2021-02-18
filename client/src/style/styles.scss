@@ -1,6 +1,7 @@
 @import "animations";
 @import "font";
 @import "dark-theme";
+@import "ant";
 
 html,
 body {
@@ -151,3 +152,6 @@ body:not(.small-device){
  touch-action: pan-y; 
 }
 
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

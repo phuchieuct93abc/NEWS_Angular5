@@ -2,13 +2,16 @@
   display: inline-block;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 
   .image {
-    width: 100%;
-    height: 100%;
+    width: inherit;
+    height: inherit;
+    object-fit: inherit;
     transition: all linear 0.5s;
     transition-property: scale, transform;
-    object-fit: cover;
     position: relative;
 
     &.parallaxing {
@@ -18,6 +21,7 @@
     &.stopping-parallax {
       transition: none;
     }
+ 
 
   }
 

@@ -4,11 +4,14 @@
          [class.selected-before]="story.isSelectedBefore"
         [ngClass]="[config.smallImage?'small-image':'large-image',story.isRead?'is-read':'not-read']">
         <mat-card-content class="m-0  card-content p-2">
-            <app-image-viewer *ngIf="story.getThumbnail()" [imagePath]="story.getThumbnail()" [hasVideo]="story.hasVideo"
-                 [alt]="story.title"
-                [parallax]="story.selected"
-                class="image p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
-            </app-image-viewer>
+            <div class="image p-0 pl-sm-1 pr-sm-1 d-inline-block" style="overflow: hidden">
+                <app-image-viewer *ngIf="story.getThumbnail()" [imagePath]="story.getThumbnail()" [hasVideo]="story.hasVideo"
+                [alt]="story.title"
+               [parallax]="story.selected" class="h-100 w-100"
+               >
+           </app-image-viewer>
+            </div>
+           
 
             <div class="d-flex mat-title mb-0 title">
                {{story.title }}

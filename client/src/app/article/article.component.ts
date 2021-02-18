@@ -1,9 +1,9 @@
 import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, AfterViewInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { takeUntil, throttle } from 'rxjs/operators';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
@@ -12,6 +12,7 @@ import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -37,14 +38,14 @@ import ArticleVideoParser from './parsers/article-video.parser';
     ],
 
 })
-export class ArticleComponent implements OnInit, OnDestroy {
+export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('articleContent')
     public articleContent: ElementRef<HTMLParagraphElement>;
+    @Input()
+    public story: Story;
     @ViewChild('articleView')
     protected articleView: ElementRef<HTMLElement>;
-    @Input()
-    protected story: Story;
 
     public article: Article;
     public articleId: string;
@@ -62,9 +63,13 @@ export class ArticleComponent implements OnInit, OnDestroy {
         protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
-        protected storyListService: StoryListService) {
+        protected storyListService: StoryListService,
+        protected zone: NgZone,
+        protected scrollDispatcher: ScrollDispatcher,
+        ) {
     }
 
+    
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();
@@ -76,12 +81,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.fontSize = fontSize;
         });
     }
-
-
-
-    public onScroll() {
-        window.dispatchEvent(new CustomEvent('scroll'));
+    public ngAfterViewInit(): void {
+        this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
+            window.dispatchEvent(new CustomEvent('scroll'));
+        });
     }
+
 
     public up() {
         const articleView = this.articleView.nativeElement;
@@ -114,7 +119,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.categoryId = categoryId;
             this.articleId = articleId;
             if (this.story?.article) {
-                this.loadArticle(this.story.article); 
+                this.loadArticle(this.story.article);
             } else {
 
                 this.articleService.getById(articleId, categoryId)

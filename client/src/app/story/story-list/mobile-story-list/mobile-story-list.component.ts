@@ -13,6 +13,15 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
     @ViewChildren(MobileStoryComponent)
     public storyMobiles: QueryList<MobileStoryComponent>;
 
+    public moveTop(event: MouseEvent) {
+        event.stopPropagation();
+        this.scrollTop();
+        setTimeout(() => {
+            this.resetStoryList();
+            this.loadFirstPage();
+        });
+    }
+
     protected scrollTop() {
         if(this.isNode){
             return;
@@ -34,6 +43,8 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
         }, 0);
 
     }
+
+   
 
 
 }

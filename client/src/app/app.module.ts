@@ -1,3 +1,4 @@
+import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -69,7 +70,7 @@ const isMobileProvider =
 
             } catch (error) {
                 return breakpointObserver.isMatched(['(max-width: 767px)']);
- 
+
             }
 
         },
@@ -98,11 +99,12 @@ const isMobileProvider =
     declarations: [
         AppComponent,
         StoryListComponent,
+        MobileStoryListComponent,
         StoryComponent,
         ArticleComponent,
+        InlineArticleComponent,
         NavigatorComponent,
         MainComponent,
-        InlineArticleComponent,
         ImageViewerComponent,
         LoadingComponent,
         ContentComponent,
@@ -118,7 +120,6 @@ const isMobileProvider =
         DisplayComponent,
         CategoryComponent,
         ActionsComponent,
-        MobileStoryListComponent,
         ShareComponent,
         DashboardComponent,
         TopCategoryComponent,
@@ -133,14 +134,14 @@ const isMobileProvider =
         ParallaxDirective,
         ArticleThumbnailComponent,
         ToNowPipe,
+        AppShellNoRenderDirective,
+        AppShellRenderDirective,
     ],
     bootstrap: [AppComponent],
     providers: [
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
-        // { provide: NZ_I18N, useValue: en_US },
         { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-
         { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
         isMobileProvider,
         Title,

@@ -12,7 +12,7 @@ export class ImageSerice {
 
     public getImage(imagePath: string, size: number) {
 
-        if (imagePath.indexOf('baomoi') > 0) {
+        if (imagePath?.indexOf('baomoi') > 0) {
             size = Math.min(Math.max(this.min, size), this.max);
             size = Math.ceil((size + 1) / 50) * 50;
 

@@ -1,7 +1,8 @@
 <footer class=" text-right   justify-content-start d-flex align-items-end pt-1">
-    <img alt="source-icon" *ngIf="story?.storyMeta?.sourceIcon" class="icon mr-1" height="20" 
+    <!-- <img alt="source-icon" *ngIf="story?.storyMeta?.sourceIcon" class="icon mr-1" height="20" 
         [lazyLoad]="story.storyMeta.sourceIcon"           
-        defaultImage="assets/loading-image.png"/>
+        defaultImage="assets/loading-image.png"/> -->
+    <app-image-viewer class="icon mr-1" [imagePath]="story?.storyMeta?.sourceIcon" [alt]="story?.storyMeta?.source"></app-image-viewer>
     <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | toNow }}</span>
     <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
     </mat-icon>

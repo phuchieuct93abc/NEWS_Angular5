@@ -1,15 +1,12 @@
+<ng-container *ngIf="convertedImagePath">
+        <img *appShellNoRender="true" [appParallax]="parallax" [maxParallax]="maxParallax"
+                class="mt-0 mb-0 image hoverZoom" [offset]="500" [alt]="alt" [lazyLoad]="convertedImagePath"
+                defaultImage="assets/loading-image.png" #image [width]="width" [height]="height" />
 
-    <img    [appParallax]="parallax"
-            [maxParallax]="maxParallax"
-            class="mt-0 mb-0 image hoverZoom"
-            [offset]="500"
-            [alt]="alt"
-            [lazyLoad]="convertedImagePath"          
-            defaultImage="assets/loading-image.png"
-            *ngIf="convertedImagePath"
-            #image
-            [width]="width"
-            [height]="height"
-    />
+        <img *appShellRender class="mt-0 mb-0 image hoverZoom" [alt]="alt" [src]="convertedImagePath" #image [width]="width"
+                [height]="height" />
 
-    <mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>
+</ng-container>
+
+
+<mat-icon *ngIf="hasVideo" class="videocam mat-primary">videocam</mat-icon>

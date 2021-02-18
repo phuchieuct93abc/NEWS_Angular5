@@ -58,6 +58,9 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   public stopParallax() {
+    if (this.isNode) {
+      return;
+    }
     this.setStoppongParallax(true);
     this.onStopParallax$.next();
     this.imageRef.nativeElement.style.transform = `scale(${this.originalScale})`;

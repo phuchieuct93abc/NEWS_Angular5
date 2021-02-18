@@ -75,7 +75,16 @@
   top: 0;
   left: 0;
 }
+:host{
+  ::ng-deep {
+    img{
+      max-width: 100%;
+      height: auto;
 
+    }
+  }
+
+} 
 
 @keyframes article-header-stick {
   from {

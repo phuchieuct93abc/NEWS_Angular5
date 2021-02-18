@@ -1,8 +1,8 @@
-import { IS_NODE } from './../../shared/const';
 import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { ImageSerice } from '../../shared/image.service';
+import { IS_NODE } from './../../shared/const';
 
 @Component({
     selector: 'app-image-viewer',
@@ -30,8 +30,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     public convertedImagePath: string;
 
-    public width:number;
-    public height:number;
+    public width: number;
+    public height: number;
 
     public constructor(private imageService: ImageSerice,
         private elRef: ElementRef<HTMLElement>,
@@ -40,9 +40,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        if(this.isNode){
-            return
-        }
+
         this.refreshImageResolution();
     }
 
@@ -51,18 +49,24 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         this.onDestroy$.next();
     }
     private refreshImageResolution() {
-        
+
         if (this.imagePath) {
            const resolution =  new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
             if(resolution){
                 this.width = parseInt(resolution[1],10);
                 this.height = parseInt(resolution[2],10);
             }
-     
-            setTimeout(() => {
-                const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
-                this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
-            });
+            if(this.isNode){
+                this.convertedImagePath = this.imagePath;
+
+            }else{
+                setTimeout(() => {
+                    const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
+                    this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
+                });
+            }
+
+
         } else {
             console.error('empty image path');
         }

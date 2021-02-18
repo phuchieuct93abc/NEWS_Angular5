@@ -82,9 +82,9 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
     public ngAfterViewInit(): void {
-        this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
-            window.dispatchEvent(new CustomEvent('scroll'));
-        });
+        // this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
+        //     window.dispatchEvent(new CustomEvent('scroll'));
+        // });
     }
 
 

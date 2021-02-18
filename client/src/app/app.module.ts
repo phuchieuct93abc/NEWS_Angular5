@@ -7,7 +7,7 @@ import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image'; // <-- include ScrollHooks
+import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { isPlatformServer } from '@angular/common';
@@ -139,7 +139,6 @@ const isMobileProvider =
     bootstrap: [AppComponent],
     providers: [
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
-        { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks },
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
         { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
         isMobileProvider,

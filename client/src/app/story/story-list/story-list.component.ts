@@ -69,9 +69,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public async ngOnInit() {
         //Listen scroll for lazy load image
-        this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
-            window.dispatchEvent(new CustomEvent('scroll'));
-        });
+        // this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
+        //     window.dispatchEvent(new CustomEvent('scroll'));
+        // });
 
         this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
 
@@ -167,7 +167,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
             return;
         }
         this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
-        window.dispatchEvent(new CustomEvent('scroll'));
+        // window.dispatchEvent(new CustomEvent('scroll'));
 
     }
 
@@ -195,7 +195,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     private afterInitStories() {
         setTimeout(() => {
-            window?.dispatchEvent(new CustomEvent('scroll'));
+            // window?.dispatchEvent(new CustomEvent('scroll'));
         });
     }
 

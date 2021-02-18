@@ -19,8 +19,6 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
 
     @Input()
     public alt: string;
-    @ViewChild('image')
-    public imageRef: ElementRef<HTMLImageElement>;
     @Input()
     public parallax: boolean;
     @Input()

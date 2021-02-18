@@ -77,20 +77,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.articleService.onStorySelected.subscribe((article) => {
-            if (article.story != null) {
-                this.getBlurImageUrl(article.story.getThumbnail());
-            } else if (article.images.length > 0) {
-                this.getBlurImageUrl(article.getThumbnail());
-            }
+            this.getBlurImageUrl(article.getThumbnail());
         });
 
 
         this.isSmallDevice = this.isMobile;
         this.isOpenSidebar = !this.isSmallDevice ;
-        console.log( this.isSmallDevice ,this.isOpenSidebar)
-        this.track();
-
+        
         this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
+        this.track();
 
     }
     public swipeRight(ev) {
@@ -135,6 +130,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     private track(): void {
+        if(this.isNode){
+            return;
+        }
         this.router.events.subscribe((event) => {
             if (typeof window !== 'undefined') {
                 if (event instanceof NavigationEnd) {

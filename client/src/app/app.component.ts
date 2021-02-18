@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private configService: ConfigService,
         private articleService: ArticleService,
         @Inject(IS_MOBILE) private isMobile: boolean,
-        @Inject(IS_NODE) private isNode: boolean,
+        @Inject(IS_NODE) public isNode: boolean,
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
@@ -111,10 +111,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     public getBlurImageUrl(url) {
-        if (typeof window !== 'undefined' && !this.isSmallDevice && url !== undefined) {
-           setTimeout(() => {
-               this.image = `${CONFIG.baseUrl}blur?url=${url}`;
-           });
+        if (!this.isSmallDevice && url !== undefined) {
+            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
+
         }
     }
 

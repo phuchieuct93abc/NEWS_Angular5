@@ -1,7 +1,7 @@
 <div *ngIf="isShowProgressBar">
     <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
 </div>
-<div class=" app   mat-app-background app d-flex align-items-center">
+<div [@.disabled]="isNode" [class.no-transition]="isNode" class=" app   mat-app-background app d-flex align-items-center">
 
     <div  *ngIf="!isSmallDevice && image">
         <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'" *ngFor="let bgImage of [image]"

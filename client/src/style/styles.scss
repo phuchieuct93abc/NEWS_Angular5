@@ -45,6 +45,12 @@ body {
   -webkit-overflow-scrolling: touch;
 
 }
+.no-transition{
+  * {
+    transition: none !important;
+    animation: none im !important;
+  }
+}
 
 
 .blur-top {

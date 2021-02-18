@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, interval, Observable, Subject } from 'rxjs';
+import { interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -11,7 +11,6 @@ import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared
 import { ArticleService } from '../../shared/article.service';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
-import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { StoryComponent } from '../story/story.component';
 import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
@@ -31,6 +30,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public storyComponents: QueryList<StoryComponent>;
 
     public stories: Story[] = [];
+    public openningStory: { id?: string; story?: Story; category?: string } = {};
 
     public category: string;
     public isShowMoveTop: boolean;
@@ -43,7 +43,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     public config: Config;
     public isBrowser;
 
-    public firstStory: Story;
+
     public currentScrollIndex = 0;
     public loadingStoryNumber = [];
     protected buffer: Story[] = [];
@@ -51,8 +51,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     private selectedStory: Story;
 
     private $stopGetStories = new Subject();
-
-    
 
     public constructor(protected storyService: StoryService,
         protected activatedRoute: ActivatedRoute,
@@ -71,25 +69,48 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public async ngOnInit() {
         //Listen scroll for lazy load image
-        this.scrollDispatcher.scrolled().subscribe(() => {
+        this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
             window.dispatchEvent(new CustomEvent('scroll'));
         });
 
         this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
 
         this.isBrowser = typeof window !== 'undefined';
+        const params = this.route.children[0].snapshot?.params;
+        this.openningStory = {
+            id: params?.id,
+            category: params?.category,
+        };
+        this.loadOpenningStory();
 
-        this.updateStoryList();
-
-        if(!this.isNode){
+        if (!this.isNode) {
+            if(this.openningStory.id){
+                // Delay loading story list to improve UX when first load
+                this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                    this.updateStoryList();
+                },5000);
+            }else{
+                this.updateStoryList();
+            }
             this.registerPrevAndNext();
             this.registerOnSearch();
             this.registerConfigChange();
             this.registerSpinner();
         }
+    }
 
-       
-
+    public loadOpenningStory() {
+        this.getFirstStory().subscribe((story) => {
+            if(story === undefined){
+                return;
+            }
+            this.openningStory.story = story;
+            this.openningStory.story.isAutoOpen = true;
+            this.openningStory.story.isActive = true;
+            this.selectStory(this.openningStory.id);
+        });
     }
     public onSelectedStory(selectedStoryIndex: number) {
         if (this.selectedStory) {
@@ -100,18 +121,10 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     }
 
-    public moveTop(event: MouseEvent) {
-        event.stopPropagation();
-        this.scrollTop();
-        RequestAnimationFrame(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
-        });
-    }
+  
 
     public autoSelectFirstStory() {
-        if(!this.isSmallScreen){
-
+        if (!this.isSmallScreen && !this.openningStory.id) {
             setTimeout(() => {
                 this.storyComponents.first?.onSelectStory();
             });
@@ -119,12 +132,12 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.afterInitStories();
     }
 
-    public trackByFn(index, item) {
+    public trackByFn(item) {
         return item.id;
-      }
+    }
 
     public async loadMoreStories() {
-        if(this.isNode){
+        if (this.isNode) {
             return;
         }
         if (this.isLoading) {
@@ -149,8 +162,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         }, 0);
     }
 
-    protected scrollTop(){
-        if(this.isNode){
+    protected scrollTop() {
+        if (this.isNode) {
             return;
         }
         this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
@@ -158,13 +171,33 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     }
 
-    protected afterInitStories() {
-        setTimeout(() => {
-            this.scrollTop();
-        });
 
+    protected resetStoryList() {
+        this.stories = [];
+        const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
+        if (hasSwitchCategory) {
+            this.openningStory = {};            
+            setTimeout(this.scrollTop.bind(this));
+        }
+        this.storyService.resetPageNumber();
     }
 
+    protected loadFirstPage() {
+        this.isLoading = true;
+        this.storyService.getStories(this.category, 10)
+            .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
+                const stories: Story[] = value.filter((s) => s.id !== this.openningStory.id);
+                this.stories.push(...stories);
+                this.isLoading = false;
+                this.autoSelectFirstStory();
+            });
+    }
+
+    private afterInitStories() {
+        setTimeout(() => {
+            window?.dispatchEvent(new CustomEvent('scroll'));
+        });
+    }
 
     private registerPrevAndNext() {
         this.storyListService.onSelectPrevStory.subscribe(() => {
@@ -216,13 +249,13 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                     const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                    article.story = Object.assign(new Story(),story);
                     story.article = article;
                     observer.next(story);
                     observer.complete();
                 });
             } else {
                 observer.next();
-
                 observer.complete();
             }
 
@@ -257,11 +290,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
             });
     }
 
-    private resetStoryList() {
-        this.stories = [];
-        this.storyService.resetPageNumber();
-        setTimeout(this.scrollTop.bind(this));
-    }
 
     private registerOnSearch() {
         this.storyService.onSearch.subscribe((keyword) => {
@@ -277,42 +305,11 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
 
-    private loadFirstPage() {
-        forkJoin([this.getFirstStory(), this.storyService.getStories(this.category, 10)])
-        .pipe(takeUntil(this.$stopGetStories)).subscribe(([fistStory, value]) => {
-            this.firstStory = fistStory;
-                this.stories.push(...value);
-                if (this.firstStory) {
-                    this.firstStory.isOpenning = true;
-                    this.firstStory.selected = true;
-                    this.addFirstStoryToTheTop();
-                    this.firstStory = null;
-                }
-                this.autoSelectFirstStory();
-            });
-    }
-
-    private addFirstStoryToTheTop() {
-        const firstStoryIndex = this.stories.findIndex((story) => story.id === this.firstStory.id);
-        if (firstStoryIndex !== -1) {
-            const temp = this.stories[0];
-            this.stories[0] = this.stories[firstStoryIndex];
-            this.stories[firstStoryIndex] = temp;
-        } else {
-            this.stories.unshift(this.firstStory);
-            this.storyService.unshift(this.firstStory);
-
-        }
-        this.stories[0].isAutoOpen = true;
-        this.stories[0].isActive = true;
-        this.selectStory(this.firstStory.id);
-    }
 
 
     private getLoadMoreObservable(): Observable<Story[]> {
         const category = this.route.firstChild.snapshot.paramMap.get('category');
         return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
     }
-
 
 }

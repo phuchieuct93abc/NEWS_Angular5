@@ -15,7 +15,7 @@ export class ArticleThumbnailComponent implements OnInit {
   @Input()
   public article: Article;
   @Input()
-  public rootArticle: ElementRef<HTMLElement>;
+  public rootArticle: HTMLElement;
   @ViewChild('articleHeader')
   protected articleHeader: ElementRef;
 
@@ -44,7 +44,7 @@ export class ArticleThumbnailComponent implements OnInit {
 
     const options = {
       threshold: this.thresholds,
-      root: this.rootArticle.nativeElement,
+      root: this.rootArticle,
     };
     setTimeout(() => {
 

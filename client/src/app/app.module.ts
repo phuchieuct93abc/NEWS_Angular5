@@ -1,4 +1,3 @@
-import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';

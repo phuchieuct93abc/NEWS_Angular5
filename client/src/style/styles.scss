@@ -27,7 +27,7 @@ a {
   color: var(--hightlight-color) !important;
 
   &:hover {
-    text-decoration: none;
+    text-decoration: none !important; 
   }
 }
 

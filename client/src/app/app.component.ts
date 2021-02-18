@@ -76,9 +76,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.updateBodyClass(darkTheme);
         });
 
-        this.articleService.onStorySelected.subscribe((article) => {
-            this.getBlurImageUrl(article.getThumbnail());
-        });
+      
+       
 
 
         this.isSmallDevice = this.isMobile;
@@ -86,6 +85,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         
         this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
         this.track();
+
+        if(!this.isNode && !this.isSmallDevice ){
+            setTimeout(() => {
+                
+                this.articleService.onStorySelected.subscribe((article) => {
+                    if(article){
+
+                        this.getBlurImageUrl(article.getThumbnail());
+                    }
+                });
+            }, 1000);
+        }
 
     }
     public swipeRight(ev) {
@@ -111,7 +122,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     public getBlurImageUrl(url) {
-        if (!this.isSmallDevice && url !== undefined) {
+        if (url !== undefined) {
             this.image = `${CONFIG.baseUrl}blur?url=${url}`;
 
         }

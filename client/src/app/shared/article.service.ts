@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import Article from '../../../../model/Article';
@@ -19,7 +19,7 @@ import { IS_NODE } from './const';
 })
 export class ArticleService {
 
-    public onStorySelected = new Subject<Article>();
+    public onStorySelected = new BehaviorSubject<Article>(null);
 
     public constructor(private httpClient: HttpClient,
         private storyService: StoryService,

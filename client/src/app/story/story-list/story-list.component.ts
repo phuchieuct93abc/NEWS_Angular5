@@ -90,7 +90,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                 setTimeout(() => {
                     this.isLoading = false;
                     this.updateStoryList();
-                },5000);
+                },2000);
             }else{
                 this.updateStoryList();
             }

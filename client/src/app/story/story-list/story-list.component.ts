@@ -84,14 +84,14 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.loadOpenningStory();
 
         if (!this.isNode) {
-            if(this.openningStory.id){
+            if (this.openningStory.id) {
                 // Delay loading story list to improve UX when first load
                 this.isLoading = true;
                 setTimeout(() => {
                     this.isLoading = false;
                     this.updateStoryList();
-                },2000);
-            }else{
+                }, 2000);
+            } else {
                 this.updateStoryList();
             }
             this.registerPrevAndNext();
@@ -103,7 +103,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public loadOpenningStory() {
         this.getFirstStory().subscribe((story) => {
-            if(story === undefined){
+            if (story === undefined) {
                 return;
             }
             this.openningStory.story = story;
@@ -121,7 +121,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     }
 
-  
+
 
     public autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.openningStory.id) {
@@ -159,15 +159,16 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
             this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop, behavior: 'smooth' });
-        }, 0);
+        });
     }
 
     protected scrollTop() {
         if (this.isNode) {
             return;
         }
-        this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
-        // window.dispatchEvent(new CustomEvent('scroll'));
+        setTimeout(() => {
+            this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
+        });
 
     }
 
@@ -176,8 +177,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.stories = [];
         const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
         if (hasSwitchCategory) {
-            this.openningStory = {};            
-            setTimeout(this.scrollTop.bind(this));
+            this.openningStory = {};
+            this.scrollTop();
         }
         this.storyService.resetPageNumber();
     }
@@ -194,9 +195,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     private afterInitStories() {
-        setTimeout(() => {
-            // window?.dispatchEvent(new CustomEvent('scroll'));
-        });
+        this.scrollTop();
+    
     }
 
     private registerPrevAndNext() {
@@ -249,7 +249,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                     const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                     const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
                     const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
-                    article.story = Object.assign(new Story(),story);
+                    article.story = Object.assign(new Story(), story);
                     story.article = article;
                     observer.next(story);
                     observer.complete();

@@ -7,7 +7,8 @@ const externals = [
     'firebase-admin',
     'firebase-functions',
     'firebase-app',
-    'sharp'
+    'sharp',
+    'canvas'
 ];
 module.exports = {
 
@@ -31,11 +32,11 @@ module.exports = {
     module: {
         rules: [
             { test: /\.ts$/, loader: 'ts-loader' },
-
+            { test: /canvas\.node$/, loader: 'node-loader', },
         ]
     },
     plugins: [
-        
+
         new webpack.DefinePlugin({
             Event: JSON.stringify(true),
 
@@ -43,6 +44,8 @@ module.exports = {
     ],
     externals: externals.reduce(
         (acc, name) => Object.assign({}, acc, { [name]: true }),
-        {}
+        { canvas: {} },
+        {},
+
     ),
 };

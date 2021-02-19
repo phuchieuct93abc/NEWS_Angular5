@@ -195,8 +195,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     private afterInitStories() {
-        this.scrollTop();
-    
+        if(this.openningStory.id){
+            this.scrollTop();
+        }
     }
 
     private registerPrevAndNext() {

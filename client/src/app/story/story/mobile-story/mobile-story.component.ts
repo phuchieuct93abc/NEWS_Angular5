@@ -15,9 +15,6 @@ import { IS_MOBILE } from 'src/app/shared/const';
 })
 export class MobileStoryComponent extends StoryComponent {
 
-    @ViewChild('storyElement')
-    public storyElement: ElementRef;
-
     @ViewChild(ImageViewerComponent)
     public imageViewerComponent: ImageViewerComponent;
 

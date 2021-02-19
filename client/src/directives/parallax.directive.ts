@@ -10,7 +10,6 @@ export class ParallaxDirective implements OnDestroy {
   @Input()
   public maxParallax = 0;
   public readonly limitRangeParallax = 200;
-  public originalScale = 1;
   public onStopParallax$ = new Subject<void>();
   public scroll$ = new Subject<void>();
   public requestId: any;
@@ -44,7 +43,6 @@ export class ParallaxDirective implements OnDestroy {
       this.startScrollY = this.getOffsetTop();
       const boundingClientWidth = this.imageRef.nativeElement.getBoundingClientRect().width;
       const offSetWidth = this.imageRef.nativeElement.offsetWidth;
-      this.originalScale = boundingClientWidth / offSetWidth;
       this.imageRef.nativeElement.style.willChange = 'transform';
 
       fromEvent(window,'scroll').pipe(
@@ -63,7 +61,6 @@ export class ParallaxDirective implements OnDestroy {
     }
     this.setStoppongParallax(true);
     this.onStopParallax$.next();
-    this.imageRef.nativeElement.style.transform = `scale(${this.originalScale})`;
     window.cancelAnimationFrame(this.requestId);
     setTimeout(() => {
       this.setStoppongParallax(false);
@@ -117,7 +114,7 @@ export class ParallaxDirective implements OnDestroy {
       const elapsed = timestamp - startTimestamp;
       const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.2;
       const adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
-      this.imageRef.nativeElement.style.transform = `scale(${this.originalScale}) translateY(${adjustDeltaY}px)`;
+      this.imageRef.nativeElement.style.transform = `translateY(${adjustDeltaY}px)`;
 
       if (elapsed < 1000) {
         this.requestId = this.updateAnimation(startTimestamp);

@@ -11,7 +11,7 @@
     height: inherit;
     object-fit: inherit;
     transition: all linear 0.3s;
-    transition-property: scale, transform;
+    transition-property: transform;
     position: relative;
 
     &.parallaxing {

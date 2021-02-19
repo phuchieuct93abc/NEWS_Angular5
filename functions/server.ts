@@ -4,22 +4,37 @@ import app from "./app";
 
 
 const function_name = process.env.FUNCTION_NAME || process.env.K_SERVICE;
+console.log(function_name)
 if (!function_name || function_name === 'app') {
-    exports.app = functions.runWith({
-        timeoutSeconds: 20,
-        memory: '1GB'
-    }).https.onRequest(app);}
+    startApp();
+   }
 if (!function_name || function_name === 'apissr') {
-    exports.apissr = functions.runWith({
-        timeoutSeconds: 10,
-        memory: '1GB'
-    }).https.onRequest(api);}
+    startApiSSR();
+  }
 if (!function_name || function_name === 'api') {
-    exports.api = functions.runWith({
-        timeoutSeconds: 10,
-        memory: '1GB'
-    }).region("asia-northeast1").https.onRequest(api);}
+    startApi()
+   }
 
+    function startApp(){
+        exports.app = functions.runWith({
+            timeoutSeconds: 20,
+            memory: '1GB'
+        }).https.onRequest(app);
+    }
+    function startApiSSR(){
+        
+        exports.apissr = functions.runWith({
+            timeoutSeconds: 10,
+            memory: '1GB'
+        }).https.onRequest(api);
+    }
+
+    function startApi(){
+        exports.api = functions.runWith({
+            timeoutSeconds: 10,
+            memory: '1GB'
+        }).region("asia-northeast1").https.onRequest(api);
+    }
 
 
 

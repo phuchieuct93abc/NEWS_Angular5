@@ -13,7 +13,6 @@ export class AppShellRenderDirective implements OnInit {
         @Inject(PLATFORM_ID) private platformId) {}
 
     public ngOnInit() {
-        console.log(isPlatformServer(this.platformId))
         if (isPlatformServer(this.platformId)) {
             this.viewContainer.createEmbeddedView(this.templateRef);
         } else {

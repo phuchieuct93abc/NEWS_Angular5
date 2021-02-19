@@ -175,7 +175,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     protected resetStoryList() {
         this.stories = [];
-        const hasSwitchCategory = this.route.children[0].snapshot?.params?.category !== this.openningStory.category;
+        const hasSwitchCategory = !this.openningStory.category || this.category !== this.openningStory.category;
         if (hasSwitchCategory) {
             this.openningStory = {};
             this.scrollTop();
@@ -195,7 +195,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
     private afterInitStories() {
-        if(this.openningStory.id){
+        if(!this.openningStory.id){
             this.scrollTop();
         }
     }
@@ -230,8 +230,8 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.route.params.subscribe((params) => {
             this.$stopGetStories.next();
 
-            this.resetStoryList();
             this.category = params.category;
+            this.resetStoryList();
 
             this.loadFirstPage();
             this.configService.updateConfig({ category: this.category });

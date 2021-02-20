@@ -23,6 +23,8 @@ export abstract class StoryService {
                 const result = this.queryStories(response);
                 let stories = Array.from(result)
                     .map(r => {
+                        const a = this.storyParser.setData(r).parseStory();
+
                         return this.storyParser.setData(r).parseStory();
 
                     })

@@ -17,8 +17,9 @@ export abstract class StoryParser {
             if (!this.isValid()) {
                 return null;
             }
-            let id = this.parseId();
             let title = this.parseTitle();
+            
+            let id = this.parseId();
             let hasVideo = this.parseHasVideo();
             let url = this.parseUrl();
             let images = this.parseImages();

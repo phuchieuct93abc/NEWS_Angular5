@@ -38,7 +38,6 @@ export class StoryService {
     }
 
     public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
-        console.log(1)
         const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
  
         if (this.transferState.hasKey(COURSE_KEY)) {
@@ -50,15 +49,6 @@ export class StoryService {
             return this.favoriteService.getStories();
         }
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
-
-        //  if (this.isNode) {
-        //     this.loadingService.onLoading.next({
-        //         type: LoadingEventType.FINISH,
-        //         name: LoadingEventName.MORE_STORY,
-        //     });
-
-        //    return of([]);
-        //  }
 
         return this.httpClient.get<Story[]>(storyUrl, {
             params: {
@@ -78,7 +68,7 @@ export class StoryService {
 
 
                     this.checkReadStory(result);
-                    if (this.isNode) {                        
+                    if (this.isNode) {
                        this.transferState.set(COURSE_KEY, result.slice(0,20));
                     }
                     return result;
@@ -88,7 +78,7 @@ export class StoryService {
     }
 
     public resetPageNumber() {
-        this.currentStoryPage = 0;
+        this.currentStoryPage = 1;
         this.stories = [];
         this.storiesQueue = [];
     }
@@ -122,7 +112,7 @@ export class StoryService {
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.SEARCHING });
         return this.httpClient.get<Story[]>(searchUrl, {
             params: {
-                pageNumber: ++this.currentStoryPage + '',
+                pageNumber: this.currentStoryPage + '',
                 keyword,
             },
         }).pipe(
@@ -138,6 +128,7 @@ export class StoryService {
                     this.checkReadStory(result);
                     result = this.filterStory(result);
                     this.appendStoryList(result);
+                    this.currentStoryPage++;
                     return result;
                 },
             ));

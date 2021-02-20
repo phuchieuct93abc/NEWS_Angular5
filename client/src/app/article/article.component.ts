@@ -4,6 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, Aft
 import { ActivatedRoute } from '@angular/router';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil, throttle } from 'rxjs/operators';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
@@ -12,7 +13,6 @@ import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -69,7 +69,7 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         ) {
     }
 
-    
+
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();

@@ -3,11 +3,11 @@ import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/vi';
 
-dayjs.locale('vi') // use locale globally
-dayjs.extend(relativeTime)
+dayjs.locale('vi'); // use locale globally
+dayjs.extend(relativeTime);
 
 @Pipe({
-  name: 'toNow'
+  name: 'toNow',
 })
 export class ToNowPipe implements PipeTransform {
 

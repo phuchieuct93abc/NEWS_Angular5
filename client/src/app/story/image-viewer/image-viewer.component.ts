@@ -55,14 +55,14 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     private refreshImageResolution() {
 
         if (this.imagePath) {
-            const imageKey = makeStateKey<{imagePath:string,width:Number,height:number}>(`imageviewer-${this.imagePath}`);
+            const imageKey = makeStateKey<{imagePath: string;width: Number;height: number}>(`imageviewer-${this.imagePath}`);
 
             if(this.transferState.hasKey(imageKey)){
                 const {imagePath,width,height}=this.transferState.get(imageKey, null);
                 this.convertedImagePath = imagePath;
                 this.height = height;
                 this.width = width;
-                return
+                return;
             }
            const resolution =  new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
             if(resolution){
@@ -74,8 +74,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
                 this.transferState.set(imageKey,{
                     imagePath: this.convertedImagePath,
                     width: this.width,
-                    height: this.height
-                })
+                    height: this.height,
+                });
 
             }else{
                 setTimeout(() => {

@@ -64,7 +64,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     @ViewChild(CdkDrag)
     public view: CdkDrag;
 
-  
 
     public animationName = 'none';
     public isCollapseArticle = false;
@@ -87,7 +86,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         //Override article in desktop mode
     }
 
- 
 
     public collapseArticle() {
         this.isCollapseArticle = false;

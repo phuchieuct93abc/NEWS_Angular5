@@ -49,7 +49,7 @@ export function Cache(cacheConfiguaration: CacheConfiguaration = {ttl:1000*60*10
         if(typeof window === 'undefined'){
             cacheConfiguaration.ttl = 1000;
         }
- 
+
         const groupCache = cacheConfiguaration?.id ? `${cacheConfiguaration.id}_cached` : `${propertyKey}_cached`;
         const originalFunction = descriptor.value;
         target[groupCache] = {};

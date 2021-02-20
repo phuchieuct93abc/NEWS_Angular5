@@ -1,4 +1,3 @@
-import { IS_NODE } from './shared/const';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
@@ -6,8 +5,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatSidenav } from '@angular/material/sidenav';
-import CONFIG from '../environments/environment';
 import { IS_MOBILE } from 'src/app/shared/const';
+import CONFIG from '../environments/environment';
+import { IS_NODE } from './shared/const';
 import { ConfigService } from './shared/config.service';
 import { ArticleService } from './shared/article.service';
 import { AppService } from './app.service';
@@ -76,19 +76,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.updateBodyClass(darkTheme);
         });
 
-      
-       
-
 
         this.isSmallDevice = this.isMobile;
         this.isOpenSidebar = !this.isSmallDevice ;
-        
+
         this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
         this.track();
 
         if(!this.isNode && !this.isSmallDevice ){
             setTimeout(() => {
-                
+
                 this.articleService.onStorySelected.subscribe((article) => {
                     if(article){
 

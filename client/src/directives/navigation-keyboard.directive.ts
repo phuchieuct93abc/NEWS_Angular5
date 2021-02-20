@@ -3,7 +3,7 @@ import { Subject, interval } from 'rxjs';
 import { throttle, takeUntil } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appNavigationKeyboard]'
+  selector: '[appNavigationKeyboard]',
 })
 export class NavigationKeyboardDirective implements OnInit, OnDestroy {
   @Output()
@@ -22,34 +22,34 @@ export class NavigationKeyboardDirective implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.onKeyDown$.pipe(throttle(() => interval(100)),takeUntil(this.onDestroy$)).subscribe(event => {
+    this.onKeyDown$.pipe(throttle(() => interval(100)),takeUntil(this.onDestroy$)).subscribe((event) => {
       switch (event.key) {
-        case "ArrowDown":
-        case "s":
+        case 'ArrowDown':
+        case 's':
           return this.down.emit();
         case 'ArrowUp':
-        case "w":
+        case 'w':
           return this.up.emit();
         default:
           break;
       }
-    })
+    });
 
-    this.onKeyDown$.pipe(throttle(() => interval(1000)),takeUntil(this.onDestroy$)).subscribe(event => {
+    this.onKeyDown$.pipe(throttle(() => interval(1000)),takeUntil(this.onDestroy$)).subscribe((event) => {
       switch (event.key) {
         case 'ArrowLeft':
-        case "a":
+        case 'a':
           return this.left.emit();
 
         case 'ArrowRight':
-        case "d":
+        case 'd':
           return this.right.emit();
         default:
           break;
       }
 
 
-    })
+    });
 
   }
 

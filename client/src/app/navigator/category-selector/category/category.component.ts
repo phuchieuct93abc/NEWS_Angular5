@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {Category} from "../../../../../../model/Categories";
+import {Category} from '../../../../../../model/Categories';
 
 @Component({
     selector: 'app-category',
@@ -11,7 +11,7 @@ import {Category} from "../../../../../../model/Categories";
 export class CategoryComponent implements OnInit {
 
     @Input()
-    category: Category
+    category: Category;
 
     constructor() {
     }

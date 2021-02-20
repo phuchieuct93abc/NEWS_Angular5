@@ -1,8 +1,8 @@
 import {Inject, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import { IS_MOBILE } from 'src/app/shared/const';
 import {ConfigService} from '../shared/config.service';
 import CategoryHelper from '../../../../model/Categories';
-import { IS_MOBILE } from 'src/app/shared/const';
 
 
 @Injectable({

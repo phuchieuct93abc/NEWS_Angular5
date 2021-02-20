@@ -36,7 +36,7 @@ export class ArticleService {
         const story: Story = this.storyService.getById(id);
         if (this.transferState.hasKey(COURSE_KEY)) {
             const article = this.transferState.get<Article>(COURSE_KEY, null);
-            
+
             return of(Object.assign(new Article(), article));
         }
 

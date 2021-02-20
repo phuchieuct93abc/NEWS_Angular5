@@ -1,5 +1,5 @@
-import {DomService} from "../dom.service";
-import {VideoComponent} from "../article-content/video/video.component";
+import {DomService} from '../dom.service';
+import {VideoComponent} from '../article-content/video/video.component';
 
 export default class ArticleVideoParser {
     video: HTMLVideoElement;
@@ -23,7 +23,7 @@ export default class ArticleVideoParser {
             url: this.sourceUrl,
             poster: this.posterUrl,
             width: this.video.getAttribute('width'),
-            height: this.video.getAttribute('height')
+            height: this.video.getAttribute('height'),
         });
         this.video.remove();
 

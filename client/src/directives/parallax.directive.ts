@@ -49,7 +49,7 @@ export class ParallaxDirective implements OnDestroy {
         throttleTime(900, asyncScheduler, { leading: true, trailing: true }),
         takeUntil(this.onDestroy$),
         takeUntil(this.onStopParallax$)).subscribe(() => {
-          console.log('start')
+          console.log('start');
           this.requestAnimation();
         });
     }, 1000);
@@ -67,7 +67,6 @@ export class ParallaxDirective implements OnDestroy {
       this.setParallaxing(false);
     }, 1000);
   }
-
 
 
   public ngOnDestroy(): void {

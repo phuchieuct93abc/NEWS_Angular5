@@ -122,7 +122,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
 
-
     public autoSelectFirstStory() {
         if (!this.isSmallScreen && !this.openningStory.id) {
             setTimeout(() => {
@@ -304,8 +303,6 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
         });
     }
-
-
 
 
     private getLoadMoreObservable(): Observable<Story[]> {

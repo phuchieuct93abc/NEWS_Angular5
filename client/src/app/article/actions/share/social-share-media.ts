@@ -68,7 +68,7 @@ export default function GetSocialMediaSiteLinks_WithShareLinks(args) {
         'bccemailaddress',
     ];
 
-    for (var i = 0; i < validargs.length; i++) {
+    for (let i = 0; i < validargs.length; i++) {
         const validarg = validargs[i];
         if (!args[validarg]) {
             args[validarg] = '';
@@ -92,7 +92,7 @@ export default function GetSocialMediaSiteLinks_WithShareLinks(args) {
     const cc_email_address = fixedEncodeURIComponent(args.ccemailaddress);
     const bcc_email_address = fixedEncodeURIComponent(args.bccemailaddress);
 
-    var text = title;
+    let text = title;
 
     if (desc) {
         text += '%20%3A%20';	// This is just this, " : "
@@ -139,7 +139,7 @@ export default function GetSocialMediaSiteLinks_WithShareLinks(args) {
 }
 
 function fixedEncodeURIComponent(str) {
-    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+    return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
         return '%' + c.charCodeAt(0).toString(16);
     });
 }

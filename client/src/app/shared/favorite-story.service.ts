@@ -1,13 +1,13 @@
-import {Injectable} from "@angular/core";
-import {LocalStorageService} from "./storage.service";
-import {Story} from "../../../../model/Story";
-import { Observable, of } from "rxjs";
+import {Injectable} from '@angular/core';
+import { Observable, of } from 'rxjs';
+import {Story} from '../../../../model/Story';
+import {LocalStorageService} from './storage.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class FavoriteService {
-    readonly FAVORITE_ID = "favorite-id";
+    readonly FAVORITE_ID = 'favorite-id';
     private favorites: Story[] = [];
 
     constructor(private storageService: LocalStorageService) {
@@ -18,7 +18,7 @@ export class FavoriteService {
 
     findById(id: string): Story {
 
-        return this.favorites.find(favorite => favorite.id === id);
+        return this.favorites.find((favorite) => favorite.id === id);
     }
 
     getStories(): Observable<any> {
@@ -27,7 +27,7 @@ export class FavoriteService {
     }
 
     removeFavorite(story: Story) {
-        this.favorites = this.favorites.filter(favorite => favorite.id != story.id);
+        this.favorites = this.favorites.filter((favorite) => favorite.id != story.id);
         this.updateFavorite();
 
     }
@@ -37,7 +37,7 @@ export class FavoriteService {
     }
 
     addFavorite(story: Story) {
-        if (this.favorites.find(favorite => favorite.id === story.id) == undefined) {
+        if (this.favorites.find((favorite) => favorite.id === story.id) == undefined) {
             this.favorites.push(story);
         }
 

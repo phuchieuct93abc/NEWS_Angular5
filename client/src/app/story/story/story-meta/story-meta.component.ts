@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Story } from "../../../../../../model/Story";
+import { Story } from '../../../../../../model/Story';
 import CONFIG from '../../../../environments/environment';
 
 @Component({
@@ -10,18 +10,17 @@ import CONFIG from '../../../../environments/environment';
 export class StoryMetaComponent implements OnInit {
 
     @Input()
-    story: Story
+    story: Story;
 
-    sourceIcon: string
+    sourceIcon: string;
 
     constructor() {
     }
 
     ngOnInit() {
-        if (this.story.storyMeta.sourceIcon && this.story.storyMeta.sourceIcon.indexOf("http") < 0) {
-            this.sourceIcon = `${CONFIG.baseUrl}${this.story.storyMeta.sourceIcon}`
-        }
-        else {
+        if (this.story.storyMeta.sourceIcon && this.story.storyMeta.sourceIcon.indexOf('http') < 0) {
+            this.sourceIcon = `${CONFIG.baseUrl}${this.story.storyMeta.sourceIcon}`;
+        } else {
             this.sourceIcon = this.story.storyMeta.sourceIcon;
         }
     }

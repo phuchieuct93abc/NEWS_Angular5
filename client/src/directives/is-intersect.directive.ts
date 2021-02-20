@@ -1,5 +1,5 @@
-import { IS_NODE } from './../app/shared/const';
 import { Directive, Output, OnInit, ElementRef, EventEmitter, AfterViewInit, NgZone, Inject } from '@angular/core';
+import { IS_NODE } from './../app/shared/const';
 
 @Directive({
   selector: '[appIsIntersect]',

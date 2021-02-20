@@ -1,8 +1,8 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper, { Category } from '../../../../model/Categories';
 import { ConfigService } from '../shared/config.service';
 import { opacityNgIf } from '../animation';
-import { IS_MOBILE } from 'src/app/shared/const';
 import { DestroySubscriber } from './../shared/destroy-subscriber';
 
 @Component({

@@ -44,7 +44,5 @@ export class MobileStoryListComponent extends StoryListComponent implements OnDe
 
     }
 
-   
-
 
 }

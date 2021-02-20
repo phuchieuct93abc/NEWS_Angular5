@@ -1,12 +1,12 @@
-import { IS_NODE } from './../../../shared/const';
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { StoryComponent } from '../story.component';
 import { ConfigService } from '../../../shared/config.service';
 import { FavoriteService } from '../../../shared/favorite-story.service';
 import { StoryListService } from '../../story-list/story-list.service';
 import { ImageViewerComponent } from './../../image-viewer/image-viewer.component';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { IS_NODE } from './../../../shared/const';
 
 @Component({
     selector: 'app-mobile-story',

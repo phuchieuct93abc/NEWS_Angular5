@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper from '../../../../model/Categories';
 import { AppComponent } from '../app.component';
 import { AppService } from '../app.service';
 import { ConfigService } from '../shared/config.service';
 import { DestroySubscriber } from './../shared/destroy-subscriber';
 import { Category } from './../../../../model/Categories';
-import { IS_MOBILE } from 'src/app/shared/const';
 
 @Component({
     selector: 'app-navigator',

@@ -28,12 +28,6 @@
           }
         ],
         "@typescript-eslint/consistent-type-definitions": "error",
-        "@typescript-eslint/explicit-member-accessibility": [
-          "error",
-          {
-            "accessibility": "explicit"
-          }
-        ],
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-var-requires": "error",
         "arrow-parens": [

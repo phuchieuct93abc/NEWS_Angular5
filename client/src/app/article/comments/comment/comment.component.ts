@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import ArticleComment from "../../../../../../model/ArticleComment";
+import ArticleComment from '../../../../../../model/ArticleComment';
 
 @Component({
     selector: 'app-comment',
     templateUrl: './comment.component.html',
-    styleUrls: ['./comment.component.scss']
+    styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent implements OnInit {
 
@@ -15,7 +15,7 @@ export class CommentComponent implements OnInit {
     }
 
     ngOnInit() {
-       this.comment.avatar = this.comment.avatar.replace("http://","https://")
+       this.comment.avatar = this.comment.avatar.replace('http://','https://');
     }
 
 }

@@ -4,12 +4,12 @@ import { Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
 import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
-import { IS_MOBILE } from 'src/app/shared/const';
 
 @Component({
     selector: 'app-story',
@@ -30,7 +30,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     public category: Category;
     @ViewChild('ell')
     public ell: any;
-   
+
 
     public scrollTarget: any;
 
@@ -75,7 +75,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
         this.handleAutoOpenStory();
         if(this.story.isOpenning){
-            console.log("open story");
+            console.log('open story');
             this.onSelectStory();
         }
     }

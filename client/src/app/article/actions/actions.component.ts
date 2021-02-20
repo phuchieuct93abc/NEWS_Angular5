@@ -1,4 +1,3 @@
-import { IS_NODE } from './../../shared/const';
 import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
@@ -7,6 +6,7 @@ import { IS_MOBILE } from 'src/app/shared/const';
 import { FavoriteService } from '../../shared/favorite-story.service';
 import Article from '../../../../../model/Article';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
+import { IS_NODE } from './../../shared/const';
 
 @Component({
     selector: 'app-actions',
@@ -49,7 +49,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
-        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean 
+        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean,
     ) {
     }
 

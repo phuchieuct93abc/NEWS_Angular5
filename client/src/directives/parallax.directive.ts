@@ -111,8 +111,6 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   private untilStable(): Observable<void> {
-   
-
     return new Observable((observer) => {
       const timeToCheck = 50;
       const maxCheck = 2000 / 50;

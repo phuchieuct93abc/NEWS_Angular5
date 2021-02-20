@@ -1,24 +1,22 @@
-import { Directive, ElementRef, Input, Renderer2, OnDestroy, Inject } from '@angular/core';
-import { Subject, asyncScheduler, fromEvent, interval } from 'rxjs';
-import { throttleTime, takeUntil, throttle } from 'rxjs/operators';
+import { Directive, ElementRef, Input, OnDestroy, Inject } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
-
 @Directive({
   selector: '[appParallax]',
 })
 export class ParallaxDirective implements OnDestroy {
+  static thresholdSets: number[];
   @Input()
   public maxParallax = 0;
   public readonly limitRangeParallax = 200;
   public onStopParallax$ = new Subject<void>();
-  public scroll$ = new Subject<void>();
-  public requestId: any;
   public onDestroy$ = new Subject<void>();
   public startScrollY = 0;
+  private observer: IntersectionObserver;
 
 
   public constructor(private imageRef: ElementRef<HTMLImageElement>,
-    private renderer2: Renderer2,
     @Inject(IS_NODE) private isNode: boolean) {
 
   }
@@ -37,22 +35,21 @@ export class ParallaxDirective implements OnDestroy {
     if (this.isNode) {
       return;
     }
+    this.initThresholdSet();
+    this.setParallaxing(true);
+    this.imageRef.nativeElement.style.willChange = 'transform';
+    this.observer?.disconnect?.();
 
-    setTimeout(() => {
-      this.setParallaxing(true);
+    this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
+      rootMargin: '-60px 0px 0px 0px',
+      threshold: ParallaxDirective.thresholdSets,
+    });
+
+    this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.startScrollY = this.getOffsetTop();
-      const boundingClientWidth = this.imageRef.nativeElement.getBoundingClientRect().width;
-      const offSetWidth = this.imageRef.nativeElement.offsetWidth;
-      this.imageRef.nativeElement.style.willChange = 'transform';
+      this.observer.observe(this.imageRef.nativeElement);
+    });
 
-      fromEvent(window,'scroll').pipe(
-        throttleTime(900, asyncScheduler, { leading: true, trailing: true }),
-        takeUntil(this.onDestroy$),
-        takeUntil(this.onStopParallax$)).subscribe(() => {
-          console.log('start');
-          this.requestAnimation();
-        });
-    }, 1000);
   }
 
   public stopParallax() {
@@ -61,16 +58,26 @@ export class ParallaxDirective implements OnDestroy {
     }
     this.setStoppongParallax(true);
     this.onStopParallax$.next();
-    window.cancelAnimationFrame(this.requestId);
-    setTimeout(() => {
+    this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.setStoppongParallax(false);
       this.setParallaxing(false);
-    }, 1000);
+      this.observer?.disconnect?.();
+
+    });
   }
 
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+  }
+
+  initThresholdSet() {
+    if (!ParallaxDirective.thresholdSets) {
+      ParallaxDirective.thresholdSets = [];
+      for (let i = 0; i <= 1.0; i += 0.01) {
+        ParallaxDirective.thresholdSets.push(i);
+      }
+    }
   }
 
   private setParallaxing(isParallaxing: boolean) {
@@ -97,40 +104,34 @@ export class ParallaxDirective implements OnDestroy {
 
   }
 
-  private requestAnimation() {
-    if (this.isScrollTooFar()) {
-      return;
-    }
-    return this.updateAnimation();
-
-  }
-
-  private updateAnimation(startTimestamp?) {
-    this.requestId = window.requestAnimationFrame((timestamp) => {
-      if (startTimestamp === undefined) {
-        startTimestamp = timestamp;
-      }
-      const elapsed = timestamp - startTimestamp;
-      const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.2;
-      const adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
-      this.imageRef.nativeElement.style.transform = `translateY(${adjustDeltaY}px)`;
-
-      if (elapsed < 1000) {
-        this.requestId = this.updateAnimation(startTimestamp);
-      }
-    });
-    return this.requestId;
-  }
-
-  private isScrollTooFar() {
+  private updateAnimation() {
     const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.2;
-    if (deltaY < 0) {
-      return deltaY < 0 - this.limitRangeParallax;
-    } else if (deltaY > this.maxParallax) {
-      return (deltaY - this.maxParallax) > this.limitRangeParallax;
-    }
-    return false;
+    const adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
+    this.imageRef.nativeElement.style.transform = `translateY(${adjustDeltaY}px)`;
+  }
 
+  private untilStable(): Observable<void> {
+   
+
+    return new Observable((observer) => {
+      const timeToCheck = 50;
+      const maxCheck = 2000 / 50;
+      let check = 0;
+      let equalTime = 0;
+      let previousOffset = this.getOffsetTop();
+      const interval = setInterval(() => {
+        check++;
+        equalTime = this.getOffsetTop() === previousOffset? equalTime + 1: equalTime;
+        if (check > maxCheck || equalTime === 2) {
+          clearInterval(interval);
+          observer.next();
+          observer.complete();
+
+        } else {
+          previousOffset = this.getOffsetTop();
+        }
+      }, timeToCheck);
+    });
   }
 
 }

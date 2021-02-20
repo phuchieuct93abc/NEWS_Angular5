@@ -1,9 +1,10 @@
+import { IS_MOBILE } from './../shared/const';
 import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, AfterViewInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fromEvent, interval, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
+import { takeUntil, throttle, throttleTime } from 'rxjs/operators';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
@@ -60,15 +61,16 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public constructor(
         @Inject(IS_NODE) private isNode: boolean,
+        @Inject(IS_MOBILE) private isMobile: boolean,
         protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
         protected storyListService: StoryListService,
         protected zone: NgZone,
         protected scrollDispatcher: ScrollDispatcher,
+
         ) {
     }
-
 
     public ngOnInit() {
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
@@ -81,9 +83,10 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
             this.fontSize = fontSize;
         });
     }
+
     public ngAfterViewInit(): void {
-        // this.scrollDispatcher.scrolled().pipe(throttle(() => interval(1000))).subscribe(() => {
-        //     window.dispatchEvent(new CustomEvent('scroll'));
+        // this.scrollDispatcher.scrolled().pipe(throttle(()=>interval(500))).subscribe(() => {
+        //     window.dispatchEvent(new CustomEvent('parallax-scroll'));
         // });
     }
 
@@ -114,6 +117,7 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         this.articleId = null;
         this.article = null;
     }
+
     protected getArticleById(articleId, categoryId) {
         if (articleId && categoryId) {
             this.categoryId = categoryId;

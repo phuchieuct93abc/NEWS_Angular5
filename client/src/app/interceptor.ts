@@ -17,13 +17,11 @@ export class NoopInterceptor implements HttpInterceptor {
         Observable<HttpEvent<any>> {
         console.time(req.url + '?' + req.params);
         return next.handle(req).pipe(tap((data) => {
-            console.log(data)
             if (data instanceof HttpResponse) {
                           console.timeLog(req.url + '?' + req.params);
             }
         }),
         catchError((error: HttpErrorResponse)=>{
-            console.log(error)
             this.snackBar.open('!Oop, something went wrong');
             return throwError(error);
         }));

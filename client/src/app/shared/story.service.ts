@@ -63,7 +63,6 @@ export class StoryService {
 
 
                     this.checkReadStory(result);
-                   
                     return result;
                 },
             ));

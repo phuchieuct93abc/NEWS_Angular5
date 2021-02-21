@@ -1,4 +1,3 @@
-import { IS_MOBILE } from './../shared/const';
 import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, AfterViewInit, NgZone } from '@angular/core';
@@ -11,6 +10,7 @@ import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
 import { StoryListService } from '../story/story-list/story-list.service';
+import { IS_MOBILE } from './../shared/const';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';

@@ -14,15 +14,6 @@
     transition-property: transform;
     position: relative;
 
-    &.parallaxing {
-      transition-duration: 50ms;
-    }
-
-    &.stopping-parallax {
-      transition: none;
-    }
- 
-
   }
 
   .videocam {

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnDestroy, Inject } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
@@ -9,11 +9,17 @@ export class ParallaxDirective implements OnDestroy {
   static thresholdSets: number[];
   @Input()
   public maxParallax = 0;
+  @Input()
+  public startOffsetParallax = undefined;
+  @HostBinding('style.transition')
+  public transition;
   public readonly limitRangeParallax = 200;
-  public onStopParallax$ = new Subject<void>();
   public onDestroy$ = new Subject<void>();
   public startScrollY = 0;
   private observer: IntersectionObserver;
+  private previousTransition: string;
+
+
 
 
   public constructor(private imageRef: ElementRef<HTMLImageElement>,
@@ -35,9 +41,9 @@ export class ParallaxDirective implements OnDestroy {
     if (this.isNode) {
       return;
     }
+    this.previousTransition = this.transition;
+    this.transition = 'none';
     this.initThresholdSet();
-    this.setParallaxing(true);
-    this.imageRef.nativeElement.style.willChange = 'transform';
     this.observer?.disconnect?.();
 
     this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
@@ -46,7 +52,7 @@ export class ParallaxDirective implements OnDestroy {
     });
 
     this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.startScrollY = this.getOffsetTop();
+      this.startScrollY = this.startOffsetParallax ?? this.getOffsetTop();
       this.observer.observe(this.imageRef.nativeElement);
     });
 
@@ -56,13 +62,10 @@ export class ParallaxDirective implements OnDestroy {
     if (this.isNode) {
       return;
     }
-    this.setStoppongParallax(true);
-    this.onStopParallax$.next();
+    this.observer?.disconnect?.();
+    this.updateTranform(0);
     this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.setStoppongParallax(false);
-      this.setParallaxing(false);
-      this.observer?.disconnect?.();
-
+      this.transition = this.previousTransition;
     });
   }
 
@@ -80,34 +83,20 @@ export class ParallaxDirective implements OnDestroy {
     }
   }
 
-  private setParallaxing(isParallaxing: boolean) {
-    if (isParallaxing) {
-      this.imageRef.nativeElement.classList.add('parallaxing');
-    } else {
-      this.imageRef.nativeElement.classList.remove('parallaxing');
-
-    }
-  }
-
-
-  private setStoppongParallax(isParallaxing: boolean) {
-    if (isParallaxing) {
-      this.imageRef.nativeElement.classList.add('stopping-parallax');
-    } else {
-      this.imageRef.nativeElement.classList.remove('stopping-parallax');
-
-    }
-  }
-
   private getOffsetTop() {
     return this.imageRef.nativeElement.getBoundingClientRect().top;
 
   }
 
   private updateAnimation() {
-    const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.2;
+    const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.3;
     const adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
-    this.imageRef.nativeElement.style.transform = `translateY(${adjustDeltaY}px)`;
+    this.updateTranform(adjustDeltaY);
+  }
+
+  private updateTranform(translateY: number){
+    this.imageRef.nativeElement.style.transform = `translateY(${translateY}px)`;
+
   }
 
   private untilStable(): Observable<void> {
@@ -120,7 +109,7 @@ export class ParallaxDirective implements OnDestroy {
       const interval = setInterval(() => {
         check++;
         equalTime = this.getOffsetTop() === previousOffset? equalTime + 1: equalTime;
-        if (check > maxCheck || equalTime === 2) {
+        if (check > maxCheck || equalTime === 3) {
           clearInterval(interval);
           observer.next();
           observer.complete();

@@ -23,9 +23,9 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @Input()
     public parallax: boolean;
     @Input()
-    public maxParallax = 40;
-    // @Input()
-    // public responsive = false;
+    public maxParallax = 60;
+    @Input()
+    public startOffsetParllax = undefined;
 
 
     public onDestroy$ = new Subject<void>();

@@ -22,7 +22,7 @@ export class NoopInterceptor implements HttpInterceptor {
             }
         }),
         catchError((error: HttpErrorResponse)=>{
-            this.snackBar.open('!Oop, something went wrong');
+            this.snackBar.open('!Oop, something went wrong',null,{duration:2000});
             return throwError(error);
         }));
     }

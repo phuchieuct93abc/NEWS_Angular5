@@ -19,6 +19,8 @@ export class ParallaxDirective implements OnDestroy {
   private observer: IntersectionObserver;
   private previousTransition: string;
 
+  private isParallaxing = false;
+
 
 
 
@@ -31,7 +33,8 @@ export class ParallaxDirective implements OnDestroy {
   public set appParallax(value: boolean) {
     if (value) {
       this.startParallax();
-    } else {
+      this.isParallaxing = true;
+    } else if(this.isParallaxing) {
       this.stopParallax();
     }
   }
@@ -43,6 +46,7 @@ export class ParallaxDirective implements OnDestroy {
     }
     this.previousTransition = this.transition;
     this.transition = 'none';
+
     this.initThresholdSet();
     this.observer?.disconnect?.();
 

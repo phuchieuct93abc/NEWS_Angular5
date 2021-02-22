@@ -1,13 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Story } from '../../../../../model/Story';
-import { ArticleService } from '../../shared/article.service';
-import { ConfigService } from '../../shared/config.service';
-import { StoryListService } from '../../story/story-list/story-list.service';
+import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild, OnInit } from '@angular/core';
 import { ArticleComponent } from '../article.component';
-import { DomService } from '../dom.service';
 
 
 const SWIPE_LEFT = 'swipeLeft';
@@ -16,7 +10,7 @@ const SWIPE_RIGHT = 'swipeRight';
 @Component({
     selector: 'app-inline-article',
     templateUrl: './inline-article.component.html',
-    styleUrls: ['./inline-article.component.scss'],
+    styleUrls: ['../article.component.scss','./inline-article.component.scss'],
     animations: [
         trigger('swipe', [
 

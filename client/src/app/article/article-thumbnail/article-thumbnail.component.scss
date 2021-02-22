@@ -18,9 +18,6 @@
       top: 0;
       bottom: unset;
     }
-    .article-header {
-      //padding: 0 !important;
-    }
   }
   .thumbnail {
     position: absolute;
@@ -71,8 +68,5 @@
       transition: all 200ms linear;
     }
 
-    .blur-edge.blur-top {
-      top: 48px;
-    }
   }
 }

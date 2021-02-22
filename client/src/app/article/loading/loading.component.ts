@@ -6,19 +6,13 @@ import { ConfigService } from '../../shared/config.service';
     templateUrl: './loading.component.html',
     styleUrls: ['./loading.component.scss'],
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent implements OnInit{
 
-    @Input()
-    public isSmall: boolean;
-    public sizeCls: string;
-
+    public isDarkTheme = true;
     public constructor(public config: ConfigService) {
-    }
-
-    public ngOnInit() {
-        this.sizeCls = 'small';
-
 
     }
-
+    ngOnInit(): void {
+        this.isDarkTheme = this.config.getConfig().value.darkTheme;
+    }
 }

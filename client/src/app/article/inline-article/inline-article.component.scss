@@ -1,12 +1,8 @@
-@import "../article.component";
-
 .article {
 
   background-color: transparent !important;
 
-  &.cdk-drag-dragging {
-    transition: none;
-  }
+ 
 
   .article-view {
     transition: opacity 0.2s linear;
@@ -16,12 +12,7 @@
 
   }
 
-  .favorite {
-    position: sticky;
-    top: 100px;
-    z-index: 10;
 
-  }
 
   .article-body {
     //background-color: white;
@@ -43,18 +34,5 @@
   }
 
 
-
-}
-
-.font-size-1 {
-  font-size: 14px;
-}
-
-.font-size-2 {
-  font-size: 16px;
-}
-
-.font-size-3 {
-  font-size: 18px;
 
 }

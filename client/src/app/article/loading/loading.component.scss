@@ -1,11 +1,3 @@
-img {
-  height: 100px;
-  width: auto;
-  display: inline-block;
-  transform: scale(1) !important;;
-  border: none;
-  animation: run 4s linear infinite;
-}
 
 :host {
   border: none;
@@ -42,7 +34,7 @@ img {
 
 //  #F6F6F6     #F0F0F0
 @mixin type2($height,$height-line,$background,$color) {
-  .animated-background {
+  %animated-background {
     animation-duration: 1.25s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
@@ -67,7 +59,7 @@ img {
         height: $height;
         width: $height;
         border-radius: 8px;
-        @extend .animated-background;
+        @extend %animated-background;
       }
 
       .text-placeholder {
@@ -79,7 +71,7 @@ img {
 
         .text-line {
           height: $height-line;
-          @extend .animated-background;
+          @extend %animated-background;
           margin-bottom: 1rem;
         }
       }
@@ -124,15 +116,15 @@ img {
     }
 
   }
-// Not used
-  &.big {
-    @include type2(200px, 20px, #F6F6F6, #e5e5e5);
+// // Not used
+//   &.big {
+//     @include type2(200px, 20px, #F6F6F6, #e5e5e5);
 
-    &.dark {
-      @include type2(200px, 20px, #303030, #4a4a4d);
+//     &.dark {
+//       @include type2(200px, 20px, #303030, #4a4a4d);
 
-    }
-  }
+//     }
+//   }
 
 }
 

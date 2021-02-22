@@ -6,7 +6,7 @@ import { StoryListComponent } from '../story-list.component';
 @Component({
     selector: 'app-mobile-story-list',
     templateUrl: './mobile-story-list.component.html',
-    styleUrls: ['./mobile-story-list.component.scss'],
+    styleUrls: ['./mobile-story-list.component.scss','../story-list.component.scss'],
 })
 export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
 

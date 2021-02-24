@@ -2,6 +2,8 @@
 @import "font";
 @import "dark-theme";
 @import "ant";
+@import '~bootstrap/scss/bootstrap';
+@import '~normalize.css/normalize';
 
 html,
 body {
@@ -160,4 +162,3 @@ body:not(.small-device){
 
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';

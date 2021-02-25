@@ -18,11 +18,13 @@ body {
     background .3s cubic-bezier(.645, .045, .355, 1),
     padding .15s cubic-bezier(.645, .045, .355, 1);
 }
-
-
-*:focus {
-  outline: none;
+body{
+  *:focus {
+    outline: none;
+  }
 }
+
+
 
 a {
   transition: var(--text-transition);

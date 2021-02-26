@@ -1,5 +1,4 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -89,7 +88,6 @@ const isMobileProvider =
         ClipboardModule,
         NZModule,
         LazyLoadImageModule,
-        ScrollingModule,
         HammerModule,
         BrowserTransferStateModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: CONFIG.production }),

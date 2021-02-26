@@ -1,5 +1,5 @@
 <div class="h-100 story-list">
-    <div #scrollingBlock class="scrollable" cdkScrollable>
+    <div #scrollingBlock class="scrollable">
         <div class="blur-edge blur-top" *ngIf="stories && currentScrollIndex>0"></div>
 
         <app-story *ngIf="openningStory.story"   [story]="openningStory.story"

@@ -1,16 +1,14 @@
 import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, AfterViewInit, NgZone } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { fromEvent, interval, Subject } from 'rxjs';
-import { takeUntil, throttle, throttleTime } from 'rxjs/operators';
-import { ScrollDispatcher } from '@angular/cdk/overlay';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
 import { StoryListService } from '../story/story-list/story-list.service';
-import { IS_MOBILE } from './../shared/const';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';
@@ -39,7 +37,7 @@ import ArticleVideoParser from './parsers/article-video.parser';
     ]
 
 })
-export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ArticleComponent implements OnInit, OnDestroy {
 
     @ViewChild('articleContent')
     public articleContent: ElementRef<HTMLParagraphElement>;
@@ -61,18 +59,16 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public constructor(
         @Inject(IS_NODE) private isNode: boolean,
-        @Inject(IS_MOBILE) private isMobile: boolean,
         protected route: ActivatedRoute, protected articleService: ArticleService,
         protected domService: DomService,
         protected configService: ConfigService,
         protected storyListService: StoryListService,
-        protected zone: NgZone,
-        protected scrollDispatcher: ScrollDispatcher
+        protected zone: NgZone
 
         ) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void{
         this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
             this.stopGetArticle$.next();
             this.resetArticle();
@@ -82,12 +78,6 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ fontSize }) => {
             this.fontSize = fontSize;
         });
-    }
-
-    public ngAfterViewInit(): void {
-        // this.scrollDispatcher.scrolled().pipe(throttle(()=>interval(500))).subscribe(() => {
-        //     window.dispatchEvent(new CustomEvent('parallax-scroll'));
-        // });
     }
 
 

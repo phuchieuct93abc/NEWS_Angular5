@@ -18,48 +18,59 @@
       "extends": [
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:@angular-eslint/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "rules": {
-        "@typescript-eslint/array-type": [
+        "@angular-eslint/component-selector": [
           "error",
           {
-            "default": "array-simple"
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
           }
         ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/no-output-on-prefix": "off",
         "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/no-floating-promises":"off",
         "arrow-parens": [
-          "error",
+          "off",
           "always"
         ],
         "brace-style": [
           "error",
           "1tbs"
         ],
-        "comma-dangle": [
-          "error",
-          "always-multiline"
-        ],
+        "comma-dangle": "error",
+        "id-blacklist": "error",
         "import/order": "error",
-        "max-classes-per-file": [
-          "error",
-          1
-        ],
         "max-len": [
           "error",
           {
-            "code": 120
+            "code": 200
           }
         ],
         "no-empty": "error",
-        "no-fallthrough": "off",
-        "no-multiple-empty-lines": "error",
-        "quote-props": [
-          "error",
-          "consistent-as-needed"
-        ]
+        "no-multiple-empty-lines": "error"
       }
     },
     {

@@ -6,15 +6,15 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 
 const modules = [
-    NzSwitchModule,NzDividerModule,NzSliderModule,
+    NzSwitchModule,NzDividerModule,NzSliderModule
 ];
 
 @NgModule({
     exports: modules,
     imports: modules,
     providers: [
-        { provide: NZ_I18N, useValue: en_US },
-    ],
+        { provide: NZ_I18N, useValue: en_US }
+    ]
 })
 export class NZModule {
 }

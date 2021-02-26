@@ -7,8 +7,8 @@ import {slideInAnimation} from '../animation';
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     animations: [
-        slideInAnimation,
-    ],
+        slideInAnimation
+    ]
 })
 export class MainComponent {
 

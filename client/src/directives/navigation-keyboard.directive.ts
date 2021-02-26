@@ -3,7 +3,7 @@ import { Subject, interval } from 'rxjs';
 import { throttle, takeUntil } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appNavigationKeyboard]',
+  selector: '[appNavigationKeyboard]'
 })
 export class NavigationKeyboardDirective implements OnInit, OnDestroy {
   @Output()

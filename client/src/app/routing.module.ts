@@ -11,7 +11,7 @@ const routes: Routes = [
         path: '',
         component: DashboardComponent,
         data: { animation: 'Dashboard' },
-        canActivate: [CanActivateDashboard],
+        canActivate: [CanActivateDashboard]
     },
     {
 
@@ -21,9 +21,9 @@ const routes: Routes = [
         children: [
             { path: ':title/:id', component: ArticleComponent },
             { path: ':id', component: ArticleComponent },
-            { path: '', component: ArticleComponent },
-        ],
-    },
+            { path: '', component: ArticleComponent }
+        ]
+    }
 ];
 
 @NgModule({
@@ -31,9 +31,9 @@ const routes: Routes = [
         RouterModule.forRoot(routes, {
             initialNavigation: 'enabled',
             paramsInheritanceStrategy: 'always',
-            relativeLinkResolution: 'legacy',
+            relativeLinkResolution: 'legacy'
         })],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

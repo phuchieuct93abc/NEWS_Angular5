@@ -14,7 +14,7 @@ export default class ArticleImageParser {
         this.domService.appendComponent(ImageComponent, this.originalImageWrapperElement, {
             src: this.originalImageElement.src,
             width: this.originalImageElement.width,
-            height: this.originalImageElement.height,
+            height: this.originalImageElement.height
         });
         this.originalImageElement.remove();
 

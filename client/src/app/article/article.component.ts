@@ -24,19 +24,19 @@ import ArticleVideoParser from './parsers/article-video.parser';
 
             transition(':leave', [
                 style({ opacity: 1 }),
-                animate('0.3s', style({ opacity: 0 })),
+                animate('0.3s', style({ opacity: 0 }))
             ]),
             transition(':enter', [
                 style({ opacity: 0, height: 0 }),
                 animate('0.3s 0.3s',
-                    style({ opacity: 1, height: '*' }),
-                ),
+                    style({ opacity: 1, height: '*' })
+                )
 
-            ]),
-        ],
-        ),
+            ])
+        ]
+        )
 
-    ],
+    ]
 
 })
 export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -67,7 +67,7 @@ export class ArticleComponent implements OnInit, OnDestroy, AfterViewInit {
         protected configService: ConfigService,
         protected storyListService: StoryListService,
         protected zone: NgZone,
-        protected scrollDispatcher: ScrollDispatcher,
+        protected scrollDispatcher: ScrollDispatcher
 
         ) {
     }

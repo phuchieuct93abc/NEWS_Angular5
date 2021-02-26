@@ -6,7 +6,7 @@ import CategoryHelper from '../../../../model/Categories';
 
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class CanActivateDashboard implements CanActivate {
     public constructor(

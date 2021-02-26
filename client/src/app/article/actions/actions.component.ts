@@ -18,12 +18,12 @@ import { IS_NODE } from './../../shared/const';
 
             transition('*=>*', [
                 style({ transform: 'translateX(100%)', opacity: 0 }),
-                animate('500ms', style({ transform: 'translateX(0)', opacity: 1 })),
+                animate('500ms', style({ transform: 'translateX(0)', opacity: 1 }))
 
-            ]),
-        ]),
+            ])
+        ])
 
-    ],
+    ]
 })
 export class ActionsComponent implements OnInit, OnDestroy {
 
@@ -49,7 +49,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
-        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean,
+        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean
     ) {
     }
 
@@ -70,7 +70,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                 }
             }, {
                 rootMargin: '-80px 0px 0px 0px',
-                threshold: [0],
+                threshold: [0]
             });
             this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
                 if (data[0].target == this.wrapperElement) {
@@ -82,7 +82,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                 }
             }, {
                 rootMargin: '0px 0px 0px 0px',
-                threshold: [0],
+                threshold: [0]
             });
             setTimeout(() => {
                 RequestAnimationFrame(() => {
@@ -114,7 +114,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
             if (this.isFavorite) {
                 this.favoriteService.addFavorite(this.article.story);
                 this.snackBar.open('Add to favorite category successful', null, {
-                    duration: 2000,
+                    duration: 2000
                 });
             } else {
                 this.favoriteService.removeFavorite(this.article.story);

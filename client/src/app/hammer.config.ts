@@ -26,7 +26,7 @@ export class HammerConfig extends HammerGestureConfig {
     public buildHammer(element: HTMLElement) {
         if(!this.isNode){
             return new Hammer(element, {
-                 touchAction: 'pan-y',
+                 touchAction: 'pan-y'
             });
         }
         return undefined;

@@ -10,8 +10,8 @@ import { DestroySubscriber } from './../shared/destroy-subscriber';
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
     animations: [
-        opacityNgIf,
-    ],
+        opacityNgIf
+    ]
 })
 export class SidebarComponent extends DestroySubscriber implements OnInit {
 

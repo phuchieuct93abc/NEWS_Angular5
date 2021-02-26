@@ -12,7 +12,7 @@ export interface Config {
 const id = 'config';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class ConfigService {
     public static MIN_FONTSIZE = 15;
@@ -23,7 +23,7 @@ export class ConfigService {
         category: 'tin-nong',
         darkTheme: true,
         smallImage: true,
-        fontSize: 2,
+        fontSize: 2
     };
 
 

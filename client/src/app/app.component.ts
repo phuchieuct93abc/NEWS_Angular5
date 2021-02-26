@@ -23,24 +23,24 @@ import vars from './variable';
         trigger('opacityNgIf', [
             transition(':enter', [
                 style({ opacity: 0 }),
-                animate('1s 0.5s', style({ opacity: 1 })),
+                animate('1s 0.5s', style({ opacity: 1 }))
             ]),
             transition(':leave', [
                 style({ opacity: 1 }),
-                animate('1s', style({ opacity: 0 })),
-            ]),
+                animate('1s', style({ opacity: 0 }))
+            ])
         ]),
         trigger('opacityNgIfNoDelay', [
             transition(':enter', [
                 style({ opacity: 0 }),
-                animate('0.5s', style({ opacity: 1 })),
+                animate('0.5s', style({ opacity: 1 }))
             ]),
             transition(':leave', [
                 style({ opacity: 1 }),
-                animate('0.5s', style({ opacity: 0 })),
-            ]),
-        ]),
-    ],
+                animate('0.5s', style({ opacity: 0 }))
+            ])
+        ])
+    ]
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
-        private loadingService: LoadingService,
+        private loadingService: LoadingService
     ) {
     }
     public ngOnDestroy(): void {

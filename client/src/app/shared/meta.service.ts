@@ -3,7 +3,7 @@ import {Meta, Title} from '@angular/platform-browser';
 import Article from '../../../../model/Article';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class MetaService {
 
@@ -13,29 +13,29 @@ export class MetaService {
     updateMeta(article: Article) {
         this.titleService.setTitle(article.header);
         this.meta.updateTag(
-            {name: 'description', content: article.description},
+            {name: 'description', content: article.description}
         );
         this.meta.updateTag(
-            {name: 'site_name', content: 'Báo hiếu'},
+            {name: 'site_name', content: 'Báo hiếu'}
         );
         this.meta.updateTag(
-            {name: 'og:type', content: 'article'},
+            {name: 'og:type', content: 'article'}
         );
         this.meta.updateTag(
-            {name: 'og:title', content: article.header},
+            {name: 'og:title', content: article.header}
         );
         this.meta.updateTag(
-            {name: 'og:description', content: article.description},
+            {name: 'og:description', content: article.description}
         );
 
         this.meta.updateTag(
-            {name: 'og:image', content: article.getThumbnail()},
+            {name: 'og:image', content: article.getThumbnail()}
         );
         this.meta.updateTag(
-            {name: 'og:image:width', content: '2048'},
+            {name: 'og:image:width', content: '2048'}
         );
         this.meta.updateTag(
-            {name: 'og:image:height', content: '1268'},
+            {name: 'og:image:height', content: '1268'}
         );
 
 

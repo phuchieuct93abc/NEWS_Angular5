@@ -3,7 +3,7 @@ import { isPlatformServer } from '@angular/common';
 import { Directive, OnInit, ViewContainerRef, TemplateRef, Inject, PLATFORM_ID, Input } from '@angular/core';
 
 @Directive({
-    selector: '[appShellRender]',
+    selector: '[appShellRender]'
 })
 export class AppShellRenderDirective implements OnInit {
 
@@ -19,11 +19,11 @@ export class AppShellRenderDirective implements OnInit {
             this.viewContainer.clear();
         }
     }
-};
+}
 
 
 @Directive({
-    selector: '[appShellNoRender]',
+    selector: '[appShellNoRender]'
 })
 export class AppShellNoRenderDirective{
 

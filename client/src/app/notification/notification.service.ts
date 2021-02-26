@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import CONFIG from '../../environments/environment';
 
 @Injectable({
-    providedIn: `root`,
+    providedIn: `root`
 })
 export class NotificationService {
 
@@ -16,7 +16,7 @@ export class NotificationService {
 
         this.httpClient.post(CONFIG.baseUrl + 'subscribe', {
             token,
-            topic: 'BaoHieu',
+            topic: 'BaoHieu'
         }).subscribe((value)=>{
         });
     }

@@ -2,7 +2,7 @@ import { Directive, Output, OnInit, ElementRef, EventEmitter, AfterViewInit, NgZ
 import { IS_NODE } from './../app/shared/const';
 
 @Directive({
-  selector: '[appIsIntersect]',
+  selector: '[appIsIntersect]'
 })
 export class IsIntersectDirective implements AfterViewInit {
 
@@ -19,9 +19,9 @@ export class IsIntersectDirective implements AfterViewInit {
       async (data) => this.appIsIntersect.emit(data[0].isIntersecting)
       , {
         threshold: 0.1,
-        rootMargin: '200px',
+        rootMargin: '200px'
       })
       .observe(this.element.nativeElement);
   }
 
-};
+}

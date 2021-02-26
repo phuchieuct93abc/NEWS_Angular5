@@ -11,16 +11,16 @@ import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
     animations: [
         trigger('shareSites', [
             transition(':leave', [
-                animate('0.5s', style({ height: 0 })),
+                animate('0.5s', style({ height: 0 }))
             ]),
             transition(':enter', [
                 style({ height: 0 }),
-                animate('0.5s', style({ height: '*' })),
-            ]),
+                animate('0.5s', style({ height: '*' }))
+            ])
 
 
-        ]),
-    ],
+        ])
+    ]
 })
 export class ShareComponent {
 
@@ -32,7 +32,7 @@ export class ShareComponent {
     public share(provider: string) {
 
         const url = GetSocialMediaSiteLinks_WithShareLinks({
-            url: window.location.href,
+            url: window.location.href
         });
         window.open(url[provider], '_blank');
 
@@ -59,7 +59,7 @@ export class ShareComponent {
     public copyUrl() {
         this.clipboardService.copyFromContent(window.location.href);
         this.snackBar.open('Copied link successful', null, {
-            duration: 2000,
+            duration: 2000
         });
     }
 }

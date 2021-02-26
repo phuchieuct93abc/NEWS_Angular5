@@ -14,7 +14,7 @@ import { StoryListService } from '../story-list/story-list.service';
 @Component({
     selector: 'app-story',
     templateUrl: './story.component.html',
-    styleUrls: ['./story.component.scss'],
+    styleUrls: ['./story.component.scss']
 })
 export class StoryComponent implements OnInit, OnDestroy {
 

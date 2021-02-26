@@ -3,15 +3,15 @@ import {ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, I
 
 @Injectable(
     {
-        providedIn: 'root',
-    },
+        providedIn: 'root'
+    }
 )
 export class DomService {
 
     constructor(
         private componentFactoryResolver: ComponentFactoryResolver,
         private appRef: ApplicationRef,
-        private injector: Injector,
+        private injector: Injector
     ) {
     }
 

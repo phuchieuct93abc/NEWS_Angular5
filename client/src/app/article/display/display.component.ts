@@ -7,7 +7,7 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
     selector: 'app-display',
     templateUrl: './display.component.html',
     styleUrls: ['./display.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 })
 export class DisplayComponent extends DestroySubscriber implements OnInit {
     public minFontSize = ConfigService.MIN_FONTSIZE;

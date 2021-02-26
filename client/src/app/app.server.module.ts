@@ -10,9 +10,9 @@ import { AppComponent } from './app.component';
     AppModule,
     ServerModule,
     ServerTransferStateModule,
-    NoopAnimationsModule,
+    NoopAnimationsModule
 
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppServerModule {}

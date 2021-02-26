@@ -15,7 +15,7 @@ import { IS_NODE } from './const';
 
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class ArticleService {
 
@@ -47,8 +47,8 @@ export class ArticleService {
         const options = {
             params: {
                 url: id,
-                category,
-            },
+                category
+            }
         };
         this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
         return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
@@ -73,8 +73,8 @@ export class ArticleService {
     public getComment(id: string): Observable<ArticleComment[]> {
         return this.httpClient.get(CONFIG.baseUrl + 'comments', {
             params: {
-                id,
-            },
+                id
+            }
         }).pipe(retry(3), map((comments) => comments as ArticleComment[]));
     }
 

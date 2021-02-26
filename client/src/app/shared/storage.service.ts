@@ -7,7 +7,7 @@ export interface Storage {
 }
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class LocalStorageService implements Storage {
     getItem(id: string, fallbackValue: object): object {

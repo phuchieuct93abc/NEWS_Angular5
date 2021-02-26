@@ -20,29 +20,29 @@ const SWIPE_RIGHT = 'swipeRight';
             transition('show=>swipeRight', [
                 style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, transform: 'translateX(100%)' })),
+                animate('0.2s', style({ opacity: 0, transform: 'translateX(100%)' }))
             ]),
             transition('show=>swipeLeft', [
                 style({ opacity: 1, height: '*' }),
 
-                animate('0.2s', style({ opacity: 0, transform: 'translateX(-100%)' })),
-            ]),
+                animate('0.2s', style({ opacity: 0, transform: 'translateX(-100%)' }))
+            ])
 
         ]),
         trigger('showArticle', [
             transition('void=>true', [
                 style({ height: '0px' }),
 
-                animate('0.1s', style({ height: '*' })),
+                animate('0.1s', style({ height: '*' }))
             ]),
             transition('true=>false', [
                 style({ height: '*' }),
-                animate('0.1s', style({ height: '0' })),
-            ]),
-        ]),
+                animate('0.1s', style({ height: '0' }))
+            ])
+        ])
 
 
-    ],
+    ]
 
 
 })

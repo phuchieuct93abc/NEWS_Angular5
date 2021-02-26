@@ -9,7 +9,7 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent extends DestroySubscriber implements OnInit {
     public isSearching = false;

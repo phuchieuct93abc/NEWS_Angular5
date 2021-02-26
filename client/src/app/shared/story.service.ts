@@ -16,7 +16,7 @@ const searchUrl = CONFIG.baseUrl + `search`;
 const readId = 'read';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class StoryService {
     public onSearch = new Subject<string>();
@@ -32,7 +32,7 @@ export class StoryService {
         private loadingService: LoadingService,
         private favoriteService: FavoriteService,
         @Inject(IS_NODE) private isNode: boolean,
-        private transferState: TransferState,
+        private transferState: TransferState
     ) {
         this.readStory = storage.getItem(readId, []) as Story[];
     }
@@ -48,8 +48,8 @@ export class StoryService {
         return this.httpClient.get<Story[]>(storyUrl, {
             params: {
                 pageNumber: pageNumber + '',
-                category,
-            },
+                category
+            }
         }).pipe(
             retry(3),
             map(
@@ -58,13 +58,13 @@ export class StoryService {
 
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
-                        name: LoadingEventName.MORE_STORY,
+                        name: LoadingEventName.MORE_STORY
                     });
 
 
                     this.checkReadStory(result);
                     return result;
-                },
+                }
             ));
 
     }
@@ -105,15 +105,15 @@ export class StoryService {
         return this.httpClient.get<Story[]>(searchUrl, {
             params: {
                 pageNumber: this.currentStoryPage + '',
-                keyword,
-            },
+                keyword
+            }
         }).pipe(
             retry(3),
             map(
                 (result) => {
                     this.loadingService.onLoading.next({
                         type: LoadingEventType.FINISH,
-                        name: LoadingEventName.SEARCHING,
+                        name: LoadingEventName.SEARCHING
                     });
 
                     result = result.map((r) => (Object.assign(new Story(), r)));
@@ -122,7 +122,7 @@ export class StoryService {
                     this.appendStoryList(result);
                     this.currentStoryPage++;
                     return result;
-                },
+                }
             ));
     }
 

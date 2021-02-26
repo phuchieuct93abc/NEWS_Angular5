@@ -8,7 +8,7 @@ import { IS_NODE } from './../../shared/const';
 @Component({
     selector: 'app-image-viewer',
     templateUrl: './image-viewer.component.html',
-    styleUrls: ['./image-viewer.component.scss'],
+    styleUrls: ['./image-viewer.component.scss']
 })
 export class ImageViewerComponent implements OnInit, OnDestroy {
 
@@ -74,7 +74,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
                 this.transferState.set(imageKey,{
                     imagePath: this.convertedImagePath,
                     width: this.width,
-                    height: this.height,
+                    height: this.height
                 });
 
             }else{

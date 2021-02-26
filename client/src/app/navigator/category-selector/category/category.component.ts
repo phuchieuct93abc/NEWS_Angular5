@@ -5,7 +5,7 @@ import {Category} from '../../../../../../model/Categories';
     selector: 'app-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 
 })
 export class CategoryComponent implements OnInit {

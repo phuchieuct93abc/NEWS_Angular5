@@ -11,7 +11,7 @@ import { IS_NODE } from './../../../shared/const';
 @Component({
     selector: 'app-mobile-story',
     templateUrl: './mobile-story.component.html',
-    styleUrls: ['./mobile-story.component.scss'],
+    styleUrls: ['./mobile-story.component.scss']
 })
 export class MobileStoryComponent extends StoryComponent {
 
@@ -26,7 +26,7 @@ export class MobileStoryComponent extends StoryComponent {
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef,
+        protected element: ElementRef
     ) {
         super(isMobile, configService, favoriteService, route, activatedRoute, storyListService, element);
     }

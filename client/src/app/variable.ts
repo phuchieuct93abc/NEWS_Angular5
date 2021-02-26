@@ -1,5 +1,5 @@
 const vars = {
-    sideNavThreshold: 50,
+    sideNavThreshold: 50
 
 };
 export default vars;

@@ -19,7 +19,7 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
 @Component({
     selector: 'app-story-list',
     templateUrl: './story-list.component.html',
-    styleUrls: ['./story-list.component.scss'],
+    styleUrls: ['./story-list.component.scss']
 })
 export class StoryListComponent extends DestroySubscriber implements OnInit {
 
@@ -62,7 +62,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         protected configService: ConfigService,
         protected loadingService: LoadingService,
         protected articleService: ArticleService,
-        protected scrollDispatcher: ScrollDispatcher,
+        protected scrollDispatcher: ScrollDispatcher
     ) {
         super();
     }
@@ -79,7 +79,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         const params = this.route.children[0].snapshot?.params;
         this.openningStory = {
             id: params?.id,
-            category: params?.category,
+            category: params?.category
         };
         this.loadOpenningStory();
 

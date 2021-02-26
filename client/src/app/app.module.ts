@@ -73,7 +73,7 @@ const isMobileProvider =
             }
 
         },
-        deps: [BreakpointObserver, Injector],
+        deps: [BreakpointObserver, Injector]
     };
 
 @NgModule({
@@ -93,7 +93,7 @@ const isMobileProvider =
         HammerModule,
         BrowserTransferStateModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: CONFIG.production }),
-        NgbModule,
+        NgbModule
     ],
     declarations: [
         AppComponent,
@@ -134,7 +134,7 @@ const isMobileProvider =
         ArticleThumbnailComponent,
         ToNowPipe,
         AppShellNoRenderDirective,
-        AppShellRenderDirective,
+        AppShellRenderDirective
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -143,12 +143,12 @@ const isMobileProvider =
         { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
         isMobileProvider,
         Title,
-        Meta,
+        Meta
 
     ],
     entryComponents: [
-        VideoComponent, ImageViewerComponent, ImageComponent,
-    ],
+        VideoComponent, ImageViewerComponent, ImageComponent
+    ]
 })
 export class AppModule {
 }

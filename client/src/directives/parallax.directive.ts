@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 @Directive({
-  selector: '[appParallax]',
+  selector: '[appParallax]'
 })
 export class ParallaxDirective implements OnDestroy {
   static thresholdSets: number[];
@@ -18,8 +18,6 @@ export class ParallaxDirective implements OnDestroy {
   private observer: IntersectionObserver;
   private previousTransition: string;
   private isParallaxing = false;
-
-
 
 
   public constructor(private imageRef: ElementRef<HTMLImageElement>,
@@ -50,7 +48,7 @@ export class ParallaxDirective implements OnDestroy {
 
     this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
       rootMargin: '-60px 0px 0px 0px',
-      threshold: ParallaxDirective.thresholdSets,
+      threshold: ParallaxDirective.thresholdSets
     });
 
     this.observer.observe(this.imageRef.nativeElement);

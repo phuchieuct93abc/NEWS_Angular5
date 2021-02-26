@@ -9,7 +9,7 @@ import { Config } from './../../shared/config.service';
 @Component({
     selector: 'app-category-selector',
     templateUrl: './category-selector.component.html',
-    styleUrls: ['./category-selector.component.scss'],
+    styleUrls: ['./category-selector.component.scss']
 })
 export class CategorySelectorComponent implements OnInit, OnDestroy {
 
@@ -22,7 +22,7 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
     public config$: Observable<Config>;
     private onDestroy$ = new Subject<void>();
 
-    public constructor(private configService: ConfigService, @Inject(IS_MOBILE) public isMobile: boolean,
+    public constructor(private configService: ConfigService, @Inject(IS_MOBILE) public isMobile: boolean
     ) {
     }
     public ngOnDestroy(): void {

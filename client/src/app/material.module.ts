@@ -30,12 +30,12 @@ const modules = [
     MatRippleModule,
     MatButtonModule,
     MatDividerModule,
-    MatSnackBarModule,
+    MatSnackBarModule
 ];
 
 @NgModule({
     exports: modules,
-    imports: modules,
+    imports: modules
 })
 export class MaterialModule {
 }

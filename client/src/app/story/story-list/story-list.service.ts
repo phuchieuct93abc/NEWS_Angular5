@@ -4,7 +4,7 @@ import {Story} from '../../../../../model/Story';
 
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class StoryListService {
 

@@ -12,17 +12,17 @@ import {opacityNgIf} from '../../animation';
     animations: [
         trigger('expand', [
             state('collapse', style({
-                height: '350px',
+                height: '350px'
             })),
             state('expand', style({
-                height: '*',
+                height: '*'
             })),
             transition('collapse <=> expand', [
-                animate('0.5s'),
-            ]),
+                animate('0.5s')
+            ])
         ]),
-        opacityNgIf,
-    ],
+        opacityNgIf
+    ]
 })
 export class TopCategoryComponent implements OnInit {
 

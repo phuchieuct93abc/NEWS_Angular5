@@ -12,8 +12,8 @@ import 'firebase/messaging';
 @NgModule({
     declarations: [],
     imports: [
-        CommonModule,
-    ],
+        CommonModule
+    ]
 })
 export class NotificationModule {
     public message: any;

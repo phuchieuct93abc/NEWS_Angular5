@@ -13,7 +13,7 @@ export enum LoadingEventType {
 }
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class LoadingService {
     public onLoading = new Subject<{ name: LoadingEventName; type: LoadingEventType }>();

@@ -23,7 +23,7 @@ export default class ArticleVideoParser {
             url: this.sourceUrl,
             poster: this.posterUrl,
             width: this.video.getAttribute('width'),
-            height: this.video.getAttribute('height'),
+            height: this.video.getAttribute('height')
         });
         this.video.remove();
 

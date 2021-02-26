@@ -7,7 +7,7 @@ dayjs.locale('vi'); // use locale globally
 dayjs.extend(relativeTime);
 
 @Pipe({
-  name: 'toNow',
+  name: 'toNow'
 })
 export class ToNowPipe implements PipeTransform {
 

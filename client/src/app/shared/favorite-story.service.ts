@@ -4,7 +4,7 @@ import {Story} from '../../../../model/Story';
 import {LocalStorageService} from './storage.service';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class FavoriteService {
     readonly FAVORITE_ID = 'favorite-id';

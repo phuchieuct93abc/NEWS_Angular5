@@ -10,7 +10,7 @@ import { Category } from './../../../../model/Categories';
 @Component({
     selector: 'app-navigator',
     templateUrl: './navigator.component.html',
-    styleUrls: ['./navigator.component.scss'],
+    styleUrls: ['./navigator.component.scss']
 })
 export class NavigatorComponent extends DestroySubscriber implements OnInit {
     @ViewChild(AppComponent)

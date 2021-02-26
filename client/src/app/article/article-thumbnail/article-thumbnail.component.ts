@@ -6,7 +6,7 @@ import { IS_NODE } from './../../shared/const';
 @Component({
   selector: 'app-article-thumbnail',
   templateUrl: './article-thumbnail.component.html',
-  styleUrls: ['./article-thumbnail.component.scss'],
+  styleUrls: ['./article-thumbnail.component.scss']
 })
 export class ArticleThumbnailComponent implements OnInit {
 
@@ -40,11 +40,11 @@ export class ArticleThumbnailComponent implements OnInit {
 
     if (isSafari) {
       return;
-    };
+    }
 
     const options = {
       threshold: this.thresholds,
-      root: this.rootArticle,
+      root: this.rootArticle
     };
     setTimeout(() => {
 

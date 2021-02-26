@@ -15,10 +15,8 @@ export class ParallaxDirective implements OnDestroy {
   public transition;
   public readonly limitRangeParallax = 200;
   public onDestroy$ = new Subject<void>();
-  public startScrollY = 0;
   private observer: IntersectionObserver;
   private previousTransition: string;
-
   private isParallaxing = false;
 
 
@@ -55,10 +53,7 @@ export class ParallaxDirective implements OnDestroy {
       threshold: ParallaxDirective.thresholdSets,
     });
 
-    this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.startScrollY = this.startOffsetParallax ?? this.getOffsetTop();
-      this.observer.observe(this.imageRef.nativeElement);
-    });
+    this.observer.observe(this.imageRef.nativeElement);
 
   }
 
@@ -92,10 +87,9 @@ export class ParallaxDirective implements OnDestroy {
 
   }
 
-  private updateAnimation() {
-    const deltaY = (this.startScrollY - this.getOffsetTop()) * 0.3;
-    const adjustDeltaY = Math.max(0, Math.min(this.maxParallax, deltaY));
-    this.updateTranform(adjustDeltaY);
+  private updateAnimation(entry: IntersectionObserverEntry[]) {
+    const deltaY = (1 - entry[0].intersectionRatio) * 40;
+    this.updateTranform(deltaY);
   }
 
   private updateTranform(translateY: number){

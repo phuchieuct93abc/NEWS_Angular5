@@ -23,6 +23,7 @@ jobs:
             - node_modules
             - client/node_modules
             - functions/node_modules
+      - run: npm run build
       - run: npm run deploy
 # workflows:
 #   version: 2

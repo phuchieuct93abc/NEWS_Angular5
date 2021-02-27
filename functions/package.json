@@ -3,7 +3,7 @@
   "scripts": {
     "setup": "npm install",
     "deploy": "firebase deploy --only functions",
-    "compile": "node copy-index && npm run webpack:build",
+    "build": "node copy-index && npm run webpack:build",
     "webpack:watch": "webpack --watch --progress --colors",
     "webpack:build": "webpack",
     "run": "nodemon dist/server",

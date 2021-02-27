@@ -1,5 +1,5 @@
-<div class="navigator d-md-none" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}"
-     [class.small-screen]="isMobile"> 
+<div class="navigator" *ngIf="isMobile" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}"
+     > 
     <mat-toolbar role="heading" class="p-0" aria-level="1">
         <div class="mat-toolbar-single-row p-0">
             <div class="toolbar-item h-100">
@@ -8,7 +8,7 @@
                 </a>
 
                 <div class="mat-h1 m-0 mr-4">
-                    <a  href="/" class="d-md-none" color="accent">
+                    <a  href="/" color="accent">
                         {{selectedCategory?.title}}
                     </a>
 

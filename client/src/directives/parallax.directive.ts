@@ -10,9 +10,9 @@ export class ParallaxDirective implements OnDestroy {
   @Input()
   public maxParallax = 0;
   @Input()
-  public startOffsetParallax = undefined;
+  public startOffsetParallax = 0;
   @HostBinding('style.transition')
-  public transition;
+  public transition: string;
   public readonly limitRangeParallax = 200;
   public onDestroy$ = new Subject<void>();
   private observer: IntersectionObserver;
@@ -36,7 +36,7 @@ export class ParallaxDirective implements OnDestroy {
   }
 
 
-  public startParallax() {
+  public startParallax(): void{
     if (this.isNode) {
       return;
     }
@@ -47,7 +47,7 @@ export class ParallaxDirective implements OnDestroy {
     this.observer?.disconnect?.();
 
     this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
-      rootMargin: '-60px 0px 0px 0px',
+      rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
       threshold: ParallaxDirective.thresholdSets
     });
 
@@ -55,7 +55,7 @@ export class ParallaxDirective implements OnDestroy {
 
   }
 
-  public stopParallax() {
+  public stopParallax(): void {
     if (this.isNode) {
       return;
     }
@@ -71,7 +71,7 @@ export class ParallaxDirective implements OnDestroy {
     this.onDestroy$.next();
   }
 
-  initThresholdSet() {
+  initThresholdSet(): void {
     if (!ParallaxDirective.thresholdSets) {
       ParallaxDirective.thresholdSets = [];
       for (let i = 0; i <= 1.0; i += 0.01) {
@@ -86,12 +86,13 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   private updateAnimation(entry: IntersectionObserverEntry[]) {
-    const deltaY = (1 - entry[0].intersectionRatio) * 40;
+    console.log(entry[0])
+    const deltaY = (1 - entry[0].intersectionRatio) * 30;
     this.updateTranform(deltaY);
   }
 
   private updateTranform(translateY: number){
-    this.imageRef.nativeElement.style.transform = `translateY(${translateY}px)`;
+    this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
 
   }
 

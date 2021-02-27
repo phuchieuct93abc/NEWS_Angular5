@@ -1,6 +1,6 @@
 <div class="main-content h-100 ">
     <div class="h-100 d-flex ">
-        <div class="col-md-5 col h-100 px-0" >
+        <div class="col h-100 px-0 " >
 
             <div class="h-100">
                 <app-story-list-management></app-story-list-management>
@@ -10,7 +10,7 @@
         </div>
         <mat-divider vertical *ngIf="!isSmallScreen" class="h-100 mx-1"></mat-divider>
 
-        <div *ngIf="!isSmallScreen" class="h-100 d-none d-md-inline" style="flex:1;overflow: hidden">
+        <div *ngIf="!isSmallScreen" class="col-7 h-100 d-inline" style="flex:1;overflow: hidden">
             <router-outlet></router-outlet>
         </div>
     </div>

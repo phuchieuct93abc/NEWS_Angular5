@@ -148,6 +148,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         });
     }
     protected scrollTo(story: Story) {
+        console.log('scroll to')
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();

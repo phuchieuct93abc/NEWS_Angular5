@@ -5,44 +5,31 @@
   z-index: 10;
   opacity: 0.7;
 }
-@media screen and (max-width: 768px){
-  :host,app{
-    height: auto !important;
+:host-context(.mobile-device){
+  height: auto !important;
+}
 
-  }
+:host-context(.desktop-device){
+    .main{
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .app{
+      max-width: 1300px;
+      width: calc(100% - 100px);
+      margin: 0 auto;
+
+      .mat-drawer, mat-sidenav-container {
+        background-color: transparent;
+        border: none;
+      }
+    }
 }
 :host {
 
   .app {
     width: 100vw;
-    max-width: 1300px;
     height: 100%;
-
-  }
-
-
-  @media (min-width: 768px) {
-
-    .app {
-      width: calc(100% - 100px);
-      margin: 0 auto;
-
-    }
-
-  }
-
-}
-
-
-.app {
-
-
-  @media (min-width: 768px) {
-    .mat-drawer, mat-sidenav-container {
-      background-color: transparent;
-      border: none;
-    }
-
 
   }
 

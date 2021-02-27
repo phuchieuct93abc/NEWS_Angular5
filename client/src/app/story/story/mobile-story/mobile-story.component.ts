@@ -36,6 +36,7 @@ export class MobileStoryComponent extends StoryComponent {
         this.story.isSelectedBefore = true;
         super.onSelectStory();
         if(!this.isNode){
+            console.log('scroll')
 
             setTimeout(() => {
                 window.scrollTo({ top: this.element.nativeElement.offsetTop - 58, behavior: 'smooth' });

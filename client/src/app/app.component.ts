@@ -129,9 +129,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         const className = darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
         this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
         this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
+        this.renderer.removeClass(this.document.body, 'mobile-device');
+        this.renderer.removeClass(this.document.body, 'desktop-device');
         this.renderer.addClass(this.document.body, className);
         if (this.isSmallDevice) {
-            this.renderer.addClass(this.document.body, 'small-device');
+            this.renderer.addClass(this.document.body, 'mobile-device');
+        }else{
+            this.renderer.addClass(this.document.body, 'desktop-device');
+
         }
     }
 

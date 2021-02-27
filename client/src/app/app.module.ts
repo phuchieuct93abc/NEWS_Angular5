@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -56,18 +56,18 @@ import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { NoopInterceptor } from './interceptor';
-
+console.log(Breakpoints)
 const isMobileProvider =
     {
 
         provide: IS_MOBILE,
         useExisting: true,
-        useFactory: (breakpointObserver, injector) =>{
+        useFactory: (breakpointObserver: BreakpointObserver, injector: Injector): boolean=>{
             try {
-                return injector.get('IS_MOBILE_SSR');
+                return injector.get('IS_MOBILE_SSR') as boolean;
 
             } catch (error) {
-                return breakpointObserver.isMatched(['(max-width: 767px)']);
+                return breakpointObserver.isMatched(['(max-width: 1000px)']);
 
             }
 

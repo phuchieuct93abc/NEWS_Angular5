@@ -9,17 +9,17 @@
     "client": "cd client && npm start",
     "client:ssr": "cd client && npm run dev:ssr",
     "server": "cd functions && npm run-script serve",
-    "setup:func": "npm --prefix \"functions\" run setup",
-    "setup:client": "npm --prefix \"client\" run-script setup",
-    "build:func": "npm --prefix \"functions\" run compile",
-    "build:client": "npm --prefix \"client\" run-script build:ssr",
-    "test": "npm-run-all setup:func build:func setup:client build:client",
-    "deploy": "npm run build:client && npm run build:func && firebase deploy --token \"1//0eVvkFPfaZ5tECgYIARAAGA4SNwF-L9Ir-E03jd_zmjf5JoOEur4eRhw27ZtnpzLRnwqixm01dL0mzz_gjKO8_30nLtLgzJnpzNI\"",
-    "deploy:func": " npm run build:func && firebase deploy --only functions",
+    "build:func": "npm --prefix \"functions\" run-script build",
+    "build:client": "npm --prefix \"client\" run-script build",
+    "build": "npm run build:client && npm run build:func",
+    "deploy": "firebase deploy --token $FIREBASE_TOKEN",
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",
     "serve:func": "npm --prefix \"functions\" run serve",
-    "serve:client": "npm --prefix \"client\" run start"
+    "serve:client": "npm --prefix \"client\" run start",
+    "postinstall": "npm-run-all --parallel setup:func setup:client",
+    "setup:func": "npm --prefix \"functions\" run setup",
+    "setup:client": "npm --prefix \"client\" run-script setup"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,9 @@
     "connect-timeout": "^1.9.0",
     "firebase-tools": "^9.4.0",
     "http-proxy": "^1.18.1",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
     "npm-run-all": "^4.1.5"
   }
 }

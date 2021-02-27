@@ -43,18 +43,15 @@
     "setup": "npm install",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
-    "build": "ng build --prod --aot",
+    "build:simple": "ng build --prod --aot",
     "build:stat": "ng build --prod --aot --stats-json=true",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:ssr": "ng build --prod && node postbuild.js && ng run demo:server:production",
+    "build": "npm run prerender && ng run news:server:production",
     "postbuild":"node postbuild.js",
-    "serve:ssr": "node ../functions/dist/server/main.js",
     "postinstall": "ngcc",
-    "dev:ssr": "node --max_old_space_size=10048 ./node_modules/@angular/cli/bin/ng run demo:serve-ssr",
-    "prerender": "ng run demo:prerender",
-    "ngx-unused-css": "npx ngx-unused-css"
+    "dev:ssr": "node --max_old_space_size=10048 ./node_modules/@angular/cli/bin/ng run news:serve-ssr",
+    "prerender": "ng run news:prerender"
+
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.4.1",

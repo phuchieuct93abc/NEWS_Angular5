@@ -1,3 +1,3 @@
-Sitemap: https://news.baohieu.cf/sitemap.xml
+Sitemap: https://news.baohieu.tk/sitemap.xml
 User-agent: *
 Allow: /

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -45,8 +45,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
         private transferState: TransferState) {
     }
 
-    public ngOnInit() {
-
+    public ngOnInit(): void {
         this.refreshImageResolution();
     }
 
@@ -60,10 +59,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
             const imageKey: StateKey<CacheImageViewer> = makeStateKey<CacheImageViewer>(`imageviewer-${this.imagePath}`);
 
             if (this.transferState.hasKey(imageKey)) {
-                const { imagePath, width, height } = this.transferState.get<CacheImageViewer>(imageKey, undefined);
-                this.convertedImagePath = imagePath;
-                this.height = height;
-                this.width = width;
+                this.getFromCache(imageKey);
                 return;
             }
             const resolution = new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
@@ -89,11 +85,16 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
                     this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
                 });
             }
-
-
         } else {
             console.error('empty image path');
         }
     }
 
+
+    private getFromCache(imageKey: StateKey<CacheImageViewer>) {
+        const { imagePath, width, height } = this.transferState.get<CacheImageViewer>(imageKey, undefined);
+        this.convertedImagePath = imagePath;
+        this.height = height;
+        this.width = width;
+    }
 }

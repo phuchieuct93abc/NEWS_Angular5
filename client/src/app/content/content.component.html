@@ -10,10 +10,8 @@
         </div>
         <mat-divider vertical *ngIf="!isSmallScreen" class="h-100 mx-1"></mat-divider>
 
-        <div *ngIf="!isSmallScreen" class="col-7 h-100 d-inline" style="flex:1;overflow: hidden">
-            <div class="row">
+        <div *ngIf="!isSmallScreen" class="col-7 h-100 d-inline px-0" style="flex:1;overflow: hidden">
                 <router-outlet></router-outlet>
-            </div>
         </div>
     </div>
 

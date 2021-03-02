@@ -1,10 +1,10 @@
 <ng-container *ngIf="convertedImagePath">
         <img *appShellNoRender="true" [appParallax]="parallax" [maxParallax]="maxParallax" [startOffsetParallax]="startOffsetParllax"
-                class="mt-0 mb-0 image hoverZoom" [offset]="500" [alt]="alt" [lazyLoad]="convertedImagePath"
+                class="mt-0 mb-0 image hoverZoom float-left" [offset]="500" [alt]="alt" [lazyLoad]="convertedImagePath"
                 defaultImage="assets/loading-image.png" #image [width]="width" [height]="height"
                  />
 
-        <img *appShellRender class="mt-0 mb-0 image hoverZoom" [alt]="alt" [src]="convertedImagePath" #image [width]="width"
+        <img *appShellRender class="mt-0 mb-0 image hoverZoom float-left" [alt]="alt" [src]="convertedImagePath" #image [width]="width"
                 [height]="height"  />
 
 </ng-container>

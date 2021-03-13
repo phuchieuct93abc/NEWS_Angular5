@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-import {Story} from '../../../../../model/Story';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Story } from '../../../../../model/Story';
 
 
 @Injectable({
@@ -12,18 +12,13 @@ export class StoryListService {
     public onSelectPrevStory = new Subject<Story>();
 
     public currentSelectedStory: Story;
-    constructor() {
 
-    }
-
-    selectNextStory() {
+    selectNextStory(): void {
         this.onSelectNextStory.next();
-
     }
 
-    selectPrevStory() {
+    selectPrevStory(): void {
         this.onSelectPrevStory.next();
     }
-
 
 }

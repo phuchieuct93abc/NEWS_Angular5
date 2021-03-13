@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { IS_MOBILE } from 'src/app/shared/const';
 
 @Component({

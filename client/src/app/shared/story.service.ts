@@ -91,13 +91,13 @@ export class StoryService {
     }
 
 
-    public getStoriesFirstPage(category: string): Observable<any> {
+    public getStoriesFirstPage(category: string): Observable<Story[]> {
 
         return this.getStoryByPage(category, 1);
 
     }
 
-    public search(keyword: string): Observable<any> {
+    public search(keyword: string): Observable<Story[]> {
         if (this.isNode) {
             return of();
         }
@@ -127,14 +127,14 @@ export class StoryService {
     }
 
 
-    public saveReadStory(story: Story) {
+    public saveReadStory(story: Story): void {
         const item = this.storage.getItem(readId, []) as Story[];
         item.push(story);
         this.storage.setItem(readId, item);
 
     }
 
-    public getById(id: string) {
+    public getById(id: string): Story {
         let story = this.stories.find((s) => s.id === id);
         if (story == null) {
             story = this.favoriteService.findById(id);
@@ -142,13 +142,13 @@ export class StoryService {
         return story;
     }
 
-    public checkReadStory(stories: Story[]) {
+    public checkReadStory(stories: Story[]): void {
         stories.filter((story) => this.readStory.findIndex((readStory) => readStory.id === story.id) >= 0)
             .forEach((read) => read.isRead = true);
     }
 
 
-    public unshift(firstStory: Story) {
+    public unshift(firstStory: Story): void {
         this.stories.unshift(firstStory);
     }
 

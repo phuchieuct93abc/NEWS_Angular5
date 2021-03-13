@@ -36,11 +36,11 @@ export class ArticleThumbnailComponent implements OnInit {
     this.isStickHeader = false;
   }
   protected registerStickyHeader() {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-    if (isSafari) {
-      return;
-    }
+    // if (isSafari) {
+    //   return;
+    // }
 
     const options = {
       threshold: this.thresholds,
@@ -50,11 +50,11 @@ export class ArticleThumbnailComponent implements OnInit {
 
       const observer = new IntersectionObserver(([entry]) => {
         this.isStickHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
-        if (this.isStickHeader) {
-          this.element.nativeElement.style.position = 'sticky';
-          this.element.nativeElement.style.top = '0';
-          observer.disconnect();
-        }
+        // if (this.isStickHeader) {
+        //   // this.element.nativeElement.style.position = 'sticky';
+        //   // this.element.nativeElement.style.top = '0';
+        //   observer.disconnect();
+        // }
       }, options);
 
       setTimeout(() => {

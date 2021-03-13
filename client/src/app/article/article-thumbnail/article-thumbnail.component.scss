@@ -1,24 +1,18 @@
 :host {
-  display: block;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  display: contents;
+  .content{
+    display: block;
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
 }
+
 .wrapper {
   position: relative;
   width: 100%;
   padding-top: 60%;
-  &.sticky {
-    height: 48px;
-    padding-top: 0;
-    .thumbnail {
-      visibility: hidden;
-    }
-    .title-wrapper {
-      background: none;
-      top: 0;
-      bottom: unset;
-    }
-  }
+
   .thumbnail {
     position: absolute;
     top: 0;
@@ -43,6 +37,7 @@
     position: sticky;
     top: 10px;
     z-index: 10;
+    display: block;
   }
 
   .article-header.stick {
@@ -68,5 +63,19 @@
       transition: all 200ms linear;
     }
 
+  }
+}
+.sticky{
+  height: 48px;
+  padding-top: 0;
+  top:0;
+  position: sticky;
+  .thumbnail {
+    visibility: hidden;
+  }
+  .title-wrapper {
+    background: none;
+    top: 0;
+    bottom: unset;
   }
 }

@@ -125,7 +125,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.afterInitStories();
     }
 
-    public trackByFn(item: Story): string {
+    public trackByFn(item) {
         return item.id;
     }
 

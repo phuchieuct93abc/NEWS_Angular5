@@ -18,9 +18,6 @@ export class NavigationKeyboardDirective implements OnInit, OnDestroy {
   onKeyDown$ = new Subject<KeyboardEvent>();
   onDestroy$ = new Subject<void>();
 
-  constructor() { }
-
-
   ngOnInit(): void {
     this.onKeyDown$.pipe(throttle(() => interval(100)),takeUntil(this.onDestroy$)).subscribe((event) => {
       switch (event.key) {
@@ -54,11 +51,9 @@ export class NavigationKeyboardDirective implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
-  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+  handleDeleteKeyboardEvent(event: KeyboardEvent): void{
     event.preventDefault();
     this.onKeyDown$.next(event);
-
-
   }
 
   ngOnDestroy(): void {

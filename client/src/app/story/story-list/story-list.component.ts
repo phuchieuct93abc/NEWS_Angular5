@@ -24,7 +24,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     @ViewChild('scrollingBlock')
-    public scrollingBlock: ElementRef;
+    public scrollingBlock: ElementRef<HTMLElement>;
     @ViewChildren(StoryComponent)
     public storyComponents: QueryList<StoryComponent>;
 
@@ -44,9 +44,9 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
 
     public currentScrollIndex = 0;
-    public loadingStoryNumber = [];
+    public loadingStories = [];
     protected buffer: Story[] = [];
-    private readonly LOADING_STORY_NUMBER = 10;
+    private readonly loadingStoryNumber = 10;
     private selectedStory: Story;
 
     private $stopGetStories = new Subject();
@@ -67,7 +67,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
 
     public ngOnInit(): void {
 
-        this.loadingStoryNumber = Array(this.LOADING_STORY_NUMBER).fill('');
+        this.loadingStories = Array(this.loadingStoryNumber).fill('');
 
         this.isBrowser = typeof window !== 'undefined';
         const params = this.route.children[0].snapshot?.params;
@@ -106,7 +106,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
             this.selectStory(this.openningStory.id);
         });
     }
-    public onSelectedStory(selectedStoryIndex: number) {
+    public onSelectedStory(selectedStoryIndex: number): void {
         if (this.selectedStory) {
             this.selectedStory.isActive = false;
         }
@@ -116,7 +116,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
 
-    public autoSelectFirstStory() {
+    public autoSelectFirstStory(): void {
         if (!this.isSmallScreen && !this.openningStory.id) {
             setTimeout(() => {
                 this.storyComponents.first?.onSelectStory();
@@ -125,7 +125,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.afterInitStories();
     }
 
-    public trackByFn(item) {
+    public trackByFn(item: Story): string {
         return item.id;
     }
 
@@ -147,7 +147,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
                 });
         });
     }
-    protected scrollTo(story: Story) {
+    protected scrollTo(story: Story): void {
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
@@ -155,7 +155,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         });
     }
 
-    protected scrollTop() {
+    protected scrollTop(): void {
         if (this.isNode) {
             return;
         }
@@ -166,7 +166,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
     }
 
 
-    protected resetStoryList() {
+    protected resetStoryList(): void {
         this.stories = [];
         const hasSwitchCategory = !this.openningStory.category || this.category !== this.openningStory.category;
         if (hasSwitchCategory) {
@@ -176,7 +176,7 @@ export class StoryListComponent extends DestroySubscriber implements OnInit {
         this.storyService.resetPageNumber();
     }
 
-    protected loadFirstPage() {
+    protected loadFirstPage(): void {
         this.isLoading = true;
         this.storyService.getStories(this.category, 10)
             .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {

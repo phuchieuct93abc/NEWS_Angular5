@@ -49,7 +49,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef) {
+        protected element: ElementRef<HTMLElement>) {
     }
 
     public onSelectStory() {

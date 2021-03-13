@@ -141,7 +141,7 @@ const isMobileProvider =
         { provide: IS_NODE, useFactory: (platformId) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
         {
             provide: APP_INITIALIZER,
-            useFactory: (checkForUpdateService: CheckForUpdateService) => {
+            useFactory: (checkForUpdateService: CheckForUpdateService) => ()=>{
                 checkForUpdateService.checkUpdate();
             },
             deps: [CheckForUpdateService],

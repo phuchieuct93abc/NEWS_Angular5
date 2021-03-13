@@ -20,7 +20,7 @@ export class CheckForUpdateService {
   }
 
   checkUpdate(): void {
-    if (!environment.production) {
+    if(!this.updates.isEnabled){
       return;
     }
     this.updates.checkForUpdate();

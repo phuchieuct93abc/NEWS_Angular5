@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import Article from '../../../../../model/Article';
@@ -6,7 +7,22 @@ import { IS_NODE } from './../../shared/const';
 @Component({
   selector: 'app-article-thumbnail',
   templateUrl: './article-thumbnail.component.html',
-  styleUrls: ['./article-thumbnail.component.scss']
+  styleUrls: ['./article-thumbnail.component.scss'],
+  animations: [
+    trigger('sticky', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate('200ms', style({
+          opacity: 0,
+          transform: 'translateY(-100px)'
+        }))
+      ])
+    ])
+  ]
 })
 export class ArticleThumbnailComponent implements OnInit {
 

@@ -13,11 +13,11 @@
     </div>
   </section>
 </div>
-<div class="sticky d-none" [class.d-block]="isStickHeader">
-  <div class="title-wrapper">
+<div class="sticky d-block" *ngIf="isStickHeader" @sticky>
+  <div class="sticky-wrapper">
 
-    <div #articleHeader class="article-header p-2" [ngClass]="{'stick':isStickHeader}">
-      <div class="mat-display-1 mb-2 accent-color article-title ">
+    <div #articleHeader class="article-header" >
+      <div class="mat-display-1 mb-0 accent-color article-title ">
         {{article.header}}
       </div>
       <app-actions [article]="article"></app-actions>

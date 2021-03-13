@@ -1,4 +1,23 @@
 import { Observable, ReplaySubject } from 'rxjs';
+
+const completeObservable = <T>(observable: Observable<T>): Observable<T> =>
+    new Observable((observer) => {
+        observable.subscribe((data) => {
+            observer.next(data);
+            observer.complete();
+        });
+    });
+
+
+interface CacheConfiguaration {
+    id?: string;
+    ttl: number;
+}
+interface CacheItem{
+    payload?: any;
+    timeToExpired?: number;
+}
+
 /**
  * This file is responsible for caching data to avoid fetching the same data many times:
  * How to use: Example:
@@ -27,23 +46,6 @@ import { Observable, ReplaySubject } from 'rxjs';
  *    }
  *  }
  */
-const completeObservable = <T>(observable: Observable<T>): Observable<T> =>
-    new Observable((observer) => {
-        observable.subscribe((data) => {
-            observer.next(data);
-            observer.complete();
-        });
-    });
-
-
-interface CacheConfiguaration {
-    id?: string;
-    ttl: number;
-}
-interface CacheItem{
-    payload?: any;
-    timeToExpired?: number;
-}
 export function Cache(cacheConfiguaration: CacheConfiguaration = {ttl:1000*60*10}) {
     return (target: any, propertyKey: string, descriptor) => {
         if(typeof window === 'undefined'){

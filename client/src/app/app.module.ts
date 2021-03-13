@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,24 +56,24 @@ import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { NoopInterceptor } from './interceptor';
-console.log(Breakpoints)
+import { CheckForUpdateService } from './shared/checkForUpdate.service';
 const isMobileProvider =
-    {
+{
 
-        provide: IS_MOBILE,
-        useExisting: true,
-        useFactory: (breakpointObserver: BreakpointObserver, injector: Injector): boolean=>{
-            try {
-                return injector.get('IS_MOBILE_SSR') as boolean;
+    provide: IS_MOBILE,
+    useExisting: true,
+    useFactory: (breakpointObserver: BreakpointObserver, injector: Injector): boolean => {
+        try {
+            return injector.get('IS_MOBILE_SSR') as boolean;
 
-            } catch (error) {
-                return breakpointObserver.isMatched(['(max-width: 1000px)']);
+        } catch (error) {
+            return breakpointObserver.isMatched(['(max-width: 1000px)']);
 
-            }
+        }
 
-        },
-        deps: [BreakpointObserver, Injector]
-    };
+    },
+    deps: [BreakpointObserver, Injector]
+};
 
 @NgModule({
     imports: [
@@ -138,7 +138,15 @@ const isMobileProvider =
     providers: [
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-        { provide: IS_NODE, useFactory:(platformId)=>isPlatformServer(platformId) , deps:[PLATFORM_ID]},
+        { provide: IS_NODE, useFactory: (platformId) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (checkForUpdateService: CheckForUpdateService) => {
+                checkForUpdateService.checkUpdate();
+            },
+            deps: [CheckForUpdateService],
+            multi: true
+        },
         isMobileProvider,
         Title,
         Meta

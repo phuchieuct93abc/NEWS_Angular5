@@ -9,6 +9,9 @@ import environment from 'src/environments/environment';
 export class CheckForUpdateService {
 
   constructor(private updates: SwUpdate) {
+    if(!updates.isEnabled){
+      return;
+    }
     const checkUpdate$ = this.updates.available.subscribe(() => {
       checkUpdate$.unsubscribe();
       alert('New version is available');

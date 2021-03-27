@@ -7,7 +7,6 @@ export class Story {
 
     public isTouch = false;
     public isActive = false;
-    public isSelectedBefore = false;
 
     private thumbnail:string;
     public isOpenning:boolean;

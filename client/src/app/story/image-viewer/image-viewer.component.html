@@ -1,11 +1,11 @@
-<ng-container *ngIf="convertedImagePath">
+<ng-container *ngIf="{data: (data$ | async)} as imageData">
         <img *appShellNoRender="true" [appParallax]="parallax" [maxParallax]="maxParallax" [startOffsetParallax]="startOffsetParllax"
-                class="mt-0 mb-0 image hoverZoom float-left" [offset]="500" [alt]="alt" [lazyLoad]="convertedImagePath"
-                defaultImage="assets/loading-image.png" #image [width]="width" [height]="height"
+                class="mt-0 mb-0 image hoverZoom float-left" [offset]="500" [alt]="alt" [lazyLoad]="imageData.data.imagePath"
+                defaultImage="assets/loading-image.png" #image [width]="imageData.data.width" [height]="imageData.data.height"
                  />
 
-        <img *appShellRender class="mt-0 mb-0 image hoverZoom float-left" [alt]="alt" [src]="convertedImagePath" #image [width]="width"
-                [height]="height"  />
+        <img *appShellRender class="mt-0 mb-0 image hoverZoom float-left" [alt]="alt" [src]="imageData.data.imagePath" #image [width]="imageData.data.width"
+                [height]="imageData.data.height"  />
 
 </ng-container>
 

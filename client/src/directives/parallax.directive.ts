@@ -86,7 +86,6 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   private updateAnimation(entry: IntersectionObserverEntry[]) {
-    console.log(entry[0]);
     const deltaY = (1 - entry[0].intersectionRatio) * 30;
     this.updateTranform(deltaY);
   }

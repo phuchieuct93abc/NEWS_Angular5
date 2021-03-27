@@ -1,11 +1,13 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { ImageSerice } from '../../shared/image.service';
 import { IS_NODE } from './../../shared/const';
 
-interface CacheImageViewer { imagePath: string; width: number; height: number }
+interface ImageViewerData { imagePath: string; width: number; height: number }
 
 @Component({
     selector: 'app-image-viewer',
@@ -29,14 +31,13 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @Input()
     public startOffsetParllax = undefined;
 
+    public data$: Observable<ImageViewerData>;
+
 
     public onDestroy$ = new Subject<void>();
 
 
-    public convertedImagePath: string;
-
-    public width: number;
-    public height: number;
+    public convertedImagePath$: Observable<string>;
 
     public constructor(private imageService: ImageSerice,
         private elRef: ElementRef<HTMLElement>,
@@ -46,55 +47,46 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.refreshImageResolution();
+        this.data$ = this.data$ = this.getImageData(this.imagePath).pipe(tap(data=>{
+            if(this.isNode){
+                const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
+                this.transferState.set(imageKey, data);
+            }
+        }));
     }
 
 
     public ngOnDestroy(): void {
         this.onDestroy$.next();
     }
-    private refreshImageResolution() {
+    private getImageData(image: string): Observable<ImageViewerData> {
 
-        if (this.imagePath) {
-            const imageKey: StateKey<CacheImageViewer> = makeStateKey<CacheImageViewer>(`imageviewer-${this.imagePath}`);
+        return new Observable(resolve=>{
+            let width: number;
+            let height: number;
+            let imagePath = image;
+                const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
 
-            if (this.transferState.hasKey(imageKey)) {
-                this.getFromCache(imageKey);
-                return;
-            }
-            const resolution = new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
-            if (resolution) {
-                this.width = parseInt(resolution[1], 10);
-                this.height = parseInt(resolution[2], 10);
-            }
-            if (this.isNode) {
-                if (this.imagePath.indexOf('photo-baomoi.zadn.vn') >= 0) {
-                    this.convertedImagePath = this.imagePath + '.webp';
-                } else {
-                    this.convertedImagePath = this.imagePath;
+                if (this.transferState.hasKey(imageKey)) {
+                    resolve.next(this.transferState.get<ImageViewerData>(imageKey, undefined));
+                    return;
                 }
-                this.transferState.set(imageKey, {
-                    imagePath: this.convertedImagePath,
-                    width: this.width,
-                    height: this.height
-                });
-
-            } else {
-                setTimeout(() => {
+                const resolution = new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
+                if (resolution) {
+                    width = parseInt(resolution[1], 10);
+                    height = parseInt(resolution[2], 10);
+                }
+                if (this.isNode) {
+                    if (this.imagePath.indexOf('photo-baomoi.zadn.vn') >= 0) {
+                        imagePath = this.imagePath + '.webp';
+                    }
+                } else {
                     const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
-                    this.convertedImagePath = this.imageService.getImage(this.imagePath, imageWidth);
-                });
-            }
-        } else {
-            console.error('empty image path');
-        }
+                    imagePath = this.imageService.getImage(this.imagePath, imageWidth);
+                }
+                resolve.next({imagePath,width,height});
+        });
+
     }
 
-
-    private getFromCache(imageKey: StateKey<CacheImageViewer>) {
-        const { imagePath, width, height } = this.transferState.get<CacheImageViewer>(imageKey, undefined);
-        this.convertedImagePath = imagePath;
-        this.height = height;
-        this.width = width;
-    }
 }

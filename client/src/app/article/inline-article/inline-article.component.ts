@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ArticleComponent } from '../article.component';
 
 
@@ -11,6 +11,7 @@ const SWIPE_RIGHT = 'swipeRight';
     selector: 'app-inline-article',
     templateUrl: './inline-article.component.html',
     styleUrls: ['../article.component.scss','./inline-article.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('swipe', [
 
@@ -69,7 +70,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
         super.ngOnInit();
         this.isCollapseArticle = true;//Expand article
 
-        this.categoryId = this.route.snapshot.params.category;
+        this.categoryId = this.route.snapshot.params.category as string;
         this.articleId = this.story.id;
 
 
@@ -83,6 +84,8 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     public collapseArticle() {
         this.isCollapseArticle = false;
+        this.crd.detectChanges();
+
     }
 
     public swipeleft() {
@@ -119,6 +122,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     protected afterGetArticle(): void {
         super.afterGetArticle();
         this.animationName = 'show';
+        this.crd.detectChanges();
     }
     protected resetArticle(){
         //Don't need to reset article

@@ -1,6 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import Article from '../../../../../model/Article';
 import { IS_NODE } from './../../shared/const';
 
@@ -8,6 +10,7 @@ import { IS_NODE } from './../../shared/const';
   selector: 'app-article-thumbnail',
   templateUrl: './article-thumbnail.component.html',
   styleUrls: ['./article-thumbnail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('sticky', [
       transition(':enter', [
@@ -35,49 +38,36 @@ export class ArticleThumbnailComponent implements OnInit {
   @ViewChild('articleHeader')
   protected articleHeader: ElementRef;
 
-  public isStickHeader = false;
+  public isStickHeader$;
 
   private readonly thresholds = [0, 1];
 
 
   public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (!this.isNode) {
-      this.registerStickyHeader();
+       this.isStickHeader$ = this.registerStickyHeader().pipe(startWith(false));
     }
   }
 
-  protected resetStickyHeader() {
-    this.isStickHeader = false;
-  }
-  protected registerStickyHeader() {
-    // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  protected registerStickyHeader(): Observable<boolean> {
 
-    // if (isSafari) {
-    //   return;
-    // }
-
-    const options = {
-      threshold: this.thresholds,
-      root: this.rootArticle
-    };
-    setTimeout(() => {
-
-      const observer = new IntersectionObserver(([entry]) => {
-        this.isStickHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
-        // if (this.isStickHeader) {
-        //   // this.element.nativeElement.style.position = 'sticky';
-        //   // this.element.nativeElement.style.top = '0';
-        //   observer.disconnect();
-        // }
-      }, options);
-
+    return new Observable(resolver => {
+      const options = {
+        threshold: this.thresholds,
+        root: this.rootArticle
+      };
       setTimeout(() => {
+        console.log('start');
+        const observer = new IntersectionObserver(([entry]) => {
+          resolver.next(!entry.isIntersecting && entry.intersectionRatio === 0);
+        }, options);
+
         observer.observe(this.articleHeader.nativeElement);
 
-      }, 0);
-    }, 500);
+      }, 500);
+    });
   }
 
 }

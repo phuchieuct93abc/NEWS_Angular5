@@ -1,4 +1,6 @@
-<mat-card (click)="onSelectStory()"
+<ng-container *ngIf="{thumbnail:story.getThumbnail()} as data">
+
+    <mat-card (click)="onSelectStory()"
           class="px-0 py-0 desktop-story"
           [class.active]="story.isActive"
           [class.read]="story.isRead"
@@ -8,8 +10,8 @@
     <mat-card-content class="h-100 d-flex flex-direction-row">
         <div class="image">
 
-            <app-image-viewer *ngIf="story.getThumbnail()"
-                              [imagePath]="story.getThumbnail()" [hasVideo]="story.hasVideo"
+            <app-image-viewer *ngIf="data.thumbnail"
+                              [imagePath]="data.thumbnail" [hasVideo]="story.hasVideo"
                               ></app-image-viewer>
         </div>
         <div class="h-100 col d-flex flex-column justify-content-between pt-2">
@@ -18,3 +20,5 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+</ng-container>

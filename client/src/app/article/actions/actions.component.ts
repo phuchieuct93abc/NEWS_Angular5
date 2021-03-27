@@ -54,13 +54,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
     }
 
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
 
         if (this.isMobile && !this.isNode) {
             this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
 
-                if (data[0].target == this.actionsElement.nativeElement) {
+                if (data[0].target === this.actionsElement.nativeElement) {
 
                     this.ngZone.run(() => {
                         this.isDisplayingAction = data[0].isIntersecting;
@@ -73,7 +73,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
                 threshold: [0]
             });
             this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
-                if (data[0].target == this.wrapperElement) {
+                if (data[0].target === this.wrapperElement) {
 
                     this.ngZone.run(() => {
                         this.isDisplayingArticle = data[0].isIntersecting;
@@ -98,7 +98,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
     }
 
-    checkPosition() {
+    checkPosition(): void {
         let isFixed = false;
         if (!this.isDisplayingAction && this.isDisplayingArticle) {
             isFixed = true;
@@ -108,7 +108,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
         this.isFixedTop = isFixed;
     }
 
-    toggleFavorite() {
+    toggleFavorite(): void {
         this.isFavorite = !this.isFavorite;
         if (this.article.story != null) {
             if (this.isFavorite) {
@@ -124,7 +124,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
     }
 
-    close(event: MouseEvent) {
+    close(event: MouseEvent): void {
         event && event.stopPropagation();
         this.onClosed.emit();
     }

@@ -1,6 +1,6 @@
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
@@ -14,7 +14,8 @@ import { StoryListService } from '../story-list/story-list.service';
 @Component({
     selector: 'app-story',
     templateUrl: './story.component.html',
-    styleUrls: ['./story.component.scss']
+    styleUrls: ['./story.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoryComponent implements OnInit, OnDestroy {
 
@@ -28,11 +29,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     public index: number;
     @Input()
     public category: Category;
-    @ViewChild('ell')
-    public ell: any;
-
-
-    public scrollTarget: any;
 
     public selected = false;
 
@@ -69,20 +65,15 @@ export class StoryComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.scrollTarget = this.scrollContainer;
         this.getConfig();
-        this.friendlyUrl = url(this.story.title);
+        this.friendlyUrl = url(this.story.title) as string;
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
         this.handleAutoOpenStory();
         if(this.story.isOpenning){
-            console.log('open story');
             this.onSelectStory();
         }
     }
 
-    public ngOnDestroy(): void {
-        this.onDestroy$.next();
-    }
 
     public getElement(): HTMLElement {
         return this.element.nativeElement;
@@ -98,5 +89,8 @@ export class StoryComponent implements OnInit, OnDestroy {
 
     private getConfig() {
         this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe((config) => this.config = config);
+    }
+    public ngOnDestroy(): void {
+        this.onDestroy$.next();
     }
 }

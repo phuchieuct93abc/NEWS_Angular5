@@ -1,26 +1,28 @@
-<div class="content">
+<ng-container *ngIf="{isStickHeader: (isStickHeader$ | async)} as data">
+  <div class="content">
+    <section class="wrapper" *ngIf="article">
+      <app-image-viewer class="thumbnail" [imagePath]="thumbnailPath" [parallax]="true" [maxParallax]="100"
+        [startOffsetParllax]="0"></app-image-viewer>
+      <div class="title-wrapper">
 
-  <section class="wrapper" *ngIf="article" >
-    <app-image-viewer class="thumbnail" [imagePath]="thumbnailPath" [parallax]="true" [maxParallax]="100" [startOffsetParllax]="0"></app-image-viewer>
-    <div class="title-wrapper">
-  
-      <div #articleHeader class="article-header p-2" [ngClass]="{'stick':isStickHeader}">
-        <div class="mat-display-1 mb-2 accent-color article-title ">
+        <div #articleHeader class="article-header p-2" [ngClass]="{'stick':data.isStickHeader}">
+          <div class="mat-display-1 mb-2 accent-color article-title ">
+            {{article.header}}
+          </div>
+          <app-actions [article]="article"></app-actions>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="sticky d-block" *ngIf="data.isStickHeader" @sticky>
+    <div class="sticky-wrapper">
+
+      <div #articleHeader class="article-header">
+        <div class="mat-display-1 mb-0 accent-color article-title ">
           {{article.header}}
         </div>
         <app-actions [article]="article"></app-actions>
       </div>
     </div>
-  </section>
-</div>
-<div class="sticky d-block" *ngIf="isStickHeader" @sticky>
-  <div class="sticky-wrapper">
-
-    <div #articleHeader class="article-header" >
-      <div class="mat-display-1 mb-0 accent-color article-title ">
-        {{article.header}}
-      </div>
-      <app-actions [article]="article"></app-actions>
-    </div>
   </div>
-</div>
+</ng-container>

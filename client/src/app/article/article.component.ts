@@ -1,6 +1,6 @@
 import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, NgZone } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, NgZone, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,7 +11,6 @@ import { ConfigService } from '../shared/config.service';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
-import ArticleVideoParser from './parsers/article-video.parser';
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',
@@ -63,7 +62,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         protected domService: DomService,
         protected configService: ConfigService,
         protected storyListService: StoryListService,
-        protected zone: NgZone
+        protected zone: NgZone,
+        protected crd: ChangeDetectorRef
 
         ) {
     }

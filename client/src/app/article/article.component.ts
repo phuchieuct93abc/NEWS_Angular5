@@ -11,6 +11,7 @@ import { ConfigService } from '../shared/config.service';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
+import ArticleVideoParser from './parsers/article-video.parser';
 @Component({
     selector: 'app-article',
     templateUrl: './article.component.html',

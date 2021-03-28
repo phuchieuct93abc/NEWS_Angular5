@@ -1,5 +1,16 @@
-<app-mobile-story-list *ngIf="isSmallScreen;else desktopStoryList"></app-mobile-story-list>
+<app-story-list *ngIf="!isSmallScreen" 
+[stories]="stories$ | async" 
+[openningStory]="openningStory.story"
+(loadMoreStories)="loadMoreStories()"
+[category]="category"
+>
+</app-story-list>
 
-<ng-template #desktopStoryList >
-    <app-story-list></app-story-list>
-</ng-template>
+<app-mobile-story-list *ngIf="isSmallScreen" 
+[stories]="stories$ | async" 
+[openningStory]="openningStory.story"
+(loadMoreStories)="loadMoreStories()"
+[category]="category"
+
+>
+</app-mobile-story-list>

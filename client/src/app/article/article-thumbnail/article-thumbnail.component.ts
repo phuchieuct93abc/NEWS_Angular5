@@ -59,7 +59,6 @@ export class ArticleThumbnailComponent implements OnInit {
         root: this.rootArticle
       };
       setTimeout(() => {
-        console.log('start');
         const observer = new IntersectionObserver(([entry]) => {
           resolver.next(!entry.isIntersecting && entry.intersectionRatio === 0);
         }, options);

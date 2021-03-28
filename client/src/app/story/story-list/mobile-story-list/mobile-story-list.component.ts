@@ -1,4 +1,4 @@
-import { Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { Story } from '../../../../../../model/Story';
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { StoryListComponent } from '../story-list.component';
@@ -6,43 +6,32 @@ import { StoryListComponent } from '../story-list.component';
 @Component({
     selector: 'app-mobile-story-list',
     templateUrl: './mobile-story-list.component.html',
-    styleUrls: ['./mobile-story-list.component.scss','../story-list.component.scss']
+    styleUrls: ['./mobile-story-list.component.scss', '../story-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class MobileStoryListComponent extends StoryListComponent implements OnDestroy {
+export class MobileStoryListComponent extends StoryListComponent {
 
     @ViewChildren(MobileStoryComponent)
     public storyMobiles: QueryList<MobileStoryComponent>;
 
-    public moveTop(event: MouseEvent) {
-        event.stopPropagation();
-        this.scrollTop();
-        setTimeout(() => {
-            this.resetStoryList();
-            this.loadFirstPage();
-        });
-    }
 
-    protected scrollTop() {
-        if(this.isNode){
+    protected scrollTop(): void {
+        if (this.isNode) {
             return;
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // window.dispatchEvent(new CustomEvent('scroll'));
     }
 
-    protected scrollTo(story: Story, animation = 500, offset = -60) {
-        this.scrollToStory(story);
-    }
-
-
-    private scrollToStory(story: Story) {
+    protected scrollTo(story: Story): void {
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyMobiles.toArray()[Math.max(0, index)].getElement();
             window.scrollTo({ top: el.offsetTop - 58, behavior: 'smooth' });
         }, 0);
-
     }
+
+
 
 
 }

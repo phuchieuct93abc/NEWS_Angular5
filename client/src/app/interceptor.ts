@@ -13,7 +13,6 @@ export class NoopInterceptor implements HttpInterceptor {
 
     public intercept(req: HttpRequest<unknown>, next: HttpHandler):
         Observable<HttpEvent<unknown>> {
-        console.time(`${req.url}?${req.params.toString()}`);
 
         return next.handle(req).pipe(tap((data) => {
             if (data instanceof HttpResponse) {

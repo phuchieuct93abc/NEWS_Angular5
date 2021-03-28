@@ -18,7 +18,7 @@ import { ArticleService } from 'src/app/shared/article.service';
     styleUrls: ['./story.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class StoryComponent implements OnInit, OnDestroy {
 
     @Output()
     public onSelectedStory = new EventEmitter<Story>();
@@ -56,14 +56,6 @@ export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
         private crd: ChangeDetectorRef,
         private articleService: ArticleService) {
     }
-    ngAfterViewInit(): void {
-
-
-
-
-
-
-    }
 
 
     public ngOnInit(): void {
@@ -89,12 +81,12 @@ export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectStory();
         }
     }
-    protected afterSelectStory() {
+    protected afterSelectStory():void {
         this.isRead = true;
 
     }
 
-    protected onSelectStory(): void {
+    public onSelectStory(): void {
         this.route.navigate([url(this.story.title), this.story.id], { relativeTo: this.activatedRoute });
     }
 

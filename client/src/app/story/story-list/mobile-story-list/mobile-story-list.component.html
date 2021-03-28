@@ -2,7 +2,7 @@
 <div class="story-list">
     <div style="padding-top: 58px;">
 
-        <app-mobile-story  #storyMobile [story]="openningStory.story" *ngIf="openningStory.story"
+        <app-mobile-story  #storyMobile [story]="openningStory" *ngIf="openningStory"
         class="d-block story" [index]="0"></app-mobile-story>
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">
@@ -28,8 +28,4 @@
 
     </div>
 
-
-    <button mat-icon-button class="move-to-top fadein" color="primary" (click)="moveTop($event)" *ngIf="isShowMoveTop">
-        <mat-icon class="mat-accent">play_circle_filled</mat-icon>
-    </button>
 </div>

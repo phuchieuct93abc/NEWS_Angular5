@@ -33,15 +33,12 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   public openningStory: { id?: string; story?: Story; category?: string } = {};
 
   public category: string;
-  public isShowMoveTop: boolean;
-  public hideMoveTopTimeout;
 
   public searchKeyword: string;
 
   public isLoading = false;
 
   public config: Config;
-  public isBrowser;
 
 
   protected buffer: Story[] = [];
@@ -66,7 +63,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   public ngOnInit(): void {
 
 
-      this.isBrowser = typeof window !== 'undefined';
       const {id,category} = this.route.children[0].snapshot?.params;
       this.openningStory = {id,category};
       this.loadOpenningStory();

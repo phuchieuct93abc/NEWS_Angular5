@@ -2,16 +2,16 @@
 <div class="story-list">
     <div style="padding-top: 58px;">
 
-        <app-mobile-story  #storyMobile [story]="openningStory" *ngIf="openningStory"
+        <app-mobile-story #storyMobile [story]="openningStory" *ngIf="openningStory"
         class="d-block story" [index]="0"></app-mobile-story>
 
         <div class="stories" *ngIf="stories.length>0;else loadingStory">
             <ng-container *ngFor="let item of stories;trackBy:trackByFn" >
-                <app-mobile-story #storyMobile [story]="item"
+                <app-mobile-story  (onSelectedStory)="selectStory($event)" #storyMobile [story]="item"
                 class="d-block story" [index]="stories.indexOf(item)"></app-mobile-story>
 
             </ng-container>
-            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories()">Load more</div>
+            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()">Load more</div>
 
         </div>
 

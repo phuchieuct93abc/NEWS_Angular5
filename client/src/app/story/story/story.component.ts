@@ -1,10 +1,10 @@
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
@@ -20,7 +20,7 @@ import { StoryListService } from '../story-list/story-list.service';
 export class StoryComponent implements OnInit, OnDestroy {
 
     @Output()
-    public onSelectedStory = new EventEmitter<number>();
+    public onSelectedStory = new EventEmitter<Story>();
     @Input()
     public story: Story;
     @Input()
@@ -36,40 +36,45 @@ export class StoryComponent implements OnInit, OnDestroy {
     public configListener: Subscription;
     public friendlyUrl: string;
     private onDestroy$ = new Subject<void>();
+    public isActive = false;
 
 
     public constructor(
+        @Inject(IS_NODE) public isNode: boolean,
         @Inject(IS_MOBILE) public isMobile: boolean,
         protected configService: ConfigService,
         protected favoriteService: FavoriteService,
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef<HTMLElement>) {
+        protected element: ElementRef<HTMLElement>,
+        private crd: ChangeDetectorRef) {
     }
 
-    public onSelectStory() {
-        this.storyListService.currentSelectedStory = this.story;
-        let navigate: Promise<any>;
-        if (this.category) {
-            navigate = this.route.navigate(['/', this.category.name, this.friendlyUrl, this.story.id]);
-        } else {
-            navigate = this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
-        }
+    protected onSelectStory() {
+        this.isActive = true;
+        this.onSelectedStory.emit(this.story);
+        this.crd.detectChanges()
 
-        navigate.then(() => {
-            this.story.selected = true;
-            this.story.isRead = true;
-            this.onSelectedStory.emit(this.index);
-        });
     }
 
     public ngOnInit(): void {
+
+        this.activatedRoute.children[0].params.pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
+            if (data.id !== this.story.id) {
+                this.isActive = false;
+                this.crd.detectChanges()
+
+                return;
+            }
+            this.onSelectStory();
+
+        });
+
         this.getConfig();
-        this.friendlyUrl = url(this.story.title) as string;
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
-        this.handleAutoOpenStory();
-        if(this.story.isOpenning){
+        // this.handleAutoOpenStory();
+        if (this.story.isOpenning) {
             this.onSelectStory();
         }
     }
@@ -79,13 +84,10 @@ export class StoryComponent implements OnInit, OnDestroy {
         return this.element.nativeElement;
     }
 
-    private handleAutoOpenStory() {
-        if (this.story.isAutoOpen) {
-            this.onSelectStory();
-            this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
-            this.story.isAutoOpen = false;
-        }
-    }
+    // private handleAutoOpenStory() {
+    //         this.onSelectStory();
+    //         this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
+    // }
 
     private getConfig() {
         this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe((config) => this.config = config);

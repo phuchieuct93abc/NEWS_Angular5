@@ -23,10 +23,7 @@ import { IS_NODE } from './../../shared/const';
 export class StoryListManagementComponent extends DestroySubscriber implements OnInit {
 
 
-  @ViewChild('scrollingBlock')
-  public scrollingBlock: ElementRef<HTMLElement>;
-  @ViewChildren(StoryComponent)
-  public storyComponents: QueryList<StoryComponent>;
+
 
   @ViewChild(StoryListComponent)
   public storyList: StoryListComponent;
@@ -47,9 +44,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   public isBrowser;
 
 
-  public loadingStories = [];
   protected buffer: Story[] = [];
-  private readonly loadingStoryNumber = 10;
   private selectedStory: Story;
 
   private $stopGetStories = new Subject();
@@ -70,7 +65,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
   public ngOnInit(): void {
 
-      this.loadingStories = Array(this.loadingStoryNumber).fill('');
 
       this.isBrowser = typeof window !== 'undefined';
       const {id,category} = this.route.children[0].snapshot?.params;
@@ -93,22 +87,15 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       this.registerOnSearch();
       this.registerConfigChange();
       this.registerSpinner();
-
-      this.stories$.subscribe(data=>{
-        console.log(data);
-      });
-
   }
 
-  public loadOpenningStory():void {
+  public loadOpenningStory(): void {
       this.getFirstStory().subscribe((story) => {
           if (story === undefined) {
               return;
           }
           this.openningStory.story = story;
-          this.openningStory.story.isAutoOpen = true;
           this.openningStory.story.isActive = true;
-          this.storyList.selectStory(this.openningStory.id);
       });
   }
   public onSelectedStory(selectedStoryIndex: number): void {
@@ -119,17 +106,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       this.selectedStory.isActive = true;
 
   }
-
-
-  public autoSelectFirstStory(): void {
-      if (!this.isSmallScreen && !this.openningStory.id) {
-          setTimeout(() => {
-              this.storyComponents.first?.onSelectStory();
-          });
-      }
-      this.afterInitStories();
-  }
-
 
   public loadMoreStories(): void {
       if (this.isNode) {
@@ -146,37 +122,19 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
           this.isLoading = false;
       });
   }
-  protected scrollTo(story: Story): void {
-      setTimeout(() => {
-          const index = this.stories$.getValue().findIndex((i) => i.id === story.id);
-          const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
-          this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop, behavior: 'smooth' });
-      });
-  }
-
-  protected scrollTop(): void {
-      if (this.isNode) {
-          return;
-      }
-      setTimeout(() => {
-          this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
-      });
-
-  }
+ 
 
 
   protected resetStoryList(): void {
-      // this.stories = [];
+      this.stories$.next([]);
       const hasSwitchCategory = !this.openningStory.category || this.category !== this.openningStory.category;
       if (hasSwitchCategory) {
           this.openningStory = {};
-          this.scrollTop();
       }
       this.storyService.resetPageNumber();
   }
 
   protected loadFirstPage(): void {
-    console.log('load first page');
       this.isLoading = true;
       this.storyService.getStories(this.category, 10)
           .pipe(takeUntil(this.$stopGetStories)).subscribe((value) => {
@@ -184,16 +142,8 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
               this.pushStory(...stories);
 
               this.isLoading = false;
-              this.autoSelectFirstStory();
           });
   }
-
-  private afterInitStories() {
-      if(!this.openningStory.id){
-          this.scrollTop();
-      }
-  }
-
 
   private updateStoryList() {
       this.route.params.subscribe(({category}) => {

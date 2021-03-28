@@ -1,8 +1,9 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
+import * as url from 'speakingurl';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
@@ -20,54 +21,86 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
     templateUrl: './story-list.component.html',
     styleUrls: ['./story-list.component.scss']
 })
-export class StoryListComponent {
+export class StoryListComponent implements OnChanges {
+    @ViewChild('scrollingBlock')
+    public scrollingBlock: ElementRef<HTMLElement>;
 
-    constructor(      @Inject(IS_NODE) public isNode: boolean,private storyListService: StoryListService
-    ){}
 
+    @ViewChildren(StoryComponent)
+    public storyComponents: QueryList<StoryComponent>;
+
+    @Output()
+    loadMoreStories = new EventEmitter();
+    private _stories: Story[];
+    public get stories(): Story[] {
+        return this._stories;
+    }
     @Input()
-    stories: Story[];
+    public set stories(value: Story[]) {
+        this._stories = value;
+    }
     @Input()
     openningStory: Story;
 
-    loadingStories: Story[];
+    loadingStories = Array(10).fill('');
+    constructor(
+        @Inject(IS_NODE) public isNode: boolean,
+        private storyListService: StoryListService,
+        protected activatedRoute: ActivatedRoute,
+        protected route: Router
+    ) { }
+    ngOnChanges(changes: SimpleChanges): void {
+        const currentValue = changes.stories?.currentValue as Story[];
+        const previousValue = changes.stories?.previousValue as Story[];
+        if (currentValue?.length === 0) {
+            this.scrollTop();
+        }
+ 
 
-    loadMoreStories(): void {
+        if(changes.openningStory?.currentValue != null){
+            this.selectStory(changes.openningStory?.currentValue)
+        }else{
+            if (previousValue?.length === 0 && currentValue?.length > 0) {
+                this.selectStory(this.stories[0]);
+                setTimeout(() => {
+                    console.log(this.storyComponents);   
+                });
+    
+            }
+        }
+
     }
 
-    onSelectedStory(story: Story): void {
 
-    }
     public trackByFn(item: Story): string {
         return item.id;
     }
 
-    private registerPrevAndNext() {
-        this.storyListService.onSelectPrevStory.subscribe(() => {
-            const prevIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) - 1;
-            if (prevIndex > -1) {
-                const prevStoryId = this.stories[prevIndex].id;
-                this.selectStory(prevStoryId);
-            }
-  
+    public selectStory(story: Story): void {
+        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute }).then(() => {
+            this.openningStory.isActive = false;
+            story.isRead = true;
+        
         });
-  
-        this.storyListService.onSelectNextStory.subscribe(() => {
-            const nextIndex = this.stories.indexOf(this.storyListService.currentSelectedStory) + 1;
-            const nextStoryId = this.stories[nextIndex].id;
-            this.selectStory(nextStoryId);
-        });
-    }
-  
-    public selectStory(storyId: string) {
-        // this.storyComponents?.forEach((story) => {
-        //     if (story.story.id === prevStoryId) {
-        //         story.onSelectStory();
-        //         this.scrollTo(story.story);
-        //     }
-        // });
     }
 
-   
+    protected scrollTo(story: Story): void {
+        setTimeout(() => {
+            const index = this.stories.findIndex((i) => i.id === story.id);
+            const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
+            this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop, behavior: 'smooth' });
+        });
+    }
+
+    protected scrollTop(): void {
+        if (this.isNode) {
+            return;
+        }
+        setTimeout(() => {
+            this.scrollingBlock?.nativeElement?.scrollTo?.({ top: 0, behavior: 'smooth' });
+        });
+
+    }
+
 
 }

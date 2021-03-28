@@ -14,7 +14,7 @@
         </div>
         <app-story-meta [story]="story" class="meta"></app-story-meta>
         <app-inline-article *ngIf="selected" (click)="$event.stopPropagation()" (onClosed)="close()"
-            [story]="story" (onFinishedGetArticle)="onOpenStory()" class=" d-block content-article">
+            [story]="story" class=" d-block content-article">
 
         </app-inline-article>
 

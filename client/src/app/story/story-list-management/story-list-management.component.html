@@ -1,5 +1,13 @@
-<app-story-list *ngIf="!isSmallScreen" [stories]="stories$ | async" [openningStory]="openningStory.story">
+<app-story-list *ngIf="!isSmallScreen" 
+[stories]="stories$ | async" 
+[openningStory]="openningStory.story"
+(loadMoreStories)="loadMoreStories()"
+>
 </app-story-list>
 
-<app-mobile-story-list *ngIf="isSmallScreen" [stories]="stories$ | async" [openningStory]="openningStory.story">
+<app-mobile-story-list *ngIf="isSmallScreen" 
+[stories]="stories$ | async" 
+[openningStory]="openningStory.story"
+(loadMoreStories)="loadMoreStories()"
+>
 </app-mobile-story-list>

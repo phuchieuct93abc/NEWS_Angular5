@@ -2,7 +2,7 @@
 
     <mat-card (click)="onSelectStory()"
           class="px-0 py-0 desktop-story"
-          [class.active]="story.isActive"
+          [class.active]="isActive"
           [class.read]="story.isRead"
           [ngClass]="[story.isRead?'is-read':'not-read']"
           matRipple

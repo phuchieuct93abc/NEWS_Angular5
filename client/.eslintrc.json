@@ -52,6 +52,8 @@
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-var-requires": "error",
         "@typescript-eslint/no-floating-promises":"off",
+        "@typescript-eslint/no-unsafe-assignment":"warn",
+        "no-underscore-dangle":"off",
         "arrow-parens": [
           "off",
           "always"

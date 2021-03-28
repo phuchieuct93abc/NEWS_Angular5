@@ -52,8 +52,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     @Output()
     public onClosed = new EventEmitter();
-    @Output()
-    public onFinishedGetArticle = new EventEmitter<void>();
     @ViewChild('articleBodyWrapper')
     public articleView: ElementRef;
     @ViewChild(CdkDrag)
@@ -114,8 +112,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
             this.story.selected = false;
             this.story.height = 0;
             this.onClosed.emit();
-        } else {
-            this.onFinishedGetArticle.emit();
         }
     }
 

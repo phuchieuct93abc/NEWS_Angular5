@@ -22,7 +22,6 @@ export class Story {
         public storyMeta?: StoryMeta,
         public hasVideo?: boolean,
         public isRead: boolean = false,
-        public isAutoOpen = false,
         public selected = false,
         public height = 0,
         public isExpandedComment = false,

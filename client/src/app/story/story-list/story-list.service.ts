@@ -11,7 +11,6 @@ export class StoryListService {
     public onSelectNextStory = new Subject<Story>();
     public onSelectPrevStory = new Subject<Story>();
 
-    public currentSelectedStory: Story;
 
     selectNextStory(): void {
         this.onSelectNextStory.next();

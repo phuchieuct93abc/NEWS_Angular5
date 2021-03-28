@@ -1,6 +1,6 @@
-import { map, startWith, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
@@ -10,6 +10,7 @@ import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
 import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
+import { ArticleService } from 'src/app/shared/article.service';
 
 @Component({
     selector: 'app-story',
@@ -17,7 +18,7 @@ import { StoryListService } from '../story-list/story-list.service';
     styleUrls: ['./story.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StoryComponent implements OnInit, OnDestroy {
+export class StoryComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Output()
     public onSelectedStory = new EventEmitter<Story>();
@@ -52,24 +53,35 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
         protected element: ElementRef<HTMLElement>,
-        private crd: ChangeDetectorRef) {
+        private crd: ChangeDetectorRef,
+        private articleService: ArticleService) {
+    }
+    ngAfterViewInit(): void {
+
+
+
+
+
+
     }
 
 
     public ngOnInit(): void {
         this.isRead = this.story.isRead;
         this.config$ = this.configService.getConfig();
-        // setTimeout(() => {
 
-            this.isActive$ = this.activatedRoute.children[0].params.pipe(
-                map(({ id }) =>  id === this.story.id),
-                tap((active) => {
-                    if (active) {
-                        this.afterSelectStory();
-                    }
+        this.isActive$ = this.route.events.pipe(
+            takeUntil(this.onDestroy$),
+            filter(event => event instanceof NavigationEnd),
+            map(() => this.activatedRoute.firstChild.snapshot.params),
+            startWith(this.activatedRoute.firstChild.snapshot.params),
+            map(({ id }) => id === this.story.id),
+            tap((active) => {
+                if (active) {
+                    this.afterSelectStory();
                 }
-                ));
-        // });
+            })
+        )
 
 
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { Story } from '../../../../../../model/Story';
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { StoryListComponent } from '../story-list.component';
@@ -6,7 +6,9 @@ import { StoryListComponent } from '../story-list.component';
 @Component({
     selector: 'app-mobile-story-list',
     templateUrl: './mobile-story-list.component.html',
-    styleUrls: ['./mobile-story-list.component.scss', '../story-list.component.scss']
+    styleUrls: ['./mobile-story-list.component.scss', '../story-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class MobileStoryListComponent extends StoryListComponent {
 

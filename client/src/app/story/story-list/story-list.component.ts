@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
@@ -19,7 +19,8 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
 @Component({
     selector: 'app-story-list',
     templateUrl: './story-list.component.html',
-    styleUrls: ['./story-list.component.scss']
+    styleUrls: ['./story-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoryListComponent implements OnInit, OnChanges {
     @ViewChild('scrollingBlock')
@@ -43,6 +44,8 @@ export class StoryListComponent implements OnInit, OnChanges {
     openningStory: Story;
 
     loadingStories = Array(10).fill('');
+    @Input()
+    public category:string;
     constructor(
         @Inject(IS_NODE) public isNode: boolean,
         private storyListService: StoryListService,

@@ -100,14 +100,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     }
 
     checkPosition(): void {
-        let isFixed = false;
-        if (!this.isDisplayingAction && this.isDisplayingArticle) {
-            console.log("fixed")
-            isFixed = true;
-        }
-
-
-        this.isFixedTop = isFixed;
+        this.isFixedTop = !this.isDisplayingAction && this.isDisplayingArticle;
         this.crd.markForCheck();
     }
 

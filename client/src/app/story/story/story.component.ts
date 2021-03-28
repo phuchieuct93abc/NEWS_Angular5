@@ -1,5 +1,5 @@
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -30,13 +30,17 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Input()
     public category: Category;
 
+    @Input()
     public selected = false;
 
-    public config: Config;
+    public isRead = false;
+
+
+    public config$: BehaviorSubject<Config>;
     public configListener: Subscription;
     public friendlyUrl: string;
     private onDestroy$ = new Subject<void>();
-    public isActive = false;
+    public isActive$: Observable<boolean>;
 
 
     public constructor(
@@ -51,47 +55,47 @@ export class StoryComponent implements OnInit, OnDestroy {
         private crd: ChangeDetectorRef) {
     }
 
-    protected onSelectStory() {
-        this.isActive = true;
-        this.onSelectedStory.emit(this.story);
-        this.crd.detectChanges()
-
-    }
 
     public ngOnInit(): void {
+        this.isRead = this.story.isRead;
+        this.config$ = this.configService.getConfig();
+        // setTimeout(() => {
 
-        this.activatedRoute.children[0].params.pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
-            if (data.id !== this.story.id) {
-                this.isActive = false;
-                this.crd.detectChanges()
+            this.isActive$ = this.activatedRoute.children[0].params.pipe(
+                map(({ id }) =>  id === this.story.id),
+                tap((active) => {
+                    if (active) {
+                        this.afterSelectStory();
+                    }
+                }
+                ));
+        // });
 
-                return;
-            }
-            this.onSelectStory();
 
-        });
-
-        this.getConfig();
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
-        // this.handleAutoOpenStory();
         if (this.story.isOpenning) {
-            this.onSelectStory();
+            this.selectStory();
         }
     }
+    protected afterSelectStory() {
+        this.isRead = true;
 
+    }
 
+    protected onSelectStory(): void {
+        this.route.navigate([url(this.story.title), this.story.id], { relativeTo: this.activatedRoute });
+    }
+
+    protected selectStory(): void {
+        this.story.isRead = true;
+        this.selected = true;
+
+    }
     public getElement(): HTMLElement {
         return this.element.nativeElement;
     }
 
-    // private handleAutoOpenStory() {
-    //         this.onSelectStory();
-    //         this.route.navigate([this.friendlyUrl, this.story.id], { relativeTo: this.activatedRoute });
-    // }
 
-    private getConfig() {
-        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe((config) => this.config = config);
-    }
     public ngOnDestroy(): void {
         this.onDestroy$.next();
     }

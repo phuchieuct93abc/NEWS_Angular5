@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { StoryComponent } from '../story.component';
@@ -18,15 +18,16 @@ import { BehaviorSubject } from 'rxjs';
 export class MobileStoryComponent extends StoryComponent {
 
 
-    public isSelectedBefore = false;
     @ViewChild(ImageViewerComponent)
     public imageViewerComponent: ImageViewerComponent;
 
 
+    public isSelectedBefore = false;
 
-    public onSelectStory() {
-        super.onSelectStory();
+    public afterSelectStory() {
+        super.afterSelectStory();
         this.selected = true;
+
         this.isSelectedBefore = true;
         if (!this.isNode) {
             setTimeout(() => {

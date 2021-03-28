@@ -21,7 +21,7 @@ import { DestroySubscriber } from './../../shared/destroy-subscriber';
     templateUrl: './story-list.component.html',
     styleUrls: ['./story-list.component.scss']
 })
-export class StoryListComponent implements OnChanges {
+export class StoryListComponent implements OnInit, OnChanges {
     @ViewChild('scrollingBlock')
     public scrollingBlock: ElementRef<HTMLElement>;
 
@@ -49,6 +49,10 @@ export class StoryListComponent implements OnChanges {
         protected activatedRoute: ActivatedRoute,
         protected route: Router
     ) { }
+    
+    ngOnInit(): void {
+        this.scrollTop();
+    }
     ngOnChanges(changes: SimpleChanges): void {
         const currentValue = changes.stories?.currentValue as Story[];
         const previousValue = changes.stories?.previousValue as Story[];
@@ -59,15 +63,13 @@ export class StoryListComponent implements OnChanges {
 
         if(changes.openningStory?.currentValue != null){
             this.selectStory(changes.openningStory?.currentValue)
-        }else{
-            if (previousValue?.length === 0 && currentValue?.length > 0) {
-                this.selectStory(this.stories[0]);
-                setTimeout(() => {
-                    console.log(this.storyComponents);   
-                });
-    
-            }
         }
+
+        if (previousValue?.length === 0 && currentValue?.length > 0 && this.openningStory == null) {
+            this.selectStory(this.stories[0]);
+
+        }
+        
 
     }
 
@@ -77,11 +79,7 @@ export class StoryListComponent implements OnChanges {
     }
 
     public selectStory(story: Story): void {
-        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute }).then(() => {
-            this.openningStory.isActive = false;
-            story.isRead = true;
-        
-        });
+        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute })
     }
 
     protected scrollTo(story: Story): void {

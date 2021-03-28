@@ -45,7 +45,7 @@ export class NotificationModule {
                     }
                     this.message = firebaseApp.messaging();
                     this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
-                    this.message.requestPermission().then(() => this.getToken());
+                    this.message.requestPermission().then(() => this.getToken(),(e)=>console.log(e));
                     this.message.onTokenRefresh(() => this.getToken());
                     this.stopRegisterNotification$.next();
                 }

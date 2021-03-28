@@ -6,7 +6,7 @@
         [index]="0" class="d-block pb-2" ></app-story>
         
         <ng-container *ngIf="stories.length>0;else loadingStory">
-            <app-story #story (onSelectedStory)="selectStory($event)" *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
+            <app-story #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
                 [index]="stories.indexOf(item)" class="d-block pb-2" ></app-story>
         </ng-container>         
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -49,7 +49,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private isDisplayingArticle = true;
 
     constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
-        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean
+        private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean,
+        private crd: ChangeDetectorRef
     ) {
     }
 
@@ -101,11 +102,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
     checkPosition(): void {
         let isFixed = false;
         if (!this.isDisplayingAction && this.isDisplayingArticle) {
+            console.log("fixed")
             isFixed = true;
         }
 
 
         this.isFixedTop = isFixed;
+        this.crd.markForCheck();
     }
 
     toggleFavorite(): void {

@@ -82,7 +82,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     public collapseArticle() {
         this.isCollapseArticle = false;
-        this.crd.detectChanges();
+        this.crd.markForCheck();
 
     }
 
@@ -118,7 +118,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     protected afterGetArticle(): void {
         super.afterGetArticle();
         this.animationName = 'show';
-        this.crd.detectChanges();
+        this.crd.markForCheck();
     }
     protected resetArticle(){
         //Don't need to reset article

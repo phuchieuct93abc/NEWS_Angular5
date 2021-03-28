@@ -13,6 +13,7 @@ import { ArticleService } from './shared/article.service';
 import { AppService } from './app.service';
 import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
+import { CheckForUpdateService } from './shared/checkForUpdate.service';
 
 @Component({
     selector: 'app-news',
@@ -62,7 +63,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         @Inject(DOCUMENT) private document: Document,
         private renderer: Renderer2,
         private appService: AppService,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        private checkForUpdateService: CheckForUpdateService
     ) {
     }
     public ngOnDestroy(): void {
@@ -70,6 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.checkForUpdateService.checkUpdate();
 
 
         this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ darkTheme }) => {

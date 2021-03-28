@@ -139,14 +139,6 @@ const isMobileProvider =
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
         { provide: IS_NODE, useFactory: (platformId) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (checkForUpdateService: CheckForUpdateService) => ()=>{
-                checkForUpdateService.checkUpdate();
-            },
-            deps: [CheckForUpdateService],
-            multi: true
-        },
         isMobileProvider,
         Title,
         Meta

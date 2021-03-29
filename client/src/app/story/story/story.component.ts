@@ -71,6 +71,7 @@ export class StoryComponent implements OnInit, OnDestroy {
             tap((active) => {
                 if (active) {
                     this.afterSelectStory();
+                    this.onSelectedStory.emit(this.story);
                 }
             })
         )

@@ -1,20 +1,12 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { interval, Observable, Subject } from 'rxjs';
-import { pairwise, takeUntil, throttle } from 'rxjs/operators';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { merge } from 'rxjs';
+import { map, mapTo } from 'rxjs/operators';
 import * as url from 'speakingurl';
-import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
-import { Config, ConfigService } from '../../shared/config.service';
-import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
-import { ArticleService } from '../../shared/article.service';
-import StoryImage from '../../../../../model/StoryImage';
-import StoryMeta from '../../../../../model/StoryMeta';
 import { StoryComponent } from '../story/story.component';
 import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
-import { DestroySubscriber } from './../../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-story-list',
@@ -45,16 +37,19 @@ export class StoryListComponent implements OnInit, OnChanges {
 
     loadingStories = Array(10).fill('');
     @Input()
-    public category:string;
+    public category: string;
+
+    private selectedStory: Story;
     constructor(
         @Inject(IS_NODE) public isNode: boolean,
         private storyListService: StoryListService,
         protected activatedRoute: ActivatedRoute,
         protected route: Router
     ) { }
-    
+
     ngOnInit(): void {
         this.scrollTop();
+        this.registerPrevAndNext();
     }
     ngOnChanges(changes: SimpleChanges): void {
         const currentValue = changes.stories?.currentValue as Story[];
@@ -62,18 +57,36 @@ export class StoryListComponent implements OnInit, OnChanges {
         if (currentValue?.length === 0) {
             this.scrollTop();
         }
- 
 
-        if(changes.openningStory?.currentValue != null){
-            this.selectStory(changes.openningStory?.currentValue)
+
+        if (changes.openningStory?.currentValue != null) {
+            this.selectStory(changes.openningStory?.currentValue);
         }
 
         if (previousValue?.length === 0 && currentValue?.length > 0 && this.openningStory == null) {
             this.selectStory(this.stories[0]);
 
         }
-        
 
+
+    }
+    private registerPrevAndNext() {
+        merge(
+            this.storyListService.onPrev().pipe(mapTo(-1)),
+            this.storyListService.onNext().pipe(mapTo(1))
+        ).subscribe(adj => {
+            if(this.stories.length ===0){
+                return;
+            }
+            const index = Math.max(0, this.stories.indexOf(this.selectedStory) + adj);
+            this.selectStory(this.stories[index]);
+            this.scrollTo(this.stories[index]);
+        });
+
+    }
+
+    public onSelectedStory(story: Story): void {
+        this.selectedStory = story;
     }
 
 
@@ -82,14 +95,14 @@ export class StoryListComponent implements OnInit, OnChanges {
     }
 
     public selectStory(story: Story): void {
-        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute })
+        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
     }
 
     protected scrollTo(story: Story): void {
         setTimeout(() => {
             const index = this.stories.findIndex((i) => i.id === story.id);
             const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
-            this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop, behavior: 'smooth' });
+            this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop + 100, behavior: 'smooth' });
         });
     }
 

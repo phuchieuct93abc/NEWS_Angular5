@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Story } from '../../../../../model/Story';
 
 
@@ -8,8 +8,8 @@ import { Story } from '../../../../../model/Story';
 })
 export class StoryListService {
 
-    public onSelectNextStory = new Subject<Story>();
-    public onSelectPrevStory = new Subject<Story>();
+    private onSelectNextStory = new Subject<void>();
+    private onSelectPrevStory = new Subject<void>();
 
 
     selectNextStory(): void {
@@ -18,6 +18,14 @@ export class StoryListService {
 
     selectPrevStory(): void {
         this.onSelectPrevStory.next();
+    }
+
+    public onNext(): Observable<void>{
+        return this.onSelectNextStory.asObservable();
+
+    }
+    public onPrev(): Observable<void>{
+        return this.onSelectPrevStory.asObservable();
     }
 
 }

@@ -2,11 +2,11 @@
     <div #scrollingBlock class="scrollable">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
 
-        <app-story *ngIf="openningStory"   [story]="openningStory"
+        <app-story (onSelectedStory)="onSelectedStory($event)" *ngIf="openningStory"   [story]="openningStory"
         [index]="0" class="d-block pb-2" ></app-story>
         
         <ng-container *ngIf="stories.length>0;else loadingStory">
-            <app-story #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
+            <app-story (onSelectedStory)="onSelectedStory($event)"  #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
                 [index]="stories.indexOf(item)" class="d-block pb-2" ></app-story>
         </ng-container>         
 

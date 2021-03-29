@@ -94,14 +94,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
           this.openningStory.story.isActive = true;
       });
   }
-  public onSelectedStory(selectedStoryIndex: number): void {
-      if (this.selectedStory) {
-          this.selectedStory.isActive = false;
-      }
-      this.selectedStory = this.getStories()[selectedStoryIndex];
-      this.selectedStory.isActive = true;
 
-  }
 
   public loadMoreStories(): void {
       if (this.isNode) {

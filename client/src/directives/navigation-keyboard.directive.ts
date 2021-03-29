@@ -32,7 +32,7 @@ export class NavigationKeyboardDirective implements OnInit, OnDestroy {
       }
     });
 
-    this.onKeyDown$.pipe(throttle(() => interval(1000)),takeUntil(this.onDestroy$)).subscribe((event) => {
+    this.onKeyDown$.pipe(throttle(() => interval(300)),takeUntil(this.onDestroy$)).subscribe((event) => {
       switch (event.key) {
         case 'ArrowLeft':
         case 'a':

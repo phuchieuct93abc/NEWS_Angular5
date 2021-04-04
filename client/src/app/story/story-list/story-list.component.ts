@@ -49,36 +49,30 @@ export class StoryListComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         const currentValue = changes.stories?.currentValue as Story[];
         const previousValue = changes.stories?.previousValue as Story[];
-        const isFirstTime = changes.stories?.previousValue === undefined;
-        this.handleScrollTop(previousValue, currentValue);
+        const isFirstTime = previousValue === undefined || previousValue.length === 0;
+        this.handleScrollTop(currentValue);
         this.appendOpenningStory();
-
-
         this.handleSelectFirstStory(isFirstTime,currentValue);
 
 
     }
     private handleSelectFirstStory(isFirstTime: boolean, currentValue: Story[]) {
         if (this.isMobile && isFirstTime && this.openningStory) {
-
             this.selectStory(this.stories[0]);
             return;
         }
-
-        if (!this.isMobile && currentValue?.length > 0) {
-
+        if (!this.isMobile && isFirstTime && currentValue?.length > 0) {
             this.selectStory(this.stories[0]);
-
         }
     }
+
     private appendOpenningStory() {
         if (this.openningStory) {
             this.stories = [this.openningStory, ...this.stories];
         }
     }
 
-    private handleScrollTop( previousValue: Story[], currentValue: Story[]) {
-
+    private handleScrollTop( currentValue: Story[]) {
         if (currentValue?.length ===0) {
             this.scrollTop();
         }

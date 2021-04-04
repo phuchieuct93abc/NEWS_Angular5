@@ -107,7 +107,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       this.getLoadMoreObservable()
       .pipe(takeUntil(this.$stopGetStories), throttle(() => interval(10000)))
       .subscribe((value) => {
-          this.stories$.next([...this.stories$.getValue(),...value]);
+          this.pushStory(...value);
           this.isLoading = false;
       });
   }
@@ -220,7 +220,10 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   pushStory(...story: Story[]): void{
-    this.stories$.next([...this.stories$.getValue(),...story]);
+    const unDuplicatedStories =   story
+    .filter(s =>this.stories$.getValue().indexOf(s) === -1)
+    .filter(s => s.id !== this.openningStory?.id);
+    this.stories$.next([...this.stories$.getValue(),...unDuplicatedStories]);
   }
 
   getStories(): Story[]{

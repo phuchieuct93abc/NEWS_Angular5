@@ -1,13 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { StoryComponent } from '../story.component';
-import { ConfigService } from '../../../shared/config.service';
-import { FavoriteService } from '../../../shared/favorite-story.service';
-import { StoryListService } from '../../story-list/story-list.service';
 import { ImageViewerComponent } from './../../image-viewer/image-viewer.component';
-import { IS_NODE } from './../../../shared/const';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-mobile-story',
@@ -24,7 +17,7 @@ export class MobileStoryComponent extends StoryComponent {
 
     public isSelectedBefore = false;
 
-    public afterSelectStory() {
+    public afterSelectStory(): void {
         super.afterSelectStory();
         this.selected = true;
 
@@ -35,11 +28,9 @@ export class MobileStoryComponent extends StoryComponent {
             });
         }
     }
-    public onOpenStory() {
-        //Open story;
-    }
 
-    public close() {
+    public close(): void {
+        this.route.navigate(['/']);
         window.scrollTo({ top: this.element.nativeElement.offsetTop - 58, behavior: 'auto' });
         this.selected = false;
     }

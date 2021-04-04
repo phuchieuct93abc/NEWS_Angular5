@@ -88,7 +88,6 @@ export class ParallaxDirective implements OnDestroy {
 
 
   private updateAnimation([entry]: IntersectionObserverEntry[]) {
-    console.log(entry.intersectionRect.x )
     if(this.isMobile && entry.intersectionRect.x > 10){
       //Prevent parallax when open menu
       return;

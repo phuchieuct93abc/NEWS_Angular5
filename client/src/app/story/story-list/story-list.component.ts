@@ -5,7 +5,7 @@ import { map, mapTo } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
-import { IS_NODE } from './../../shared/const';
+import { IS_MOBILE, IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
 
 @Component({
@@ -24,14 +24,9 @@ export class StoryListComponent implements OnInit, OnChanges {
 
     @Output()
     loadMoreStories = new EventEmitter();
-    private _stories: Story[];
-    public get stories(): Story[] {
-        return this._stories;
-    }
     @Input()
-    public set stories(value: Story[]) {
-        this._stories = value;
-    }
+    public stories: Story[] = [];
+
     @Input()
     openningStory: Story;
 
@@ -42,40 +37,59 @@ export class StoryListComponent implements OnInit, OnChanges {
     private selectedStory: Story;
     constructor(
         @Inject(IS_NODE) public isNode: boolean,
+        @Inject(IS_MOBILE) private isMobile: boolean,
         private storyListService: StoryListService,
         protected activatedRoute: ActivatedRoute,
         protected route: Router
     ) { }
 
     ngOnInit(): void {
-        this.scrollTop();
         this.registerPrevAndNext();
     }
     ngOnChanges(changes: SimpleChanges): void {
         const currentValue = changes.stories?.currentValue as Story[];
         const previousValue = changes.stories?.previousValue as Story[];
-        if (currentValue?.length === 0) {
-            this.scrollTop();
-        }
+        const isFirstTime = changes.stories?.previousValue === undefined;
+        this.handleScrollTop(previousValue, currentValue);
+        this.appendOpenningStory();
 
 
-        if (changes.openningStory?.currentValue != null) {
-            this.selectStory(changes.openningStory?.currentValue);
-        }
-
-        if (previousValue?.length === 0 && currentValue?.length > 0 && this.openningStory == null) {
-            this.selectStory(this.stories[0]);
-
-        }
+        this.handleSelectFirstStory(isFirstTime,currentValue);
 
 
     }
+    private handleSelectFirstStory(isFirstTime: boolean, currentValue: Story[]) {
+        if (this.isMobile && isFirstTime && this.openningStory) {
+
+            this.selectStory(this.stories[0]);
+            return;
+        }
+
+        if (!this.isMobile && currentValue?.length > 0) {
+
+            this.selectStory(this.stories[0]);
+
+        }
+    }
+    private appendOpenningStory() {
+        if (this.openningStory) {
+            this.stories = [this.openningStory, ...this.stories];
+        }
+    }
+
+    private handleScrollTop( previousValue: Story[], currentValue: Story[]) {
+
+        if (currentValue?.length ===0) {
+            this.scrollTop();
+        }
+    }
+
     private registerPrevAndNext() {
         merge(
             this.storyListService.onPrev().pipe(mapTo(-1)),
             this.storyListService.onNext().pipe(mapTo(1))
         ).subscribe(adj => {
-            if(this.stories.length ===0){
+            if (this.stories.length === 0) {
                 return;
             }
             const index = Math.max(0, this.stories.indexOf(this.selectedStory) + adj);
@@ -107,6 +121,8 @@ export class StoryListComponent implements OnInit, OnChanges {
     }
 
     protected scrollTop(): void {
+
+
         if (this.isNode) {
             return;
         }

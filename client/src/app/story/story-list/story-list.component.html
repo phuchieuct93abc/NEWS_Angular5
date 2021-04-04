@@ -2,14 +2,14 @@
     <div #scrollingBlock class="scrollable">
         <div class="blur-edge blur-top" *ngIf="stories"></div>
 
-        <app-story (onSelectedStory)="onSelectedStory($event)" *ngIf="openningStory"   [story]="openningStory"
-        [index]="0" class="d-block pb-2" ></app-story>
         
-        <ng-container *ngIf="stories.length>0;else loadingStory">
+        <ng-container *ngIf="stories.length>0">
             <app-story (onSelectedStory)="onSelectedStory($event)"  #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
-                [index]="stories.indexOf(item)" class="d-block pb-2" ></app-story>
+                 class="d-block pb-2" ></app-story>
         </ng-container>         
-
+        <ng-container *ngIf="stories.length<10">
+            <app-loading-story *ngFor="let i of loadingStories" class="loading-story pb-2"></app-loading-story>
+        </ng-container>
         <div class="p-2 text-center">
             <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()">Load more</div>
 

@@ -25,7 +25,7 @@ export default class TinhteArticleParser extends ArticleParser {
     addAttachToBody() {
         let body:string = this.data["first_post"]["post_body_html"];
         let attachImage: any[] = this.data["first_post"]["attachments"]; 
-        if (attachImage?.length > 0) {
+        if (attachImage.length > 0) {
             let thumbnail = attachImage[0]["links"]["data"];
             if(body.indexOf(thumbnail)===-1){
                 body = `<img class="thumbnail-inner" src='${thumbnail}'/> ${body} `

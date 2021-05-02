@@ -21,7 +21,7 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseUrl(): string {
-        return this.data.getElementsByTagName('a')[0].getAttribute('href').trim();
+        return 'https://baomoi.com'+this.data.getElementsByTagName('a')[0].getAttribute('href').trim();
     }
 
     parseStoryMeta(): StoryMeta {

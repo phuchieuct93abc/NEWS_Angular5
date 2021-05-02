@@ -13,7 +13,7 @@ export default class TinhteStoryParser extends StoryParser {
     }
 
     parseUrl(): string {
-        return "title"
+        return this.data.links.permalink;
     }
 
     parseStoryMeta(): StoryMeta {

@@ -157,7 +157,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
                   const storyImage: StoryImage = new StoryImage(article.getThumbnail());
                   const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
-                  const story = new Story(articleId, article.header, null, [storyImage], article.externalUrl, storyMeta, false, true, true);
+                  const story = new Story(articleId, article.header, null, [storyImage], article.sourceUrl, storyMeta, false, true, true);
                   article.story = Object.assign(new Story(), story);
                   story.article = article;
                   observer.next(story);

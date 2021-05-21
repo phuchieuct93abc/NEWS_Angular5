@@ -45,5 +45,25 @@
       "type": "image/png",
       "purpose": "maskable any"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tin nóng",
+      "short_name": "Tin nóng",
+      "url": "/tin-nong",
+      "icons": [{ "src": "/assets/icon/shorcuts/tinnong.png", "sizes": "200x200" }]
+    },
+    {
+      "name": "Công nghệ",
+      "short_name": "Công nghệ",
+      "url": "/khoa-hoc-cong-nghe",
+      "icons": [{ "src": "/assets/icon/shorcuts/congnghe.png", "sizes": "200x200" }]
+    },
+    {
+      "name": "Tinh tế",
+      "short_name": "Tinh tế",
+      "url": "/tinh-te",
+      "icons": [{ "src": "/assets/icon/shorcuts/tinhte.png", "sizes": "200x200" }]
+    }
   ]
 }

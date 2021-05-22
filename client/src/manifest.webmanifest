@@ -51,19 +51,19 @@
       "name": "Tin nóng",
       "short_name": "Tin nóng",
       "url": "/tin-nong",
-      "icons": [{ "src": "assets/icon/shorcuts/tinnong.png", "sizes": "200x200" }]
+      "icons": [{ "src": "assets/icon/shorcuts/tinnong.png", "sizes": "144x144" }]
     },
     {
       "name": "Công nghệ",
       "short_name": "Công nghệ",
       "url": "/khoa-hoc-cong-nghe",
-      "icons": [{ "src": "assets/icon/shorcuts/congnghe.png", "sizes": "200x200" }]
+      "icons": [{ "src": "assets/icon/shorcuts/congnghe.png", "sizes": "144x144" }]
     },
     {
       "name": "Tinh tế",
       "short_name": "Tinh tế",
       "url": "/tinh-te",
-      "icons": [{ "src": "assets/icon/shorcuts/tinhte.png", "sizes": "200x200" }]
+      "icons": [{ "src": "assets/icon/shorcuts/tinhte.png", "sizes": "144x144" }]
     }
   ]
 }

@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 @Directive({
   selector: '[appParallax]'
@@ -31,13 +30,13 @@ export class ParallaxDirective implements OnDestroy {
     if (value) {
       this.startParallax();
       this.isParallaxing = true;
-    } else if(this.isParallaxing) {
+    } else if (this.isParallaxing) {
       this.stopParallax();
     }
   }
 
 
-  public startParallax(): void{
+  public startParallax(): void {
     if (this.isNode) {
       return;
     }
@@ -62,13 +61,7 @@ export class ParallaxDirective implements OnDestroy {
     }
     this.observer?.disconnect?.();
     this.updateTranform(0);
-    requestAnimationFrame(() => {
-      
-      this.transition = this.previousTransition;
-    });
-
-    // this.untilStable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-    // });
+    requestAnimationFrame(() => this.transition = this.previousTransition);
   }
 
 
@@ -88,39 +81,23 @@ export class ParallaxDirective implements OnDestroy {
 
 
   private updateAnimation([entry]: IntersectionObserverEntry[]) {
-    if(this.isMobile && entry.intersectionRect.x > 10){
+    if (this.isMobile && entry.intersectionRect.x > 10) {
       //Prevent parallax when open menu
+      return;
+    }
+
+    if (entry.boundingClientRect.top > this.startOffsetParallax) {
+      //prevent parallax when under view fold
+      this.updateTranform(0);
       return;
     }
     const deltaY = (1 - entry.intersectionRatio) * 30;
     this.updateTranform(deltaY);
   }
 
-  private updateTranform(translateY: number){
+  private updateTranform(translateY: number) {
     this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
 
   }
-
-  // private untilStable(): Observable<void> {
-  //   return new Observable((observer) => {
-  //     const timeToCheck = 50;
-  //     const maxCheck = 2000 / 50;
-  //     let check = 0;
-  //     let equalTime = 0;
-  //     let previousOffset = this.getOffsetTop();
-  //     const interval = setInterval(() => {
-  //       check++;
-  //       equalTime = this.getOffsetTop() === previousOffset? equalTime + 1: equalTime;
-  //       if (check > maxCheck || equalTime === 3) {
-  //         clearInterval(interval);
-  //         observer.next();
-  //         observer.complete();
-
-  //       } else {
-  //         previousOffset = this.getOffsetTop();
-  //       }
-  //     }, timeToCheck);
-  //   });
-  // }
 
 }

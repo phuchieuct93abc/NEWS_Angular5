@@ -44,7 +44,7 @@ text = text.replace(/\n/g, '\n<break time=\"2\" />');
     voice: {
       languageCode: 'vi-VN', 
       ssmlGender: 'FEMALE',
-      name:'vi-VN-Wavenet-A',
+      name:'vi-VN-Standard-A',
     },
     // select the type of audio encoding
     audioConfig: {audioEncoding: 'MP3'},

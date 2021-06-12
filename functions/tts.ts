@@ -14,9 +14,9 @@ const {JSDOM} = jsdom;
 
 const sanitize = (text: string): string=>{
   const dom = new JSDOM(`<!DOCTYPE html><body>${text}</body>`);
-  dom.window.document.querySelector("a").remove();
-  dom.window.document.querySelector("img").remove();
-  dom.window.document.querySelector("script").remove();
+  dom.window.document.querySelector("a")?.remove();
+  dom.window.document.querySelector("img")?.remove();
+  dom.window.document.querySelector("script")?.remove();
 
 
  let escapedLines = dom.window.document.querySelector("body").textContent.trim();;

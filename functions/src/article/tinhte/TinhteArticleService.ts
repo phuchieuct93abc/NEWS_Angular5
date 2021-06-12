@@ -13,13 +13,14 @@ export default class TinhteArticleService extends ArticleService {
     constructor() {
         super();
         this.parser = new TinhteArticleParser();
+        this.category = 'tinh-te'
     }
 
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
                 axios.get(this.tinhteArticleUrl.replace("${id}", id)).then(response => {
-
                     const article = this.parser.setData(response.data["thread"]).parserArticle();
+                    article.category = this.category;
                     resolve(article);
 
                 })

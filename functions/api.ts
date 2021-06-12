@@ -5,7 +5,7 @@ import * as express from 'express';
 import StoryServiceFactory from "./src/story/StoryServiceFactory";
 import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
 import notifyHandler from "./src/notification/notificationHandler";
-import { tts } from './tts';
+import { ttsArticle } from './tts';
 require('dotenv').config()
 
 const api = express();
@@ -107,13 +107,12 @@ api.listen(3001, () => {
 });
 api.get('/tts',async (req, res) => {  
     const {category,id} = req.query
-
     const article = await ArticleServiceFactory.get(category as string).getArticleById(id as string);
   
     res.writeHead(200, {
          "Content-Type": "audio/mpeg",
     });
-   const autio = await tts(article.body);
+   const autio = await ttsArticle(article);
     res.end(Buffer.from(autio as any, 'binary'));
 
 });

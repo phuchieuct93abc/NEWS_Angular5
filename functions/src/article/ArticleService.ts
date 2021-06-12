@@ -3,6 +3,7 @@ import {ArticleParser} from "./ArticleParser";
 import FirebaseService from "../FirebaseService";
 
 export abstract class ArticleService {
+    protected category: string
     protected parser: ArticleParser;
 
     abstract crawnArticleById(id: string): Promise<Article>
@@ -12,7 +13,7 @@ export abstract class ArticleService {
     public getArticleById(id: string): Promise<Article> {
         return new Promise(resolver => {
             FirebaseService.findArticle(id).then(article => {
-                if (article && article.exists) {
+                if (article && article.exists && false) {
                     resolver((<Article>article.data()));
                 } else {
                     this.crawnArticleById(id).then(article => {

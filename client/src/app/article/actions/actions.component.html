@@ -1,5 +1,11 @@
-<div style="height: 40px;" class="sticky" #actionsElement>
-    <div class="text-right " @animate  [class.fixed]="isFixedTop" #stickyElement>
+<div class="d-flex wrapper sticky" #actionsElement>
+    <div class="tts">
+        <audio controls>
+            <source [src]="ttsAudioSource" type="audio/ogg">
+
+        </audio>
+    </div>
+    <div class="text-right " @animate [class.fixed]="isFixedTop" #stickyElement>
         <a mat-icon-button (click)="toggleFavorite()" class="fadein">
             <mat-icon color="accent">
                 {{isFavorite ? 'favorite' : 'favorite_border'}}
@@ -9,7 +15,8 @@
         <app-share></app-share>
 
         <app-display></app-display>
-        <button aria-label="display" mat-icon-button class="fadein close-icon" (click)="close($event)" *ngIf="onClosed.observers.length>0">
+        <button aria-label="display" mat-icon-button class="fadein close-icon" (click)="close($event)"
+            *ngIf="onClosed.observers.length>0">
             <mat-icon class="mat-accent">cancel</mat-icon>
         </button>
     </div>

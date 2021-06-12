@@ -3,6 +3,7 @@ import { Story } from "./Story";
 export default class Article {
 
     private thumbnail: string;
+    category:string;
 
 
     constructor(public id?: string,

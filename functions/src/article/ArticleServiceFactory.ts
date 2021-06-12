@@ -14,6 +14,6 @@ export default class ArticleServiceFactory {
 
             return new GoogleArticleService();
         }
-        return new BaomoiArticleService();
+        return new BaomoiArticleService(category);
     }
 }

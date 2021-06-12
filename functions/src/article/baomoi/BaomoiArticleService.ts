@@ -8,9 +8,10 @@ const axios = require('axios');
 
 export default class BaomoiArticleService extends ArticleService {
 
-    constructor() {
+    constructor(category: string) {
         super();
         this.parser = new BaomoiArticleParser();
+        this.category  = category;;
     }
 
     crawnArticleById(id: string): Promise<Article> {
@@ -19,6 +20,7 @@ export default class BaomoiArticleService extends ArticleService {
 
                     const dom = new JSDOM(response.data);
                     const article = this.parser.setData(dom.window.document.getElementsByTagName('body')[0]).parserArticle();
+                    article.category =  this.category;
                     resolve(article);
 
                 })

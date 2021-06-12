@@ -86,7 +86,7 @@ export abstract class StoryService {
 
     private cacheArticle = function (url): Promise<Article> {
 
-        return new BaomoiArticleService().crawnArticleByIdAndSaveArticle(url)
+        return new BaomoiArticleService(this.category).crawnArticleByIdAndSaveArticle(url)
     };
 
     protected uniqueBy(stories): Story[] {

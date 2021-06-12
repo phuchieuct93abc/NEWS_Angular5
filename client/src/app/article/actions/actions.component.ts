@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,7 @@ import { FavoriteService } from '../../shared/favorite-story.service';
 import Article from '../../../../../model/Article';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { IS_NODE } from './../../shared/const';
+import CONFIG from 'src/environments/environment';
 
 @Component({
     selector: 'app-actions',
@@ -25,7 +26,7 @@ import { IS_NODE } from './../../shared/const';
 
     ]
 })
-export class ActionsComponent implements OnInit, OnDestroy {
+export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
 
 
     isFavorite: boolean;
@@ -45,6 +46,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     isFixedTop = false;
     @Input()
     wrapperElement: HTMLElement;
+    ttsAudioSource: string;
     private isDisplayingAction = false;
     private isDisplayingArticle = true;
 
@@ -53,6 +55,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
         private crd: ChangeDetectorRef
     ) {
     }
+    ngOnChanges(changes: SimpleChanges): void {
+       if(changes.article.currentValue != null){
+        const {id, category} = changes.article.currentValue as Article;
+        this.ttsAudioSource = `${CONFIG.baseUrl}tts?id=${id}&category=${category}`;
+       }
+    }
+
 
 
     ngOnInit(): void {

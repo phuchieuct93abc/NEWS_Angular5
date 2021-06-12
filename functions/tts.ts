@@ -30,16 +30,16 @@ const sanitize = (text: string): string=>{
 export async function ttsArticle(article: Article) {
   let text = [article.header, article.description , sanitize(article.body)].join("\n");
 
-
+text = text.replace(/\n/g, '\n<break time=\"2\" />');
   text = `<speak>${text.substring(0,4000)}</speak>`;
   
 
   // Convert plaintext to SSML
   // Tag SSML so that there is a 2 second pause between each address
-  const expandedNewline = text.replace(/\n/g, '\n<break time=\"2\" />');
+
     // Construct the request
   const request = {
-    input: {ssml: expandedNewline},
+    input: {ssml: text},
     // Select the language and SSML voice gender (optional)
     voice: {
       languageCode: 'vi-VN', 

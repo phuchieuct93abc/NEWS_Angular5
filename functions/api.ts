@@ -5,6 +5,8 @@ import * as express from 'express';
 import StoryServiceFactory from "./src/story/StoryServiceFactory";
 import ArticleServiceFactory from "./src/article/ArticleServiceFactory";
 import notifyHandler from "./src/notification/notificationHandler";
+import { tts } from './tts';
+require('dotenv').config()
 
 const api = express();
 
@@ -26,10 +28,14 @@ api.get('/story', (req, res) => {
 
 
 api.get('/article', (req, res) => {
-    ArticleServiceFactory.get(req).getArticleById(req.query.url as string).then(article => res.send(article))
+    const {category,url} = req.query
+
+    ArticleServiceFactory.get(category as string).getArticleById(url as string).then(article => res.send(article))
 });
 api.get('/comments', (req, res) => {
-    ArticleServiceFactory.get(req).getComment(req.query.id as string).then(article => res.send(article))
+    const {category,id} = req.query
+
+    ArticleServiceFactory.get(category as string).getComment(id as string).then(article => res.send(article))
 });
 api.get('/cachestory', (req, res) => {
 
@@ -47,8 +53,9 @@ api.get('/search', (req, res) => {
     })
 });
 api.get('/getSource', (req, res) => {
+    const {category,id} = req.query
 
-    ArticleServiceFactory.get(req).getSource(req.query.id as string).then((value) => {
+    ArticleServiceFactory.get(category as string).getSource(id as string).then((value) => {
         res.send({url: value});
 
     })
@@ -97,6 +104,18 @@ api.use(express.urlencoded());
 notifyHandler(api);
 api.listen(3001, () => {
     console.log(`Node Express server listening on http://localhost:${3001}`);
+});
+api.get('/tts',async (req, res) => {  
+    const {category,id} = req.query
+
+    const article = await ArticleServiceFactory.get(category as string).getArticleById(id as string);
+  
+    res.writeHead(200, {
+         "Content-Type": "audio/mpeg",
+    });
+   const autio = await tts(article.body);
+    res.end(Buffer.from(autio as any, 'binary'));
+
 });
 
 export default api;

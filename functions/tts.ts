@@ -44,7 +44,7 @@ export async function ttsArticle(article: Article) {
     voice: {
       languageCode: 'vi-VN', 
       ssmlGender: 'FEMALE',
-      name:'vi-VN-Wavenet-C',
+      name:'vi-VN-Wavenet-A',
     },
     // select the type of audio encoding
     audioConfig: {audioEncoding: 'MP3'},

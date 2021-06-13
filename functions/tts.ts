@@ -29,7 +29,7 @@ const sanitize = (text: string): string=>{
 }
 export async function ttsArticle(article: Article) {
   let text = [article.header, article.description , sanitize(article.body)].join("\n");
-  text = text.replace(/\n/g, '\n<break time=\"2\" />');
+  text = text.replace(/\n/g, '\n<break time=\"1\" />');
   text = `<speak>${text.substring(0,4000)}</speak>`;
   
 
@@ -42,8 +42,7 @@ export async function ttsArticle(article: Article) {
     // Select the language and SSML voice gender (optional)
     voice: {
       languageCode: 'vi-VN', 
-      ssmlGender: 'FEMALE',
-      name:'vi-VN-Standard-A',
+      name:'vi-VN-Standard-C',
     },
     // select the type of audio encoding
     audioConfig: {audioEncoding: 'MP3'},

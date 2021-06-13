@@ -27,7 +27,7 @@
     "expressjs": "^1.0.1",
     "firebase-admin": "^9.5.0",
     "firebase-app": "0.0.1",
-    "firebase-functions": "^3.13.1",
+    "firebase-functions": "^3.14.1",
     "http-proxy": "^1.18.1",
     "jsdom": "^16.4.0",
     "newsapi": "^2.4.1",

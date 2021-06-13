@@ -29,8 +29,7 @@ const sanitize = (text: string): string=>{
 }
 export async function ttsArticle(article: Article) {
   let text = [article.header, article.description , sanitize(article.body)].join("\n");
-
-text = text.replace(/\n/g, '\n<break time=\"2\" />');
+  text = text.replace(/\n/g, '\n<break time=\"2\" />');
   text = `<speak>${text.substring(0,4000)}</speak>`;
   
 

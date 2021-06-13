@@ -11,6 +11,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { isPlatformServer } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
@@ -56,7 +57,6 @@ import { StoryComponent } from './story/story/story.component';
 import { HammerConfig } from './hammer.config';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { NoopInterceptor } from './interceptor';
-import { CheckForUpdateService } from './shared/checkForUpdate.service';
 const isMobileProvider =
 {
 
@@ -91,7 +91,8 @@ const isMobileProvider =
         HammerModule,
         BrowserTransferStateModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: CONFIG.production }),
-        NgbModule
+        NgbModule,
+        NgxAudioPlayerModule
     ],
     declarations: [
         AppComponent,

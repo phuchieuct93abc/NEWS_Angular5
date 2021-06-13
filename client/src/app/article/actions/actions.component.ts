@@ -8,6 +8,7 @@ import Article from '../../../../../model/Article';
 import RequestAnimationFrame from '../../requestAnimationFrame.cons';
 import { IS_NODE } from './../../shared/const';
 import CONFIG from 'src/environments/environment';
+import { Track } from 'ngx-audio-player';
 
 @Component({
     selector: 'app-actions',
@@ -46,7 +47,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
     isFixedTop = false;
     @Input()
     wrapperElement: HTMLElement;
-    ttsAudioSource: string;
+    ttsAudioSource: Track[] = [];
     private isDisplayingAction = false;
     private isDisplayingArticle = true;
 
@@ -56,10 +57,15 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
     ) {
     }
     ngOnChanges(changes: SimpleChanges): void {
-       if(changes.article.currentValue != null){
-        const {id, category} = changes.article.currentValue as Article;
-        this.ttsAudioSource = `${CONFIG.baseUrl}tts?id=${id}&category=${category}`;
-       }
+        if (changes.article.currentValue != null) {
+            const { id, category } = changes.article.currentValue as Article;
+            this.ttsAudioSource = [{
+                title: 'Audio One Title',
+                link: `${CONFIG.baseUrl}tts?id=${id}&category=${category}`,
+                artist: 'Artist',
+                duration: 10
+            }]
+        }
     }
 
 

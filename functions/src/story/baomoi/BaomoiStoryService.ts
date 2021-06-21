@@ -10,10 +10,11 @@ const axios = require('axios');
 
 
 export default class BaomoiStoryService extends StoryService {
-    queryStories(response): any[] {
-        const dom = new JSDOM(response.data);
+    static baomoiStoryUrl = "https://baomoi.com/api/v1/content/get/list-by-type?listType=3&listId=0&page={page}&isNoAdBanner=true&lastIndex=0&platform=2&ctime=1624285115&version=0.1.3&sig=b783b9b7733c65921df59e9cac7ecc9200fb7e54ece35ed56ade75485eede5f4&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
 
-        return dom.window.document.getElementsByClassName("story")
+    queryStories(response): any[] {
+
+        return response.data.data.items
     }
 
     constructor(protected url: string,category:string) {
@@ -22,7 +23,8 @@ export default class BaomoiStoryService extends StoryService {
 
     static createInstance(pageNumber: string, category: string) {
 
-        let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi`;
+        // let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi`;
+        let url = BaomoiStoryService.baomoiStoryUrl.replace("{page}",pageNumber)
         return new BaomoiStoryService(url,category);
 
     }

@@ -1,4 +1,5 @@
-import { BodyElementParser } from "./BaomoiArticleParser";
+import { BodyElementParser } from "./BodyElementParser";
+
 interface ImageParserI {
     content: string
     contentOrigin: string
@@ -7,9 +8,9 @@ interface ImageParserI {
     type: "image"
     width: number
 }
-export class ImageParser implements BodyElementParser<ImageParserI>{
-    parser(body: ImageParserI) {
-        throw new Error("Method not implemented.");
+export class ImageParser extends BodyElementParser<ImageParserI>{
+    parser(): string {
+        return `<img src='${this.body.content}' width='${this.body.width}' height='${this.body.height}'></img>`
     }
 
 }

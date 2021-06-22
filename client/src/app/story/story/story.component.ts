@@ -5,12 +5,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as url from 'speakingurl';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
+import { ArticleService } from 'src/app/shared/article.service';
 import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
 import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
-import { ArticleService } from 'src/app/shared/article.service';
 
 @Component({
     selector: 'app-story',
@@ -67,12 +67,13 @@ export class StoryComponent implements OnInit, OnDestroy {
             startWith(this.activatedRoute.firstChild.snapshot.params),
             map(({ id }) => id === this.story.id),
             tap((active) => {
+                console.log(active,this.story.id);
                 if (active) {
                     this.afterSelectStory();
                     this.onSelectedStory.emit(this.story);
                 }
             })
-        )
+        );
 
 
         this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
@@ -80,7 +81,7 @@ export class StoryComponent implements OnInit, OnDestroy {
             this.selectStory();
         }
     }
-    protected afterSelectStory():void {
+    protected afterSelectStory(): void {
         this.isRead = true;
 
     }

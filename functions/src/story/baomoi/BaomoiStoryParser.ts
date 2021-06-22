@@ -9,7 +9,7 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     isValid(): boolean {
-        return true;
+        return this.data.contentId !== undefined;
     }
 
     parseTitle(): string {
@@ -17,11 +17,11 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseId(): string {
-        return this.data.id;
+        return this.data.id + '';
     }
 
     parseUrl(): string {
-        return 'https://baomoi.com'+this.data.redirectUrl;
+        return 'https://baomoi.com' + this.data.redirectUrl;
     }
 
     parseStoryMeta(): StoryMeta {
@@ -29,11 +29,11 @@ export default class BaomoiStoryParser extends StoryParser {
         // const source = meta.querySelector('.source img').getAttribute("alt");
         // const sourceIcon = meta.querySelector('.source img').getAttribute("src");
         // const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
-        return new StoryMeta(this.data.publisher.logo, this.data.publisher.icon, this.data.date);
+        return new StoryMeta(this.data.publisher?.logo, this.data.publisher?.icon, this.data.date);
     }
 
     parseImages(): StoryImage[] {
-        return [new StoryImage(this.data.thumbL,700,390,this.data.title)]
+        return [new StoryImage(this.data.thumbL, 700, 390, this.data.title)]
 
         // const images = this.data.getElementsByClassName('story__thumb')[0].getElementsByTagName('img');
         // let result: StoryImage[] = [];
@@ -61,11 +61,11 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseDescription(): string {
-return this.data.description;
+        return this.data.description;
     }
 
     parseRelated(): number {
-       return 0
+        return 0
     }
 
 

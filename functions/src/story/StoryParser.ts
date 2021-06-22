@@ -14,12 +14,10 @@ export abstract class StoryParser {
     public parseStory(): Story {
 
         try {
-            console.log(this.isValid())
             if (!this.isValid()) {
                 return null;
             }
             let title = this.parseTitle();
-            console.log(title)
 
             let id = this.parseId();
             let hasVideo = this.parseHasVideo();

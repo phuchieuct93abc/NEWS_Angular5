@@ -2,6 +2,10 @@ import { ArticleParser } from "../ArticleParser";
 import Article from "../../../../model/Article";
 import Utility from "../../Utility";
 import BaomoiStoryParser from "../../story/baomoi/BaomoiStoryParser";
+import { TextParser } from "./TextParser";
+import { ImageParser } from "./ImageParser";
+import { BodyElementParser } from "./BodyElementParser";
+import { VideoParser } from "./VideoParser";
 
 export default class BaomoiArticleParser extends ArticleParser {
     constructor() {
@@ -9,40 +13,35 @@ export default class BaomoiArticleParser extends ArticleParser {
     }
 
     private convertHtmlBody(): string {
-        let dataHTML = this.data.getElementsByClassName('article__body')[0] as HTMLElement;
-        this.sanityLazyImages(dataHTML);
-        this.replaceDataAttributes(dataHTML);
-        return dataHTML.innerHTML;
-    }
+        
+        return (this.data.bodys as any[]).map(body =>{
+            if(body.type === 'text'){
+                return new TextParser(body);
+            }
+            if(body.type === 'image'){
+                return new ImageParser(body);
+            }
+            if(body.type === 'video'){
+                return new VideoParser(body);
+            }
+        })
+        .filter(parser => parser !== undefined)
+        .map( (parser: any) => (parser as BodyElementParser<any>).parser()).join("")
+    } 
 
-    private sanityLazyImages(dataHTML: HTMLElement) {
-        let lazyImages = dataHTML.getElementsByClassName("lazy-img");
-        for (let i = 0; i < lazyImages.length; i++) {
-            lazyImages[i].setAttribute("src", lazyImages[i].getAttribute("data-src"));
-        }
-        return dataHTML;
-    }
-
-    private replaceDataAttributes(dataHTML: HTMLElement){
-        dataHTML.innerHTML = dataHTML.innerHTML.replace(/data-/gm,"");
-
-    }
 
     parserArticle(): Article {
-        const header = this.data.getElementsByClassName("article__header")[0].textContent;
-        const id = this.data.getElementsByClassName("article")[0].getAttribute("data-aid");
-        let sourceUrl = this.data.querySelector(".article__action .plsh").getAttribute("href");
-        sourceUrl = `https://m.baomoi.com${sourceUrl}`;
-        
+        const header = this.data.title;
+        const id = this.data.id;
+        let sourceUrl = this.data.url;
         let images: string[] = this.extractImages();
-        const description = this.data.getElementsByClassName("article__sapo")[0].textContent;
+        const description = this.data.description;
         
-        let likes = parseInt(this.data.querySelector(".like").textContent);
-        let time = this.data.querySelector("time.time").getAttribute("datetime");
+        let likes = this.data.totalLike;
+        let time = this.data.publishedDate
         
-        const meta = this.data.querySelector(".article__meta");
-        let sourceName = (meta.querySelector(".source .image") as HTMLImageElement).alt;
-        let sourceIconUrl = (meta.querySelector(".source .image") as HTMLImageElement).src;
+        let sourceName = this.data.publisher.name;
+        let sourceIconUrl = this.data.publisher.logo;
 
         return new Article(
             id,
@@ -63,17 +62,16 @@ export default class BaomoiArticleParser extends ArticleParser {
         );
     }
     private extractImages(): string[] {
-        let images = [];
-        const imageElements = this.data.getElementsByTagName("img");
-        for (let index = 0; index < imageElements.length; index++) {
-            images.push(imageElements[index].getAttribute("src"));
-        }
+        // let images = [];
+        // const imageElements = this.data.getElementsByTagName("img");
+        // for (let index = 0; index < imageElements.length; index++) {
+        //     images.push(imageElements[index].getAttribute("src"));
+        // }
 
-        return images;
+        return [this.data.thumbL];
     }
 
     private extractRalatedNumber(): number {
-        let articleMeta = this.data.querySelector(".article__meta");
-        return articleMeta.childElementCount === 3 ? parseInt(articleMeta.lastElementChild.textContent) : 0;
-    }
+      return 0;
+        }
 }

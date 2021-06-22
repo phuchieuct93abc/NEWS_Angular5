@@ -18,7 +18,7 @@ export class VideoComponent implements OnInit {
     public height: number;
 
     @ViewChild('videoComponent')
-    public videoComponent: ElementRef;
+    public videoComponent: ElementRef<HTMLDivElement>;
 
     @ViewChild('videoFrame')
     public videoFrame: ElementRef<HTMLDivElement>;
@@ -27,7 +27,7 @@ export class VideoComponent implements OnInit {
     public widthIframe: number;
 
 
-    public ngOnInit() {
+    public ngOnInit(): void {
 
         setTimeout(() => {
             this.widthIframe = this.videoComponent.nativeElement.clientWidth;
@@ -40,7 +40,7 @@ export class VideoComponent implements OnInit {
     }
 
 
-    public play() {
+    public play(): void {
         if (typeof window !== 'undefined') {
 
             this.isPlaying = true;

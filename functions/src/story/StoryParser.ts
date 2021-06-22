@@ -18,7 +18,7 @@ export abstract class StoryParser {
                 return null;
             }
             let title = this.parseTitle();
-            
+
             let id = this.parseId();
             let hasVideo = this.parseHasVideo();
             let url = this.parseUrl();
@@ -29,6 +29,7 @@ export abstract class StoryParser {
             story.related = this.parseRelated();
             return story;
         } catch (e) {
+            console.error(e)
             return null;
         }
 

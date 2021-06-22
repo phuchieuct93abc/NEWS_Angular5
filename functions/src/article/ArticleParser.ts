@@ -4,6 +4,7 @@ export abstract class ArticleParser {
     protected data: any;
 
     public setData(data: any) {
+       
         this.data = data;
         return this;
 

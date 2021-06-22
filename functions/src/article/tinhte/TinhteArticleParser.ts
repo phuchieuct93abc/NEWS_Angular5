@@ -19,7 +19,7 @@ export default class TinhteArticleParser extends ArticleParser {
         let time = this.data["thread_update_date"] * 1000;
         return new Article(id, header, null, this.addAttachToBody(), null, null, null, sourceUrl, sourceName, "https://tinhte.vn/favicon.ico",images, "", likes, time, 0);
     }
-
+ 
     
 
     addAttachToBody() {

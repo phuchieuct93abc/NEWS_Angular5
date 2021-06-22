@@ -3,14 +3,14 @@ import BaomoiStoryParser from "./BaomoiStoryParser";
 import {CONFIG} from "../../const";
 import {StoryService} from "../StoryService";
 import CategoryHelper from "../../../../model/Categories";
+import Categories from "../../../../model/Categories";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 const axios = require('axios');
-
+const baomoiStoryUrl = "https://baomoi.com/api/v1/content/get/list-by-type?listType=1&listId={categoryId}&page={page}&isNoAdBanner=true&platform=2&ctime=1624285115&version=0.1.3&sig=b783b9b7733c65921df59e9cac7ecc9200fb7e54ece35ed56ade75485eede5f4&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
 
 export default class BaomoiStoryService extends StoryService {
-    static baomoiStoryUrl = "https://baomoi.com/api/v1/content/get/list-by-type?listType=1&listId=0&page={page}&isNoAdBanner=true&platform=2&ctime=1624285115&version=0.1.3&sig=b783b9b7733c65921df59e9cac7ecc9200fb7e54ece35ed56ade75485eede5f4&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
 
     queryStories(response): any[] {
         return response.data.data.items
@@ -23,7 +23,7 @@ export default class BaomoiStoryService extends StoryService {
     static createInstance(pageNumber: string, category: string) {
 
         // let url = `${CONFIG.baomoiUrl}${this.getCategoryUrl(category)}trang${pageNumber}.epi`;
-        let url = BaomoiStoryService.baomoiStoryUrl.replace("{page}",pageNumber)
+        let url = baomoiStoryUrl.replace("{page}",pageNumber).replace("{categoryId}", CategoryHelper.getCategory(category).id+'');
         return new BaomoiStoryService(url,category);
 
     }

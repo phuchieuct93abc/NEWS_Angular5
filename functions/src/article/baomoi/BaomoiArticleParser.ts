@@ -5,6 +5,7 @@ import BaomoiStoryParser from "../../story/baomoi/BaomoiStoryParser";
 import { TextParser } from "./TextParser";
 import { ImageParser } from "./ImageParser";
 import { BodyElementParser } from "./BodyElementParser";
+import { VideoParser } from "./VideoParser";
 
 export default class BaomoiArticleParser extends ArticleParser {
     constructor() {
@@ -19,6 +20,9 @@ export default class BaomoiArticleParser extends ArticleParser {
             }
             if(body.type === 'image'){
                 return new ImageParser(body);
+            }
+            if(body.type === 'video'){
+                return new VideoParser(body);
             }
         })
         .filter(parser => parser !== undefined)

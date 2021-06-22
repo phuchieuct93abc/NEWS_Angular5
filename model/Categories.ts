@@ -4,7 +4,8 @@ export interface Category {
     url?: string,
     icon?: string,
     color?: string,
-    image?: string
+    image?: string,
+    id?:number
 }
 
 interface Categories {
@@ -21,43 +22,41 @@ const categories: Categories[] = [
                 title: 'Tin nóng',
                 url: '',
                 icon: 'whatshot',
-                color: 'blue'
+                color: 'blue',
+                id:0
             },
             {
                 name: 'xa-hoi',
                 title: 'Xã hội',
                 icon: 'people',
-                color: 'orange'
+                color: 'orange',
+                id:121
 
 
             },
-            {
-                name: 'thoi-su',
-                title: 'Thời sự',
-                icon: 'list_alt',
-                color: 'yellow'
-
-
-            },
+            
             {
                 name: 'the-thao',
                 title: 'Thể thao',
                 icon: 'directions_bike',
-                color: 'red'
+                color: 'red',
+                id: 55
 
             },
             {
                 name: 'giai-tri',
                 title: 'Giải trí',
                 icon: 'music_video',
-                color: 'indigo'
+                color: 'indigo',
+                id: 52
 
             },
             {
                 name: 'khoa-hoc-cong-nghe',
                 title: 'Công nghệ',
                 icon: 'phone_iphone',
-                color: 'green'
+                color: 'green',
+                id: 53
 
             },
             {
@@ -71,7 +70,8 @@ const categories: Categories[] = [
                 name: 'tinh-te',
                 title: 'Tinh tế',
                 image: 'https://tinhte.vn/favicon.ico',
-                color: 'green'
+                color: 'green',
+                id: 79
 
             },
 

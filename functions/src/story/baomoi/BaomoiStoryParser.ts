@@ -57,7 +57,7 @@ export default class BaomoiStoryParser extends StoryParser {
     }
 
     parseHasVideo(): boolean {
-        return false;
+        return this.data.contentTypes?.[0] === 2;
     }
 
     parseDescription(): string {

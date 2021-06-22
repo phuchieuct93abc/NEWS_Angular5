@@ -68,7 +68,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         //     images.push(imageElements[index].getAttribute("src"));
         // }
 
-        return [];
+        return [this.data.thumbL];
     }
 
     private extractRalatedNumber(): number {

@@ -29,7 +29,7 @@ export default class BaomoiStoryParser extends StoryParser {
         // const source = meta.querySelector('.source img').getAttribute("alt");
         // const sourceIcon = meta.querySelector('.source img').getAttribute("src");
         // const time = meta.getElementsByClassName('friendly')[0].getAttribute('datetime');
-        return new StoryMeta(this.data.publisher?.logo, this.data.publisher?.icon, this.data.date);
+        return new StoryMeta(this.data.publisher?.logo, this.data.publisher?.icon, this.data.date * 1000);
     }
 
     parseImages(): StoryImage[] {

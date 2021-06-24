@@ -72,3 +72,5 @@ functions/dist/
 \.idea/
 client2/
 functions/stats.json
+functions/.env
+functions/tts-key.json

@@ -4,7 +4,6 @@ import app from "./app";
 
 
 const function_name = process.env.FUNCTION_NAME || process.env.K_SERVICE;
-console.log(function_name)
 if (!function_name || function_name === 'app') {
     startApp();
    }

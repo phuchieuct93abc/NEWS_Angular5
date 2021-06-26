@@ -28,13 +28,11 @@ export default class BaomoiStoryService extends StoryService {
         const categoryId = CategoryHelper.getCategory(category).id + '';
         const baseParamSign = `/api/v1/content/get/list-by-typectime=1624697699listId=${categoryId}listType=1page=${pageNumber}version=0.1.7`;
         const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest("hex");
-        console.log(baseParamSign)
         let url = baomoiStoryparams
-        .replace("{page}",pageNumber)
+            .replace("{page}", pageNumber)
             .replace("{categoryId}", categoryId)
-            .replace("{sig}",sig);
-            console.log(url);
-        return new BaomoiStoryService(url,category); 
+            .replace("{sig}", sig);
+        return new BaomoiStoryService(url, category);
 
     }
 

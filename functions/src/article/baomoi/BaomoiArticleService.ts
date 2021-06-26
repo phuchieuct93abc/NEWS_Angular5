@@ -1,6 +1,7 @@
 import BaomoiArticleParser from "./BaomoiArticleParser";
 import {ArticleService} from "../ArticleService";
 import Article from "../../../../model/Article";
+import { createHmac } from "crypto";
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
@@ -8,7 +9,7 @@ const axios = require('axios');
 
 export default class BaomoiArticleService extends ArticleService {
 
-    readonly baomoiUrl = "https://baomoi.com/api/v1/content/get/detail?id={id}&platform=2&ctime=1624286388&version=0.1.3&sig=f0701ed9609f9aba211324ac742da999510fc88ede040e0e2d556e85a452bcb2&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
+    readonly baomoiUrl = "https://baomoi.com/api/v1/content/get/detail?id={id}&ctime=1624286388&version=0.1.7&sig={sig}&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
     constructor(category: string) {
         super();
         this.parser = new BaomoiArticleParser();
@@ -17,8 +18,12 @@ export default class BaomoiArticleService extends ArticleService {
 
     crawnArticleById(id: string): Promise<Article> {
         return new Promise((resolve) => {
-            
-                axios.get(this.baomoiUrl.replace("{id}",id)).then(response => {
+                let url = this.baomoiUrl.replace("{id}",id);
+                const baseParamSign = `/api/v1/content/get/detailctime=1624286388id=${id}version=0.1.7`;
+                const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest("hex");
+                url = url.replace("{sig}",sig);
+            console.log(baseParamSign,url)
+                axios.get(url).then(response => {
 
                     const article = this.parser.setData(response.data.data).parserArticle();
                     article.category =  this.category;

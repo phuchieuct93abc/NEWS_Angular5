@@ -12,18 +12,19 @@ export class CheckForUpdateService {
     if(!this.updates.isEnabled){
       return;
     }
-    this.updates.available.pipe(take(1)).subscribe(() => {
+    this.updates.available.subscribe(() => {
       alert('New version is available');
       this.updates.activateUpdate().then(() => document.location.reload());
     });
+
   }
 
   checkUpdate(): void {
     if(!this.updates.isEnabled){
       return;
     }
+    console.warn('Checking for update');
     this.updates.checkForUpdate();
-
 
 
   }

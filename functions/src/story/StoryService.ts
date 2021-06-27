@@ -17,18 +17,13 @@ export abstract class StoryService {
     }
 
 
-    public getStories(): Promise<Story[]> {
-        return new Promise((resolve) => {
-            axios.get(this.url).then(response => {
-                const result = this.queryStories(response);
-                let stories = Array.from(result)
-                    .map(r => this.storyParser.setData(r).parseStory())
-                    .filter(r => r != null);
-                resolve(this.uniqueBy(stories));
-            })
-        })
-
-
+    public async getStories(): Promise<Story[]> {
+        const response = await axios.get(this.url);
+        const result = this.queryStories(response);
+        let stories = Array.from(result)
+            .map(r => this.storyParser.setData(r).parseStory())
+            .filter(r => r != null);
+        return this.uniqueBy(stories); 
     };
 
     abstract queryStories(data: any): any[];

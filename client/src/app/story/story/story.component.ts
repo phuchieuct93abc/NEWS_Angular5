@@ -67,7 +67,6 @@ export class StoryComponent implements OnInit, OnDestroy {
             startWith(this.activatedRoute.firstChild.snapshot.params),
             map(({ id }) => id === this.story.id),
             tap((active) => {
-                console.log(active,this.story.id);
                 if (active) {
                     this.afterSelectStory();
                     this.onSelectedStory.emit(this.story);

@@ -20,15 +20,9 @@ export abstract class StoryService {
     public getStories(): Promise<Story[]> {
         return new Promise((resolve) => {
             axios.get(this.url).then(response => {
-                console.log(this.url)
                 const result = this.queryStories(response);
                 let stories = Array.from(result)
-                    .map(r => {
-                        const a = this.storyParser.setData(r).parseStory();
-
-                        return this.storyParser.setData(r).parseStory();
-
-                    })
+                    .map(r => this.storyParser.setData(r).parseStory())
                     .filter(r => r != null);
                 resolve(this.uniqueBy(stories));
             })
@@ -55,7 +49,7 @@ export abstract class StoryService {
     private async cacheArticles(stories): Promise<any> {
         let cacheResult: Article;
         let cachedArticle: Article[] = [];
-        for (let i = 0; i < this.MAX_CACHE_NUMBER; i++) {
+        for (let i = 0; i < stories.length; i++) {
             let story = stories[i];
             cacheResult = await this.cacheArticle(story.id);
             if (cacheResult == null) {

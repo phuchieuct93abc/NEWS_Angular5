@@ -22,10 +22,6 @@ db.settings(settings);
 
 class FirebaseService {
 
-    constructor() {
-
-    }
-
     getDiffBotCredential(): Promise<string> {
         const diffbot: FirebaseFirestore.CollectionReference = db.collection("diffbot");
         return new Promise(resolver => {
@@ -38,34 +34,17 @@ class FirebaseService {
         // c1a9c0acac8593452ca9eccad6ac374c
     }
 
-    saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
+    async saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
         const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
 
-        let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(this.encodeUrl(article.id));
-        return new Promise(resolver => {
-            documentFireStore.set(article.toA()).then(value => {
-                resolver(value);
-            })
-        });
-
+        let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(article.id);
+        return documentFireStore.set(article.toA())
     }
 
-    findArticle(id: string): Promise<DocumentSnapshot> {
+    async findArticle(id: string): Promise<DocumentSnapshot> {
 
         const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
-        return new Promise(resolver => {
-            articleCollection.doc(this.encodeUrl(id)).get().then(value => {
-
-                resolver(value)
-            });
-        })
-
-
-    }
-
-    private encodeUrl(id): string {
-        return id.replace(/\//g, "");
-
+        return articleCollection.doc(id).get();
     }
 }
 

@@ -36,34 +36,18 @@ export abstract class StoryService {
     abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 
-    public cache(): Promise<any> {
-        return new Promise(resolver => {
-            this.getStories().then(stories =>
-                this.cacheArticles(stories).then((value) => resolver(value))
-            )
-
-        })
-
+    public async cache(): Promise<any> {
+        const stories = await this.getStories();
+        return await this.cacheArticles(stories)
     }
 
     private async cacheArticles(stories): Promise<any> {
-        let cacheResult: Article;
-        let cachedArticle: Article[] = [];
-        for (let i = 0; i < stories.length; i++) {
-            let story = stories[i];
-            cacheResult = await this.cacheArticle(story.id);
-            if (cacheResult == null) {
-                break;
-            }
-            cachedArticle.push(cacheResult);
-
-        }
-
-        await this.sendNotification(cachedArticle);
-
-        return cachedArticle.map(article => {
-            return {title: article.header, related: article.related}
-        });
+        let cachedArticles:Article[]  = await Promise.all( stories.map(async (story) => {
+            return await this.cacheArticle(story.id);
+        }))
+        cachedArticles = cachedArticles.filter(article => article != null)
+        await this.sendNotification(cachedArticles);
+        return cachedArticles.map(article => ({title: article.header, related: article.related }));
 
 
     }

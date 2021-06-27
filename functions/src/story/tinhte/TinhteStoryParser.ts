@@ -21,7 +21,7 @@ export default class TinhteStoryParser extends StoryParser {
     }
 
     parseImages(): StoryImage[] {
-        const thumbnail = this.data["thread_thumbnail"];
+        const thumbnail = this.data["thread_image"];
         let storyImage = new StoryImage(thumbnail["link"], thumbnail["width"], thumbnail["height"]);
         return [storyImage];
     }

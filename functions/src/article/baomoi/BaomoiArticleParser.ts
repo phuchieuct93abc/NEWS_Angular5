@@ -32,7 +32,7 @@ export default class BaomoiArticleParser extends ArticleParser {
 
     parserArticle(): Article {
         const header = this.data.title;
-        const id = this.data.id;
+        const id = this.data.id.toString();
         let sourceUrl = this.data.url;
         let images: string[] = this.extractImages();
         const description = this.data.description;

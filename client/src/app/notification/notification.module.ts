@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as firebaseApp from 'firebase/app';
+import firebase from "firebase/app";
 import { FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY } from '../../../../model/firebase.config';
 import { IS_NODE } from './../shared/const';
 import { NotificationService } from './notification.service';
@@ -25,8 +25,7 @@ export class NotificationModule {
            return;
        }
         try {
-
-            firebaseApp.initializeApp(FIREBASE_CONFIG);
+            firebase.initializeApp(FIREBASE_CONFIG);
             this.registerNotification();
 
 
@@ -43,7 +42,7 @@ export class NotificationModule {
                     if (++this.numberOfNavigation < this.numberOfNavigationBeforeNotification) {
                         return;
                     }
-                    this.message = firebaseApp.messaging();
+                    this.message = firebase.messaging();
                     this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
                     this.message.requestPermission().then(() => this.getToken(),(e)=>console.log(e));
                     this.message.onTokenRefresh(() => this.getToken());

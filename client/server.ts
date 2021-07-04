@@ -14,7 +14,7 @@ import isMobile from 'ismobilejs';
 import { AppServerModule } from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
-export const ssrApp = (server, distFolder) => {
+export const ssrApp = (server: express.Express, distFolder) => {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -36,7 +36,6 @@ export const ssrApp = (server, distFolder) => {
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     const userAgent = req.headers['user-agent'];
-    console.log(`SSR with ${req.url} is mobile: ${isMobile(userAgent).any}`);
     res.render(indexHtml, {
       req, providers: [
         { provide: APP_BASE_HREF, useValue: req.baseUrl },

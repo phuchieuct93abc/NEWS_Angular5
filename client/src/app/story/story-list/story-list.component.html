@@ -4,7 +4,7 @@
 
         
         <ng-container *ngIf="stories.length>0">
-            <app-story (onSelectedStory)="onSelectedStory($event)"  #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
+            <app-story [category]="category" (onSelectedStory)="onSelectedStory($event)"  #story  *ngFor="let item of stories;trackBy:trackByFn " [story]="item"
                  class="d-block pb-2" ></app-story>
         </ng-container>         
         <ng-container *ngIf="stories.length<10">

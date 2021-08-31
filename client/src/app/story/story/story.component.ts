@@ -1,12 +1,9 @@
-import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
-import { ArticleService } from 'src/app/shared/article.service';
-import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
 import { FavoriteService } from '../../shared/favorite-story.service';
@@ -27,7 +24,7 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Input()
     public scrollContainer: ElementRef;
     @Input()
-    public category: Category;
+    public category: string;
 
     @Input()
     public selected = false;
@@ -38,11 +35,11 @@ export class StoryComponent implements OnInit, OnDestroy {
     public config$: BehaviorSubject<Config>;
     public configListener: Subscription;
     public friendlyUrl: string;
-    private onDestroy$ = new Subject<void>();
     public isActive$: Observable<boolean>;
+    private onDestroy$ = new Subject<void>();
 
 
-    public constructor(
+    constructor(
         @Inject(IS_NODE) public isNode: boolean,
         @Inject(IS_MOBILE) public isMobile: boolean,
         protected configService: ConfigService,
@@ -50,9 +47,7 @@ export class StoryComponent implements OnInit, OnDestroy {
         protected route: Router,
         protected activatedRoute: ActivatedRoute,
         protected storyListService: StoryListService,
-        protected element: ElementRef<HTMLElement>,
-        private crd: ChangeDetectorRef,
-        private articleService: ArticleService) {
+        protected element: ElementRef<HTMLElement>) {
     }
 
 
@@ -63,8 +58,9 @@ export class StoryComponent implements OnInit, OnDestroy {
         this.isActive$ = this.route.events.pipe(
             takeUntil(this.onDestroy$),
             filter(event => event instanceof NavigationEnd),
-            map(() => this.activatedRoute.firstChild.snapshot.params),
-            startWith(this.activatedRoute.firstChild.snapshot.params),
+            map(() => this.activatedRoute.firstChild?.snapshot.params),
+            startWith(this.activatedRoute.firstChild?.snapshot.params),
+            filter(params => params != null),
             map(({ id }) => id === this.story.id),
             tap((active) => {
                 if (active) {
@@ -80,20 +76,10 @@ export class StoryComponent implements OnInit, OnDestroy {
             this.selectStory();
         }
     }
-    protected afterSelectStory(): void {
-        this.isRead = true;
-
-    }
-
     public onSelectStory(): void {
-        this.route.navigate([url(this.story.title), this.story.id], { relativeTo: this.activatedRoute });
+        this.route.navigate([this.category, url(this.story.title) as string, this.story.id]);
     }
 
-    protected selectStory(): void {
-        this.story.isRead = true;
-        this.selected = true;
-
-    }
     public getElement(): HTMLElement {
         return this.element.nativeElement;
     }
@@ -102,4 +88,16 @@ export class StoryComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.onDestroy$.next();
     }
+
+    protected selectStory(): void {
+        this.story.isRead = true;
+        this.selected = true;
+
+    }
+    protected afterSelectStory(): void {
+        this.isRead = true;
+
+    }
+
+
 }

@@ -8,8 +8,8 @@ export default class TinhteStoryService extends StoryService {
     public pageNumber: number;
     public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7";
 
-    constructor(protected url: string) {
-        super(url, new TinhteStoryParser(), null)
+    constructor(protected url: string, protected  category:string) {
+        super(url, new TinhteStoryParser(), category)
     }
 
 
@@ -24,7 +24,7 @@ export default class TinhteStoryService extends StoryService {
     static createInstance(pageNumber: number) {
 
         let tinhteUri = TinhteStoryService.urlApi.replace("${page}", pageNumber + "");
-        const tinhteStoryService = new TinhteStoryService(tinhteUri);
+        const tinhteStoryService = new TinhteStoryService(tinhteUri, 'tinh-te');
         tinhteStoryService.pageNumber = pageNumber;
         return tinhteStoryService;
 

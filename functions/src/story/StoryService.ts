@@ -1,8 +1,8 @@
-import {Story} from "../../../model/Story";
-import {StoryParser} from "./StoryParser";
 import Article from "../../../model/Article";
-import BaomoiArticleService from "../article/baomoi/BaomoiArticleService";
+import { Story } from "../../../model/Story";
+import { ArticleService } from "../article/ArticleService";
 import NotificationService from "../notification/notification.service";
+import { StoryParser } from "./StoryParser";
 
 const axios = require('axios');
 
@@ -12,10 +12,11 @@ export abstract class StoryService {
     readonly MIN_RELATED_NOTIFY = 500;
     readonly MIN_LIKE_NOTIFY = 20;
 
-    protected constructor(protected url: string, protected storyParser: StoryParser, protected category: string) {
-
+    protected constructor(protected url: string,
+        protected storyParser: StoryParser,
+        protected category: string,
+        protected articleService: ArticleService) {
     }
-
 
     public async getStories(): Promise<Story[]> {
         const response = await axios.get(this.url);
@@ -23,28 +24,19 @@ export abstract class StoryService {
         let stories = Array.from(result)
             .map(r => this.storyParser.setData(r).parseStory())
             .filter(r => r != null);
-        return this.uniqueBy(stories); 
-    };
-
-    abstract queryStories(data: any): any[];
-
-    abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
-
+        return this.uniqueBy(stories);
+    }
 
     public async cache(): Promise<any> {
         const stories = await this.getStories();
-        return await this.cacheArticles(stories)
+        return this.cacheArticles(stories)
     }
 
     private async cacheArticles(stories): Promise<any> {
-        let cachedArticles:Article[]  = await Promise.all( stories.map(async (story) => {
-            return await this.cacheArticle(story.id);
-        }))
+        let cachedArticles: Article[] = await Promise.all(stories.map(async (story) => this.articleService.crawnArticleByIdAndSaveArticle(story.id)))
         cachedArticles = cachedArticles.filter(article => article != null)
         await this.sendNotification(cachedArticles);
-        return cachedArticles.map(article => ({title: article.header, related: article.related }));
-
-
+        return cachedArticles.map(article => ({ title: article.header, related: article.related }));
     }
 
     private async sendNotification(cachedArticle: Article[]) {
@@ -58,11 +50,6 @@ export abstract class StoryService {
         }
     }
 
-    private cacheArticle = function (url): Promise<Article> {
-
-        return new BaomoiArticleService(this.category).crawnArticleByIdAndSaveArticle(url)
-    };
-
     protected uniqueBy(stories): Story[] {
         const result = []
         stories.forEach(story => {
@@ -71,9 +58,10 @@ export abstract class StoryService {
             }
         });
         return result;
-
-
     }
 
+    abstract queryStories(data: any): any[];
+
+    abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 
 }

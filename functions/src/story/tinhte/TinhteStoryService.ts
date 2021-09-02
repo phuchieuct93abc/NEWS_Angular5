@@ -1,4 +1,5 @@
 import {Story} from "../../../../model/Story";
+import TinhteArticleService from "../../article/tinhte/TinhteArticleService";
 import {StoryService} from "../StoryService";
 
 import TinhteStoryParser from "./TinhteStoryParser";
@@ -9,7 +10,7 @@ export default class TinhteStoryService extends StoryService {
     public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7";
 
     constructor(protected url: string, protected  category:string) {
-        super(url, new TinhteStoryParser(), category)
+        super(url, new TinhteStoryParser(), category, new TinhteArticleService())
     }
 
 

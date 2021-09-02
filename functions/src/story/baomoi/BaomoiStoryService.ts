@@ -5,6 +5,7 @@ import { StoryService } from "../StoryService";
 import CategoryHelper from "../../../../model/Categories";
 import Categories from "../../../../model/Categories";
 import { createHmac } from 'crypto';
+import BaomoiArticleService from "../../article/baomoi/BaomoiArticleService";
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -18,11 +19,11 @@ export default class BaomoiStoryService extends StoryService {
     }
 
     constructor(protected url: string, category: string) {
-        super(url, new BaomoiStoryParser(), category)
+        super(url, new BaomoiStoryParser(), category, new BaomoiArticleService(category))
     }
 
     static createInstance(pageNumber: string, category: string) {
-        const ctime=Math.floor(new Date().getTime()/1000) +'';
+        const ctime = Math.floor(new Date().getTime() / 1000) + '';
         const categoryId = CategoryHelper.getCategory(category).id + '';
         const baseParamSign = `/api/v1/content/get/list-by-typectime=${ctime}listId=${categoryId}listType=3page=${pageNumber}version=0.1.30`;
         const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest("hex");
@@ -31,26 +32,19 @@ export default class BaomoiStoryService extends StoryService {
             .replace("{categoryId}", categoryId)
             .replace("{sig}", sig)
             .replace("{ctime}", ctime);
-            console.log(url)
         return new BaomoiStoryService(url, category);
 
     }
 
-    search(pageNumber: string, keyword: string): Promise<Story[]> {
+    async search(pageNumber: string, keyword: string): Promise<Story[]> {
         let searchUrl = encodeURI(`${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`);
 
-        return new Promise(resolver => {
-            axios.get(searchUrl).then(response => {
-                const dom = new JSDOM(response.data);
-                const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
-                let stories = Array.from(result)
-                    .map(r => this.storyParser.setData(r).parseStory())
-                    .filter(r => r != null);
-                resolver(stories);
-            })
-
-
-        })
+        const response = await axios.get(searchUrl)
+        const dom = new JSDOM(response.data);
+        const result: HTMLCollection = dom.window.document.getElementsByClassName("story");
+        return Array.from(result)
+            .map(r => this.storyParser.setData(r).parseStory())
+            .filter(r => r != null);
 
     }
 

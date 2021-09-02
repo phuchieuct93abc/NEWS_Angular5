@@ -6,7 +6,7 @@ export abstract class ArticleService {
     protected category: string
     protected parser: ArticleParser;
 
-    abstract crawnArticleById(id: string): Promise<Article>
+     abstract crawnArticleById(id: string): Promise<Article>
 
     abstract getComment(id: string): Promise<Comment[]>
 

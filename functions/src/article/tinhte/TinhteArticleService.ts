@@ -1,9 +1,9 @@
-import {ArticleService} from "../ArticleService";
+import { ArticleService } from "../ArticleService";
 import Article from "../../../../model/Article";
 import TinhteArticleParser from "./TinhteArticleParser";
 
 const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const { JSDOM } = jsdom;
 const axios = require('axios');
 
 export default class TinhteArticleService extends ArticleService {
@@ -16,31 +16,15 @@ export default class TinhteArticleService extends ArticleService {
         this.category = 'tinh-te'
     }
 
-    crawnArticleById(id: string): Promise<Article> {
-        return new Promise((resolve) => {
-                axios.get(this.tinhteArticleUrl.replace("${id}", id)).then(response => {
-                    const article = this.parser.setData(response.data["thread"]).parserArticle();
-                    article.category = this.category;
-                    resolve(article);
-
-                })
-            }
-        )
-
-
+    async crawnArticleById(id: string): Promise<Article> {
+        const response = await axios.get(this.tinhteArticleUrl.replace("${id}", id))
+        const article = this.parser.setData(response.data["thread"]).parserArticle();
+        article.category = this.category;
+        return article;
     }
 
-    getComment(id: string): Promise<Comment[]> {
-        return new Promise((resolve) => {
-                const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
-                axios.get(url).then(response => {
+    async getComment(id: string): Promise<Comment[]> {
+        return []
 
-                    let result = <Comment[]>response.data.result;
-
-                    resolve(result)
-
-                })
-            }
-        )
     }
 }

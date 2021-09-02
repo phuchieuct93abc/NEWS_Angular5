@@ -16,35 +16,22 @@ export default class BaomoiArticleService extends ArticleService {
         this.category = category;;
     }
 
-    crawnArticleById(id: string): Promise<Article> {
-        return new Promise((resolve) => {
-            let url = this.baomoiUrl.replace("{id}", id);
-            const baseParamSign = `/api/v1/content/get/detailctime=1624286388id=${id}version=0.1.7`;
-            const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest("hex");
-            url = url.replace("{sig}", sig);
-            axios.get(url).then(response => {
-                const article = this.parser.setData(response.data.data).parserArticle();
-                article.category = this.category;
-                resolve(article);
-
-            })
-        }
-        )
-
-
+    async crawnArticleById(id: string): Promise<Article> {
+        let url = this.baomoiUrl.replace("{id}", id);
+        const baseParamSign = `/api/v1/content/get/detailctime=1624286388id=${id}version=0.1.7`;
+        const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest("hex");
+        url = url.replace("{sig}", sig);
+        const response = await axios.get(url);
+        const article = this.parser.setData(response.data.data).parserArticle();
+        article.category = this.category;
+        return article;
     }
 
-    getComment(id: string): Promise<Comment[]> {
-        return new Promise((resolve) => {
-            const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
-            axios.get(url).then(response => {
+    async getComment(id: string): Promise<Comment[]> {
+        const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
+        const response = await axios.get(url)
 
-                let result = <Comment[]>response.data.result;
+        return response.data.result as Comment[];
 
-                resolve(result)
-
-            })
-        }
-        )
     }
 }

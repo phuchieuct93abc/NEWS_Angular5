@@ -25,7 +25,7 @@ export default class Article {
 
     }
 
-    toA() {
+    getJSON() {
         return JSON.parse(JSON.stringify(this));
     }
     public getThumbnail(): string{

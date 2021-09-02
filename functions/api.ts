@@ -52,14 +52,7 @@ api.get('/search', (req, res) => {
 
     })
 });
-api.get('/getSource', (req, res) => {
-    const { category, id } = req.query
 
-    ArticleServiceFactory.get(category as string).getSource(id as string).then((value) => {
-        res.send({ url: value });
-
-    })
-});
 api.get('/blur', (req, res) => {
     request({ url: req.query.url, encoding: null }, function (err2, res2, bodyBuffer) {
 

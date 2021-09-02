@@ -11,25 +11,23 @@ export abstract class ArticleService {
     abstract getComment(id: string): Promise<Comment[]>
 
     public async getArticleById(id: string): Promise<Article> {
-        const firebaseArticle = await FirebaseService.findArticle(id);
+        const firebaseArticle = await FirebaseService.findArticle(id, this.category);
         if (firebaseArticle?.exists) {
             return firebaseArticle.data() as Article;
         }
-        return await this.crawnArticleById(id);
+        return this.crawnArticleById(id);
     }
 
-    public async crawnArticleByIdAndSaveArticle(idPath: string): Promise<Article> {
-        const firebaseArticle = await FirebaseService.findArticle(idPath);
+    public async crawnArticleByIdAndSaveArticle(articleId: string): Promise<Article> {
+        const firebaseArticle = await FirebaseService.findArticle(articleId, this.category);
         if (firebaseArticle?.exists) {
             return null;
         }
 
-        const article = await this.crawnArticleById(idPath);
-        await FirebaseService.saveArticle(article);
+        const article = await this.crawnArticleById(articleId);
+        await FirebaseService.saveArticle(article, this.category);
         return article;
     }
-
-    public abstract getSource(id: string);
 
 
 }

@@ -34,16 +34,16 @@ class FirebaseService {
         // c1a9c0acac8593452ca9eccad6ac374c
     }
 
-    async saveArticle(article: Article): Promise<FirebaseFirestore.WriteResult> {
-        const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
+    async saveArticle(article: Article, category: string): Promise<FirebaseFirestore.WriteResult> {
+        const articleCollection: FirebaseFirestore.CollectionReference = db.collection(`articles-${category}`);
 
         let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(article.id);
-        return documentFireStore.set(article.toA())
+        return documentFireStore.set(article.getJSON())
     }
 
-    async findArticle(id: string): Promise<DocumentSnapshot> {
+    async findArticle(id: string, category: string): Promise<DocumentSnapshot> {
 
-        const articleCollection: FirebaseFirestore.CollectionReference = db.collection("articles");
+        const articleCollection: FirebaseFirestore.CollectionReference = db.collection(`articles-${category}`);
         return articleCollection.doc(id).get();
     }
 }

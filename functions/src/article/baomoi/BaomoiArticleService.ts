@@ -34,19 +34,6 @@ export default class BaomoiArticleService extends ArticleService {
 
     }
 
-    getSource(id: string): Promise<string> {
-        return new Promise(resolver => {
-
-            axios.get(`https://m.baomoi.com/a/r/${id}.epi`).then(response => {
-                const dom = new JSDOM(response.data);
-                const message: HTMLScriptElement[] = dom.window.document.querySelectorAll('[type="text/javascript"]');
-                var matches = message[0].textContent.match(/\bhttps?:\/\/[^"]+/gi);
-                resolver(matches[0])
-
-            })
-        })
-    }
-
     getComment(id: string): Promise<Comment[]> {
         return new Promise((resolve) => {
             const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;

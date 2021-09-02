@@ -5,12 +5,11 @@ import TinhteStoryService from "./tinhte/TinhteStoryService";
 
 export default class StoryServiceFactory {
     public static get(req): StoryService {
-
-        let category = req.query.category;
+        const {category, pageNumber} = req.query;
 
         if (category == "tinh-te") {
-            return TinhteStoryService.createInstance(req.query.pageNumber);
+            return TinhteStoryService.createInstance(pageNumber);
         }
-        return BaomoiStoryService.createInstance(req.query.pageNumber, req.query.category);
+        return BaomoiStoryService.createInstance(pageNumber, category);
     }
 }

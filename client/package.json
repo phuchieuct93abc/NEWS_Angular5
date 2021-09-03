@@ -48,7 +48,7 @@
     "build:stat": "ng build --configuration production --aot --stats-json=true",
     "test": "ng test",
     "build": "npm run build:simple && npm run build:ssr",
-    "build:ssr":"ng run news:server:production",
+    "build:ssr": "ng run news:server:production",
     "postbuild": "node postbuild.js",
     "postinstall": "ngcc",
     "dev:ssr": "node --max_old_space_size=10048 ./node_modules/@angular/cli/bin/ng run news:serve-ssr",

@@ -14,11 +14,7 @@ export class NoopInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<unknown>, next: HttpHandler):
         Observable<HttpEvent<unknown>> {
 
-        return next.handle(req).pipe(tap((data) => {
-            if (data instanceof HttpResponse) {
-                console.timeLog(`${req.url}?${req.params.toString()}`);
-            }
-        }),
+        return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
                 this.snackBar.open('! Oop, something went wrong', null, { duration: 2000 });
                 return throwError(error);

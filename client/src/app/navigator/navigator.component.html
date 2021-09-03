@@ -9,7 +9,7 @@
 
                 <div class="mat-h1 m-0 mr-4">
                     <a  href="/" color="accent">
-                        {{selectedCategory?.title}}
+                        {{(selectedCategory$ | async)?.title}}
                     </a>
 
                 </div>

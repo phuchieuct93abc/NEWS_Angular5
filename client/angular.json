@@ -33,7 +33,14 @@
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "./src/style/styles.scss"
-            ]
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
 
           },
           "configurations": {
@@ -61,14 +68,6 @@
                 },
                 "fonts": true
               }
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
             }
           }
         },
@@ -80,12 +79,8 @@
           "configurations": {
             "production": {
               "browserTarget": "news:build:production"
-            },
-            "development": {
-              "browserTarget": "news:build:development"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -126,7 +121,9 @@
           "options": {
             "outputPath": "./dist/server",
             "main": "server.ts",
-            "tsConfig": "tsconfig.server.json"
+            "tsConfig": "tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -140,7 +137,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",

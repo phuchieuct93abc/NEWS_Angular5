@@ -1,22 +1,19 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { isPlatformServer } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, Injector, NgModule, PLATFORM_ID } from '@angular/core';
+import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
-import { isPlatformServer } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
-import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
-import { ToNowPipe } from './shared/toNow.pipe';
-import { NZModule } from './nz.module';
 import { ParallaxDirective } from './../directives/parallax.directive';
 import { AppComponent } from './app.component';
 import { ActionsComponent } from './article/actions/actions.component';
@@ -33,6 +30,8 @@ import { LoadingComponent } from './article/loading/loading.component';
 import { ContentComponent } from './content/content.component';
 import { TopCategoryComponent } from './dashboard/category/category.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HammerConfig } from './hammer.config';
+import { NoopInterceptor } from './interceptor';
 // import { HammerConfig } from './hammer.config';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from './material.module';
@@ -41,9 +40,13 @@ import { CategoryComponent } from './navigator/category-selector/category/catego
 import { NavigatorComponent } from './navigator/navigator.component';
 import { SearchComponent } from './navigator/search/search.component';
 import { NotificationModule } from './notification/notification.module';
+import { NZModule } from './nz.module';
 import { AppRoutingModule } from './routing.module';
+import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
+import { IS_MOBILE, IS_NODE } from './shared/const';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
+import { ToNowPipe } from './shared/toNow.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ImageViewerComponent } from './story/image-viewer/image-viewer.component';
@@ -54,9 +57,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { HammerConfig } from './hammer.config';
-import { IS_MOBILE, IS_NODE } from './shared/const';
-import { NoopInterceptor } from './interceptor';
 const isMobileProvider =
 {
 

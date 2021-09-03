@@ -1,14 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IS_MOBILE } from 'src/app/shared/const';
-import { FavoriteService } from '../../shared/favorite-story.service';
-import Article from '../../../../../model/Article';
-import RequestAnimationFrame from '../../requestAnimationFrame.cons';
-import { IS_NODE } from './../../shared/const';
-import CONFIG from 'src/environments/environment';
+import { Router } from '@angular/router';
 import { Track } from 'ngx-audio-player';
+import { IS_MOBILE } from 'src/app/shared/const';
+import { DeferService } from 'src/app/shared/defer.service';
+import CONFIG from 'src/environments/environment';
+import Article from '../../../../../model/Article';
+import { FavoriteService } from '../../shared/favorite-story.service';
+import { IS_NODE } from './../../shared/const';
 
 @Component({
     selector: 'app-actions',
@@ -30,7 +30,6 @@ import { Track } from 'ngx-audio-player';
 export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
 
 
-    isFavorite: boolean;
     @Input()
     article: Article;
     @Output()
@@ -39,21 +38,20 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
     actionsElement: ElementRef;
     @ViewChild('stickyElement')
     stickyElement: ElementRef;
-
-
+    @Input()
+    wrapperElement: HTMLElement;
+    isFavorite: boolean;
     display = true;
     observerWindow: IntersectionObserver;
     observerWrapper: IntersectionObserver;
     isFixedTop = false;
-    @Input()
-    wrapperElement: HTMLElement;
     ttsAudioSource: Track[] = [];
     private isDisplayingAction = false;
     private isDisplayingArticle = true;
 
-    constructor(protected favoriteService: FavoriteService, private route: Router, private snackBar: MatSnackBar,
+    constructor(protected favoriteService: FavoriteService, private snackBar: MatSnackBar,
         private ngZone: NgZone, @Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean,
-        private crd: ChangeDetectorRef
+        private crd: ChangeDetectorRef, private deferService: DeferService
     ) {
     }
     ngOnChanges(changes: SimpleChanges): void {
@@ -64,7 +62,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
                 link: `${CONFIG.baseUrl}tts?id=${id}&category=${category}`,
                 artist: 'Artist',
                 duration: 10
-            }]
+            }];
         }
     }
 
@@ -100,12 +98,9 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
                 rootMargin: '0px 0px 0px 0px',
                 threshold: [0]
             });
-            setTimeout(() => {
-                RequestAnimationFrame(() => {
-
-                    this.observerWindow.observe(this.actionsElement.nativeElement);
-                    this.observerWrapper.observe(this.wrapperElement);
-                });
+            this.deferService.defer(() => {
+                this.observerWindow.observe(this.actionsElement.nativeElement);
+                this.observerWrapper.observe(this.wrapperElement);
             }, 2000);
 
 

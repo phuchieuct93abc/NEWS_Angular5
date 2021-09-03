@@ -12,7 +12,10 @@
     "build:func": "npm --prefix \"functions\" run-script build",
     "build:client": "npm --prefix \"client\" run-script build",
     "build": "npm run build:client && npm run build:func",
-    "deploy": "firebase deploy --token $FIREBASE_TOKEN",
+    "deploy": "npm-run-all --parallel deploy:hosting deploy:functions",
+    "deploy:hosting": "firebase deploy --token $FIREBASE_TOKEN --only hosting",
+    "deploy:functions": "firebase deploy --token $FIREBASE_TOKEN --only functions",
+
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",
     "serve:func": "npm --prefix \"functions\" run serve",

@@ -3,7 +3,7 @@
   "scripts": {
     "setup": "npm install",
     "deploy": "firebase deploy --only functions",
-    "build": "node copy-index && npm run webpack",
+    "build": "node copy-index && webpack",
     "serve": "nodemon api.ts"
   },
   "main": "dist/server.js",

@@ -6,7 +6,7 @@
         <div class="stories" *ngIf="stories.length>0">
             <ng-container *ngFor="let item of stories;trackBy:trackByFn" >
                 <app-mobile-story (onSelectedStory)="onSelectedStory($event)"  #storyMobile [story]="item"
-                class="d-block story" ></app-mobile-story>
+                class="d-block story" [category]="category" ></app-mobile-story>
 
             </ng-container>
             <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()">Load more</div>

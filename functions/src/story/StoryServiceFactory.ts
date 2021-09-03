@@ -5,7 +5,6 @@ import TinhteStoryService from "./tinhte/TinhteStoryService";
 export default class StoryServiceFactory {
     public static get(req): StoryService {
         const {category, pageNumber} = req.query;
-        
         if (category === "tinh-te") {
             return TinhteStoryService.createInstance(pageNumber);
         }

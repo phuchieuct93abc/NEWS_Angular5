@@ -1,5 +1,5 @@
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
@@ -48,11 +48,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSidenav)
     private sidebar: MatSidenav;
 
-    public isShowProgressBar = false;
-    public image: string;
+    public isShowProgressBar$: Observable<boolean>;
 
     public isSmallDevice: boolean;
     public isOpenSidebar: boolean;
+    public thumbnail$: Observable<string>;
     private onDestroy$ = new Subject<void>();
 
     public constructor(private router: Router,
@@ -87,15 +87,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.track();
 
         if(!this.isNode && !this.isSmallDevice ){
-            setTimeout(() => {
-
-                this.articleService.onStorySelected.subscribe((article) => {
-                    if(article){
-
-                        this.getBlurImageUrl(article.getThumbnail());
-                    }
-                });
-            }, 1000);
+            this.thumbnail$ = this.articleService.onStorySelected.pipe(filter(article => article !=null),map(article => this.getBlurImageUrl(article.getThumbnail())));
         }
 
     }
@@ -112,20 +104,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngAfterViewInit(): void {
-        this.loadingService.onLoading.subscribe((data) => {
-            setTimeout(() => {
-                this.isShowProgressBar = data.type === LoadingEventType.START;
-            });
-        });
+        this.isShowProgressBar$ = this.loadingService.onLoading.pipe(map(data=>data.type === LoadingEventType.START));
 
     }
 
 
-    public getBlurImageUrl(url) {
+    public getBlurImageUrl(url: string): string {
         if (url !== undefined) {
-            this.image = `${CONFIG.baseUrl}blur?url=${url}`;
-
+            return `${CONFIG.baseUrl}blur?url=${url}`;
         }
+        return '';
     }
 
     public updateBodyClass(darkTheme: boolean) {

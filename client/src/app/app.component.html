@@ -1,14 +1,17 @@
-<div *ngIf="isShowProgressBar">
+<div *ngIf="isShowProgressBar$ | async">
     <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
 </div>
 <div [@.disabled]="isNode" [class.no-transition]="isNode" class=" app   mat-app-background app d-flex align-items-center">
 
-    <div  *ngIf="!isSmallDevice && image">
-        <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'" *ngFor="let bgImage of [image]"
-            @opacityNgIf>
-        </div>
+    <ng-container *ngIf="thumbnail$ | async as data">
 
-    </div>
+        <div  *ngIf="!isSmallDevice && data">
+            <div class="backdrop" [style.background-image]="'url(' +  bgImage + ')'" *ngFor="let bgImage of [data]"
+                @opacityNgIf>
+            </div>
+    
+        </div>
+    </ng-container>
 
     <div class="main-content" >
         <mat-sidenav-container class="h-100">

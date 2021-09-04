@@ -1,8 +1,6 @@
 <div class="d-flex wrapper sticky" #actionsElement>
     <div class="tts">
-        <audio controls preload="none" *ngIf="ttsAudioSource[0]">
-            <source [src]="ttsAudioSource[0].link" type="audio/ogg">
-
+        <audio controls preload="none" *ngIf="ttsAudioSource[0]" [src]="ttsAudioSource[0].link">
         </audio>
 
         <!-- <ngx-audio-player 

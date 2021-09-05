@@ -30,7 +30,6 @@
               "src/assets",
               "src/manifest.webmanifest",
               "src/firebase-messaging-sw.js",
-              "src/offline-sw.js",
               "src/robots.txt",
               "src/sitemap.xml"
             ],

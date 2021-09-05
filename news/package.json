@@ -11,7 +11,9 @@
     "dev:ssr": "ng run news:serve-ssr",
     "serve:ssr": "node dist/news/server/main.js",
     "build:ssr": "ng build && ng run news:server",
-    "prerender": "ng run news:prerender"
+    "prerender": "ng run news:prerender",
+    "postbuild": "node postbuild.js"
+
   },
   "private": true,
   "dependencies": {

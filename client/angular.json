@@ -11,6 +11,9 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "architect": {
@@ -20,6 +23,7 @@
             "outputPath": "dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -34,13 +38,6 @@
               "./node_modules/normalize.css/normalize.css",
               "./src/style/styles.scss"
             ],
-            "aot": false,
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true,
             "extractCss":true
 
           },
@@ -53,12 +50,6 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json",
               "optimization": { 
@@ -69,8 +60,17 @@
                 },
                 "fonts": true
               }
-            }
-          }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }            
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -80,8 +80,13 @@
           "configurations": {
             "production": {
               "browserTarget": "news:build:production"
+            },
+            "development": {
+              "browserTarget": "testng:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
+
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

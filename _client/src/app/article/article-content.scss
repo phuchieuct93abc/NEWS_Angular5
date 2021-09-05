@@ -1,0 +1,49 @@
+.article-body {
+  ::ng-deep {
+    video, img {
+      width: 100% !important;
+      height: auto;
+      max-height: initial !important;
+    }
+
+    a {
+      overflow: hidden;
+      max-width: 100%; 
+      word-break: break-word;
+    }
+
+    .LinkExpander_Ratio {
+      position: relative;
+
+      iframe {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    .bm-source {
+      display: none;
+    }
+
+    //TInhte
+    h1, h2, h3, h4, h5, h6 {
+      color: inherit !important;
+    }
+
+    span[style] {
+      font-size: inherit !important;
+    }
+
+    .Tinhte_Galleria {
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding: 0.5em 0;
+      }
+    }
+  }
+}

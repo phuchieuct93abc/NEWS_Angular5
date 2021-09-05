@@ -1,0 +1,153 @@
+
+:host {
+  border: none;
+  overflow: hidden;
+  width: 100%;
+  display: inline-block;
+
+}
+
+
+@keyframes run {
+  0%, 100% {
+    margin-left: 0;
+    transform: scaleX(1);
+
+
+  }
+
+  49% {
+    transform: scaleX(1);
+
+  }
+  50% {
+    transform: scaleX(-1);
+    margin-left: calc(100%);
+  }
+  99% {
+    transform: scaleX(-1);
+
+  }
+
+
+}
+
+//  #F6F6F6     #F0F0F0
+@mixin type2($height,$height-line,$background,$color) {
+  %animated-background {
+    animation-duration: 1.25s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: linear-gradient(to right, $background 0%, $color 20%, $background 40%);
+    background-size: 800px 104px;
+    height: 96px;
+    position: relative;
+  }
+  .wrapper.type-2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .wrapper-cell {
+      display: flex;
+      height: $height;
+
+      // Page Elements
+      .image-placeholder {
+        height: $height;
+        width: $height;
+        border-radius: 8px;
+        @extend %animated-background;
+      }
+
+      .text-placeholder {
+        margin-left: 1em;
+        flex: 1;
+        display: flex;
+        align-items: inherit;
+        flex-direction: column;
+
+        .text-line {
+          height: $height-line;
+          @extend %animated-background;
+          margin-bottom: 1rem;
+        }
+      }
+
+
+    }
+
+  }
+}
+
+
+// Animation
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0
+  }
+  100% {
+    background-position: 468px 0
+  }
+}
+
+
+.loading {
+  &.small {
+
+    @include type2(120px, 10px, #F6F6F6, #e5e5e5);
+
+    &.dark {
+      @include type2(120px, 10px, #303030, #4a4a4d);
+
+    }
+
+    .text-line{
+
+      &:nth-child(4) {
+        display: none;
+      }
+
+      &:nth-child(5) {
+        display: none;
+      }
+    }
+
+  }
+// // Not used
+//   &.big {
+//     @include type2(200px, 20px, #F6F6F6, #e5e5e5);
+
+//     &.dark {
+//       @include type2(200px, 20px, #303030, #4a4a4d);
+
+//     }
+//   }
+
+}
+
+.text-line {
+  &:nth-child(1) {
+    width: 100%;
+  }
+
+  &:nth-child(2) {
+    width: 90%;
+  }
+
+  &:nth-child(3) {
+    width: 95%;
+  }
+
+  &:nth-child(4) {
+    width: 85%;
+  }
+
+  &:nth-child(5) {
+    width: 70%;
+  }
+
+
+}

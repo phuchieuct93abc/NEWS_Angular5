@@ -1,0 +1,18 @@
+:host,.wrapper {
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+
+.mat-drawer-container {
+
+  background-color: transparent;
+
+  mat-sidenav {
+    width: 200px;
+  }
+
+
+
+}

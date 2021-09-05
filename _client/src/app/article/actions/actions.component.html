@@ -1,0 +1,36 @@
+<div class="d-flex wrapper sticky" #actionsElement>
+    <div class="tts">
+        <audio controls preload="none" *ngIf="ttsAudioSource[0]">
+            <source [src]="ttsAudioSource[0].link" type="audio/ogg">
+
+        </audio>
+
+        <!-- <ngx-audio-player 
+        [playlist]="ttsAudioSource"
+        [displayTitle]="false" 
+        [autoPlay]="true"
+            [displayPlaylist]="false" 
+            [displayArtist]="false" 
+            [displayDuration]="true"
+            [expanded]="false"
+             [displayVolumeControls]="true"
+              [displayRepeatControls]="false" 
+            [disablePositionSlider]="false"></ngx-audio-player>    -->
+    </div>
+    <div class="text-right " @animate [class.fixed]="isFixedTop" #stickyElement>
+        <a mat-icon-button (click)="toggleFavorite()" class="fadein">
+            <mat-icon color="accent">
+                {{isFavorite ? 'favorite' : 'favorite_border'}}
+            </mat-icon>
+
+        </a>
+        <app-share></app-share>
+
+        <app-display></app-display>
+        <button aria-label="display" mat-icon-button class="fadein close-icon" (click)="close($event)"
+            *ngIf="onClosed.observers.length>0">
+            <mat-icon class="mat-accent">cancel</mat-icon>
+        </button>
+    </div>
+
+</div>

@@ -1,0 +1,8 @@
+<div class="searchbar" [ngClass]="isDarkTheme?'dark':'light'">
+    <mat-form-field class="search_input" color="accent" floatLabel="always">
+        <input matInput placeholder="Tìm kiếm" (keyup)="onKeyup(searchInput.value)" #searchInput>
+    </mat-form-field>
+    <button class="loading_icon icon spin-icon" mat-icon-button *ngIf="isLoading" aria-label="Đang tải">
+        <mat-icon color="accent">cached</mat-icon>
+    </button>
+</div>

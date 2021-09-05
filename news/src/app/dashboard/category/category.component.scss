@@ -1,0 +1,20 @@
+
+:host {
+  display: block;
+
+}
+
+.categories-wrapper {
+  overflow: hidden;
+  position: relative;
+
+  .blur-bottom.blur-edge {
+    height: 50px;
+  }
+}
+
+app-story {
+  display: inline-block;
+}
+
+

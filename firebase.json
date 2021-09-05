@@ -2,7 +2,7 @@
   "functions": {
   },
   "hosting": {
-    "public": "client/dist/browser",
+    "public": "news/dist/news/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -24,7 +24,7 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|webp|woff2)",
+        "source": "**/*.@(jpg|jpeg|gif|png|js|css|woff2)",
         "headers": [
           {
             "key": "Cache-Control",

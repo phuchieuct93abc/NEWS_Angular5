@@ -1,0 +1,23 @@
+:host {
+  height: 40px;
+  display: inline-block;
+  width: 100%;
+
+  .searchbar {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      height: 100%;
+
+      line-height: 30px;
+      display: flex;
+      color: white;
+    }
+
+    .loading_icon {
+      top: 0;
+      right: -1em;
+    }
+  }
+}

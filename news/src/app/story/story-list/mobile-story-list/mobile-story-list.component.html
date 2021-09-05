@@ -1,0 +1,29 @@
+
+<div class="story-list">
+    <div style="padding-top: 58px;">
+
+
+        <div class="stories" *ngIf="stories.length>0">
+            <ng-container *ngFor="let item of stories;trackBy:trackByFn" >
+                <app-mobile-story (onSelectedStory)="onSelectedStory($event)"  #storyMobile [story]="item"
+                class="d-block story" [category]="category" ></app-mobile-story>
+
+            </ng-container>
+            <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()">Load more</div>
+
+        </div>
+
+
+        <ng-container *ngIf="stories.length < 10">
+            <ng-container *ngFor="let i of loadingStories">
+                <app-loading-story class="loading-story p-2" ></app-loading-story>
+                <mat-divider></mat-divider>
+            </ng-container>
+
+
+        </ng-container>
+        <div class="blur-edge blur-bottom" *ngIf="stories"></div>
+
+    </div>
+
+</div>

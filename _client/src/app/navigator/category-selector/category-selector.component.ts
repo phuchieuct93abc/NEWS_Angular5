@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper, { Category } from '../../../../../model/Categories';
 import { ConfigService } from '../../shared/config.service';
-import { Config } from './../../shared/config.service';
+import { Config } from '../../shared/config.service';
 
 @Component({
     selector: 'app-category-selector',

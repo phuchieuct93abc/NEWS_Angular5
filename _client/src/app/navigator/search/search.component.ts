@@ -4,7 +4,7 @@ import { interval, Subject } from 'rxjs';
 import { StoryService } from '../../shared/story.service';
 import { ConfigService } from '../../shared/config.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
-import { DestroySubscriber } from './../../shared/destroy-subscriber';
+import { DestroySubscriber } from '../../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-search',

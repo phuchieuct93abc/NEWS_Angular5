@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { ImageSerice } from '../../shared/image.service';
-import { IS_NODE } from './../../shared/const';
+import { IS_NODE } from '../../shared/const';
 
 interface ImageViewerData { imagePath: string; width: number; height: number }
 

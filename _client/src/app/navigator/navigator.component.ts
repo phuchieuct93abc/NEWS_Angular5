@@ -6,8 +6,8 @@ import CategoryHelper from '../../../../model/Categories';
 import { AppComponent } from '../app.component';
 import { AppService } from '../app.service';
 import { ConfigService } from '../shared/config.service';
-import { Category } from './../../../../model/Categories';
-import { DestroySubscriber } from './../shared/destroy-subscriber';
+import { Category } from '../../../../model/Categories';
+import { DestroySubscriber } from '../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-navigator',

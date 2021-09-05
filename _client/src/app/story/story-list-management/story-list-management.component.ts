@@ -14,7 +14,7 @@ import StoryMeta from '../../../../../model/StoryMeta';
 import { StoryComponent } from '../story/story.component';
 import { StoryListService } from '../story-list/story-list.service';
 import { StoryListComponent } from '../story-list/story-list.component';
-import { IS_NODE } from './../../shared/const';
+import { IS_NODE } from '../../shared/const';
 @Component({
   selector: 'app-story-list-management',
   templateUrl: './story-list-management.component.html',

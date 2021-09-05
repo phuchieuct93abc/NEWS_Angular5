@@ -3,7 +3,7 @@ import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper, { Category } from '../../../../model/Categories';
 import { ConfigService } from '../shared/config.service';
 import { opacityNgIf } from '../animation';
-import { DestroySubscriber } from './../shared/destroy-subscriber';
+import { DestroySubscriber } from '../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-sidebar',

@@ -8,7 +8,7 @@ import { DeferService } from 'src/app/shared/defer.service';
 import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
 import { FavoriteService } from '../../shared/favorite-story.service';
-import { IS_NODE } from './../../shared/const';
+import { IS_NODE } from '../../shared/const';
 
 @Component({
     selector: 'app-actions',

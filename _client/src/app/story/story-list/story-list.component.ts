@@ -5,7 +5,7 @@ import { mapTo } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
-import { IS_MOBILE, IS_NODE } from './../../shared/const';
+import { IS_MOBILE, IS_NODE } from '../../shared/const';
 import { StoryListService } from './story-list.service';
 
 @Component({

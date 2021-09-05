@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import Article from '../../../../../model/Article';
-import { IS_NODE } from './../../shared/const';
+import { IS_NODE } from '../../shared/const';
 
 @Component({
   selector: 'app-article-thumbnail',

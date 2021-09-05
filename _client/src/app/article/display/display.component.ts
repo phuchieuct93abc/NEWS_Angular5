@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfigService } from '../../shared/config.service';
-import { Config } from './../../shared/config.service';
-import { DestroySubscriber } from './../../shared/destroy-subscriber';
+import { Config } from '../../shared/config.service';
+import { DestroySubscriber } from '../../shared/destroy-subscriber';
 
 @Component({
     selector: 'app-display',

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { StoryComponent } from '../story.component';
-import { ImageViewerComponent } from './../../image-viewer/image-viewer.component';
+import { ImageViewerComponent } from '../../image-viewer/image-viewer.component';
 
 @Component({
     selector: 'app-mobile-story',

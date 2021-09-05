@@ -5,7 +5,7 @@ import { Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import firebase from "firebase/app";
 import { FIREBASE_CONFIG, FIREBASE_PUBLIC_KEY } from '../../../../model/firebase.config';
-import { IS_NODE } from './../shared/const';
+import { IS_NODE } from '../shared/const';
 import { NotificationService } from './notification.service';
 import 'firebase/messaging';
 

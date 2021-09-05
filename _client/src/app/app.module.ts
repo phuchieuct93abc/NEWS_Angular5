@@ -14,7 +14,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
-import { ParallaxDirective } from './../directives/parallax.directive';
+import { ParallaxDirective } from '../directives/parallax.directive';
 import { AppComponent } from './app.component';
 import { ActionsComponent } from './article/actions/actions.component';
 import { ShareComponent } from './article/actions/share/share.component';

@@ -2,7 +2,7 @@
   "functions": {
   },
   "hosting": {
-    "public": "client/dist/browser",
+    "public": "news/dist/news/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

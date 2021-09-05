@@ -82,7 +82,7 @@
               "browserTarget": "news:build:production"
             },
             "development": {
-              "browserTarget": "testng:build:development"
+              "browserTarget": "news:build:development"
             }
           },
           "defaultConfiguration": "development"

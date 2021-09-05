@@ -1,19 +1,18 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { DestroySubscriber } from 'src/app/shared/destroy-subscriber';
-import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
-import { Config, ConfigService } from '../../shared/config.service';
-import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
-import { ArticleService } from '../../shared/article.service';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
-import { StoryComponent } from '../story/story.component';
-import { StoryListService } from '../story-list/story-list.service';
+import { ArticleService } from '../../shared/article.service';
+import { Config, ConfigService } from '../../shared/config.service';
+import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
+import { StoryService } from '../../shared/story.service';
 import { StoryListComponent } from '../story-list/story-list.component';
+import { StoryListService } from '../story-list/story-list.service';
 import { IS_NODE } from './../../shared/const';
 @Component({
   selector: 'app-story-list-management',
@@ -156,8 +155,8 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
               this.articleService.getById(articleId, params.category).subscribe((article) => {
 
                   const storyImage: StoryImage = new StoryImage(article.getThumbnail());
-                  const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time);
-                  const story = new Story(articleId, article.header, null, [storyImage], article.sourceUrl, storyMeta, false, true, true);
+                  const storyMeta = new StoryMeta(article.sourceName!, article.sourceIcon!, article.time);
+                  const story = new Story(articleId, article.header, article.description, [storyImage], article.sourceUrl, storyMeta, false, true, true);
                   article.story = Object.assign(new Story(), story);
                   story.article = article;
                   observer.next(story);
@@ -215,8 +214,8 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
 
   private getLoadMoreObservable(): Observable<Story[]> {
-      const category = this.route.firstChild.snapshot.paramMap.get('category');
-      return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category);
+      const category = this.route!.firstChild!.snapshot.paramMap.get('category');
+      return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category!);
   }
 
   pushStory(...story: Story[]): void{

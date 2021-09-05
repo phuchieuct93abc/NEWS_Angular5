@@ -157,7 +157,7 @@ export class StoryService {
         return stories.filter((result) => this.stories.findIndex((story) => story.id === result.id) === -1);
     }
 
-    private appendStoryList(moreStories) {
+    private appendStoryList(moreStories: Story[]) {
         this.stories.push(...moreStories);
     }
 }

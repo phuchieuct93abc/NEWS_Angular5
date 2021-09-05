@@ -1,4 +1,3 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
@@ -47,8 +46,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.data$ = this.data$ = this.getImageData(this.imagePath).pipe(tap(data=>{
-            if(this.isNode){
+        this.data$ = this.data$ = this.getImageData(this.imagePath).pipe(tap(data => {
+            if (this.isNode) {
                 const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
                 this.transferState.set(imageKey, data);
             }
@@ -61,30 +60,30 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     }
     private getImageData(image: string): Observable<ImageViewerData> {
 
-        return new Observable(resolve=>{
-            let width: number;
-            let height: number;
+        return new Observable(resolve => {
+            let width: number = 0;
+            let height: number = 0;
             let imagePath = image;
-                const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
+            const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
 
-                if (this.transferState.hasKey(imageKey)) {
-                    resolve.next(this.transferState.get<ImageViewerData>(imageKey, undefined));
-                    return;
+            if (this.transferState.hasKey(imageKey)) {
+                resolve.next(this.transferState.get<ImageViewerData>(imageKey,{height:0,width:0,imagePath:''}));
+                return;
+            }
+            const resolution = new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
+            if (resolution) {
+                width = parseInt(resolution[1], 10);
+                height = parseInt(resolution[2], 10);
+            }
+            if (this.isNode) {
+                if (this.imagePath.indexOf('photo-baomoi.zadn.vn') >= 0) {
+                    imagePath = this.imagePath + '.webp';
                 }
-                const resolution = new RegExp(/w\d*_r(\d*)x(\d*)/gm).exec(this.imagePath);
-                if (resolution) {
-                    width = parseInt(resolution[1], 10);
-                    height = parseInt(resolution[2], 10);
-                }
-                if (this.isNode) {
-                    if (this.imagePath.indexOf('photo-baomoi.zadn.vn') >= 0) {
-                        imagePath = this.imagePath + '.webp';
-                    }
-                } else {
-                    const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
-                    imagePath = this.imageService.getImage(this.imagePath, imageWidth);
-                }
-                resolve.next({imagePath,width,height});
+            } else {
+                const imageWidth = this.isMobile ? window.innerWidth : this.elRef.nativeElement.offsetWidth;
+                imagePath = this.imageService.getImage(this.imagePath, imageWidth);
+            }
+            resolve.next({ imagePath, width, height });
         });
 
     }

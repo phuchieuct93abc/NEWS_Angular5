@@ -35,17 +35,17 @@ export class SidebarComponent extends DestroySubscriber implements OnInit {
 
         this.configService.getConfig().pipe(this.getTakeUntilDestroy())
         .subscribe(({ darkTheme, smallImage, category }) => {
-            this.isDarkMode = darkTheme;
-            this.isSmallImage = smallImage;
-            this.activatedCatagory = category;
+            this.isDarkMode = darkTheme!;
+            this.isSmallImage = smallImage!;
+            this.activatedCatagory = category!;
         });
     }
 
-    public toggleDarkMode(value) {
+    public toggleDarkMode(value: boolean) {
         this.configService.updateConfig({ darkTheme: value });
     }
 
-    public toogleDisplay(value) {
+    public toogleDisplay(value: boolean) {
         this.configService.updateConfig({ smallImage: value });
 
     }

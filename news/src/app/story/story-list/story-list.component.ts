@@ -98,12 +98,12 @@ export class StoryListComponent implements OnInit, OnChanges {
     }
 
 
-    public trackByFn(item): any {
+    public trackByFn(item: Story): any {
         return item.id;
     }
 
     public selectStory(story: Story): void {
-        this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
+        this.route.navigate([url(story.title!), story.id], { relativeTo: this.activatedRoute });
     }
 
     protected scrollTo(story: Story): void {

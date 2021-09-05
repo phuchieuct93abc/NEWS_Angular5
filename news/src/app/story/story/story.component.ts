@@ -54,14 +54,14 @@ export class StoryComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.isRead = this.story.isRead;
         this.config$ = this.configService.getConfig();
-
+        this.activatedRoute.firstChild?.snapshot.params
         this.isActive$ = this.route.events.pipe(
             takeUntil(this.onDestroy$),
             filter(event => event instanceof NavigationEnd),
             map(() => this.activatedRoute.firstChild?.snapshot.params),
             startWith(this.activatedRoute.firstChild?.snapshot.params),
             filter(params => params != null),
-            map(({ id }) => id === this.story.id),
+            map((param) => param!.id === this.story.id),
             tap((active) => {
                 if (active) {
                     this.afterSelectStory();
@@ -71,13 +71,13 @@ export class StoryComponent implements OnInit, OnDestroy {
         );
 
 
-        this.story.isFavorite = this.favoriteService.findById(this.story.id) != null;
+        this.story.isFavorite = this.favoriteService.findById(this.story.id!) != null;
         if (this.story.isOpenning) {
             this.selectStory();
         }
     }
     public onSelectStory(): void {
-        this.route.navigate([this.category, url(this.story.title) as string, this.story.id]);
+        this.route.navigate([this.category, url(this.story.title!) as string, this.story.id]);
     }
 
     public getElement(): HTMLElement {

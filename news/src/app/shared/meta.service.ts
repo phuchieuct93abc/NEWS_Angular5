@@ -11,9 +11,9 @@ export class MetaService {
     }
 
     updateMeta(article: Article) {
-        this.titleService.setTitle(article.header);
+        this.titleService.setTitle(article.header!);
         this.meta.updateTag(
-            {name: 'description', content: article.description}
+            {name: 'description', content: article.description!}
         );
         this.meta.updateTag(
             {name: 'site_name', content: 'Báo hiếu'}
@@ -22,10 +22,10 @@ export class MetaService {
             {name: 'og:type', content: 'article'}
         );
         this.meta.updateTag(
-            {name: 'og:title', content: article.header}
+            {name: 'og:title', content: article.header!}
         );
         this.meta.updateTag(
-            {name: 'og:description', content: article.description}
+            {name: 'og:description', content: article.description!}
         );
 
         this.meta.updateTag(

@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface Storage {
     getItem(id: string, fallbackValue: object): object;
 
-    setItem(id: string, item: object);
+    setItem(id: string, item: object): void;
 }
 
 @Injectable({
@@ -12,7 +12,7 @@ export interface Storage {
 export class LocalStorageService implements Storage {
     getItem(id: string, fallbackValue: object): object {
         if (typeof localStorage !== 'undefined') {
-            const item = JSON.parse(localStorage.getItem(id));
+            const item = JSON.parse(localStorage.getItem(id)!);
             return item ? item : fallbackValue;
         }
         return fallbackValue;

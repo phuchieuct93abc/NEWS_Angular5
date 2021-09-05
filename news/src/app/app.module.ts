@@ -7,14 +7,13 @@ import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
-import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { ParallaxDirective } from './../directives/parallax.directive';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ActionsComponent } from './article/actions/actions.component';
 import { ShareComponent } from './article/actions/share/share.component';
@@ -41,7 +40,6 @@ import { NavigatorComponent } from './navigator/navigator.component';
 import { SearchComponent } from './navigator/search/search.component';
 import { NotificationModule } from './notification/notification.module';
 import { NZModule } from './nz.module';
-import { AppRoutingModule } from './app-routing.module';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
@@ -57,6 +55,7 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const isMobileProvider =
 {
 
@@ -74,6 +73,7 @@ const isMobileProvider =
     },
     deps: [BreakpointObserver, Injector]
 };
+
 
 @NgModule({
     imports: [
@@ -94,8 +94,7 @@ const isMobileProvider =
             enabled: CONFIG.production,
             registrationStrategy: 'registerWhenStable:30000'
         }),
-        NgbModule,
-        NgxAudioPlayerModule
+        NgbModule
     ],
     declarations: [
         AppComponent,
@@ -142,7 +141,7 @@ const isMobileProvider =
     providers: [
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-        { provide: IS_NODE, useFactory: (platformId) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+        { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
         isMobileProvider,
         Title,
         Meta

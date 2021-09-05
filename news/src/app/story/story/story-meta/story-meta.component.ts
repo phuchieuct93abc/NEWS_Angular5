@@ -15,10 +15,10 @@ export class StoryMetaComponent implements OnInit {
     sourceIcon: string;
 
     ngOnInit(): void {
-        if (this.story.storyMeta.sourceIcon && this.story.storyMeta.sourceIcon.indexOf('http') < 0) {
-            this.sourceIcon = `${CONFIG.baseUrl}${this.story.storyMeta.sourceIcon}`;
+        if (this.story!.storyMeta!.sourceIcon && this.story!.storyMeta!.sourceIcon.indexOf('http') < 0) {
+            this.sourceIcon = `${CONFIG.baseUrl}${this.story!.storyMeta!.sourceIcon}`;
         } else {
-            this.sourceIcon = this.story.storyMeta.sourceIcon;
+            this.sourceIcon = this.story!.storyMeta!.sourceIcon;
         }
     }
     openSource(event: Event): void{

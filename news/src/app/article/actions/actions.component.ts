@@ -1,8 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Track } from 'ngx-audio-player';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { DeferService } from 'src/app/shared/defer.service';
 import CONFIG from 'src/environments/environment';
@@ -45,7 +43,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
     observerWindow: IntersectionObserver;
     observerWrapper: IntersectionObserver;
     isFixedTop = false;
-    ttsAudioSource: Track[] = [];
+    ttsAudioSource: { title: string, link: string, artist: string, duration: number }[] = [];
     private isDisplayingAction = false;
     private isDisplayingArticle = true;
 

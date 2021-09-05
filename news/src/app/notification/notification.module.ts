@@ -21,9 +21,9 @@ export class NotificationModule {
     private numberOfNavigation = 0;
     private stopRegisterNotification$ = new Subject<void>();
     public constructor(private router: Router, private notificationService: NotificationService, @Inject(IS_NODE) private isNode: boolean) {
-       if(this.isNode){
-           return;
-       }
+        if (this.isNode) {
+            return;
+        }
         try {
             firebase.initializeApp(FIREBASE_CONFIG);
             this.registerNotification();
@@ -44,7 +44,7 @@ export class NotificationModule {
                     }
                     this.message = firebase.messaging();
                     this.message.usePublicVapidKey(FIREBASE_PUBLIC_KEY);
-                    this.message.requestPermission().then(() => this.getToken(),(e)=>console.log(e));
+                    this.message.requestPermission().then(() => this.getToken(), (e) => console.log(e));
                     this.message.onTokenRefresh(() => this.getToken());
                     this.stopRegisterNotification$.next();
                 }

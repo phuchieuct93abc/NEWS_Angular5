@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -56,6 +56,11 @@ import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.co
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import en from '@angular/common/locales/en';
+
+registerLocaleData(en);
 const isMobileProvider =
 {
 
@@ -144,7 +149,8 @@ const isMobileProvider =
         { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
         isMobileProvider,
         Title,
-        Meta
+        Meta,
+        { provide: NZ_I18N, useValue: en_US }
 
     ],
     entryComponents: [

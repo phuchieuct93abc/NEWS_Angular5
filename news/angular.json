@@ -32,10 +32,14 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/firebase-messaging-sw.js",
+              "src/robots.txt",
+              "src/sitemap.xml"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/normalize.css/normalize.css",
+              "./src/style/styles.scss"
             ],
             "scripts": [],
             "serviceWorker": true,
@@ -106,6 +110,7 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.scss"
             ],
             "scripts": []

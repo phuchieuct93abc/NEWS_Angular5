@@ -98,7 +98,7 @@ export class StoryListComponent implements OnInit, OnChanges {
     }
 
 
-    public trackByFn(item: Story): any {
+    public trackByFn(item: any): any {
         return item.id;
     }
 

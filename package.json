@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm-run-all --parallel client server",
     "start:ssr": "npm-run-all --parallel client:ssr server",
-    "client": "cd client && npm start",
-    "client:ssr": "cd client && npm run dev:ssr",
+    "client": "cd news && npm start",
+    "client:ssr": "cd news && npm run dev:ssr",
     "server": "cd functions && npm run-script serve",
     "build:func": "npm --prefix \"functions\" run-script build",
     "build:client": "npm --prefix \"client\" run-script build",

@@ -1,0 +1,43 @@
+@import "~@angular/material/theming";
+
+$nav-height: 58px;
+
+:host {
+  display: block;
+  overflow: visible;
+
+  .navigator {
+    height: $nav-height;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+
+    mat-toolbar {
+      @include mat-elevation(5);
+      position: relative;
+      z-index: 2;
+      background-color: rgba(var(--background-color-1-code), 0.6);
+      height: max-content;
+
+      > div {
+        backdrop-filter: saturate(180%) blur(20px);
+      }
+      .breadcrumb-separator {
+        color: var(--background-color-3);
+      }
+
+      .mat-toolbar-single-row {
+        height: $nav-height;
+
+        .toolbar-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          height: 40px;
+        }
+      }
+    }
+  }
+}

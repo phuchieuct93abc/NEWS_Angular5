@@ -1,0 +1,38 @@
+.article {
+
+  background-color: transparent !important;
+
+ 
+
+  .article-view {
+    transition: opacity 0.2s linear;
+
+
+
+
+  }
+
+
+
+  .article-body {
+    //background-color: white;
+    margin: 0;
+
+    ::ng-deep {
+      img {
+        transform: scale(1) !important;
+        max-width: 100%;
+      }
+
+      .thumbnail-inner{
+        margin-bottom: 1rem;
+      }
+
+  
+    }
+  
+  }
+
+
+
+}

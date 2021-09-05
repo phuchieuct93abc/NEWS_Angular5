@@ -1,0 +1,67 @@
+@import '~@angular/material/theming';
+
+$card-height: 9em;
+
+.mat-card {
+  cursor: pointer;
+  padding: 1em;
+  height: $card-height;
+  overflow: hidden;
+
+
+  .image {
+    width: 150px;
+    max-width: 50%;
+    border-radius: 4px;
+  }
+  &.desktop-story{
+    &:hover ::ng-deep .image {
+      transform: scale(1.1);
+    }
+  }
+  &.is-read:not(.active) {
+    opacity: 0.7;
+  }
+
+
+  .last-child {
+    margin-bottom: 0;
+  }
+
+
+  .title {
+    transition: var(--text-transition);
+    font-size: 1.1rem;
+    max-height: 4em;
+    overflow: hidden;
+
+  }
+
+  &.active {
+    background-color: var(--background-color-2) !important;
+    opacity: 1 !important;
+  }
+
+  &:hover,
+  &.active {
+    @include mat-elevation(5);
+
+    .title {
+      color: var(--hightlight-color) !important;
+    }
+
+  }
+
+
+  &.active {
+    background-color: #e5e5e5;
+  }
+
+
+  .title {
+
+    line-height: 1.3em !important;
+  }
+
+
+}

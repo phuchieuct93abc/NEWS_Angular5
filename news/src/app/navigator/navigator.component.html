@@ -1,0 +1,19 @@
+<div class="navigator" *ngIf="isMobile" [ngStyle]="{'transform': 'translateY('+toolbarTop+'px)'}"
+     > 
+    <mat-toolbar role="heading" class="p-0" aria-level="1">
+        <div class="mat-toolbar-single-row p-0">
+            <div class="toolbar-item h-100">
+                <a mat-button color="accent">
+                    <img (click)="toogleSidebar()" width="30" height="30" class="rounded-circle logo" alt="logo" src="../../assets/newspaper.png">
+                </a>
+
+                <div class="mat-h1 m-0 mr-4">
+                    <a  href="/" color="accent">
+                        {{(selectedCategory$ | async)?.title}}
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </mat-toolbar>
+</div>

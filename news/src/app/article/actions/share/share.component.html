@@ -1,0 +1,21 @@
+<span class="position-relative">
+    <a mat-icon-button (click)="copyUrl()" class="fadein">
+        <mat-icon color="accent">
+            share
+        </mat-icon>
+    </a>
+    <div class="shareList" *ngIf="isShowShareSites" [@shareSites]>
+
+         <a mat-icon-button (click)="shareFaceBook()">
+           <i class="icon ion-logo-facebook mat-icon mat-primary"></i>
+
+        </a>
+         <a mat-icon-button (click)="shareSkype()">
+                     <i class="icon ion-logo-skype mat-icon mat-primary"></i>
+
+        </a>
+
+
+
+    </div>
+</span>

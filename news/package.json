@@ -2,6 +2,7 @@
   "name": "news",
   "version": "0.0.0",
   "scripts": {
+    "setup": "npm install",
     "ng": "ng",
     "start": "ng serve",
     "build": "npm-run-all --parallel build:browser build:ssr",

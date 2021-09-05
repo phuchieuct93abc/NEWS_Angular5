@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-client:
+  build:client:
     docker:
       - image: cimg/node:16.4.0
     steps:
@@ -22,7 +22,7 @@ jobs:
             - functions/node_modules
       - run: npm run build:client
       - run: npm run deploy:hosting
-  build-server:
+  buil:server:
     docker:
       - image: cimg/node:16.4.0
     steps:

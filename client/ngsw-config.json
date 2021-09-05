@@ -11,9 +11,7 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js",
-          "/offline.html"  
-
+          "/*.js"
         ]
       }
     },

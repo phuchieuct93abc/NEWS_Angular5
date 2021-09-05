@@ -75,3 +75,4 @@ functions/stats.json
 functions/.env
 functions/tts-key.json
 functions/.env
+test/

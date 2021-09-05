@@ -90,7 +90,10 @@ const isMobileProvider =
         LazyLoadImageModule,
         HammerModule,
         BrowserTransferStateModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: CONFIG.production }),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: CONFIG.production,
+            registrationStrategy: 'registerWhenStable:30000'
+         }),
         NgbModule,
         NgxAudioPlayerModule
     ],

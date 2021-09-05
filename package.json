@@ -10,7 +10,7 @@
     "client:ssr": "cd news && npm run dev:ssr",
     "server": "cd functions && npm run-script serve",
     "build:func": "npm --prefix \"functions\" run-script build",
-    "build:client": "npm --prefix \"news\" run-script build",
+    "build:client": "npm --prefix \"client\" run-script build",
     "build": "npm run build:client && npm run build:func",
     "deploy": "npm-run-all --parallel deploy:hosting deploy:functions",
     "deploy:hosting": "firebase deploy --token $FIREBASE_TOKEN --only hosting",
@@ -19,10 +19,10 @@
     "serve:firebase": "npm run build:client && npm run build:func &&  firebase serve",
     "serve": "npm-run-all --parallel serve:client serve:func",
     "serve:func": "npm --prefix \"functions\" run serve",
-    "serve:client": "npm --prefix \"client\" run start",
+    "serve:client": "npm --prefix \"news\" run start",
     "postinstall": "npm-run-all --parallel setup:func setup:client",
     "setup:func": "npm --prefix \"functions\" run setup",
-    "setup:client": "npm --prefix \"client\" run-script setup"
+    "setup:client": "npm --prefix \"news\" run-script setup"
   },
   "repository": {
     "type": "git",

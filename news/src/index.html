@@ -1,16 +1,56 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>News</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#1976d2">
+
+    <meta charset="utf-8">
+    <meta content="#40c4ff" name="theme-color">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <link href="manifest.webmanifest" rel="manifest" />
+    <title>Báo hiếu</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport">
+    <link href="assets/newspaper.png" rel="icon" type="image/x-icon">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="no-referrer-when-downgrade" name="referrer">
+    <meta content="Cập nhật tin tức nóng hổi từ nhiều nguồn báo đáng tin cậy" name="description">
+    <meta content="Báo hiếu" name="site_name">
+    <meta content="article" name="og:type">
+    <meta content="Báo của thời đại" name="og:title">
+    <meta content="Cập nhật tin tức nóng hổi từ nhiều nguồn báo đáng tin cậy" name="og:description">
+    <meta content="assets/newspaper.png" name="og:image">
+    <meta content="360" name="og:image:width">
+    <meta content="360" name="og:image:height">
+    <link rel="apple-touch-icon" href="assets/newspaper.png">
+    <link rel="preconnect" href="https://asia-northeast1-angularhero-3b066.cloudfunctions.net/" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
-<body>
-  <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
+
+<body class="mat-typography">
+    <!--    Ứng dụng đang được bảo trì-->
+    <noscript>
+        Please enable javascript in order to use this application
+    </noscript>
+    <app-news class="h-100 d-block"></app-news>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-132343007-1', 'auto');// add your tracking ID here.
+    </script>
+
+
 </body>
+
 </html>

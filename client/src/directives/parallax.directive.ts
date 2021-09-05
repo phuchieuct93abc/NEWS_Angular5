@@ -11,11 +11,11 @@ export class ParallaxDirective implements OnDestroy {
   @Input()
   public startOffsetParallax = 0;
   @HostBinding('style.transition')
-  public transition: string;
+  public transition: string = null;
   public readonly limitRangeParallax = 200;
   public onDestroy$ = new Subject<void>();
-  private observer: IntersectionObserver;
-  private previousTransition: string;
+  private observer: IntersectionObserver = null;
+  private previousTransition: string = null;
   private isParallaxing = false;
 
 
@@ -77,8 +77,6 @@ export class ParallaxDirective implements OnDestroy {
       }
     }
   }
-
-
 
   private updateAnimation([entry]: IntersectionObserverEntry[]) {
     if (this.isMobile && entry.intersectionRect.x > 10) {

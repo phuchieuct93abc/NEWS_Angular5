@@ -15,7 +15,7 @@ smoothscroll.polyfill();
 if (CONFIG.production) {
   enableProdMode();
   if (window) {
-    window.console.log = () => {
+    window.console.log = () => { 
       //Do nothing
     };
   }

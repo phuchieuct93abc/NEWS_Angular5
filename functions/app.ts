@@ -4,12 +4,12 @@ import {join} from 'path';
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 // Express server
-const app = express();
+const expressApp = express();
 
 const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
-const {ssrApp} = require(`./dist/server/main`);
+const {app} = require(`./dist/server/main`);
 
-ssrApp(app,DIST_FOLDER);
+app();
 
-export default app;
+export default expressApp;

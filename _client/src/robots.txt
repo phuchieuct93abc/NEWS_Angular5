@@ -1,3 +1,0 @@
-Sitemap: https://news.baohieu.tk/sitemap.xml
-User-agent: *
-Allow: /

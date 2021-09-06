@@ -13,7 +13,7 @@ export abstract class ArticleService {
     public async getArticleById(id: string): Promise<Article> {
         const firebaseArticle = await FirebaseService.findArticle(id, this.category);
         if (firebaseArticle?.exists) {
-            return firebaseArticle.data() as Article;
+            return Object.assign(new Article(),firebaseArticle.data());
         }
         return this.crawnArticleById(id);
     }

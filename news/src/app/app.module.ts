@@ -55,7 +55,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import en from '@angular/common/locales/en';
@@ -98,8 +97,7 @@ const isMobileProvider =
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: CONFIG.production,
             registrationStrategy: 'registerWhenStable:30000'
-        }),
-        NgbModule
+        })
     ],
     declarations: [
         AppComponent,

@@ -8,6 +8,7 @@ export default function notifyHandler(notify) {
     notify.get('/notify', (req, response) => {
 
         let articleId = req.query.articleId;
+        console.log(articleId)
         ArticleServiceFactory.get(req.query.category).getArticleById(articleId).then(article => {
 
             notificationService.send(article,req.query.category).then(result => {

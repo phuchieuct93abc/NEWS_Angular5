@@ -15,8 +15,6 @@
     "prerender": "ng run news:prerender",
     "postbuild": "node postbuild.js",
     "postinstall": "ngcc"
-
-
   },
   "private": true,
   "dependencies": {
@@ -41,6 +39,7 @@
     "firebase": "^8.7.0",
     "hammerjs": "^2.0.8",
     "intersection-observer": "^0.12.0",
+    "ismobilejs": "^1.1.1",
     "ng-lazyload-image": "^9.1.0",
     "ng-zorro-antd": "^12.0.1",
     "ngx-clipboard": "^14.0.1",

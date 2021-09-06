@@ -4,7 +4,7 @@ import CategoryHelper from "../../../model/Categories";
 import TinhteArticleService from "./tinhte/TinhteArticleService";
 
 export default class ArticleServiceFactory {
-    public static get(category: string): ArticleService {
+    public static get(category: string): ArticleService<any> {
         if(category==="tinh-te"){
             return new TinhteArticleService();
         }

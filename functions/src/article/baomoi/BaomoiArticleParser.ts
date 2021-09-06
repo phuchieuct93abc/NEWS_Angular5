@@ -1,13 +1,12 @@
-import { ArticleParser } from "../ArticleParser";
 import Article from "../../../../model/Article";
-import Utility from "../../Utility";
-import BaomoiStoryParser from "../../story/baomoi/BaomoiStoryParser";
-import { TextParser } from "./TextParser";
-import { ImageParser } from "./ImageParser";
+import { ArticleParser } from "../ArticleParser";
+import { BaomoiData } from "./BaoMoiArticleTypes";
 import { BodyElementParser } from "./BodyElementParser";
+import { ImageParser } from "./ImageParser";
+import { TextParser } from "./TextParser";
 import { VideoParser } from "./VideoParser";
 
-export default class BaomoiArticleParser extends ArticleParser {
+export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
     constructor() {
         super();
     }
@@ -34,7 +33,7 @@ export default class BaomoiArticleParser extends ArticleParser {
         const header = this.data.title;
         const id = this.data.id.toString();
         let sourceUrl = this.data.url;
-        let images: string[] = this.extractImages();
+        let images = this.extractImages();
         const description = this.data.description;
         
         let likes = this.data.totalLike;

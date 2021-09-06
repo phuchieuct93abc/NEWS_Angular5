@@ -15,7 +15,7 @@ export abstract class StoryService {
     protected constructor(protected url: string,
         protected storyParser: StoryParser,
         protected category: string,
-        protected articleService: ArticleService) {
+        protected articleService: ArticleService<any>) {
     }
 
     public async getStories(): Promise<Story[]> {

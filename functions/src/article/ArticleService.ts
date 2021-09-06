@@ -2,9 +2,9 @@ import Article from "../../../model/Article";
 import { ArticleParser } from "./ArticleParser";
 import FirebaseService from "../FirebaseService";
 
-export abstract class ArticleService {
+export abstract class ArticleService<T> {
     protected category: string
-    protected parser: ArticleParser;
+    protected parser: ArticleParser<T>;
 
      abstract crawnArticleById(id: string): Promise<Article>
 

@@ -2,12 +2,13 @@ import BaomoiArticleParser from "./BaomoiArticleParser";
 import { ArticleService } from "../ArticleService";
 import Article from "../../../../model/Article";
 import { createHmac } from "crypto";
+import { BaomoiData } from "./BaoMoiArticleTypes";
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const axios = require('axios');
 
-export default class BaomoiArticleService extends ArticleService {
+export default class BaomoiArticleService extends ArticleService<BaomoiData> {
 
     readonly baomoiUrl = "https://baomoi.com/api/v1/content/get/detail?id={id}&ctime=1624286388&version=0.1.7&sig={sig}&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw"
     constructor(category: string) {

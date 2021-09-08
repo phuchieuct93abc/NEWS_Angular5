@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { fromEvent, merge, Observable } from 'rxjs';
+import { map, mapTo, tap } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
@@ -14,7 +14,7 @@ import { StoryListService } from './story-list.service';
     styleUrls: ['./story-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StoryListComponent implements OnInit, OnChanges {
+export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
     @ViewChild('scrollingBlock')
     public scrollingBlock: ElementRef<HTMLElement>;
 
@@ -35,6 +35,7 @@ export class StoryListComponent implements OnInit, OnChanges {
     public category: string;
 
     private selectedStory: Story;
+    public scrollPosition$: Observable<number>;
     constructor(
         @Inject(IS_NODE) public isNode: boolean,
         @Inject(IS_MOBILE) private isMobile: boolean,
@@ -42,6 +43,9 @@ export class StoryListComponent implements OnInit, OnChanges {
         protected activatedRoute: ActivatedRoute,
         protected route: Router
     ) { }
+    ngAfterViewInit(): void {
+        this.scrollPosition$ = fromEvent(this.scrollingBlock.nativeElement,'scroll').pipe(map(a=>(a.target as HTMLElement).scrollTop))
+    }
 
     ngOnInit(): void {
         this.registerPrevAndNext();
@@ -108,7 +112,7 @@ export class StoryListComponent implements OnInit, OnChanges {
 
     protected scrollTo(story: Story): void {
         setTimeout(() => {
-            const index = this.stories.findIndex((i) => i.id === story.id);
+            const index = this.stories.findIndex((i) => i.id == story.id);
             const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
             this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop + 100, behavior: 'smooth' });
         });

@@ -17,7 +17,7 @@ if (!function_name || function_name === 'api') {
     function startApp(){
         exports.app = functions.runWith({
             timeoutSeconds: 20,
-            memory: '1GB'
+            memory: '2GB'
         }).https.onRequest(app);
     }
     function startApiSSR(){

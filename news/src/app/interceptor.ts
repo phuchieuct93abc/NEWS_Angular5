@@ -11,12 +11,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class NoopInterceptor implements HttpInterceptor {
     constructor(private snackBar: MatSnackBar) { }
 
-    public intercept(req: HttpRequest<unknown>, next: HttpHandler):
-        Observable<HttpEvent<unknown>> {
-
+    public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+        console.time(`${req.url}?${req.params.toString()}`);
         return next.handle(req).pipe(tap((data) => {
             if (data instanceof HttpResponse) {
-                console.timeLog(`${req.url}?${req.params.toString()}`);
+                console.timeEnd(`${req.url}?${req.params.toString()}`); 
             }
         }),
             catchError((error: HttpErrorResponse) => {

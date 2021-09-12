@@ -1,6 +1,6 @@
 const CONFIG = {
     baseUrl: '/api/',
-    baseUrlStory: '/api/',
+    asiaUrl: '/api/',
     production: false
 };
 

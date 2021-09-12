@@ -1,6 +1,6 @@
 const CONFIG = {
-    baseUrl: '/api/',
-    asiaUrl: 'https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/api/',
+    baseUrl: 'https://news.phuchieu.cf/api/',
+    asiaUrl: 'https://news.phuchieu.cf/api/',
     production: true
 
 };

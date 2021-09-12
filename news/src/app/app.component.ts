@@ -111,7 +111,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public getBlurImageUrl(url: string): string {
         if (url !== undefined) {
-            return `${CONFIG.baseUrl}blur?url=${url}`;
+            return `${CONFIG.asiaUrl}blur?url=${url}`;
         }
         return '';
     }

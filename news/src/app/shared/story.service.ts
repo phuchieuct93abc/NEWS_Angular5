@@ -11,8 +11,8 @@ import { FavoriteService } from './favorite-story.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
 
-const storyUrl = CONFIG.baseUrl + `story`;
-const searchUrl = CONFIG.baseUrl + `search`;
+const storyUrl = CONFIG.baseUrlStory + `story`;
+const searchUrl = CONFIG.baseUrlStory + `search`;
 const readId = 'read';
 
 @Injectable({

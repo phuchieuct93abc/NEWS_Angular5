@@ -10,7 +10,7 @@
     ],
     "rewrites": [
       {
-        "source": "/apissr/**",
+        "source": "/api/*",
         "function": "apissr"
       },
       {

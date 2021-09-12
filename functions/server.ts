@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import api from "./api";
+import router from "./api";
 import app from "./app";
 
 
@@ -25,14 +25,14 @@ if (!function_name || function_name === 'api') {
         exports.apissr = functions.runWith({
             timeoutSeconds: 10,
             memory: '1GB'
-        }).https.onRequest(api);
+        }).https.onRequest(router);
     }
 
     function startApi(){
         exports.api = functions.runWith({
             timeoutSeconds: 10,
             memory: '1GB'
-        }).region("asia-northeast1").https.onRequest(api);
+        }).region("asia-northeast1").https.onRequest(router);
     }
 
 

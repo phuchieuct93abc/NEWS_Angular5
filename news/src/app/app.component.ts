@@ -15,6 +15,7 @@ import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
 import { HttpClient } from '@angular/common/http';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 @Component({
     selector: 'app-news',
@@ -67,6 +68,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private loadingService: LoadingService,
         private checkForUpdateService: CheckForUpdateService,
         private httpClient: HttpClient,
+        private gtmService: GoogleTagManagerService,
+
     ) {
     }
     public ngOnDestroy(): void {
@@ -99,6 +102,14 @@ export class AppComponent implements OnInit, OnDestroy {
             map(data => data.type === LoadingEventType.START),
             debounceTime(100)
         )
+
+        this.loadGoogleAnalytics();
+    }
+    loadGoogleAnalytics(): void {
+        if (this.isNode) {
+            return;
+        }
+
     }
     public swipeRight(ev) {
         if (this.isSmallDevice) {
@@ -141,13 +152,14 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.isNode) {
             return;
         }
-        this.router.events.subscribe((event) => {
-            if (typeof window !== 'undefined') {
-                if (event instanceof NavigationEnd) {
-                    (window as any).ga('set', 'page', event.urlAfterRedirects);
-                    (window as any).ga('send', 'pageview');
-                }
-            }
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            map(event => event as NavigationEnd)).subscribe((event) => {
+            const gtmTag = {
+                event: 'page',
+                pageName: event.url
+            };
+            this.gtmService.pushTag(gtmTag);
         });
     }
 

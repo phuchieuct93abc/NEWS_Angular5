@@ -33,6 +33,7 @@
     "@angular/service-worker": "~12.2.0",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@nguniversal/express-engine": "^12.1.0",
+    "angular-google-tag-manager": "^1.4.2",
     "bootstrap": "^4.5.0",
     "dayjs": "^1.10.6",
     "express": "^4.15.2",

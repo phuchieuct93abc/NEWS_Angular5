@@ -144,7 +144,9 @@ const isMobileProvider =
         isMobileProvider,
         Title,
         Meta,
-        { provide: NZ_I18N, useValue: en_US }
+        { provide: NZ_I18N, useValue: en_US },
+        {provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G'}
+
 
     ],
     entryComponents: [

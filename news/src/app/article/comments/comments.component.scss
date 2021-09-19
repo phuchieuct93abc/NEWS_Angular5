@@ -1,9 +1,0 @@
-.small-screen {
-  ::ng-deep .mat-expansion-panel-header, ::ng-deep .mat-expansion-panel-body {
-    padding: 0 0.5em;
-    position: relative;
-  }
-}
-::ng-deep.mat-expansion-panel-content{
-  font-size: inherit;
-}

@@ -1,5 +1,5 @@
-import { filter, map, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
@@ -14,6 +14,7 @@ import { AppService } from './app.service';
 import { LoadingEventType, LoadingService } from './shared/loading.service';
 import vars from './variable';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-news',
@@ -64,7 +65,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private renderer: Renderer2,
         private appService: AppService,
         private loadingService: LoadingService,
-        private checkForUpdateService: CheckForUpdateService
+        private checkForUpdateService: CheckForUpdateService,
+        private httpClient: HttpClient,
     ) {
     }
     public ngOnDestroy(): void {
@@ -87,7 +89,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.track();
 
         if(!this.isNode && !this.isSmallDevice ){
-            this.thumbnail$ = this.articleService.onStorySelected.pipe(filter(article => article !=null),map(article => this.getBlurImageUrl(article.getThumbnail())));
+            this.thumbnail$ = this.articleService.onStorySelected.pipe(
+                filter(article => article != null),
+                switchMap(article => this.getBlurImageUrl(article.getThumbnail())),
+                shareReplay()
+            );
         }
 
     }
@@ -109,11 +115,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    public getBlurImageUrl(url: string): string {
+    public getBlurImageUrl(url: string): Observable<string> {
         if (url !== undefined) {
-            return `${CONFIG.asiaUrl}blur?url=${url}`;
+            return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`,{ responseType: 'blob' }).pipe(
+                map(blob => URL.createObjectURL(blob))
+            )
         }
-        return '';
+        return of();
     }
 
     public updateBodyClass(darkTheme: boolean) {

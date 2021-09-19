@@ -24,48 +24,39 @@ router.use(compression());
 router.use(cors());
 
 
-router.get('/story', (req, res) => {
-    StoryServiceFactory.get(req).getStories().then(stories => res.send(stories))
+router.get('/story', async (req, res) => {
+    const story = await StoryServiceFactory.get(req).getStories();
+    res.send(story)
 });
 
 
-router.get('/article', (req, res) => {
-    const { category, url } = req.query
-
-    ArticleServiceFactory.get(category as string).getArticleById(url as string).then(article => res.send(article))
+router.get('/article', async (req, res) => {
+    const { category, url } = req.query;
+    const article = await ArticleServiceFactory.get(category as string).getArticleById(url as string);
+    res.send(article)
 });
-router.get('/comments', (req, res) => {
-    const { category, id } = req.query
-
-    ArticleServiceFactory.get(category as string).getComment(id as string).then(article => res.send(article))
-});
-router.get('/cachestory', (req, res) => {
-
-    StoryServiceFactory.get(req).cache().then((result) => {
-        res.send({ articles: result, number: result.length });
-
-    })
+router.get('/cachestory', async (req, res) => {
+    const result = await StoryServiceFactory.get(req).cache();
+    res.send({ articles: result, number: result.length });
 });
 
-router.get('/search', (req, res) => {
+router.get('/search', async (req, res) => {
 
-    StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string).then((value) => {
-        res.send(value);
-
-    })
+    const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
+    res.send(value);
 });
 
 router.get('/blur', (req, res) => {
-    request({ url: req.query.url, encoding: null }, function (err2, res2, bodyBuffer) {
+    request({ url: req.query.url, encoding: null }, async (err2, res2, bodyBuffer) => {
 
         try {
-            sharp(bodyBuffer).blur(5).composite([
+            const output = await sharp(bodyBuffer).blur(5).composite([
                 { input: Buffer.from([0, 0, 0, 128]), tile: true, raw: { width: 1, height: 1, channels: 4 } }
-            ]).jpeg().toBuffer().then(output => {
-                res.set('Content-Type', 'image/jpeg');
-                res.set('Cache-Control', 'public, max-age=31557600')
-                res.send(output)
-            })
+            ]).jpeg().toBuffer();
+            res.set('Content-Type', 'image/jpeg');
+            res.set('Cache-Control', 'public, max-age=31557600')
+            res.send(output)
+
         } catch (e) {
             console.error(e)
             res.send(null);
@@ -75,24 +66,6 @@ router.get('/blur', (req, res) => {
 
 
 });
-
-
-router.get('/icon_publishers/*', proxy('http://s.baomoi.xdn.vn/', {
-    userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-        // recieves an Object of headers, returns an Object of headers.
-        headers['Cache-Control'] = 'public, max-age=31557600';
-        return headers;
-    }
-}));
-
-
-
-// regular function
-router.use(express.json());       // to support JSON-encoded bodies
-router.use(express.urlencoded());
-
-
-notifyHandler(router);
 
 router.get('/tts', async (req, res) => {
     const { category, id } = req.query
@@ -105,6 +78,14 @@ router.get('/tts', async (req, res) => {
     res.end(Buffer.from(autio as any, 'binary'));
 
 });
+
+// regular function
+router.use(express.json());       // to support JSON-encoded bodies
+router.use(express.urlencoded());
+
+
+notifyHandler(router);
+
 app.use('/api', router);
 app.listen(3001, () => {
     console.log(`Node Express server listening on http://localhost:${3001}`);

@@ -1,5 +1,5 @@
-import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, Observable, of, Subject } from 'rxjs';
 import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
@@ -44,7 +44,7 @@ import { HttpClient } from '@angular/common/http';
         ])
     ]
 })
-export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatSidenav)
     private sidebar: MatSidenav;
@@ -83,19 +83,22 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
         this.isSmallDevice = this.isMobile;
-        this.isOpenSidebar = !this.isSmallDevice ;
+        this.isOpenSidebar = !this.isSmallDevice;
 
         this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
         this.track();
 
-        if(!this.isNode && !this.isSmallDevice ){
+        if (!this.isNode && !this.isSmallDevice) {
             this.thumbnail$ = this.articleService.onStorySelected.pipe(
                 filter(article => article != null),
                 switchMap(article => this.getBlurImageUrl(article.getThumbnail())),
                 shareReplay()
             );
         }
-
+        this.isShowProgressBar$ = this.loadingService.onLoading.pipe(
+            map(data => data.type === LoadingEventType.START),
+            debounceTime(100)
+        )
     }
     public swipeRight(ev) {
         if (this.isSmallDevice) {
@@ -109,15 +112,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    public ngAfterViewInit(): void {
-        this.isShowProgressBar$ = this.loadingService.onLoading.pipe(map(data=>data.type === LoadingEventType.START));
-
-    }
-
-
     public getBlurImageUrl(url: string): Observable<string> {
         if (url !== undefined) {
-            return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`,{ responseType: 'blob' }).pipe(
+            return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`, { responseType: 'blob' }).pipe(
                 map(blob => URL.createObjectURL(blob))
             )
         }
@@ -133,7 +130,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.renderer.addClass(this.document.body, className);
         if (this.isSmallDevice) {
             this.renderer.addClass(this.document.body, 'mobile-device');
-        }else{
+        } else {
             this.renderer.addClass(this.document.body, 'desktop-device');
 
         }
@@ -141,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     private track(): void {
-        if(this.isNode){
+        if (this.isNode) {
             return;
         }
         this.router.events.subscribe((event) => {

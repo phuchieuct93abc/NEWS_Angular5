@@ -32,9 +32,9 @@ const SWIPE_RIGHT = 'swipeRight';
         ]),
         trigger('showArticle', [
             transition('void=>true', [
-                style({ height: '0px' }),
+                style({ height: '130px' }),
 
-                animate('0.1s', style({ height: '*' }))
+                animate('0.3s', style({ height: '*' }))
             ]),
             transition('true=>false', [
                 style({ height: '*' }),

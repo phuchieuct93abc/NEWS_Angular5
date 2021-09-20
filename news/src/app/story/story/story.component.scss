@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 $card-height: 9em;
 
@@ -8,13 +8,36 @@ $card-height: 9em;
   height: $card-height;
   overflow: hidden;
 
+  .card-content {
+    display: grid;
+    grid-template: 1fr 40px / 150px 1fr;
+    grid-template-areas: "thumbnail title" "thumbnail metadata";
+    height: 100%;
+    gap: 10px;
 
-  .image {
-    width: 150px;
-    max-width: 50%;
-    border-radius: 4px;
+    .image-viewer {
+      grid-area: thumbnail;
+    }
+    .title {
+      grid-area: title;
+      padding-top: 10px;
+
+      font-size: 1.1rem;
+      overflow: hidden;
+      line-height: 1.3em !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: max-content;
+    }
+    .metadata {
+      grid-area: metadata;
+    }
   }
-  &.desktop-story{
+
+  &.desktop-story {
     &:hover ::ng-deep .image-viewer img.image {
       transform: scale(1.1);
     }
@@ -23,18 +46,14 @@ $card-height: 9em;
     opacity: 0.7;
   }
 
-
   .last-child {
     margin-bottom: 0;
   }
 
-
   .title {
     transition: var(--text-transition);
     font-size: 1.1rem;
-    max-height: 4em;
     overflow: hidden;
-
   }
 
   &.active {
@@ -49,19 +68,13 @@ $card-height: 9em;
     .title {
       color: var(--hightlight-color) !important;
     }
-
   }
-
 
   &.active {
     background-color: #e5e5e5;
   }
 
-
   .title {
-
     line-height: 1.3em !important;
   }
-
-
 }

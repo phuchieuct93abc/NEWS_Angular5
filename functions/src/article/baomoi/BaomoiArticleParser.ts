@@ -37,7 +37,7 @@ export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
         const description = this.data.description;
         
         let likes = this.data.totalLike;
-        let time = this.data.publishedDate
+        let time = this.data.publishedDate * 1000
         
         let sourceName = this.data.publisher.name;
         let sourceIconUrl = this.data.publisher.logo;

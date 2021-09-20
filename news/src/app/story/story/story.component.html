@@ -1,25 +1,14 @@
-
 <ng-container *ngIf="{thumbnail:story.getThumbnail()} as data">
-    
-    <mat-card (click)="onSelectStory()"
-          class="px-0 py-0 desktop-story"
-          [class.active]="isActive$ | async"
-          [class.read]="isRead"
-          [ngClass]="[isRead?'is-read':'not-read']"
-          matRipple
->
-    <mat-card-content class="h-100 d-flex flex-direction-row">
-        <div class="image">
 
-            <app-image-viewer *ngIf="data.thumbnail" class="image-viewer"
-                              [imagePath]="data.thumbnail" [hasVideo]="story.hasVideo"
-                              ></app-image-viewer>
-        </div>
-        <div class="h-100 col d-flex flex-column justify-content-between pt-2">
+    <mat-card (click)="onSelectStory()" class="px-0 py-0 desktop-story" [class.active]="isActive$ | async"
+        [class.read]="isRead" [ngClass]="[isRead?'is-read':'not-read']" matRipple>
+        <mat-card-content class="card-content">           
+            <app-image-viewer *ngIf="data.thumbnail" class="image-viewer" [imagePath]="data.thumbnail"
+            [hasVideo]="story.hasVideo"></app-image-viewer>
+
             <div class="mt-sm-0 mt-1 mat-title mb-0 title">{{story.title}}</div>
-            <app-story-meta [story]="story"></app-story-meta>
-        </div>
-    </mat-card-content>
-</mat-card>
+            <app-story-meta class="metadata" [story]="story"></app-story-meta>
+        </mat-card-content>
+    </mat-card>
 
 </ng-container>

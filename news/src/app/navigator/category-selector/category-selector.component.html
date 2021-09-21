@@ -18,7 +18,7 @@
         <div class="row">
             <button mat-menu-item (click)="$event.stopPropagation()" *ngIf="isMobile"
                     class="col-12">
-                <mat-slide-toggle labelPosition="before" class=" h-100" [(ngModel)]="isSmallImage"
+                <mat-slide-toggle labelPosition="before" class=" h-full" [(ngModel)]="isSmallImage"
                                   (change)="toogleDisplay()">
                     Chế độ ảnh nhỏ
                 </mat-slide-toggle>
@@ -27,7 +27,7 @@
 
             <!--Theme-->
             <button mat-menu-item (click)="$event.stopPropagation()" class="col-12">
-                <mat-slide-toggle labelPosition="before" class=" h-100" [(ngModel)]="isDarkMode"
+                <mat-slide-toggle labelPosition="before" class=" h-full" [(ngModel)]="isDarkMode"
                                   (change)="toggleDarkMode()">
                     Chế độ ban đêm
                 </mat-slide-toggle>
@@ -54,7 +54,7 @@
 
                     <div *ngFor="let category of vietnameseCategories " class="col-6">
 
-                        <app-category [category]="category" class="pt-2 d-block"></app-category>
+                        <app-category [category]="category" class="pt-2 block"></app-category>
 
                     </div>
                 </div>
@@ -69,7 +69,7 @@
 
                     <div *ngFor="let category of englishCategories " class="col-6">
 
-                        <app-category [category]="category" class="pt-2 d-block"></app-category>
+                        <app-category [category]="category" class="pt-2 block"></app-category>
 
                     </div>
                 </div>

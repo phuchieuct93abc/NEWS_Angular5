@@ -1,6 +1,6 @@
 <ng-container *ngIf="{thumbnail:story.getThumbnail()} as data">
 
-    <mat-card (click)="onSelectStory()" class="px-0 py-0 desktop-story" [class.active]="isActive$ | async"
+    <mat-card (click)="onSelectStory()" class="p-0 desktop-story" [class.active]="isActive$ | async"
         [class.read]="isRead" [ngClass]="[isRead?'is-read':'not-read']" matRipple>
         <mat-card-content class="card-content">           
             <app-image-viewer *ngIf="data.thumbnail" class="image-viewer" [imagePath]="data.thumbnail"

@@ -34,7 +34,7 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@nguniversal/express-engine": "^12.1.0",
     "angular-google-tag-manager": "^1.4.2",
-    "bootstrap": "^4.5.0",
+    "autoprefixer": "^10.3.4",
     "dayjs": "^1.10.6",
     "express": "^4.15.2",
     "firebase": "^8.7.0",
@@ -44,7 +44,7 @@
     "ng-lazyload-image": "^9.1.0",
     "ng-zorro-antd": "^12.0.1",
     "ngx-clipboard": "^14.0.1",
-    "normalize.css": "^8.0.1",
+    "postcss": "^8.3.6",
     "rxjs": "~6.6.0",
     "smoothscroll-polyfill": "^0.4.4",
     "speakingurl": "^14.0.1",
@@ -68,6 +68,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "tailwindcss": "^2.2.15",
     "typescript": "~4.3.5"
   }
 }

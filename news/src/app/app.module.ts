@@ -53,8 +53,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
 import en from '@angular/common/locales/en';
 
 registerLocaleData(en);
@@ -144,7 +142,6 @@ const isMobileProvider =
         isMobileProvider,
         Title,
         Meta,
-        { provide: NZ_I18N, useValue: en_US },
         {provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G'}
 
 

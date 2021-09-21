@@ -97,36 +97,6 @@ export class StoryService {
 
     }
 
-    public search(keyword: string): Observable<Story[]> {
-        if (this.isNode) {
-            return of();
-        }
-        this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.SEARCHING });
-        return this.httpClient.get<Story[]>(searchUrl, {
-            params: {
-                pageNumber: this.currentStoryPage + '',
-                keyword
-            }
-        }).pipe(
-            retry(3),
-            map(
-                (result) => {
-                    this.loadingService.onLoading.next({
-                        type: LoadingEventType.FINISH,
-                        name: LoadingEventName.SEARCHING
-                    });
-
-                    result = result.map((r) => (Object.assign(new Story(), r)));
-                    this.checkReadStory(result);
-                    result = this.filterStory(result);
-                    this.appendStoryList(result);
-                    this.currentStoryPage++;
-                    return result;
-                }
-            ));
-    }
-
-
     public saveReadStory(story: Story): void {
         const item = this.storage.getItem(readId, []) as Story[];
         item.push(story);

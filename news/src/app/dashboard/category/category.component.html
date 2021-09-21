@@ -1,13 +1,13 @@
 <div class="mat-h1">
     <a [routerLink]="category.name">{{category.title}}</a>
 </div>
-<div class="container-fluid" *ngIf="stories.length; else loading" @opacityNgIf>
+<div *ngIf="stories.length; else loading" @opacityNgIf>
 
 
-    <div class="h-full flex flex-wrap row categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded?'expand':'collapse'">
+    <div class="gap-4 flex flex-wrap categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded?'expand':'collapse'">
         <app-story [category]="category.name"
                    *ngFor="let story of stories| slice:0:maximumStories;"
-                   [story]="story" class=" pb-4 w-1/2"></app-story>
+                   [story]="story" class="flex-auto w-full lg:w-5/12 "></app-story>
         <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
 
     </div>

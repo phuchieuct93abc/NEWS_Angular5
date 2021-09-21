@@ -1,6 +1,6 @@
 const CONFIG = {
-    baseUrl: '/api/',
-    asiaUrl: '/api/',
+    baseUrl: 'https://news.phuchieu.cf/api/',
+    asiaUrl: 'https://news.phuchieu.cf/api/',
     production: false
 };
 

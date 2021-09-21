@@ -38,7 +38,6 @@
               "src/sitemap.xml"
             ],
             "styles": [
-              "./node_modules/normalize.css/normalize.css",
               "./src/style/styles.scss"
             ],
             "scripts": [],

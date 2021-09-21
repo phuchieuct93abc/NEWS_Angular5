@@ -79,7 +79,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       } else {
           this.updateStoryList();
       }
-      this.registerOnSearch();
       this.registerConfigChange();
       this.registerSpinner();
   }
@@ -199,23 +198,9 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
 
-  private registerOnSearch() {
-      this.storyService.onSearch.subscribe((keyword) => {
-          if (keyword) {
-              this.resetStoryList();
-              this.storyService.search(keyword).subscribe((values) => this.pushStory(...values));
-          } else {
-              this.updateStoryList();
-          }
-          this.searchKeyword = keyword;
-
-      });
-  }
-
-
   private getLoadMoreObservable(): Observable<Story[]> {
       const category = this.route!.firstChild!.snapshot.paramMap.get('category');
-      return this.searchKeyword ? this.storyService.search(this.searchKeyword) : this.storyService.getStories(category!);
+      return this.storyService.getStories(category!); 
   }
 
   pushStory(...story: Story[]): void{

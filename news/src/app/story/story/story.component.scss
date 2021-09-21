@@ -17,6 +17,7 @@ $card-height: 9em;
 
     .image-viewer {
       grid-area: thumbnail;
+      border-radius: 4px;
     }
     .title {
       grid-area: title;

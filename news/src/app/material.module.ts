@@ -30,7 +30,8 @@ const modules = [
     MatRippleModule,
     MatButtonModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule
 ];
 
 @NgModule({

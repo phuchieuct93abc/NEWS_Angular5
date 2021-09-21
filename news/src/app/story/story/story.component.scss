@@ -1,16 +1,15 @@
 @import "~@angular/material/theming";
 
-$card-height: 9em;
+$card-height: 120px;
 
 .mat-card {
   cursor: pointer;
-  padding: 1em;
   height: $card-height;
   overflow: hidden;
 
   .card-content {
     display: grid;
-    grid-template: 1fr 40px / 150px 1fr;
+    grid-template: 1fr 40px / #{$card-height} 1fr;
     grid-template-areas: "thumbnail title" "thumbnail metadata";
     height: 100%;
     gap: 10px;

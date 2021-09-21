@@ -22,14 +22,14 @@ const categories: Categories[] = [
                 title: 'Tin nóng',
                 url: '',
                 icon: 'whatshot',
-                color: 'blue',
+                color: '#007bff',
                 id:0
             },
             {
                 name: 'xa-hoi',
                 title: 'Xã hội',
                 icon: 'people',
-                color: 'orange',
+                color: '#fd7e14',
                 id:121
 
 
@@ -39,7 +39,7 @@ const categories: Categories[] = [
                 name: 'the-thao',
                 title: 'Thể thao',
                 icon: 'directions_bike',
-                color: 'red',
+                color: '#dc3545',
                 id: 55
 
             },
@@ -47,7 +47,7 @@ const categories: Categories[] = [
                 name: 'giai-tri',
                 title: 'Giải trí',
                 icon: 'music_video',
-                color: 'indigo',
+                color: '#6610f2',
                 id: 52
 
             },
@@ -55,7 +55,7 @@ const categories: Categories[] = [
                 name: 'khoa-hoc-cong-nghe',
                 title: 'Công nghệ',
                 icon: 'phone_iphone',
-                color: 'green',
+                color: '#8a745;',
                 id: 53
 
             },
@@ -63,14 +63,14 @@ const categories: Categories[] = [
                 name: 'khoa-hoc',
                 title: 'Khoa học',
                 icon: 'science',
-                color: 'orange'
+                color: '#20c997'
 
             },
             {
                 name: 'tinh-te',
                 title: 'Tinh tế',
                 image: 'https://tinhte.vn/favicon.ico',
-                color: 'green',
+                color: '#20c997',
                 id: 79
 
             },
@@ -79,14 +79,14 @@ const categories: Categories[] = [
                 name: 'tin-video',
                 title: 'Video',
                 icon: 'videocam',
-                color: 'cyan'
+                color: '#007bff'
 
             },
             {
                 name: 'yeu-thich',
                 title: 'Yêu thích',
                 icon: 'favorite',
-                color: 'red'
+                color: '#dc3545'
 
             }
         ]

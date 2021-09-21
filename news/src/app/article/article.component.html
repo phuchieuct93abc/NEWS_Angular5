@@ -1,12 +1,12 @@
 <div appNavigationKeyboard (up)="up()" (down)="down()" (left)="prevArticle()" (right)="nextArticle()"
-    class=" h-100 article  position-relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
+    class=" h-full article  relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
     <div class="navigator navigator-prev">
         <a (click)="prevArticle()" mat-icon-button>
             <mat-icon>chevron_left</mat-icon>
         </a>
     </div>
     <div class="scrollable " #articleView>
-        <div *ngFor="let id of [articleId]" style="position: relative" class="h-100 panel-primary">
+        <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
         
 
             <div *ngIf="article; else loading" class="article-content px-2  pb-5  panel-primary">
@@ -20,7 +20,7 @@
                 <div class="source text-right mb-3">
                     <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
                         <span>Nguồn: &nbsp;</span>
-                        <img class="d-inline-block ml-2 source-icon"
+                        <img class="inline-block ml-2 source-icon"
                         [alt]="article.sourceName" 
                         height="20"
                         [src]="article.sourceIcon"            

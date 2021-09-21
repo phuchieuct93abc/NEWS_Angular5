@@ -1,7 +1,7 @@
 <div *ngIf="isShowProgressBar$ | async">
     <mat-progress-bar @opacityNgIfNoDelay mode="indeterminate"></mat-progress-bar>
 </div>
-<div [@.disabled]="isNode" [class.no-transition]="isNode" class=" app   mat-app-background app d-flex align-items-center">
+<div [@.disabled]="isNode" [class.no-transition]="isNode" class=" app   mat-app-background app flex items-center">
 
     <ng-container *ngIf="thumbnail$ | async as data">
 
@@ -14,11 +14,11 @@
     </ng-container>
 
     <div class="main-content" >
-        <mat-sidenav-container class="h-100">
+        <mat-sidenav-container class="h-full">
 
             <mat-sidenav *appShellNoRender="isSmallDevice" [(opened)]="isOpenSidebar" [mode]="isSmallDevice?'push':'side'"
                 [fixedInViewport]="isSmallDevice">
-                <app-sidebar class="d-block"></app-sidebar>
+                <app-sidebar class="block"></app-sidebar>
 
 
             </mat-sidenav>

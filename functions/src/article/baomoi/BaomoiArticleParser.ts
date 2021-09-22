@@ -13,7 +13,7 @@ export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
 
     private convertHtmlBody(): string {
         
-        return (this.data.bodys as any[]).map(body =>{
+        return (this.data.bodys as any[])?.map(body =>{
             if(body.type === 'text'){
                 return new TextParser(body);
             }

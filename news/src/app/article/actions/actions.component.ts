@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { DeferService } from 'src/app/shared/defer.service';
@@ -25,7 +25,7 @@ import { IS_NODE } from './../../shared/const';
 
     ]
 })
-export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
+export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
 
 
     @Input()
@@ -52,6 +52,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
         private crd: ChangeDetectorRef, private deferService: DeferService
     ) {
     }
+  
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.article.currentValue != null) {
             const { id, category } = changes.article.currentValue as Article;
@@ -68,43 +69,29 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnInit(): void {
         this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
+    }
 
-        if (this.isMobile && !this.isNode) {
-            this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+    ngAfterViewInit(): void {
+        this.registerStickyActions();
+    }
 
-                if (data[0].target === this.actionsElement.nativeElement) {
-
-                    this.ngZone.run(() => {
-                        this.isDisplayingAction = data[0].isIntersecting;
-                        this.checkPosition();
-                    });
-
-                }
-            }, {
-                rootMargin: '-80px 0px 0px 0px',
-                threshold: [0]
-            });
-            this.observerWrapper = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
-                if (data[0].target === this.wrapperElement) {
-
-                    this.ngZone.run(() => {
-                        this.isDisplayingArticle = data[0].isIntersecting;
-                        this.checkPosition();
-                    });
-                }
-            }, {
-                rootMargin: '0px 0px 0px 0px',
-                threshold: [0]
-            });
-            this.deferService.defer(() => {
-                this.observerWindow.observe(this.actionsElement.nativeElement);
-                this.observerWrapper.observe(this.wrapperElement);
-            }, 2000);
-
-
+    private registerStickyActions() {
+        if(!this.isMobile || this.isNode){
+            return;
         }
+        this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
+            if (data[0].target === this.actionsElement.nativeElement) {
+                this.ngZone.run(() => {
+                    this.isDisplayingAction = data[0].isIntersecting;
+                    this.checkPosition();
+                });
 
-
+            }
+        }, {
+            rootMargin: '-80px 0px 0px 0px',
+            threshold: [0]
+        });
+        this.observerWindow.observe(this.actionsElement.nativeElement);
     }
 
     checkPosition(): void {

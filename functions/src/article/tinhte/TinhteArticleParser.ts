@@ -1,6 +1,7 @@
 import {ArticleParser} from "../ArticleParser";
 import Article from "../../../../model/Article";
 import { TinhteData } from "./TInhTeArticleType";
+import { VideoParser } from "../baomoi/VideoParser";
 
 export default class TinhteArticleParser extends ArticleParser<TinhteData> {
 
@@ -25,34 +26,30 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
 
     addAttachToBody() {
         let body = this.data.first_post.post_body_html;
-        let attachImage = this.data.first_post.attachments; 
-        //TOTO attachment as video:
-        // {
-        //     attachment_id: 5179699,
-        //     attachment_download_count: 0,
-        //     filename: 'video.mp4',
-        //     links: {
-        //       permalink: 'https://photo2.tinhte.vn/data/attachment-files/2021/09/5649702_video.mp4',
-        //       data: 'https://photo2.tinhte.vn/data/attachment-files/2021/09/5649702_video.mp4',
-        //       thumbnail: 'https://9932704de5fc5c8.cmccloud.com.vn/videos/2021/09/5649702/gif/5649702_4d8c874d4f7f3c91ba008ca8257ce5ba.gif',
-        //       video_url: 'https://9932704de5fc5c8.cmccloud.com.vn/videos/2021/09/5649702/540p/b9331e307f3c48bf8db9cd52c3ebaea3.mp4',
-        //       post: 'https://tinhte.vn/appforo/index.php?posts/61001488/'
-        //     },
-        //     attachment_is_video: true,
-        //     attachment_video_is_processing: false,
-        //     video_ratio: 0.56,
-        //     post_id: 61001488,
-        //     permissions: { view: true, delete: false },
-        //     attachment_is_inserted: false
-        //   }
-        if (attachImage?.length > 0) {
-            let thumbnail = attachImage[0].links.data;
-            if(body.indexOf(thumbnail)===-1){
-                body = `<img class="thumbnail-inner" src='${thumbnail}'/> ${body} `
+        let attachments = this.data.first_post.attachments; 
+        if(attachments?.length === 0){
+            return body;
 
+        }
+        const firstAttachments = attachments[0];
+        if(firstAttachments.attachment_is_video){
+            
+            const videoHtml = new VideoParser({
+                content:firstAttachments.links.data,
+                originUrl: firstAttachments.links.data,
+                height: 320*firstAttachments.video_ratio,
+                width:320,
+                poster: firstAttachments.links.thumbnail,
+                type: 'video'
+
+            }).parser();
+            return `${videoHtml} ${body} `
+        }else{
+            let attachment = attachments[0].links.data;
+            if(body.indexOf(attachment)===-1){
+                return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
             }
         }
-        return body;
 
     }
 

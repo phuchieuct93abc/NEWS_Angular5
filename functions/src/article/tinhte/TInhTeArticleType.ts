@@ -79,6 +79,9 @@ export interface Attachment {
     post_id:                   number;
     permissions:               AttachmentPermissions;
     attachment_is_inserted:    boolean;
+    video_ratio?:               number;
+    
+
 }
 
 export interface AttachmentLinks {

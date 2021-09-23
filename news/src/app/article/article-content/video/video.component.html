@@ -1,5 +1,5 @@
 <div class="video-component" #videoComponent>
-    <a class="cover" (click)="play()" *ngIf="!isPlaying"
+    <a class="cover bg-no-repeat bg-center" (click)="play()" *ngIf="!isPlaying"
        [style.background-image]="'url(' +  poster + ')'">
         <mat-icon color="primary">play_circle_filled</mat-icon>
     </a>

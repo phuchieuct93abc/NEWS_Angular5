@@ -1,6 +1,6 @@
 import {ArticleParser} from "../ArticleParser";
 import Article from "../../../../model/Article";
-import { TinhteData } from "./TInhTeArticleType";
+import { Attachment, TinhteData } from "./TInhTeArticleType";
 import { VideoParser } from "../baomoi/VideoParser";
 
 export default class TinhteArticleParser extends ArticleParser<TinhteData> {
@@ -32,25 +32,28 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
 
         }
         const firstAttachments = attachments[0];
-        if(firstAttachments.attachment_is_video){
-            
-            const videoHtml = new VideoParser({
-                content:firstAttachments.links.data,
-                originUrl: firstAttachments.links.data,
-                height: 320*firstAttachments.video_ratio,
-                width:320,
-                poster: firstAttachments.links.thumbnail,
-                type: 'video'
-
-            }).parser();
-            return `${videoHtml} ${body} `
+        if(firstAttachments.attachment_is_video){            
+            return this.addVideoAttachment(firstAttachments, body);
         }else{
             let attachment = attachments[0].links.data;
             if(body.indexOf(attachment)===-1){
                 return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
             }
         }
+        return body;
 
     }
 
+
+    private addVideoAttachment(firstAttachments: Attachment, body: string) {
+        const videoHtml = new VideoParser({
+            content: firstAttachments.links.data,
+            originUrl: firstAttachments.links.data,
+            height: 320 * firstAttachments.video_ratio,
+            width: 320,
+            poster: firstAttachments.links.thumbnail,
+            type: 'video'
+        }).parser();
+        return `${videoHtml} ${body} `;
+    }
 }

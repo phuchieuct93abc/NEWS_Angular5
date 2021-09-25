@@ -32,7 +32,7 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
             if(firstAttachments.attachment_is_video){            
                 return this.addVideoAttachment(firstAttachments, body);
             }else{
-                let attachment = attachments[0].links.data;
+                let attachment = firstAttachments.links.data;
                 if(body.indexOf(attachment)===-1){
                     return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
                 }

@@ -27,19 +27,18 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
     addAttachToBody() {
         let body = this.data.first_post.post_body_html;
         let attachments = this.data.first_post.attachments; 
-        if(attachments?.length === 0){
-            return body;
-
-        }
-        const firstAttachments = attachments[0];
-        if(firstAttachments.attachment_is_video){            
-            return this.addVideoAttachment(firstAttachments, body);
-        }else{
-            let attachment = attachments[0].links.data;
-            if(body.indexOf(attachment)===-1){
-                return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
+        if(attachments?.length > 0){
+            const firstAttachments = attachments[0];
+            if(firstAttachments.attachment_is_video){            
+                return this.addVideoAttachment(firstAttachments, body);
+            }else{
+                let attachment = attachments[0].links.data;
+                if(body.indexOf(attachment)===-1){
+                    return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
+                }
             }
         }
+       
         return body;
 
     }

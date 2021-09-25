@@ -68,7 +68,7 @@
     }
     &.large-image,&.active,&.selected-before {
       .card-content {
-        grid-template-columns: 1fr;
+        grid-template:1fr / 1fr;
         grid-template-areas: "image"
           "title"
           "meta"

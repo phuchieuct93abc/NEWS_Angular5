@@ -1,4 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-video',
@@ -9,7 +11,6 @@ export class VideoComponent implements OnInit {
 
     @Input()
     public url: string;
-
     @Input()
     public poster: string;
     @Input()
@@ -17,35 +18,22 @@ export class VideoComponent implements OnInit {
     @Input()
     public height: number;
 
-    @ViewChild('videoComponent')
-    public videoComponent: ElementRef<HTMLDivElement>;
-
-    @ViewChild('videoFrame')
-    public videoFrame: ElementRef<HTMLDivElement>;
     public isPlaying = false;
-    public heightIframe: number;
-    public widthIframe: number;
 
+    public videoSrc$ = new BehaviorSubject<SafeResourceUrl>(null);
 
-    public ngOnInit(): void {
+    constructor(private sanitizer: DomSanitizer) { }
 
-        setTimeout(() => {
-            this.widthIframe = this.videoComponent.nativeElement.clientWidth;
-            this.heightIframe = this.height / this.width * this.widthIframe;
-        }, 100);
+    ngOnInit(): void {
+        this.videoSrc$.next(this.parseUrl());
     }
 
-    public parseUrl(): string {
-        return `javascript:window.location.replace("${this.url}")`;
-    }
 
+    public parseUrl(): SafeResourceUrl {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(`javascript:window.location.replace("${this.url}")`);
+    }
 
     public play(): void {
-        if (typeof window !== 'undefined') {
-
-            this.isPlaying = true;
-            this.videoFrame.nativeElement.setAttribute('src', this.parseUrl());
-        }
-
+        this.isPlaying = true;
     }
 }

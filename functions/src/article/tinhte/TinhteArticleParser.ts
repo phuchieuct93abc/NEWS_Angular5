@@ -34,7 +34,7 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
             }else{
                 let attachment = firstAttachments.links.data;
                 if(body.indexOf(attachment)===-1){
-                    return `<img class="thumbnail-inner" src='${attachment}'/> ${body} `
+                    return `<img class="thumbnail-inner" src='${attachment}'/> ${body}`
                 }
             }
         }
@@ -48,11 +48,11 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
         const videoHtml = new VideoParser({
             content: firstAttachments.links.data,
             originUrl: firstAttachments.links.data,
-            height: 320 * firstAttachments.video_ratio,
-            width: 320,
+            height: 320 ,
+            width: 320 * firstAttachments.video_ratio,
             poster: firstAttachments.links.thumbnail,
             type: 'video'
         }).parser();
-        return `${videoHtml} ${body} `;
+        return `${videoHtml} ${body}`;
     }
 }

@@ -2,6 +2,7 @@ import { ArticleParser } from '../ArticleParser';
 import Article from '../../../../model/Article';
 import { Attachment, TinhteData } from './TInhTeArticleType';
 import { VideoParser } from '../baomoi/VideoParser';
+import { ImageParser } from '../baomoi/ImageParser';
 
 export default class TinhteArticleParser extends ArticleParser<TinhteData> {
   constructor() {
@@ -39,23 +40,32 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
   addAttachToBody() {
     let body = this.data.first_post.post_body_html;
     let attachments = this.data.first_post.attachments;
-    if (attachments?.length > 0) {
-      const firstAttachments = attachments[0];
-      if (firstAttachments.attachment_is_video) {
-        return this.addVideoAttachment(firstAttachments, body);
-      } else {
-        let attachment = firstAttachments.links.data;
-        if (body.indexOf(attachment) === -1) {
-          return `<img class="thumbnail-inner" src='${attachment}'/> ${body}`;
+    const attachmentHtml = attachments
+      ?.filter((attachment) => !body.includes(attachment.links.data))
+      .map((attachment) => {
+        if (attachment.attachment_is_video) {
+          return this.getVideoAttachment(attachment);
+        } else {
+          return this.getImageAttachment(attachment);
         }
-      }
-    }
+      })
+      .join('<br/>');
 
-    return body;
+    return `${body} <div class="attachments">${attachmentHtml}</div> `;
+  }
+  getImageAttachment(attachment: Attachment): string {
+    return new ImageParser({
+      type: 'image',
+      content: attachment.links.data,
+      contentOrigin: attachment.links.data,
+      originUrl: attachment.links.data,
+      height: attachment.attachment_height,
+      width: attachment.attachment_width,
+    }).parser();
   }
 
-  private addVideoAttachment(firstAttachments: Attachment, body: string) {
-    const videoHtml = new VideoParser({
+  private getVideoAttachment(firstAttachments: Attachment): string {
+    return new VideoParser({
       content: firstAttachments.links.data,
       originUrl: firstAttachments.links.data,
       height: 320,
@@ -63,6 +73,5 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
       poster: firstAttachments.links.thumbnail,
       type: 'video',
     }).parser();
-    return `${videoHtml} ${body}`;
   }
 }

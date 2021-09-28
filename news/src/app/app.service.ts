@@ -1,18 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppService {
+  public onToogleSidebar = new Subject<void>();
 
-    public onToogleSidebar = new Subject<void>();
+  constructor() {}
 
-    constructor() {
-    }
-
-    public toggleSidebar() {
-        this.onToogleSidebar.next();
-    }
-
+  public toggleSidebar() {
+    this.onToogleSidebar.next();
+  }
 }

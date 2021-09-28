@@ -56,100 +56,88 @@ import { StoryComponent } from './story/story/story.component';
 import en from '@angular/common/locales/en';
 
 registerLocaleData(en);
-const isMobileProvider =
-{
-
-    provide: IS_MOBILE,
-    useExisting: true,
-    useFactory: (breakpointObserver: BreakpointObserver, injector: Injector): boolean => {
-        try {
-            return injector.get('IS_MOBILE_SSR') as boolean;
-
-        } catch (error) {
-            return breakpointObserver.isMatched(['(max-width: 1000px)']);
-
-        }
-
-    },
-    deps: [BreakpointObserver, Injector]
+const isMobileProvider = {
+  provide: IS_MOBILE,
+  useExisting: true,
+  useFactory: (breakpointObserver: BreakpointObserver, injector: Injector): boolean => {
+    try {
+      return injector.get('IS_MOBILE_SSR') as boolean;
+    } catch (error) {
+      return breakpointObserver.isMatched(['(max-width: 1000px)']);
+    }
+  },
+  deps: [BreakpointObserver, Injector],
 };
 
-
 @NgModule({
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        AppRoutingModule,
-        RouterModule,
-        NotificationModule,
-        ClipboardModule,
-        NZModule,
-        LazyLoadImageModule,
-        HammerModule,
-        BrowserTransferStateModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: CONFIG.production,
-            registrationStrategy: 'registerWhenStable:30000'
-        })
-    ],
-    declarations: [
-        AppComponent,
-        StoryListComponent,
-        MobileStoryListComponent,
-        StoryComponent,
-        ArticleComponent,
-        InlineArticleComponent,
-        NavigatorComponent,
-        MainComponent,
-        ImageViewerComponent,
-        LoadingComponent,
-        ContentComponent,
-        SearchComponent,
-        CapitalizeFirstPipe,
-        TruncatePipe,
-        SanitizeHtmlPipe,
-        VideoComponent,
-        CategorySelectorComponent,
-        MobileStoryComponent,
-        DisplayComponent,
-        CategoryComponent,
-        ActionsComponent,
-        ShareComponent,
-        DashboardComponent,
-        TopCategoryComponent,
-        SidebarComponent,
-        StoryMetaComponent,
-        LoadingComponent,
-        LoadingStoryComponent,
-        ImageComponent,
-        IsIntersectDirective,
-        NavigationKeyboardDirective,
-        StoryListManagementComponent,
-        ParallaxDirective,
-        ArticleThumbnailComponent,
-        ToNowPipe,
-        AppShellNoRenderDirective,
-        AppShellRenderDirective
-    ],
-    bootstrap: [AppComponent],
-    providers: [
-        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
-        { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-        { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
-        isMobileProvider,
-        Title,
-        Meta,
-        {provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G'}
-
-
-    ],
-    entryComponents: [
-        VideoComponent, ImageViewerComponent, ImageComponent
-    ]
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    AppRoutingModule,
+    RouterModule,
+    NotificationModule,
+    ClipboardModule,
+    NZModule,
+    LazyLoadImageModule,
+    HammerModule,
+    BrowserTransferStateModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: CONFIG.production,
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+  ],
+  declarations: [
+    AppComponent,
+    StoryListComponent,
+    MobileStoryListComponent,
+    StoryComponent,
+    ArticleComponent,
+    InlineArticleComponent,
+    NavigatorComponent,
+    MainComponent,
+    ImageViewerComponent,
+    LoadingComponent,
+    ContentComponent,
+    SearchComponent,
+    CapitalizeFirstPipe,
+    TruncatePipe,
+    SanitizeHtmlPipe,
+    VideoComponent,
+    CategorySelectorComponent,
+    MobileStoryComponent,
+    DisplayComponent,
+    CategoryComponent,
+    ActionsComponent,
+    ShareComponent,
+    DashboardComponent,
+    TopCategoryComponent,
+    SidebarComponent,
+    StoryMetaComponent,
+    LoadingComponent,
+    LoadingStoryComponent,
+    ImageComponent,
+    IsIntersectDirective,
+    NavigationKeyboardDirective,
+    StoryListManagementComponent,
+    ParallaxDirective,
+    ArticleThumbnailComponent,
+    ToNowPipe,
+    AppShellNoRenderDirective,
+    AppShellRenderDirective,
+  ],
+  bootstrap: [AppComponent],
+  providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+    { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
+    { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+    isMobileProvider,
+    Title,
+    Meta,
+    { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
+  ],
+  entryComponents: [VideoComponent, ImageViewerComponent, ImageComponent],
 })
-export class AppModule {
-}
-
+export class AppModule {}

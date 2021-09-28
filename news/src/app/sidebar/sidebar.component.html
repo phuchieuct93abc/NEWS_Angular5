@@ -1,43 +1,35 @@
 <div class="sidebar py-3 px-2 flex flex-col">
-    <div class="flex  items-center pb-2">
-        <img src="../../assets/newspaper.png" alt="logo" class="rounded-circle logo" width="30" height="30">
-        <div class="mat-h1 m-0" mat-button>
-            <a href="/" class="px-3">
-                Báo hiếu
-            </a>
-        </div>
-    </div> 
-    <ng-container *ngIf="isMobile">
-        <div class="mat-h2">Giao diện</div>
-
-        <mat-slide-toggle class="mb-3" [(ngModel)]="isSmallImage" (ngModelChange)="toogleDisplay($event)">Ảnh nhỏ</mat-slide-toggle>
-        <mat-slide-toggle class="mb-3" [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">Giao diện tối</mat-slide-toggle>
-
-        <mat-divider class="mb-3" ></mat-divider>
-
-    </ng-container>
-
-    <div class="mat-h2">Chuyên mục</div>
-
-
-    <div class="scrollable w-full flex-grow flex flex-col">
-        <mat-nav-list>           
-            <a mat-list-item *ngFor="let vnCategory of vietnameseCategories" 
-                    [routerLink]="vnCategory.name" [routerLinkActive]="'active'">
-                <div class="flex items-center" >
-                    <ng-container *ngIf="vnCategory.image;else categoryIcon">
-                        <img width="24" height="24" class="mr-2" [src]="vnCategory.image" [alt]="vnCategory.name" />
-                    </ng-container>
-                    <ng-template #categoryIcon>
-                        <mat-icon class="mr-2" [style.color]="vnCategory.color">{{vnCategory.icon}}</mat-icon>
-                    </ng-template>
-
-                    <div class="mat-h3 m-0">{{ vnCategory.title }}</div>
-                </div>
-
-            </a>
-        </mat-nav-list>
-
+  <div class="flex items-center pb-2">
+    <img src="../../assets/newspaper.png" alt="logo" class="rounded-circle logo" width="30" height="30" />
+    <div class="mat-h1 m-0" mat-button>
+      <a href="/" class="px-3"> Báo hiếu </a>
     </div>
+  </div>
+  <ng-container *ngIf="isMobile">
+    <div class="mat-h2">Giao diện</div>
 
+    <mat-slide-toggle class="mb-3" [(ngModel)]="isSmallImage" (ngModelChange)="toogleDisplay($event)">Ảnh nhỏ</mat-slide-toggle>
+    <mat-slide-toggle class="mb-3" [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">Giao diện tối</mat-slide-toggle>
+
+    <mat-divider class="mb-3"></mat-divider>
+  </ng-container>
+
+  <div class="mat-h2">Chuyên mục</div>
+
+  <div class="scrollable w-full flex-grow flex flex-col">
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let vnCategory of vietnameseCategories" [routerLink]="vnCategory.name" [routerLinkActive]="'active'">
+        <div class="flex items-center">
+          <ng-container *ngIf="vnCategory.image; else categoryIcon">
+            <img width="24" height="24" class="mr-2" [src]="vnCategory.image" [alt]="vnCategory.name" />
+          </ng-container>
+          <ng-template #categoryIcon>
+            <mat-icon class="mr-2" [style.color]="vnCategory.color">{{ vnCategory.icon }}</mat-icon>
+          </ng-template>
+
+          <div class="mat-h3 m-0">{{ vnCategory.title }}</div>
+        </div>
+      </a>
+    </mat-nav-list>
+  </div>
 </div>

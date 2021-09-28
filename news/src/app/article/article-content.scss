@@ -1,6 +1,7 @@
 .article-body {
   ::ng-deep {
-    video, img {
+    video,
+    img {
       width: 100% !important;
       height: auto;
       max-height: initial !important;
@@ -8,7 +9,7 @@
 
     a {
       overflow: hidden;
-      max-width: 100%; 
+      max-width: 100%;
       word-break: break-word;
     }
 
@@ -29,7 +30,12 @@
     }
 
     //TInhte
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: inherit !important;
     }
 

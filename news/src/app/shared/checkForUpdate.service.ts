@@ -4,29 +4,24 @@ import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CheckForUpdateService {
-
   constructor(private updates: SwUpdate) {
-    if(!this.updates.isEnabled){
+    if (!this.updates.isEnabled) {
       return;
     }
     this.updates.available.subscribe(() => {
       alert('New version is available');
       this.updates.activateUpdate().then(() => document.location.reload());
     });
-
   }
 
   checkUpdate(): void {
-    if(!this.updates.isEnabled){
+    if (!this.updates.isEnabled) {
       return;
     }
     console.warn('Checking for update');
     this.updates.checkForUpdate();
-
-
   }
-
 }

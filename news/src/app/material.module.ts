@@ -16,28 +16,26 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 const modules = [
-    MatInputModule,
-    MatFormFieldModule,
-    MatSlideToggleModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatCardModule,
-    MatIconModule,
-    MatProgressBarModule,
-    MatSnackBarModule,
-    MatRippleModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatSnackBarModule,
-    MatSlideToggleModule
+  MatInputModule,
+  MatFormFieldModule,
+  MatSlideToggleModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatListModule,
+  MatCardModule,
+  MatIconModule,
+  MatProgressBarModule,
+  MatSnackBarModule,
+  MatRippleModule,
+  MatButtonModule,
+  MatDividerModule,
+  MatSnackBarModule,
+  MatSlideToggleModule,
 ];
 
 @NgModule({
-    exports: modules,
-    imports: modules
+  exports: modules,
+  imports: modules,
 })
-export class MaterialModule {
-}
-
+export class MaterialModule {}

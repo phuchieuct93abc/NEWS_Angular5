@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 $card-height: 120px;
 
@@ -10,7 +10,7 @@ $card-height: 120px;
   .card-content {
     display: grid;
     grid-template: 1fr 40px / #{$card-height} 1fr;
-    grid-template-areas: "thumbnail title" "thumbnail metadata";
+    grid-template-areas: 'thumbnail title' 'thumbnail metadata';
     height: 100%;
     gap: 10px;
 

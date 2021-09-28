@@ -1,6 +1,4 @@
 .video-component {
-
-
   .cover {
     background-size: contain;
     background-color: #323232;
@@ -13,6 +11,6 @@
     }
   }
   .iframe-container {
-    padding-top: MIN(50vh , var(--height)) ;
+    padding-top: MIN(50vh, var(--height));
   }
 }

@@ -1,3 +1,3 @@
 export const CONFIG = {
-    baomoiUrl: 'https://baomoi.com/',
+  baomoiUrl: 'https://baomoi.com/',
 };

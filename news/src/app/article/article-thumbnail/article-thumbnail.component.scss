@@ -6,7 +6,6 @@
     margin-left: -8px;
     margin-right: -8px;
   }
-
 }
 
 .wrapper {
@@ -31,9 +30,8 @@
     //     rgba(0, 0, 0, 0.8));
     padding: 0 1rem;
     backdrop-filter: saturate(180%) blur(5px);
-    background-color: rgba(var(--background-color-2-code),.6);  }
-
-
+    background-color: rgba(var(--background-color-2-code), 0.6);
+  }
 }
 
 .sticky {
@@ -57,7 +55,7 @@
     padding: 0 1rem;
     .article-header {
       display: flex;
-  
+
       height: 50px;
       align-items: center;
 
@@ -69,7 +67,7 @@
         text-overflow: ellipsis;
         transition: all 200ms linear;
       }
-      app-action{
+      app-action {
         align-self: baseline;
       }
     }
@@ -80,7 +78,4 @@
   left: 0;
   z-index: 9999;
   display: flex;
-
-
-  
 }

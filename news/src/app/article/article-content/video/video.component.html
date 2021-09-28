@@ -1,16 +1,22 @@
 <div class="video-component relative" #videoComponent>
-        <a class="z-10 cover bg-no-repeat bg-center absolute top-0 left-0 w-full h-full flex items-center justify-center cursor-pointer" (click)="play()" *ngIf="!isPlaying"
-                [style.background-image]="'url(' +  poster + ')'">
-                <mat-icon color="primary">play_circle_filled</mat-icon>
-        </a>
-        <div class="iframe-container relative w-full"  [style.--height.%] = "height / width * 100">
-                <iframe *ngIf="isPlaying" class="iframe-content absolute top-0 left-0 w-full h-full" #videoFrame allowfullscreen="true"
-                        title="Video" referrerpolicy="no-referrer" [src]="videoSrc$ | async"></iframe> 
-        </div>
-
-
+  <a
+    class="z-10 cover bg-no-repeat bg-center absolute top-0 left-0 w-full h-full flex items-center justify-center cursor-pointer"
+    (click)="play()"
+    *ngIf="!isPlaying"
+    [style.background-image]="'url(' + poster + ')'">
+    <mat-icon color="primary">play_circle_filled</mat-icon>
+  </a>
+  <div class="iframe-container relative w-full" [style.--height.%]="(height / width) * 100">
+    <iframe
+      *ngIf="isPlaying"
+      class="iframe-content absolute top-0 left-0 w-full h-full"
+      #videoFrame
+      allowfullscreen="true"
+      title="Video"
+      referrerpolicy="no-referrer"
+      [src]="videoSrc$ | async"></iframe>
+  </div>
 </div>
 <div class="text-right">
-        <a [href]="url" mat-button rel="noreferrer" target="_blank" rel="noreferrer" class="mat-button mat-accent">Mở
-                video</a>
+  <a [href]="url" mat-button rel="noreferrer" target="_blank" rel="noreferrer" class="mat-button mat-accent">Mở video</a>
 </div>

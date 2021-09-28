@@ -1,44 +1,45 @@
-<div appNavigationKeyboard (up)="up()" (down)="down()" (left)="prevArticle()" (right)="nextArticle()"
-    class=" h-full article  relative mat-elevation-z8" [ngStyle]="{'font-size.px':fontSize}" #rootArticle>
-    <div class="navigator navigator-prev">
-        <a (click)="prevArticle()" mat-icon-button>
-            <mat-icon>chevron_left</mat-icon>
-        </a>
-    </div>
-    <div class="scrollable " #articleView>
-        <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
-        
+<div
+  appNavigationKeyboard
+  (up)="up()"
+  (down)="down()"
+  (left)="prevArticle()"
+  (right)="nextArticle()"
+  class="h-full article relative mat-elevation-z8"
+  [ngStyle]="{ 'font-size.px': fontSize }"
+  #rootArticle>
+  <div class="navigator navigator-prev">
+    <a (click)="prevArticle()" mat-icon-button>
+      <mat-icon>chevron_left</mat-icon>
+    </a>
+  </div>
+  <div class="scrollable" #articleView>
+    <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
+      <div *ngIf="article; else loading" class="article-content px-2 pb-5 panel-primary">
+        <app-article-thumbnail
+          [rootArticle]="rootArticle"
+          [thumbnailPath]="article.getThumbnail()"
+          [title]="article.header"
+          [article]="article"></app-article-thumbnail>
 
-            <div *ngIf="article; else loading" class="article-content px-2  pb-5  panel-primary">
-                <app-article-thumbnail [rootArticle]="rootArticle" [thumbnailPath]="article.getThumbnail()" 
-                [title]="article.header" [article]="article"></app-article-thumbnail>     
-        
-                <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"
-                    *ngIf="article.description"></p>
+        <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
 
-                <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
-                <div class="source text-right mb-3">
-                    <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
-                        <span>Nguồn: &nbsp;</span>
-                        <img class="inline-block ml-2 source-icon"
-                        [alt]="article.sourceName" 
-                        height="20"
-                        [src]="article.sourceIcon"            
-                        />
-                    </a>
-                </div>
-            </div>
-            <ng-template #loading>
-                <app-loading class="p-2"></app-loading>
-            </ng-template>
+        <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
+        <div class="source text-right mb-3">
+          <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+            <span>Nguồn: &nbsp;</span>
+            <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
+          </a>
         </div>
+      </div>
+      <ng-template #loading>
+        <app-loading class="p-2"></app-loading>
+      </ng-template>
     </div>
-    <div class="blur-edge blur-bottom"></div>
-    <div class="navigator navigator-next">
-        <a (click)="nextArticle()" mat-icon-button>
-            <mat-icon>chevron_right</mat-icon>
-
-        </a>
-    </div>
-
+  </div>
+  <div class="blur-edge blur-bottom"></div>
+  <div class="navigator navigator-next">
+    <a (click)="nextArticle()" mat-icon-button>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+  </div>
 </div>

@@ -1,8 +1,8 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 :host {
-  --blur-edge-color:var(--background-color-2);
-  --blur-edge-transparent-color:var(--background-color-transparent-2);
+  --blur-edge-color: var(--background-color-2);
+  --blur-edge-transparent-color: var(--background-color-transparent-2);
 }
 
 .story-list {
@@ -14,4 +14,3 @@
     width: calc(100% - 5px);
   }
 }
-

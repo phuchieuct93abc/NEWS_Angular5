@@ -1,14 +1,9 @@
 .article {
-
   background-color: transparent !important;
-
- 
 
   .article-view {
     transition: opacity 0.2s linear;
   }
-
-
 
   .article-body {
     //background-color: white;
@@ -20,15 +15,9 @@
         max-width: 100%;
       }
 
-      .thumbnail-inner{
+      .thumbnail-inner {
         margin-bottom: 1rem;
       }
-
-  
     }
-  
   }
-
-
-
 }

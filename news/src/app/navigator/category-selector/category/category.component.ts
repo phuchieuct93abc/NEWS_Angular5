@@ -1,22 +1,17 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {Category} from '../../../../../../model/Categories';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Category } from '../../../../../../model/Categories';
 
 @Component({
-    selector: 'app-category',
-    templateUrl: './category.component.html',
-    styleUrls: ['./category.component.scss'],
-    encapsulation: ViewEncapsulation.None
-
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CategoryComponent implements OnInit {
+  @Input()
+  category: Category;
 
-    @Input()
-    category: Category;
+  constructor() {}
 
-    constructor() {
-    }
-
-    ngOnInit() {
-    }
-
+  ngOnInit() {}
 }

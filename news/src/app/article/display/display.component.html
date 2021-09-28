@@ -1,27 +1,24 @@
-<mat-menu #menu="matMenu" [classList]="'mat-menu-display'" xPosition='before'>
-    <div class="text mat-h3 mb-0">Theme</div>
-    <button mat-menu-item (click)="$event.stopPropagation()">
-        <nz-switch [ngModel]="config.darkTheme" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng"
-                   (ngModelChange)="toggleDarkMode($event)"></nz-switch>
+<mat-menu #menu="matMenu" [classList]="'mat-menu-display'" xPosition="before">
+  <div class="text mat-h3 mb-0">Theme</div>
+  <button mat-menu-item (click)="$event.stopPropagation()">
+    <nz-switch [ngModel]="config.darkTheme" nzCheckedChildren="Tối" nzUnCheckedChildren="Sáng" (ngModelChange)="toggleDarkMode($event)"></nz-switch>
+  </button>
 
-
-    </button>
-
-    <div class="text mat-h3 mb-0">Cỡ chữ</div>
-    <div mat-menu-item class="size-slider">
-        <div class="icon-wrapper test-class" >
-            <span class="text-icon">A</span>
-            <nz-slider (ngModelChange)="changeFontSize($event)" [(ngModel)]="config.fontSize" [nzMax]="maxFontSize"
-                       [nzMin]="minFontSize"
-                       style="flex:1"
-                       (click)="onCickSizeSlider($event)"></nz-slider>
-            <span class="text-icon">A</span>
-        </div>
-
+  <div class="text mat-h3 mb-0">Cỡ chữ</div>
+  <div mat-menu-item class="size-slider">
+    <div class="icon-wrapper test-class">
+      <span class="text-icon">A</span>
+      <nz-slider
+        (ngModelChange)="changeFontSize($event)"
+        [(ngModel)]="config.fontSize"
+        [nzMax]="maxFontSize"
+        [nzMin]="minFontSize"
+        style="flex: 1"
+        (click)="onCickSizeSlider($event)"></nz-slider>
+      <span class="text-icon">A</span>
     </div>
-
-
+  </div>
 </mat-menu>
 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Display">
-    <mat-icon color="accent">more_vert</mat-icon>
+  <mat-icon color="accent">more_vert</mat-icon>
 </button>

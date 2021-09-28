@@ -10,94 +10,84 @@ import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
 
 @Component({
-    selector: 'app-story',
-    templateUrl: './story.component.html',
-    styleUrls: ['./story.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-story',
+  templateUrl: './story.component.html',
+  styleUrls: ['./story.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StoryComponent implements OnInit, OnDestroy {
+  @Output()
+  public onSelectedStory = new EventEmitter<Story>();
+  @Input()
+  public story: Story;
+  @Input()
+  public scrollContainer: ElementRef;
+  @Input()
+  public category: string;
 
-    @Output()
-    public onSelectedStory = new EventEmitter<Story>();
-    @Input()
-    public story: Story;
-    @Input()
-    public scrollContainer: ElementRef;
-    @Input()
-    public category: string;
+  @Input()
+  public selected = false;
 
-    @Input()
-    public selected = false;
+  public isRead = false;
 
-    public isRead = false;
+  public config$: BehaviorSubject<Config>;
+  public configListener: Subscription;
+  public friendlyUrl: string;
+  public isActive$: Observable<boolean>;
+  private onDestroy$ = new Subject<void>();
 
+  constructor(
+    @Inject(IS_NODE) public isNode: boolean,
+    @Inject(IS_MOBILE) public isMobile: boolean,
+    protected configService: ConfigService,
+    protected favoriteService: FavoriteService,
+    protected route: Router,
+    protected activatedRoute: ActivatedRoute,
+    protected storyListService: StoryListService,
+    protected element: ElementRef<HTMLElement>
+  ) {}
 
-    public config$: BehaviorSubject<Config>;
-    public configListener: Subscription;
-    public friendlyUrl: string;
-    public isActive$: Observable<boolean>;
-    private onDestroy$ = new Subject<void>();
-
-
-    constructor(
-        @Inject(IS_NODE) public isNode: boolean,
-        @Inject(IS_MOBILE) public isMobile: boolean,
-        protected configService: ConfigService,
-        protected favoriteService: FavoriteService,
-        protected route: Router,
-        protected activatedRoute: ActivatedRoute,
-        protected storyListService: StoryListService,
-        protected element: ElementRef<HTMLElement>) {
-    }
-
-
-    public ngOnInit(): void {
-        this.isRead = this.story.isRead;
-        this.config$ = this.configService.getConfig();
-        this.activatedRoute.firstChild?.snapshot.params
-        this.isActive$ = this.route.events.pipe(
-            takeUntil(this.onDestroy$),
-            filter(event => event instanceof NavigationEnd),
-            map(() => this.activatedRoute.firstChild?.snapshot.params),
-            startWith(this.activatedRoute.firstChild?.snapshot.params),
-            filter(params => params != null),
-            map((param) => param!.id === this.story.id),
-            tap((active) => {
-                if (active) {
-                    this.afterSelectStory();
-                    this.onSelectedStory.emit(this.story);
-                }
-            })
-        );
-
-
-        this.story.isFavorite = this.favoriteService.findById(this.story.id!) != null;
-        if (this.story.isOpenning) {
-            this.selectStory();
+  public ngOnInit(): void {
+    this.isRead = this.story.isRead;
+    this.config$ = this.configService.getConfig();
+    this.activatedRoute.firstChild?.snapshot.params;
+    this.isActive$ = this.route.events.pipe(
+      takeUntil(this.onDestroy$),
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.activatedRoute.firstChild?.snapshot.params),
+      startWith(this.activatedRoute.firstChild?.snapshot.params),
+      filter((params) => params != null),
+      map((param) => param!.id === this.story.id),
+      tap((active) => {
+        if (active) {
+          this.afterSelectStory();
+          this.onSelectedStory.emit(this.story);
         }
+      })
+    );
+
+    this.story.isFavorite = this.favoriteService.findById(this.story.id!) != null;
+    if (this.story.isOpenning) {
+      this.selectStory();
     }
-    public onSelectStory(): void {
-        this.route.navigate([this.category, url(this.story.title!) as string, this.story.id]);
-    }
+  }
+  public onSelectStory(): void {
+    this.route.navigate([this.category, url(this.story.title!) as string, this.story.id]);
+  }
 
-    public getElement(): HTMLElement {
-        return this.element.nativeElement;
-    }
+  public getElement(): HTMLElement {
+    return this.element.nativeElement;
+  }
 
+  public ngOnDestroy(): void {
+    this.onDestroy$.next();
+  }
 
-    public ngOnDestroy(): void {
-        this.onDestroy$.next();
-    }
-
-    protected selectStory(): void {
-        this.story.isRead = true;
-        this.selected = true;
-
-    }
-    protected afterSelectStory(): void {
-        this.isRead = true;
-
-    }
-
-
+  protected selectStory(): void {
+    this.story.isRead = true;
+    this.selected = true;
+  }
+  protected afterSelectStory(): void {
+    this.isRead = true;
+  }
 }

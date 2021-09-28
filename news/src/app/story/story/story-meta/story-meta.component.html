@@ -1,10 +1,8 @@
-<footer class=" text-right   justify-content-start flex align-items-end">   
-    <a mat-button  target="_blank" class="flex p-0" [href]="story.originalUrl" (click)="openSource($event)">
-        Nguồn<app-image-viewer class="icon mx-1" [imagePath]="story?.storyMeta?.sourceIcon" [alt]="story?.storyMeta?.source"></app-image-viewer>
-        
-    </a> 
-    <span class="time ml-2 flex-grow-1 text-left">{{story.storyMeta.time | toNow }}</span>
+<footer class="text-right justify-content-start flex align-items-end">
+  <a mat-button target="_blank" class="flex p-0" [href]="story.originalUrl" (click)="openSource($event)">
+    Nguồn<app-image-viewer class="icon mx-1" [imagePath]="story?.storyMeta?.sourceIcon" [alt]="story?.storyMeta?.source"></app-image-viewer>
+  </a>
+  <span class="time ml-2 flex-grow-1 text-left">{{ story.storyMeta.time | toNow }}</span>
 
-    <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite
-    </mat-icon>
+  <mat-icon *ngIf="story.isFavorite" color="primary" class="fadeInDown">favorite </mat-icon>
 </footer>

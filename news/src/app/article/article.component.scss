@@ -1,4 +1,4 @@
-@import "./article-content";
+@import './article-content';
 
 :host {
   --blur-edge-color: var(--background-color-2);
@@ -41,7 +41,6 @@
     &.navigator-next {
       right: 0;
     }
-
   }
 }
 
@@ -53,16 +52,14 @@
     width: 100% !important;
   }
 
-  ::ng-deep{
-    .thumbnail-inner{
+  ::ng-deep {
+    .thumbnail-inner {
       margin-bottom: 1rem;
     }
   }
-
-
 }
-.source{
-  .source-icon{
+.source {
+  .source-icon {
     height: 20px;
     width: auto;
   }
@@ -74,16 +71,14 @@
   top: 0;
   left: 0;
 }
-:host{
+:host {
   ::ng-deep {
-    img{
+    img {
       max-width: 100%;
       height: auto;
-
     }
   }
-
-} 
+}
 
 @keyframes article-header-stick {
   from {
@@ -101,6 +96,4 @@
 
 .blur-edge {
   width: calc(100% - 8px);
-
 }
-

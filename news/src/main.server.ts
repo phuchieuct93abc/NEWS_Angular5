@@ -1,9 +1,7 @@
-
 import '@angular/platform-server/init';
 
 import { enableProdMode } from '@angular/core';
 import CONFIG from './environments/environment';
-
 
 if (CONFIG.production) {
   enableProdMode();

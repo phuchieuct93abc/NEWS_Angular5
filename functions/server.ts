@@ -1,25 +1,25 @@
 import * as functions from 'firebase-functions';
-import router from "./api";
-import app from "./app";
+import router from './api';
+import app from './app';
 
-exports.app = functions.runWith({
+exports.app = functions
+  .runWith({
     timeoutSeconds: 20,
-    memory: '2GB'
-}).https.onRequest(app);
+    memory: '2GB',
+  })
+  .https.onRequest(app);
 
-exports.apissr = functions.runWith({
+exports.apissr = functions
+  .runWith({
     timeoutSeconds: 10,
-    memory: '1GB'
-}).https.onRequest(router);
+    memory: '1GB',
+  })
+  .https.onRequest(router);
 
-exports.api = functions.runWith({
+exports.api = functions
+  .runWith({
     timeoutSeconds: 10,
-    memory: '1GB'
-}).region("asia-northeast1").https.onRequest(router);
-
-
-
-
-
-
-
+    memory: '1GB',
+  })
+  .region('asia-northeast1')
+  .https.onRequest(router);

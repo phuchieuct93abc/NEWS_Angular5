@@ -13,70 +13,69 @@ import { LoadingEventName, LoadingEventType, LoadingService } from './loading.se
 import { Cache } from './cache.service';
 import { IS_NODE } from './const';
 
-
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticleService {
+  public onStorySelected = new BehaviorSubject<Article>(null);
 
-    public onStorySelected = new BehaviorSubject<Article>(null);
+  public constructor(
+    private httpClient: HttpClient,
+    private storyService: StoryService,
+    private meta: MetaService,
+    private loadingService: LoadingService,
+    @Inject(IS_NODE) private isNode: boolean,
+    private transferState: TransferState
+  ) {}
 
-    public constructor(private httpClient: HttpClient,
-        private storyService: StoryService,
-        private meta: MetaService,
-        private loadingService: LoadingService,
-        @Inject(IS_NODE) private isNode: boolean,
-        private transferState: TransferState) {
+  @Cache()
+  public getById(id: string, category: string): Observable<Article> {
+    const COURSE_KEY = makeStateKey<Article>(`article-${id}-${category}`);
+
+    const story: Story = this.storyService.getById(id);
+    if (this.transferState.hasKey(COURSE_KEY)) {
+      const article = this.transferState.get<Article>(COURSE_KEY, null);
+
+      return of(Object.assign(new Article(), article));
     }
 
-    @Cache()
-    public getById(id: string, category: string): Observable<Article> {
-        const COURSE_KEY = makeStateKey<Article>(`article-${id}-${category}`);
+    if (story != null) {
+      this.storyService.saveReadStory(story);
+    }
+    const options = {
+      params: {
+        url: id,
+        category,
+      },
+    };
+    this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
+    return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
+      retry(3),
+      map((result) => {
+        this.loadingService.onLoading.next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });
 
-        const story: Story = this.storyService.getById(id);
-        if (this.transferState.hasKey(COURSE_KEY)) {
-            const article = this.transferState.get<Article>(COURSE_KEY, null);
-
-            return of(Object.assign(new Article(), article));
+        const article = Object.assign(new Article(), result);
+        article.story = story;
+        this.meta.updateMeta(article);
+        if (this.isNode) {
+          this.transferState.set(COURSE_KEY, article);
         }
+        return article;
+      })
+    );
+  }
 
-        if (story != null) {
-            this.storyService.saveReadStory(story);
-
-        }
-        const options = {
-            params: {
-                url: id,
-                category
-            }
-        };
-        this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
-        return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
-            retry(3),
-            map((result) => {
-
-                this.loadingService.onLoading
-                    .next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });
-
-                const article = Object.assign(new Article(), result);
-                article.story = story;
-                this.meta.updateMeta(article);
-                if (this.isNode) {
-                    this.transferState.set(COURSE_KEY, article);
-                }
-                return article;
-            }));
-    }
-
-
-    @Cache()
-    public getComment(id: string): Observable<ArticleComment[]> {
-        return this.httpClient.get(CONFIG.baseUrl + 'comments', {
-            params: {
-                id
-            }
-        }).pipe(retry(3), map((comments) => comments as ArticleComment[]));
-    }
-
-
+  @Cache()
+  public getComment(id: string): Observable<ArticleComment[]> {
+    return this.httpClient
+      .get(CONFIG.baseUrl + 'comments', {
+        params: {
+          id,
+        },
+      })
+      .pipe(
+        retry(3),
+        map((comments) => comments as ArticleComment[])
+      );
+  }
 }

@@ -1,17 +1,15 @@
-
-:host{
+:host {
   flex: 1;
-  footer{
+  footer {
     align-items: center !important;
     .time {
       color: var(--foreground-color);
       font-size: 0.9em;
     }
-    .icon{
+    .icon {
       height: 20px;
       width: auto;
       object-fit: contain;
     }
-
   }
 }

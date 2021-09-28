@@ -18,149 +18,132 @@ import { HttpClient } from '@angular/common/http';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 @Component({
-    selector: 'app-news',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    animations: [
-
-        trigger('opacityNgIf', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('1s 0.5s', style({ opacity: 1 }))
-            ]),
-            transition(':leave', [
-                style({ opacity: 1 }),
-                animate('1s', style({ opacity: 0 }))
-            ])
-        ]),
-        trigger('opacityNgIfNoDelay', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('0.5s', style({ opacity: 1 }))
-            ]),
-            transition(':leave', [
-                style({ opacity: 1 }),
-                animate('0.5s', style({ opacity: 0 }))
-            ])
-        ])
-    ]
+  selector: 'app-news',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('opacityNgIf', [
+      transition(':enter', [style({ opacity: 0 }), animate('1s 0.5s', style({ opacity: 1 }))]),
+      transition(':leave', [style({ opacity: 1 }), animate('1s', style({ opacity: 0 }))]),
+    ]),
+    trigger('opacityNgIfNoDelay', [
+      transition(':enter', [style({ opacity: 0 }), animate('0.5s', style({ opacity: 1 }))]),
+      transition(':leave', [style({ opacity: 1 }), animate('0.5s', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild(MatSidenav)
+  private sidebar: MatSidenav;
 
-    @ViewChild(MatSidenav)
-    private sidebar: MatSidenav;
+  public isShowProgressBar$: Observable<boolean>;
 
-    public isShowProgressBar$: Observable<boolean>;
+  public isSmallDevice: boolean;
+  public isOpenSidebar: boolean;
+  public thumbnail$: Observable<string>;
+  private onDestroy$ = new Subject<void>();
 
-    public isSmallDevice: boolean;
-    public isOpenSidebar: boolean;
-    public thumbnail$: Observable<string>;
-    private onDestroy$ = new Subject<void>();
+  public constructor(
+    private router: Router,
+    private configService: ConfigService,
+    private articleService: ArticleService,
+    @Inject(IS_MOBILE) private isMobile: boolean,
+    @Inject(IS_NODE) public isNode: boolean,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2,
+    private appService: AppService,
+    private loadingService: LoadingService,
+    private checkForUpdateService: CheckForUpdateService,
+    private httpClient: HttpClient,
+    private gtmService: GoogleTagManagerService
+  ) {}
+  public ngOnDestroy(): void {
+    this.onDestroy$.next();
+  }
 
-    public constructor(private router: Router,
-        private configService: ConfigService,
-        private articleService: ArticleService,
-        @Inject(IS_MOBILE) private isMobile: boolean,
-        @Inject(IS_NODE) public isNode: boolean,
-        @Inject(DOCUMENT) private document: Document,
-        private renderer: Renderer2,
-        private appService: AppService,
-        private loadingService: LoadingService,
-        private checkForUpdateService: CheckForUpdateService,
-        private httpClient: HttpClient,
-        private gtmService: GoogleTagManagerService,
+  public ngOnInit(): void {
+    this.checkForUpdateService.checkUpdate();
 
-    ) {
+    this.configService
+      .getConfig()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(({ darkTheme }) => {
+        this.updateBodyClass(darkTheme);
+      });
+
+    this.isSmallDevice = this.isMobile;
+    this.isOpenSidebar = !this.isSmallDevice;
+
+    this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
+    this.track();
+
+    if (!this.isNode && !this.isSmallDevice) {
+      this.thumbnail$ = this.articleService.onStorySelected.pipe(
+        filter((article) => article != null),
+        switchMap((article) => this.getBlurImageUrl(article.getThumbnail())),
+        shareReplay()
+      );
     }
-    public ngOnDestroy(): void {
-        this.onDestroy$.next();
+    this.isShowProgressBar$ = this.loadingService.onLoading.pipe(
+      map((data) => data.type === LoadingEventType.START),
+      debounceTime(100)
+    );
+
+    this.loadGoogleAnalytics();
+  }
+  loadGoogleAnalytics(): void {
+    if (this.isNode) {
+      return;
     }
-
-    public ngOnInit(): void {
-        this.checkForUpdateService.checkUpdate();
-
-
-        this.configService.getConfig().pipe(takeUntil(this.onDestroy$)).subscribe(({ darkTheme }) => {
-            this.updateBodyClass(darkTheme);
-        });
-
-
-        this.isSmallDevice = this.isMobile;
-        this.isOpenSidebar = !this.isSmallDevice;
-
-        this.appService.onToogleSidebar.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.sidebar.toggle());
-        this.track();
-
-        if (!this.isNode && !this.isSmallDevice) {
-            this.thumbnail$ = this.articleService.onStorySelected.pipe(
-                filter(article => article != null),
-                switchMap(article => this.getBlurImageUrl(article.getThumbnail())),
-                shareReplay()
-            );
-        }
-        this.isShowProgressBar$ = this.loadingService.onLoading.pipe(
-            map(data => data.type === LoadingEventType.START),
-            debounceTime(100)
-        )
-
-        this.loadGoogleAnalytics();
+  }
+  public swipeRight(ev) {
+    if (this.isSmallDevice) {
+      if (this.sidebar.opened) {
+        return;
+      }
+      if (ev.center.x - ev.deltaX < vars.sideNavThreshold) {
+        this.sidebar.open();
+        ev.srcEvent.preventDefault();
+      }
     }
-    loadGoogleAnalytics(): void {
-        if (this.isNode) {
-            return;
-        }
+  }
 
+  public getBlurImageUrl(url: string): Observable<string> {
+    if (url !== undefined) {
+      return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`, { responseType: 'blob' }).pipe(map((blob) => URL.createObjectURL(blob)));
     }
-    public swipeRight(ev) {
-        if (this.isSmallDevice) {
-            if (this.sidebar.opened) {
-                return;
-            }
-            if (ev.center.x - ev.deltaX < vars.sideNavThreshold) {
-                this.sidebar.open();
-                ev.srcEvent.preventDefault();
-            }
-        }
+    return of();
+  }
+
+  public updateBodyClass(darkTheme: boolean) {
+    const className = darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
+    this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
+    this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
+    this.renderer.removeClass(this.document.body, 'mobile-device');
+    this.renderer.removeClass(this.document.body, 'desktop-device');
+    this.renderer.addClass(this.document.body, className);
+    if (this.isSmallDevice) {
+      this.renderer.addClass(this.document.body, 'mobile-device');
+    } else {
+      this.renderer.addClass(this.document.body, 'desktop-device');
     }
+  }
 
-    public getBlurImageUrl(url: string): Observable<string> {
-        if (url !== undefined) {
-            return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`, { responseType: 'blob' }).pipe(
-                map(blob => URL.createObjectURL(blob))
-            )
-        }
-        return of();
+  private track(): void {
+    if (this.isNode) {
+      return;
     }
-
-    public updateBodyClass(darkTheme: boolean) {
-        const className = darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
-        this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
-        this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
-        this.renderer.removeClass(this.document.body, 'mobile-device');
-        this.renderer.removeClass(this.document.body, 'desktop-device');
-        this.renderer.addClass(this.document.body, className);
-        if (this.isSmallDevice) {
-            this.renderer.addClass(this.document.body, 'mobile-device');
-        } else {
-            this.renderer.addClass(this.document.body, 'desktop-device');
-
-        }
-    }
-
-
-    private track(): void {
-        if (this.isNode) {
-            return;
-        }
-        this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            map(event => event as NavigationEnd)).subscribe((event) => {
-            const gtmTag = {
-                event: 'page',
-                pageName: event.url
-            };
-            this.gtmService.pushTag(gtmTag);
-        });
-    }
-
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map((event) => event as NavigationEnd)
+      )
+      .subscribe((event) => {
+        const gtmTag = {
+          event: 'page',
+          pageName: event.url,
+        };
+        this.gtmService.pushTag(gtmTag);
+      });
+  }
 }

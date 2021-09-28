@@ -1,15 +1,12 @@
-import Article from "../../../model/Article";
+import Article from '../../../model/Article';
 
 export abstract class ArticleParser<T> {
-    protected data: T;
+  protected data: T;
 
-    public setData(data: T) {
-       
-        this.data = data;
-        return this;
+  public setData(data: T) {
+    this.data = data;
+    return this;
+  }
 
-    }
-
-
-    abstract parserArticle(): Article;
+  abstract parserArticle(): Article;
 }

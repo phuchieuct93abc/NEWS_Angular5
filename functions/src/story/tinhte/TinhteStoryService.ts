@@ -1,35 +1,29 @@
-import {Story} from "../../../../model/Story";
-import TinhteArticleService from "../../article/tinhte/TinhteArticleService";
-import {StoryService} from "../StoryService";
+import { Story } from '../../../../model/Story';
+import TinhteArticleService from '../../article/tinhte/TinhteArticleService';
+import { StoryService } from '../StoryService';
 
-import TinhteStoryParser from "./TinhteStoryParser";
-
+import TinhteStoryParser from './TinhteStoryParser';
 
 export default class TinhteStoryService extends StoryService {
-    public pageNumber: number;
-    public static urlApi = "https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7";
+  public pageNumber: number;
+  public static urlApi = 'https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7';
 
-    constructor(protected url: string, protected  category:string) {
-        super(url, new TinhteStoryParser(), category, new TinhteArticleService())
-    }
+  constructor(protected url: string, protected category: string) {
+    super(url, new TinhteStoryParser(), category, new TinhteArticleService());
+  }
 
+  queryStories(data: any): any[] {
+    return data.data.threads;
+  }
 
-    queryStories(data: any): any[] {
-        return data.data.threads;
-    }
+  search(pageNumber: string, keyword: string): Promise<Story[]> {
+    return undefined;
+  }
 
-    search(pageNumber: string, keyword: string): Promise<Story[]> {
-        return undefined;
-    }
-
-    static createInstance(pageNumber: number) {
-
-        let tinhteUri = TinhteStoryService.urlApi.replace("${page}", pageNumber + "");
-        const tinhteStoryService = new TinhteStoryService(tinhteUri, 'tinh-te');
-        tinhteStoryService.pageNumber = pageNumber;
-        return tinhteStoryService;
-
-    }
-
-
+  static createInstance(pageNumber: number) {
+    let tinhteUri = TinhteStoryService.urlApi.replace('${page}', pageNumber + '');
+    const tinhteStoryService = new TinhteStoryService(tinhteUri, 'tinh-te');
+    tinhteStoryService.pageNumber = pageNumber;
+    return tinhteStoryService;
+  }
 }

@@ -1,5 +1,5 @@
 @import '../../node_modules/@angular/material/theming';
-@import "variables";
+@import 'variables';
 
 // Plus imports for other components in your app.
 
@@ -16,9 +16,7 @@ $light-theme: mat-light-theme($light-primary, $light-accent);
 // Include the default theme styles.
 @include angular-material-theme($light-theme);
 
-
 $light-background-dark: #e5e5e5;
-
 
 $dark-primary: mat-palette($mat-light-blue);
 $dark-accent: mat-palette($mat-light-blue, A200, A100, A400);
@@ -29,8 +27,6 @@ $dark-background-selected: #696969;
 $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
 $transparent: transparent;
-
-
 
 .unicorn-dark-theme {
   @include angular-material-color($dark-theme);
@@ -46,22 +42,17 @@ $transparent: transparent;
   }
 
   .accent-background {
-    background-color: #424242;;
-    color: white
-
+    background-color: #424242;
+    color: white;
   }
-  .text{
+  .text {
     color: rgba(255, 255, 255, 0.78) !important;
-
   }
-
 }
 
 .unicorn-light-theme {
-
   .panel-primary {
     background-color: $light-background-dark;
-
   }
   .accent-color {
     color: mat-color($light-accent);
@@ -69,15 +60,9 @@ $transparent: transparent;
 
   .accent-background {
     background-color: mat-color($light-accent);
-    color: white
-
+    color: white;
   }
-  .text{
+  .text {
     color: rgba(255, 255, 255, 0.78) !important;
-
   }
-
-
-
 }
-

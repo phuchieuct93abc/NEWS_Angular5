@@ -1,21 +1,20 @@
 import { Observable, ReplaySubject } from 'rxjs';
 
 const completeObservable = <T>(observable: Observable<T>): Observable<T> =>
-    new Observable((observer) => {
-        observable.subscribe((data) => {
-            observer.next(data);
-            observer.complete();
-        });
+  new Observable((observer) => {
+    observable.subscribe((data) => {
+      observer.next(data);
+      observer.complete();
     });
-
+  });
 
 interface CacheConfiguaration {
-    id?: string;
-    ttl: number;
+  id?: string;
+  ttl: number;
 }
-interface CacheItem{
-    payload?: any;
-    timeToExpired?: number;
+interface CacheItem {
+  payload?: any;
+  timeToExpired?: number;
 }
 
 /**
@@ -46,53 +45,52 @@ interface CacheItem{
  *    }
  *  }
  */
-export function Cache(cacheConfiguaration: CacheConfiguaration = {ttl:1000*60*10}) {
-    return (target: any, propertyKey: string, descriptor) => {
-        if(typeof window === 'undefined'){
-            cacheConfiguaration.ttl = 1000;
+export function Cache(cacheConfiguaration: CacheConfiguaration = { ttl: 1000 * 60 * 10 }) {
+  return (target: any, propertyKey: string, descriptor) => {
+    if (typeof window === 'undefined') {
+      cacheConfiguaration.ttl = 1000;
+    }
+
+    const groupCache = cacheConfiguaration?.id ? `${cacheConfiguaration.id}_cached` : `${propertyKey}_cached`;
+    const originalFunction = descriptor.value;
+    target[groupCache] = {};
+
+    descriptor.value = function (...args) {
+      let cacheItem: CacheItem = target[groupCache][JSON.stringify(args)];
+      if (cacheItem) {
+        const { payload, timeToExpired } = cacheItem;
+        if (cacheConfiguaration.ttl !== undefined && new Date().getTime() < timeToExpired) {
+          return completeObservable(payload);
         }
-
-        const groupCache = cacheConfiguaration?.id ? `${cacheConfiguaration.id}_cached` : `${propertyKey}_cached`;
-        const originalFunction = descriptor.value;
-        target[groupCache] = {};
-
-        descriptor.value = function(...args) {
-            let cacheItem: CacheItem = target[groupCache][JSON.stringify(args)];
-            if (cacheItem) {
-                const {payload,timeToExpired} = cacheItem;
-                if(cacheConfiguaration.ttl !== undefined && new Date().getTime() < timeToExpired){
-                    return completeObservable(payload);
-                }
-                target[groupCache][JSON.stringify(args)] = null;
-
-            }
-            cacheItem = target[groupCache][JSON.stringify(args)] = {};
-            cacheItem.timeToExpired = new Date().getTime() + cacheConfiguaration.ttl;
-            cacheItem.payload =  new ReplaySubject(1);
-            originalFunction.apply(this, args).subscribe((response) => {
-                cacheItem.payload.next(response);
-                cacheItem.payload.complete();
-            });
-            return completeObservable(cacheItem.payload);
-        };
-
-        return descriptor;
+        target[groupCache][JSON.stringify(args)] = null;
+      }
+      cacheItem = target[groupCache][JSON.stringify(args)] = {};
+      cacheItem.timeToExpired = new Date().getTime() + cacheConfiguaration.ttl;
+      cacheItem.payload = new ReplaySubject(1);
+      originalFunction.apply(this, args).subscribe((response) => {
+        cacheItem.payload.next(response);
+        cacheItem.payload.complete();
+      });
+      return completeObservable(cacheItem.payload);
     };
+
+    return descriptor;
+  };
 }
 
 export function ClearCache(groupCache: string) {
-    return (target: any, propertyKey: string, descriptor) => {
-        const originalFunction = descriptor.value;
+  return (target: any, propertyKey: string, descriptor) => {
+    const originalFunction = descriptor.value;
 
-        descriptor.value = function(...args) {
-            const cacheId = originalFunction.apply(this, args);
-            if (cacheId) {
-                target[`${groupCache}_cached`][JSON.stringify(cacheId)] = null;
-            } else {
-                target[`${groupCache}_cached`] = {};
-            }
-            return cacheId;
-        };
-        return descriptor;
+    descriptor.value = function (...args) {
+      const cacheId = originalFunction.apply(this, args);
+      if (cacheId) {
+        target[`${groupCache}_cached`][JSON.stringify(cacheId)] = null;
+      } else {
+        target[`${groupCache}_cached`] = {};
+      }
+      return cacheId;
     };
+    return descriptor;
+  };
 }

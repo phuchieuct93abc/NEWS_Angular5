@@ -6,51 +6,48 @@ import { opacityNgIf } from '../animation';
 import { DestroySubscriber } from './../shared/destroy-subscriber';
 
 @Component({
-    selector: 'app-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss'],
-    animations: [
-        opacityNgIf
-    ]
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
+  animations: [opacityNgIf],
 })
 export class SidebarComponent extends DestroySubscriber implements OnInit {
+  @Input()
+  public isOpen: boolean;
+  public vietnameseCategories: Category[];
+  public englishCategories: Category[];
+  public isDarkMode: boolean;
+  public isSmallImage: boolean;
 
-    @Input()
-    public isOpen: boolean;
-    public vietnameseCategories: Category[];
-    public englishCategories: Category[];
-    public isDarkMode: boolean;
-    public isSmallImage: boolean;
+  public activatedCatagory: string;
 
-    public activatedCatagory: string;
+  public constructor(private configService: ConfigService, @Inject(IS_MOBILE) public isMobile: boolean) {
+    super();
+  }
 
-    public constructor(private configService: ConfigService,
-        @Inject(IS_MOBILE) public isMobile: boolean        ) {
-        super();
-    }
+  public ngOnInit() {
+    this.vietnameseCategories = CategoryHelper.vietnameseCategories();
+    this.englishCategories = CategoryHelper.englishCategories();
 
-    public ngOnInit() {
-        this.vietnameseCategories = CategoryHelper.vietnameseCategories();
-        this.englishCategories = CategoryHelper.englishCategories();
+    this.configService
+      .getConfig()
+      .pipe(this.getTakeUntilDestroy())
+      .subscribe(({ darkTheme, smallImage, category }) => {
+        this.isDarkMode = darkTheme!;
+        this.isSmallImage = smallImage!;
+        this.activatedCatagory = category!;
+      });
+  }
 
-        this.configService.getConfig().pipe(this.getTakeUntilDestroy())
-        .subscribe(({ darkTheme, smallImage, category }) => {
-            this.isDarkMode = darkTheme!;
-            this.isSmallImage = smallImage!;
-            this.activatedCatagory = category!;
-        });
-    }
+  public toggleDarkMode(value: boolean) {
+    this.configService.updateConfig({ darkTheme: value });
+  }
 
-    public toggleDarkMode(value: boolean) {
-        this.configService.updateConfig({ darkTheme: value });
-    }
+  public toogleDisplay(value: boolean) {
+    this.configService.updateConfig({ smallImage: value });
+  }
 
-    public toogleDisplay(value: boolean) {
-        this.configService.updateConfig({ smallImage: value });
-
-    }
-
-    public onSelectCategory(category: string) {
-        this.configService.updateConfig({ category });
-    }
+  public onSelectCategory(category: string) {
+    this.configService.updateConfig({ category });
+  }
 }

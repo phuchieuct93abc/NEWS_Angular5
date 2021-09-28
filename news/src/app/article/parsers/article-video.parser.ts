@@ -1,28 +1,24 @@
-import {DomService} from '../dom.service';
-import {VideoComponent} from '../article-content/video/video.component';
+import { DomService } from '../dom.service';
+import { VideoComponent } from '../article-content/video/video.component';
 
 export default class ArticleVideoParser {
-    source: HTMLSourceElement;
+  source: HTMLSourceElement;
 
-    sourceUrl: string;
+  sourceUrl: string;
 
-    posterUrl: string;
+  posterUrl: string;
 
-    constructor(private appVideo: Element, private domService: DomService) {
+  constructor(private appVideo: Element, private domService: DomService) {
+    this.sourceUrl = this.appVideo.getAttribute('url');
+    this.posterUrl = this.appVideo.getAttribute('poster');
+  }
 
-        this.sourceUrl = this.appVideo.getAttribute('url');
-        this.posterUrl = this.appVideo.getAttribute('poster');
-
-    }
-
-    public parse() {
-        this.domService.appendComponent(VideoComponent, this.appVideo, {
-            url: this.sourceUrl,
-            poster: this.posterUrl,
-            width: this.appVideo.getAttribute('width'),
-            height: this.appVideo.getAttribute('height')
-        });
-
-    }
-
+  public parse() {
+    this.domService.appendComponent(VideoComponent, this.appVideo, {
+      url: this.sourceUrl,
+      poster: this.posterUrl,
+      width: this.appVideo.getAttribute('width'),
+      height: this.appVideo.getAttribute('height'),
+    });
+  }
 }

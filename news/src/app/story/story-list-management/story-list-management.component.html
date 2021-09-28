@@ -1,16 +1,15 @@
-<app-story-list *ngIf="!isSmallScreen" 
-[stories]="stories$ | async" 
-[openningStory]="openningStory.story"
-(loadMoreStories)="loadMoreStories()"
-[category]="category"
->
+<app-story-list
+  *ngIf="!isSmallScreen"
+  [stories]="stories$ | async"
+  [openningStory]="openningStory.story"
+  (loadMoreStories)="loadMoreStories()"
+  [category]="category">
 </app-story-list>
 
-<app-mobile-story-list *ngIf="isSmallScreen" 
-[stories]="stories$ | async" 
-[openningStory]="openningStory.story"
-(loadMoreStories)="loadMoreStories()"
-[category]="category"
-
->
+<app-mobile-story-list
+  *ngIf="isSmallScreen"
+  [stories]="stories$ | async"
+  [openningStory]="openningStory.story"
+  (loadMoreStories)="loadMoreStories()"
+  [category]="category">
 </app-mobile-story-list>

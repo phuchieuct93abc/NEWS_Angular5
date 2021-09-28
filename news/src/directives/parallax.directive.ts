@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding } from '@a
 import { Subject } from 'rxjs';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 @Directive({
-  selector: '[appParallax]'
+  selector: '[appParallax]',
 })
 export class ParallaxDirective implements OnDestroy {
   static thresholdSets: number[];
@@ -18,12 +18,11 @@ export class ParallaxDirective implements OnDestroy {
   private previousTransition: string;
   private isParallaxing = false;
 
-
-  public constructor(private imageRef: ElementRef<HTMLImageElement>,
+  public constructor(
+    private imageRef: ElementRef<HTMLImageElement>,
     @Inject(IS_NODE) private isNode: boolean,
-    @Inject(IS_MOBILE) private isMobile: boolean) {
-
-  }
+    @Inject(IS_MOBILE) private isMobile: boolean
+  ) {}
 
   @Input()
   public set appParallax(value: boolean) {
@@ -34,7 +33,6 @@ export class ParallaxDirective implements OnDestroy {
       this.stopParallax();
     }
   }
-
 
   public startParallax(): void {
     if (this.isNode) {
@@ -48,11 +46,10 @@ export class ParallaxDirective implements OnDestroy {
 
     this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
       rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
-      threshold: ParallaxDirective.thresholdSets
+      threshold: ParallaxDirective.thresholdSets,
     });
 
     this.observer.observe(this.imageRef.nativeElement);
-
   }
 
   public stopParallax(): void {
@@ -61,9 +58,8 @@ export class ParallaxDirective implements OnDestroy {
     }
     this.observer?.disconnect?.();
     this.updateTranform(0);
-    requestAnimationFrame(() => this.transition = this.previousTransition);
+    requestAnimationFrame(() => (this.transition = this.previousTransition));
   }
-
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
@@ -77,8 +73,6 @@ export class ParallaxDirective implements OnDestroy {
       }
     }
   }
-
-
 
   private updateAnimation([entry]: IntersectionObserverEntry[]) {
     if (this.isMobile && entry.intersectionRect.x > 10) {
@@ -97,7 +91,5 @@ export class ParallaxDirective implements OnDestroy {
 
   private updateTranform(translateY: number) {
     this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
-
   }
-
 }

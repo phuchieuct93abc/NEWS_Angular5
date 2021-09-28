@@ -1,17 +1,11 @@
-
 .mat-icon {
   animation: animated-icon 0.1s linear;
-
-
 }
-.spin-icon{
+.spin-icon {
   .mat-icon {
-
-    animation:spin infinite 1s;
+    animation: spin infinite 1s;
   }
 }
-
-
 
 @keyframes animated-icon {
   0% {
@@ -19,20 +13,18 @@
   }
   100% {
     transform: scale(1);
-
   }
-
 }
 
 @keyframes spin {
   0% {
     transform: rotate(0);
-    animation-timing-function: cubic-bezier(.55, .055, .675, .19);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
   }
 
   50% {
     transform: rotate(-180deg);
-    animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   to {

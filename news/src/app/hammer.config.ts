@@ -1,5 +1,4 @@
-
-import {HammerGestureConfig} from '@angular/platform-browser';
+import { HammerGestureConfig } from '@angular/platform-browser';
 import { Inject, Injectable } from '@angular/core';
 import CONFIG from 'src/environments/environment';
 import { IS_NODE } from './shared/const';
@@ -20,15 +19,15 @@ import { IS_NODE } from './shared/const';
 declare const Hammer: any;
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
-    public constructor(@Inject(IS_NODE) private isNode: boolean){
-        super();
+  public constructor(@Inject(IS_NODE) private isNode: boolean) {
+    super();
+  }
+  public buildHammer(element: HTMLElement) {
+    if (!this.isNode) {
+      return new Hammer(element, {
+        touchAction: 'pan-y',
+      });
     }
-    public buildHammer(element: HTMLElement) {
-        if(!this.isNode){
-            return new Hammer(element, {
-                 touchAction: 'pan-y'
-            });
-        }
-        return undefined;
-    }
+    return undefined;
+  }
 }

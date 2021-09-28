@@ -13,22 +13,21 @@ import { IS_NODE } from './../../shared/const';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('sticky', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('200ms', style({ opacity: 1 }))
-      ]),
+      transition(':enter', [style({ opacity: 0 }), animate('200ms', style({ opacity: 1 }))]),
       transition(':leave', [
         style({ opacity: 1 }),
-        animate('200ms', style({
-          opacity: 0,
-          transform: 'translateY(-100px)'
-        }))
-      ])
-    ])
-  ]
+        animate(
+          '200ms',
+          style({
+            opacity: 0,
+            transform: 'translateY(-100px)',
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ArticleThumbnailComponent implements OnInit {
-
   @Input()
   public thumbnailPath: string;
   @Input()
@@ -42,21 +41,19 @@ export class ArticleThumbnailComponent implements OnInit {
 
   private readonly thresholds = [0, 1];
 
-
-  public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) { }
+  public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) {}
 
   public ngOnInit(): void {
     if (!this.isNode) {
-       this.isStickHeader$ = this.registerStickyHeader().pipe(startWith(false));
+      this.isStickHeader$ = this.registerStickyHeader().pipe(startWith(false));
     }
   }
 
   protected registerStickyHeader(): Observable<boolean> {
-
-    return new Observable(resolver => {
+    return new Observable((resolver) => {
       const options = {
         threshold: this.thresholds,
-        root: this.rootArticle
+        root: this.rootArticle,
       };
       setTimeout(() => {
         const observer = new IntersectionObserver(([entry]) => {
@@ -64,9 +61,7 @@ export class ArticleThumbnailComponent implements OnInit {
         }, options);
 
         observer.observe(this.articleHeader.nativeElement);
-
       }, 500);
     });
   }
-
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSliderChange } from '@angular/material/slider';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { ConfigService } from '../../shared/config.service';
 import { Config } from './../../shared/config.service';
 import { DestroySubscriber } from './../../shared/destroy-subscriber';
@@ -14,7 +16,7 @@ export class DisplayComponent extends DestroySubscriber implements OnInit {
   public maxFontSize = ConfigService.MAX_FONTSIZE;
   public config: Config;
 
-  public constructor(private configService: ConfigService) {
+  public constructor(private configService: ConfigService, @Inject(IS_MOBILE) public isMobile: boolean) {
     super();
   }
 
@@ -29,11 +31,8 @@ export class DisplayComponent extends DestroySubscriber implements OnInit {
     this.configService.updateConfig({ darkTheme: value });
   }
 
-  public changeFontSize(value: number) {
+  public changeFontSize({ value }: MatSliderChange) {
+    this.config.fontSize = value;
     this.configService.updateConfig({ fontSize: value });
-  }
-
-  public onCickSizeSlider(event: Event) {
-    event.stopPropagation();
   }
 }

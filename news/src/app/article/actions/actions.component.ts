@@ -59,8 +59,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
     private ngZone: NgZone,
     @Inject(IS_MOBILE) private isMobile: boolean,
     @Inject(IS_NODE) private isNode: boolean,
-    private crd: ChangeDetectorRef,
-    private deferService: DeferService
+    private crd: ChangeDetectorRef
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {

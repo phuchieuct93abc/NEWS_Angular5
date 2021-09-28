@@ -1,5 +1,4 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ArticleComponent } from '../article.component';
 
@@ -30,8 +29,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
   public onClosed = new EventEmitter();
   @ViewChild('articleBodyWrapper')
   public articleView: ElementRef;
-  @ViewChild(CdkDrag)
-  public view: CdkDrag;
 
   public animationName = 'none';
   public isCollapseArticle = false;

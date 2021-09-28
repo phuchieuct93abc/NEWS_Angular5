@@ -1,6 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import en from '@angular/common/locales/en';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
@@ -37,7 +38,6 @@ import { CategoryComponent } from './navigator/category-selector/category/catego
 import { NavigatorComponent } from './navigator/navigator.component';
 import { SearchComponent } from './navigator/search/search.component';
 import { NotificationModule } from './notification/notification.module';
-import { NZModule } from './nz.module';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
@@ -53,7 +53,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import en from '@angular/common/locales/en';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -80,7 +79,6 @@ const isMobileProvider = {
     RouterModule,
     NotificationModule,
     ClipboardModule,
-    NZModule,
     LazyLoadImageModule,
     HammerModule,
     BrowserTransferStateModule,

@@ -6,15 +6,15 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "npm run build:browser && npm run build:ssr",
-    "build:browser": "ng build ",
+    "build:browser": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "dev:ssr": "ng run news:serve-ssr",
     "serve:ssr": "node dist/news/server/main.js",
     "build:ssr": "ng build && ng run news:server",
     "prerender": "ng run news:prerender",
     "postbuild": "node postbuild.js",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "explore": "ng build --source-map && source-map-explorer dist/**/*.js"
   },
   "private": true,
   "dependencies": {
@@ -41,7 +41,6 @@
     "intersection-observer": "^0.12.0",
     "ismobilejs": "^1.1.1",
     "ng-lazyload-image": "^9.1.0",
-    "ng-zorro-antd": "^12.0.1",
     "ngx-clipboard": "^14.0.1",
     "postcss": "^8.3.6",
     "rxjs": "~6.6.0",
@@ -67,6 +66,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "source-map-explorer": "^2.5.2",
     "tailwindcss": "^2.2.15",
     "typescript": "~4.3.5"
   }

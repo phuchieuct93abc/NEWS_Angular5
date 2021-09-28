@@ -1,8 +1,7 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClipboardService } from 'ngx-clipboard';
-import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
 
 @Component({
   selector: 'app-share',
@@ -16,32 +15,7 @@ import GetSocialMediaSiteLinks_WithShareLinks from './social-share-media';
   ],
 })
 export class ShareComponent {
-  public isShowShareSites = false;
-
   public constructor(private clipboardService: ClipboardService, private snackBar: MatSnackBar) {}
-
-  public share(provider: string) {
-    const url = GetSocialMediaSiteLinks_WithShareLinks({
-      url: window.location.href,
-    });
-    window.open(url[provider], '_blank');
-  }
-
-  public shareFaceBook() {
-    this.share('facebook');
-  }
-
-  public shareSkype() {
-    this.share('skype');
-  }
-
-  public sharePocket() {
-    this.share('getpocket');
-  }
-
-  public shareEvernote() {
-    this.share('evernote');
-  }
 
   public copyUrl() {
     this.clipboardService.copyFromContent(window.location.href);

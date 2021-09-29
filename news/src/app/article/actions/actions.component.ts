@@ -110,21 +110,6 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
     this.crd.markForCheck();
   }
 
-  toggleFavorite(): void {
-    this.isFavorite = !this.isFavorite;
-    if (this.article.story != null) {
-      if (this.isFavorite) {
-        this.favoriteService.addFavorite(this.article.story);
-        this.snackBar.open('Add to favorite category successful', null, {
-          duration: 2000,
-        });
-      } else {
-        this.favoriteService.removeFavorite(this.article.story);
-      }
-      this.article.story.isFavorite = this.isFavorite;
-    }
-  }
-
   close(event: MouseEvent): void {
     event && event.stopPropagation();
     this.onClosed.emit();

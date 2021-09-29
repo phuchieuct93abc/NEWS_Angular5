@@ -12,7 +12,7 @@
 	],
 	"settings": {
 		"liveServer.settings.multiRootWorkspaceName": "client",
-		"editor.formatOnSave": true,
-		"editor.formatOnSaveMode": "modifications"
+		"editor.formatOnSaveMode": "modifications",
+		"editor.formatOnSave": true
 	}
 }

@@ -140,7 +140,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   private parseVideo() {
     const element = this.articleContent.nativeElement;
     const videos: NodeListOf<HTMLElement> = element.querySelectorAll('app-video');
-    console.log(videos);
     videos.forEach((video) => new ArticleVideoParser(video, this.domService).parse());
   }
 }

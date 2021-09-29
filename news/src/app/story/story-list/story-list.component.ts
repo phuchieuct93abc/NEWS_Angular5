@@ -57,6 +57,7 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
     protected activatedRoute: ActivatedRoute,
     protected route: Router
   ) {}
+
   ngAfterViewInit(): void {
     this.scrollPosition$ = fromEvent(this.scrollingBlock.nativeElement, 'scroll').pipe(map((a) => (a.target as HTMLElement).scrollTop));
   }
@@ -118,11 +119,9 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   protected scrollTo(story: Story): void {
-    setTimeout(() => {
-      const index = this.stories.findIndex((i) => i.id == story.id);
-      const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
-      this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop + 100, behavior: 'smooth' });
-    });
+    const index = this.stories.findIndex((i) => i.id == story.id);
+    const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
+    this.scrollingBlock.nativeElement.scrollTo?.({ top: el.offsetTop - 20, behavior: 'smooth' });
   }
 
   protected scrollTop(): void {

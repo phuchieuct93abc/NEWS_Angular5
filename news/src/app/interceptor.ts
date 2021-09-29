@@ -10,13 +10,7 @@ export class NoopInterceptor implements HttpInterceptor {
   constructor(private snackBar: MatSnackBar) {}
 
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.time(`${req.url}?${req.params.toString()}`);
     return next.handle(req).pipe(
-      tap((data) => {
-        if (data instanceof HttpResponse) {
-          console.timeEnd(`${req.url}?${req.params.toString()}`);
-        }
-      }),
       catchError((error: HttpErrorResponse) => {
         this.snackBar.open('! Oop, something went wrong', null, { duration: 2000 });
         return throwError(error);

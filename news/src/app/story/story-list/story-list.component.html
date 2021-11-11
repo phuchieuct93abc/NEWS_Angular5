@@ -11,7 +11,7 @@
         [story]="item"
         class="block pb-2"></app-story>
     </ng-container>
-    <ng-container *ngIf="stories.length < 5">
+    <ng-container *ngIf="stories.length < 3">
       <app-loading-story *ngFor="let i of loadingStories" class="loading-story pb-2"></app-loading-story>
     </ng-container>
     <div class="p-2 text-center">

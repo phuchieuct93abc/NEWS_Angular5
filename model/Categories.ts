@@ -74,12 +74,6 @@ const categories: Categories[] = [
         icon: 'videocam',
         color: '#007bff',
       },
-      {
-        name: 'yeu-thich',
-        title: 'Yêu thích',
-        icon: 'favorite',
-        color: '#dc3545',
-      },
     ],
   },
   {

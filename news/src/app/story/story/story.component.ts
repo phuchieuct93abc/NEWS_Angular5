@@ -6,7 +6,6 @@ import * as url from 'speakingurl';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 import { Story } from '../../../../../model/Story';
 import { Config, ConfigService } from '../../shared/config.service';
-import { FavoriteService } from '../../shared/favorite-story.service';
 import { StoryListService } from '../story-list/story-list.service';
 
 @Component({
@@ -40,7 +39,6 @@ export class StoryComponent implements OnInit, OnDestroy {
     @Inject(IS_NODE) public isNode: boolean,
     @Inject(IS_MOBILE) public isMobile: boolean,
     protected configService: ConfigService,
-    protected favoriteService: FavoriteService,
     protected route: Router,
     protected activatedRoute: ActivatedRoute,
     protected storyListService: StoryListService,
@@ -66,7 +64,6 @@ export class StoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.story.isFavorite = this.favoriteService.findById(this.story.id!) != null;
     if (this.story.isOpenning) {
       this.selectStory();
     }

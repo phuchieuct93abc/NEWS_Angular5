@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
-
-export interface Storage {
-  getItem(id: string, fallbackValue: object): object;
-
-  setItem(id: string, item: object): void;
-}
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService implements Storage {
-  getItem(id: string, fallbackValue: object): object {
+export class LocalStorageService {
+  constructor(private storage: StorageMap) {}
+  getItem<T>(id: string, fallbackValue: T): Observable<T> {
     if (typeof localStorage !== 'undefined') {
-      const item = JSON.parse(localStorage.getItem(id)!);
-      return item ? item : fallbackValue;
+      return this.storage.get(id).pipe(map((item) => (item ? (item as T) : fallbackValue)));
     }
-    return fallbackValue;
+    return of(fallbackValue);
   }
 
-  setItem(id: string, item: object) {
+  setItem(id: string, item: unknown) {
     if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(id, JSON.stringify(item));
+      this.storage.set(id, item).subscribe();
     }
+  }
+
+  hasKey(id: string): Observable<boolean> {
+    return this.storage.has('news');
   }
 }

@@ -17,10 +17,8 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { DeferService } from 'src/app/shared/defer.service';
 import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
-import { FavoriteService } from '../../shared/favorite-story.service';
 import { IS_NODE } from './../../shared/const';
 
 @Component({
@@ -44,7 +42,6 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
   stickyElement: ElementRef;
   @Input()
   wrapperElement: HTMLElement;
-  isFavorite: boolean;
   display = true;
   observerWindow: IntersectionObserver;
   observerWrapper: IntersectionObserver;
@@ -54,8 +51,6 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
   private isDisplayingArticle = true;
 
   constructor(
-    protected favoriteService: FavoriteService,
-    private snackBar: MatSnackBar,
     private ngZone: NgZone,
     @Inject(IS_MOBILE) private isMobile: boolean,
     @Inject(IS_NODE) private isNode: boolean,
@@ -76,9 +71,7 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
     }
   }
 
-  ngOnInit(): void {
-    this.isFavorite = this.favoriteService.findById(this.article.id) != undefined;
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.registerStickyActions();

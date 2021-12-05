@@ -1,19 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { map, retry } from 'rxjs/operators';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { map, retry, switchMap, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
 import { IS_NODE } from './const';
-import { Cache } from './cache.service';
-import { FavoriteService } from './favorite-story.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
 
 const storyUrl = CONFIG.asiaUrl + `story`;
 const searchUrl = CONFIG.asiaUrl + `search`;
-const readId = 'read';
 
 @Injectable({
   providedIn: 'root',
@@ -24,25 +21,12 @@ export class StoryService {
 
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
-  private readStory: Story[];
 
-  public constructor(
-    private httpClient: HttpClient,
-    private storage: LocalStorageService,
-    private loadingService: LoadingService,
-    private favoriteService: FavoriteService,
-    @Inject(IS_NODE) private isNode: boolean,
-    private transferState: TransferState
-  ) {
-    this.readStory = storage.getItem(readId, []) as Story[];
-  }
+  public constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
     const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
 
-    if (category === 'yeu-thich') {
-      return this.favoriteService.getStories();
-    }
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
     return this.httpClient
@@ -54,17 +38,14 @@ export class StoryService {
       })
       .pipe(
         retry(3),
-        map((result) => {
-          result = result.map((r) => Object.assign(new Story(), r));
-
+        tap(() =>
           this.loadingService.onLoading.next({
             type: LoadingEventType.FINISH,
             name: LoadingEventName.MORE_STORY,
-          });
-
-          this.checkReadStory(result);
-          return result;
-        })
+          })
+        ),
+        map((result) => result.map((r) => Object.assign(new Story(), r))),
+        switchMap((result) => this.checkReadStory(result))
       );
   }
 
@@ -96,21 +77,21 @@ export class StoryService {
   }
 
   public saveReadStory(story: Story): void {
-    const item = this.storage.getItem(readId, []) as Story[];
-    item.push(story);
-    this.storage.setItem(readId, item);
+    this.storage.setItem(`${story.id}-read`, true);
   }
 
   public getById(id: string): Story {
     let story = this.stories.find((s) => s.id === id);
-    if (story == null) {
-      story = this.favoriteService.findById(id);
-    }
     return story;
   }
 
-  public checkReadStory(stories: Story[]): void {
-    stories.filter((story) => this.readStory.findIndex((readStory) => readStory.id === story.id) >= 0).forEach((read) => (read.isRead = true));
+  public checkReadStory(stories: Story[]): Observable<Story[]> {
+    return forkJoin(stories.map((story) => this.storage.getItem(`${story.id}-read`, false))).pipe(
+      map((results) => {
+        stories.forEach((story, index) => (story.isRead = results[index]));
+        return stories;
+      })
+    );
   }
 
   public unshift(firstStory: Story): void {

@@ -4,7 +4,7 @@
   "scripts": {
     "setup": "npm install",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --poll 2000",
     "build": "npm run build:browser && npm run build:ssr",
     "build:browser": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -32,6 +32,7 @@
     "@angular/router": "~12.2.0",
     "@angular/service-worker": "~12.2.0",
     "@nguniversal/express-engine": "^12.1.0",
+    "@ngx-pwa/local-storage": "^12.1.0",
     "angular-google-tag-manager": "^1.4.2",
     "autoprefixer": "^10.3.4",
     "dayjs": "^1.10.6",

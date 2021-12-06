@@ -25,10 +25,17 @@ export class LocalStorageService {
     return this.storage.has('news');
   }
 
-  setItemSync(id: string, item: unknown) {
+  setItemSync(id: string, item: unknown): void {
+    if (typeof localStorage == 'undefined') {
+      return;
+    }
+
     localStorage?.setItem(id, JSON.stringify(item));
   }
-  getItemSync(id: string, defaultValue: unknown) {
+  getItemSync<T>(id: string, defaultValue: T): T {
+    if (typeof localStorage == 'undefined') {
+      return defaultValue;
+    }
     return JSON.parse(localStorage?.getItem(id)) || defaultValue;
   }
 }

@@ -26,15 +26,15 @@ export class ConfigService {
     fontSize: 2,
   };
 
-  public constructor(private storage: LocalStorageService) {
-    this.config = { ...this.config, ...storage.getItem(id, {}) };
+  public constructor(private storageService: LocalStorageService) {
+    this.config = { ...this.config, ...this.storageService.getItemSync(id, {}) };
     this.migrateConfig();
     this.config$ = new BehaviorSubject(this.config);
   }
 
   public updateConfig(config: Config) {
     this.config = { ...this.config, ...config };
-    this.storage.setItem(id, this.config);
+    this.storageService.setItem(id, this.config);
     this.config$.next(this.config);
   }
 

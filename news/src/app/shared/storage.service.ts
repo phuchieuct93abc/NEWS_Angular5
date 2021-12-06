@@ -24,4 +24,11 @@ export class LocalStorageService {
   hasKey(id: string): Observable<boolean> {
     return this.storage.has('news');
   }
+
+  setItemSync(id: string, item: unknown) {
+    localStorage?.setItem(id, JSON.stringify(item));
+  }
+  getItemSync(id: string, defaultValue: unknown) {
+    return JSON.parse(localStorage?.getItem(id)) || defaultValue;
+  }
 }

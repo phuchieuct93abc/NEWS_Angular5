@@ -59,7 +59,7 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.scrollPosition$ = fromEvent(this.scrollingBlock.nativeElement, 'scroll').pipe(map((a) => (a.target as HTMLElement).scrollTop));
+    this.scrollPosition$ = fromEvent(this.scrollingBlock?.nativeElement, 'scroll').pipe(map((a) => (a.target as HTMLElement).scrollTop));
   }
 
   ngOnInit(): void {

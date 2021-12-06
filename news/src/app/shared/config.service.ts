@@ -34,7 +34,7 @@ export class ConfigService {
 
   public updateConfig(config: Config) {
     this.config = { ...this.config, ...config };
-    this.storageService.setItem(id, this.config);
+    this.storageService.setItemSync(id, this.config);
     this.config$.next(this.config);
   }
 

@@ -104,7 +104,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       } else {
         this.articleService
           .getById(articleId, categoryId)
-          .pipe(takeUntil(this.onDestroy$))
+          .pipe(takeUntil(this.onDestroy$), takeUntil(this.stopGetArticle$))
           .subscribe((article) => {
             this.loadArticle(article);
           });

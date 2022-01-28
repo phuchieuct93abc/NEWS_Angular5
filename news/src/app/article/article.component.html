@@ -1,7 +1,7 @@
 <div
   appNavigationKeyboard
-  (up)="up()"
-  (down)="down()"
+  (up)="navigationAction$.next('up')"
+  (down)="navigationAction$.next('down')"
   (left)="prevArticle()"
   (right)="nextArticle()"
   class="h-full article relative mat-elevation-z8"

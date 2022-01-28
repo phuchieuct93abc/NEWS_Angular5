@@ -1,9 +1,9 @@
-import { IS_NODE } from 'src/app/shared/const';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Inject, Input, NgZone, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { asyncScheduler, Subject } from 'rxjs';
+import { takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { IS_NODE } from 'src/app/shared/const';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
@@ -42,6 +42,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public isOpeningArticle: boolean;
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
+  public navigationAction$ = new Subject<'up' | 'down'>();
 
   public constructor(
     @Inject(IS_NODE) private isNode: boolean,
@@ -67,16 +68,30 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .subscribe(({ fontSize }) => {
         this.fontSize = fontSize;
       });
+
+    this.navigationAction$
+      .pipe(
+        throttleTime(100, asyncScheduler, { leading: true, trailing: true }),
+        tap(() => console.log('fired')),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((action) => {
+        if (action === 'down') {
+          this.down();
+        } else {
+          this.up();
+        }
+      });
   }
 
   public up() {
     const articleView = this.articleView.nativeElement;
-    articleView.scrollTo({ top: articleView.scrollTop - 100 });
+    articleView.scrollBy({ top: -50, behavior: 'smooth' });
   }
 
   public down() {
     const articleView = this.articleView.nativeElement;
-    articleView.scrollTo({ top: articleView.scrollTop + 100 });
+    articleView.scrollBy({ top: 50, behavior: 'smooth' });
   }
 
   public prevArticle() {

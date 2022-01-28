@@ -1,6 +1,6 @@
 import { Directive, OnInit, Output, HostListener, EventEmitter, OnDestroy } from '@angular/core';
 import { Subject, interval } from 'rxjs';
-import { throttle, takeUntil } from 'rxjs/operators';
+import { throttle, takeUntil, debounce } from 'rxjs/operators';
 
 @Directive({
   selector: '[appNavigationKeyboard]',
@@ -19,23 +19,18 @@ export class NavigationKeyboardDirective implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.onKeyDown$
-      .pipe(
-        throttle(() => interval(100)),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((event) => {
-        switch (event.key) {
-          case 'ArrowDown':
-          case 's':
-            return this.down.emit();
-          case 'ArrowUp':
-          case 'w':
-            return this.up.emit();
-          default:
-            break;
-        }
-      });
+    this.onKeyDown$.pipe(takeUntil(this.onDestroy$)).subscribe((event) => {
+      switch (event.key) {
+        case 'ArrowDown':
+        case 's':
+          return this.down.emit();
+        case 'ArrowUp':
+        case 'w':
+          return this.up.emit();
+        default:
+          break;
+      }
+    });
 
     this.onKeyDown$
       .pipe(

@@ -45,7 +45,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public isOpeningArticle: boolean;
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
-  public navigationAction$ = new Subject<'up' | 'down'>();
 
   public constructor(
     @Inject(IS_NODE) private isNode: boolean,
@@ -75,16 +74,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .subscribe(({ fontSize }) => {
         this.fontSize = fontSize;
       });
+  }
 
-    this.navigationAction$
-      .pipe(throttleTime(150, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$))
-      .subscribe((action) => {
-        if (action === 'down') {
-          this.smoothScrollDirective.down();
-        } else {
-          this.smoothScrollDirective.up();
-        }
-      });
+  public scrollUp() {
+    this.smoothScrollDirective.up();
+  }
+
+  public scrollDown() {
+    this.smoothScrollDirective.down();
   }
 
   public prevArticle() {

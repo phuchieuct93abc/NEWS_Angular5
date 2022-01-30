@@ -12,6 +12,7 @@ import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';
+import { SmoothScrollDirective } from './smooth-scroll.directive';
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
@@ -31,6 +32,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public story: Story;
   @ViewChild('articleView')
   protected articleView: ElementRef<HTMLElement>;
+  @ViewChild(SmoothScrollDirective)
+  private smoothScrollDirective: SmoothScrollDirective;
 
   public article: Article;
   public articleId: string;
@@ -55,6 +58,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected crd: ChangeDetectorRef
   ) {}
 
+  get articleViewEle(): HTMLElement {
+    return this.articleView.nativeElement;
+  }
+
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
       this.stopGetArticle$.next();
@@ -70,28 +77,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
 
     this.navigationAction$
-      .pipe(
-        throttleTime(100, asyncScheduler, { leading: true, trailing: true }),
-        tap(() => console.log('fired')),
-        takeUntil(this.onDestroy$)
-      )
+      .pipe(throttleTime(150, asyncScheduler, { leading: true, trailing: true }), takeUntil(this.onDestroy$))
       .subscribe((action) => {
         if (action === 'down') {
-          this.down();
+          this.smoothScrollDirective.down();
         } else {
-          this.up();
+          this.smoothScrollDirective.up();
         }
       });
-  }
-
-  public up() {
-    const articleView = this.articleView.nativeElement;
-    articleView.scrollBy({ top: -50, behavior: 'smooth' });
-  }
-
-  public down() {
-    const articleView = this.articleView.nativeElement;
-    articleView.scrollBy({ top: 50, behavior: 'smooth' });
   }
 
   public prevArticle() {

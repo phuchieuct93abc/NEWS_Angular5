@@ -12,7 +12,7 @@
       <mat-icon>chevron_left</mat-icon>
     </a>
   </div>
-  <div class="scrollable" #articleView>
+  <div class="scrollable" #articleView appSmoothScroll>
     <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
       <div *ngIf="article; else loading" class="article-content px-2 pb-5 panel-primary">
         <app-article-thumbnail

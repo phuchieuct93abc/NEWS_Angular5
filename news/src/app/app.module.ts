@@ -25,6 +25,7 @@ import { ArticleComponent } from './article/article.component';
 import { DisplayComponent } from './article/display/display.component';
 import { InlineArticleComponent } from './article/inline-article/inline-article.component';
 import { LoadingComponent } from './article/loading/loading.component';
+import { SmoothScrollDirective } from './article/smooth-scroll.directive';
 import { ContentComponent } from './content/content.component';
 import { TopCategoryComponent } from './dashboard/category/category.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -125,6 +126,7 @@ const isMobileProvider = {
     ToNowPipe,
     AppShellNoRenderDirective,
     AppShellRenderDirective,
+    SmoothScrollDirective,
   ],
   bootstrap: [AppComponent],
   providers: [

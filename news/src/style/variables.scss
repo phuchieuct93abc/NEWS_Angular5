@@ -29,3 +29,5 @@ body.unicorn-light-theme {
   background: linear-gradient(to $direction-end, $color 0%, $transparent 100%);
   background: -webkit-gradient(linear, left $direction-start, left $direction-end, color-stop(0%, $color), to($transparent));
 }
+
+$border-radius: 4px;

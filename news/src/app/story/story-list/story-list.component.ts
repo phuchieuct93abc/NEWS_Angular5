@@ -44,7 +44,7 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   openningStory: Story;
 
-  loadingStories = Array(10).fill('');
+  loadingStories = Array(20).fill('');
   @Input()
   public category: string;
 

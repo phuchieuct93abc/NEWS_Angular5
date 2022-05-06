@@ -19,12 +19,20 @@ export abstract class StoryService {
   ) {}
 
   public async getStories(): Promise<Story[]> {
-    const response = await axios.get(this.url);
-    const result = this.queryStories(response);
-    let stories = Array.from(result)
-      .map((r) => this.storyParser.setData(r).parseStory())
-      .filter((r) => r != null);
-    return this.uniqueBy(stories);
+    try {
+      console.log('start url', this.url);
+      const response = await axios.get(this.url);
+      console.log('response', response);
+      const result = this.queryStories(response);
+      let stories = Array.from(result)
+        .map((r) => this.storyParser.setData(r).parseStory())
+        .filter((r) => r != null);
+      return this.uniqueBy(stories);
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  
   }
 
   public async cache(): Promise<any> {

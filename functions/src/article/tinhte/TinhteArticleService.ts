@@ -18,7 +18,6 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
 
   async crawnArticleById(id: string): Promise<Article> {
     const response = await axios.get(this.tinhteArticleUrl.replace('${id}', id));
-    console.warn(response.data);
     const article = this.parser.setData(response.data['thread']).parserArticle();
     article.category = this.category;
     return article;

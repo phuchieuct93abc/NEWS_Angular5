@@ -6,7 +6,8 @@ import TinhteStoryParser from './TinhteStoryParser';
 
 export default class TinhteStoryService extends StoryService {
   public pageNumber: number;
-  public static urlApi = 'https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7';
+  public static urlApi =
+    'https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=0,1651845560,0d8d23e8b2d12d722c36d0fc9b354b48,lxi7g2zolu';
 
   constructor(protected url: string, protected category: string) {
     super(url, new TinhteStoryParser(), category, new TinhteArticleService());

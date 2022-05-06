@@ -21,7 +21,15 @@ export abstract class StoryService {
   public async getStories(): Promise<Story[]> {
     try {
       console.log('start url', this.url);
-      const response = await axios.get(this.url);
+      axios
+        .get(this.url)
+        .then((response) => {
+          console.log('success', response);
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
+      const response = await axios.get(this.url).catch();
       console.log('response', response);
       const result = this.queryStories(response);
       let stories = Array.from(result)

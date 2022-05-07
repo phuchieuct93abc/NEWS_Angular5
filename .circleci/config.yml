@@ -52,8 +52,10 @@ workflows:
           branches:
             only: 
               - master
+              - test
       - build-server:
          filters:
           branches:
             only: 
               - master
+              - test

@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, retry, switchMap, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
-import { IS_NODE } from './const';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
+import { TinhTeService } from './tinhte/tinhte.service';
 
 const storyUrl = CONFIG.asiaUrl + `story`;
 const searchUrl = CONFIG.asiaUrl + `search`;
@@ -22,31 +21,37 @@ export class StoryService {
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
-  public constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {}
+  public constructor(
+    private httpClient: HttpClient,
+    private storage: LocalStorageService,
+    private loadingService: LoadingService,
+    private tinhteService: TinhTeService
+  ) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
-    const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
-
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
-
-    return this.httpClient
-      .get<Story[]>(storyUrl, {
+    let newLocal: Observable<Story[]>;
+    if (category === 'tinh-te') {
+      newLocal = this.tinhteService.getStories(pageNumber);
+    } else {
+      newLocal = this.httpClient.get<Story[]>(storyUrl, {
         params: {
           pageNumber: pageNumber + '',
           category,
         },
-      })
-      .pipe(
-        retry(3),
-        tap(() =>
-          this.loadingService.onLoading.next({
-            type: LoadingEventType.FINISH,
-            name: LoadingEventName.MORE_STORY,
-          })
-        ),
-        map((result) => result.map((r) => Object.assign(new Story(), r))),
-        switchMap((result) => this.checkReadStory(result))
-      );
+      });
+    }
+    return newLocal.pipe(
+      retry(3),
+      tap(() =>
+        this.loadingService.onLoading.next({
+          type: LoadingEventType.FINISH,
+          name: LoadingEventName.MORE_STORY,
+        })
+      ),
+      map((result) => result.map((r) => Object.assign(new Story(), r))),
+      switchMap((result) => this.checkReadStory(result))
+    );
   }
 
   public resetPageNumber() {

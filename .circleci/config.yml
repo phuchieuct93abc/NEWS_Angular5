@@ -52,8 +52,10 @@ workflows:
           branches:
             only: 
               - master
+              - correct-tinhte-403
       - build-server:
          filters:
           branches:
             only: 
               - master
+              - correct-tinhte-403

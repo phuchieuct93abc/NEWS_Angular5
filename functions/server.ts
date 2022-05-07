@@ -1,13 +1,13 @@
 import * as functions from 'firebase-functions';
 import api from './api';
-import app from './app';
+// import app from './app';
 
-exports.app = functions
-  .runWith({
-    timeoutSeconds: 20,
-    memory: '2GB',
-  })
-  .https.onRequest(app);
+// exports.app = functions
+//   .runWith({
+//     timeoutSeconds: 20,
+//     memory: '2GB',
+//   })
+//   .https.onRequest(app);
 
 exports.apissr = functions
   .runWith({

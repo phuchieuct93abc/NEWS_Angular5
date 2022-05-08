@@ -61,14 +61,6 @@ const categories: Categories[] = [
         color: '#20c997',
       },
       {
-        name: 'tinh-te',
-        title: 'Tinh tế',
-        image: 'https://tinhte.vn/favicon.ico',
-        color: '#20c997',
-        id: 79,
-      },
-
-      {
         name: 'tin-video',
         title: 'Video',
         icon: 'videocam',

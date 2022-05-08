@@ -5,6 +5,7 @@ import StoryServiceFactory from './src/story/StoryServiceFactory';
 import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import notifyHandler from './src/notification/notificationHandler';
 import { ttsArticle } from './tts';
+var cloudscraper = require('cloudscraper');
 var proxy = require('express-http-proxy');
 require('dotenv').config();
 
@@ -71,16 +72,16 @@ router.get('/tts', async (req, res) => {
 });
 
 router.get('/test', async (req, res) => {
-  axios
-    .get(
-      'https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=0,1651845560,0d8d23e8b2d12d722c36d0fc9b354b48,lxi7g2zolu'
-    )
-    .then((response) => {
-      res.send(response);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+  cloudscraper.get('https://tinhte.vn/').then(
+    (data) => {
+      console.log(data);
+      res.send(data);
+    },
+    (data) => {
+      console.error(data);
+      res.send(data);
+    }
+  );
 });
 
 // regular function

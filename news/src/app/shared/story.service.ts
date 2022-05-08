@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, retry, switchMap, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
-import { IS_NODE } from './const';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
 
@@ -25,8 +23,6 @@ export class StoryService {
   public constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
-    const COURSE_KEY = makeStateKey<Story[]>(`stories-${category}-${pageNumber}`);
-
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
     return this.httpClient
@@ -81,8 +77,7 @@ export class StoryService {
   }
 
   public getById(id: string): Story {
-    let story = this.stories.find((s) => s.id === id);
-    return story;
+    return this.stories.find((s) => s.id === id);
   }
 
   public checkReadStory(stories: Story[]): Observable<Story[]> {

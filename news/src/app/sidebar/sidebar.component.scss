@@ -26,7 +26,7 @@
       top: 0;
       left: 0;
       bottom: 0;
-      border-right: 3px solid var(--hightlight-color);
+      border-right: 3px solid var(--highlight-color);
       -webkit-transform: scaleY(0.0001);
       transform: scaleY(0.0001);
       opacity: 0;
@@ -58,7 +58,7 @@
       // background-color: transparent !important;
 
       a {
-        color: var(--hightlight-color) !important;
+        color: var(--highlight-color) !important;
       }
     }
   }

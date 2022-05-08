@@ -48,14 +48,13 @@ export class StoryComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.isRead = this.story.isRead;
     this.config$ = this.configService.getConfig();
-    this.activatedRoute.firstChild?.snapshot.params;
     this.isActive$ = this.route.events.pipe(
       takeUntil(this.onDestroy$),
       filter((event) => event instanceof NavigationEnd),
       map(() => this.activatedRoute.firstChild?.snapshot.params),
       startWith(this.activatedRoute.firstChild?.snapshot.params),
       filter((params) => params != null),
-      map((param) => param!.id === this.story.id),
+      map((param) => param.id === this.story.id),
       tap((active) => {
         if (active) {
           this.afterSelectStory();

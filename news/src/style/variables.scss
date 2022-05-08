@@ -8,7 +8,7 @@ body.unicorn-dark-theme {
   --background-color-transparent-2: rgb(74, 74, 77, 0); //content, active story
   --background-color-3: rgb(66, 66, 66); //story
   --background-color-4: transparent; //sidebar
-  --hightlight-color: #40c4ff;
+  --highlight-color: #40c4ff;
   --foreground-color: rgba(255, 255, 255, 0.78);
 }
 
@@ -21,8 +21,8 @@ body.unicorn-light-theme {
   --background-color-transparent-1: rgb(250, 250, 250, 0);
   --background-color-transparent-2: rgb(229, 229, 229, 0);
   --background-color-3: rgb(255, 255, 255);
-  --background-color-4: rgb(250, 250, 250); //sidebae
-  --hightlight-color: #40c4ff;
+  --background-color-4: rgb(250, 250, 250); //sidebar
+  --highlight-color: #40c4ff;
 }
 
 @mixin blur-edge($color, $transparent, $direction-start, $direction-end) {

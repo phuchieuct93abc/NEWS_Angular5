@@ -12,7 +12,6 @@ import { MetaService } from './meta.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { Cache } from './cache.service';
 import { IS_NODE } from './const';
-import { TinhTeService } from './tinhte/tinhte.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +25,7 @@ export class ArticleService {
     private meta: MetaService,
     private loadingService: LoadingService,
     @Inject(IS_NODE) private isNode: boolean,
-    private transferState: TransferState,
-    private tinhteService: TinhTeService
+    private transferState: TransferState
   ) {}
 
   @Cache()
@@ -51,14 +49,7 @@ export class ArticleService {
       },
     };
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
-    let getArticle: Observable<Article>;
-    if (options.params.category === 'tinh-te') {
-      getArticle = this.tinhteService.getArticle(id);
-    } else {
-      getArticle = this.httpClient.get<Article>(CONFIG.baseUrl + 'article', options);
-    }
-
-    return getArticle.pipe(
+    return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
       retry(3),
       map((result) => {
         this.loadingService.onLoading.next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });

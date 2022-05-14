@@ -52,6 +52,8 @@ workflows:
           branches:
             only: 
               - master
+              - test-get-back-tinhte
+
       - build-server:
          filters:
           branches:

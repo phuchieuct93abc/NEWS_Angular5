@@ -4,6 +4,8 @@ import { StoryService } from '../StoryService';
 
 import TinhteStoryParser from './TinhteStoryParser';
 const axios = require('axios');
+let lastTokenTime = new Date();
+let lastToken = null;
 
 export default class TinhteStoryService extends StoryService {
   public pageNumber: number;
@@ -17,15 +19,18 @@ export default class TinhteStoryService extends StoryService {
     return data.data.threads;
   }
 
-  search(pageNumber: string, keyword: string): Promise<Story[]> {
+  search(): Promise<Story[]> {
     return undefined;
   }
 
   public static async getOAuthToken(): Promise<string> {
-    const index = await axios.get('https://tinhte.vn');
-    const result = /oauth_token=([^"]*)"/gm.exec(index.data)[1];
-    console.log(result);
-    return result;
+    if (lastToken == null || lastTokenTime.getTime() + 5 * 60 * 1000 < new Date().getTime()) {
+      console.log('get new token');
+      const index = await axios.get('https://tinhte.vn');
+      lastToken = /oauth_token=([^"]*)"/gm.exec(index.data)[1];
+      lastTokenTime = new Date();
+    }
+    return lastToken;
   }
 
   static createInstance(pageNumber: number) {

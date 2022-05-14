@@ -2,13 +2,14 @@ import { ArticleService } from '../ArticleService';
 import Article from '../../../../model/Article';
 import TinhteArticleParser from './TinhteArticleParser';
 import { TinhteData } from './TInhTeArticleType';
+import TinhteStoryService from '../../story/tinhte/TinhteStoryService';
 
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const axios = require('axios');
 
 export default class TinhteArticleService extends ArticleService<TinhteData> {
-  private tinhteArticleUrl = 'https://tinhte.vn/appforo/index.php?/threads/${id}&oauth_token=qcunuxxyhhbt5ifhj80g6liz44thgdz7';
+  private tinhteArticleUrl = 'https://tinhte.vn/appforo/index.php?/threads/${id}&oauth_token=${token}';
 
   constructor() {
     super();
@@ -17,7 +18,8 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
   }
 
   async crawnArticleById(id: string): Promise<Article> {
-    const response = await axios.get(this.tinhteArticleUrl.replace('${id}', id));
+    const token = await TinhteStoryService.getOAuthToken();
+    const response = await axios.get(this.tinhteArticleUrl.replace('${id}', id).replace('${token}', token));
     const article = this.parser.setData(response.data['thread']).parserArticle();
     article.category = this.category;
     return article;

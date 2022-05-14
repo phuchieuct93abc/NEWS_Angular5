@@ -9,7 +9,7 @@
     "client": "cd news && npm start",
     "client:ssr": "cd news && npm run dev:ssr",
     "server": "cd functions && npm run-script serve",
-    "build:server": "npm --prefix \"functions\" run-script build",
+    "build:server": "npm run build:client:ssr && npm --prefix \"functions\" run-script build",
     "build:client": "npm --prefix \"news\" run-script build:browser",
     "build:client:ssr": "npm --prefix \"news\" run-script build:ssr",
     "build": "npm run build:client && npm run build:server",

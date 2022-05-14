@@ -7,6 +7,7 @@ import notifyHandler from './src/notification/notificationHandler';
 import { ttsArticle } from './tts';
 var proxy = require('express-http-proxy');
 require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 var router = express.Router();
@@ -67,6 +68,18 @@ router.get('/tts', async (req, res) => {
   });
   const autio = await ttsArticle(article);
   res.end(Buffer.from(autio as any, 'binary'));
+});
+router.get('/test', async (req, res) => {
+  axios.get('https://tinhte.vn/').then(
+    (data) => {
+      console.log(data);
+      res.send(data);
+    },
+    (data) => {
+      console.error(data);
+      res.send(data);
+    }
+  );
 });
 
 // regular function

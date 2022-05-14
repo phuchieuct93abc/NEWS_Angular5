@@ -64,6 +64,18 @@
           "purpose": "any"
         }
       ]
+    },
+    {
+      "name": "Tinh tế",
+      "short_name": "Tinh tế",
+      "url": "/tinh-te",
+      "icons": [
+        {
+          "src": "/assets/icon/shorcuts/tinhte.png",
+          "sizes": "200x200",
+          "purpose": "any"
+        }
+      ]
     }
   ]
 }

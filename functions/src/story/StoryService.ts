@@ -18,19 +18,14 @@ export abstract class StoryService {
     protected articleService: ArticleService<any>
   ) {}
 
+  protected async getUrl(): Promise<string> {
+    return this.url;
+  }
+
   public async getStories(): Promise<Story[]> {
     try {
-      console.log('start url', this.url);
-      axios
-        .get(this.url)
-        .then((response) => {
-          console.log('success', response);
-        })
-        .catch((error) => {
-          console.log('error', error);
-        });
-      const response = await axios.get(this.url).catch();
-      console.log('response', response);
+      const url = await this.getUrl();
+      const response = await axios.get(url).catch();
       const result = this.queryStories(response);
       let stories = Array.from(result)
         .map((r) => this.storyParser.setData(r).parseStory())
@@ -40,7 +35,6 @@ export abstract class StoryService {
       console.error(e);
       throw e;
     }
-  
   }
 
   public async cache(): Promise<any> {

@@ -43,7 +43,7 @@ export abstract class StoryService {
   }
 
   private async cacheArticles(stories): Promise<any> {
-    let cachedArticles: Article[] = await Promise.all(stories.map(async (story) => this.articleService.crawnArticleByIdAndSaveArticle(story.id)));
+    let cachedArticles: Article[] = await Promise.all(stories.map(async (story) => this.articleService.crawArticleByIdAndSaveArticle(story.id)));
     cachedArticles = cachedArticles.filter((article) => article != null);
     await this.sendNotification(cachedArticles);
     return cachedArticles.map((article) => ({ title: article.header, related: article.related }));

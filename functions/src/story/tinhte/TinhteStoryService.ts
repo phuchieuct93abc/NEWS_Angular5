@@ -11,6 +11,8 @@ export default class TinhteStoryService extends StoryService {
   public pageNumber: number;
   public static urlApi = 'https://tinhte.vn/appforo/index.php?threads/promoted&limit=30&page=${page}&oauth_token=${token}';
 
+  public static readonly oauthRegex = /oauth_token=([^"]*)"/gm;
+
   constructor(protected url: string, protected category: string) {
     super(url, new TinhteStoryParser(), category, new TinhteArticleService());
   }
@@ -27,7 +29,7 @@ export default class TinhteStoryService extends StoryService {
     if (lastToken == null || lastTokenTime.getTime() + 5 * 60 * 1000 < new Date().getTime()) {
       console.log('get new token');
       const index = await axios.get('https://tinhte.vn');
-      lastToken = /oauth_token=([^"]*)"/gm.exec(index.data)[1];
+      lastToken = TinhteStoryService.oauthRegex.exec(index.data)[1];
       lastTokenTime = new Date();
     }
     return lastToken;

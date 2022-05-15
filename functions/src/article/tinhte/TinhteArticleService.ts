@@ -17,7 +17,7 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
     this.category = 'tinh-te';
   }
 
-  async crawnArticleById(id: string): Promise<Article> {
+  async crawArticleById(id: string): Promise<Article> {
     const token = await TinhteStoryService.getOAuthToken();
     const response = await axios.get(this.tinhteArticleUrl.replace('${id}', id).replace('${token}', token));
     const article = this.parser.setData(response.data['thread']).parserArticle();
@@ -25,7 +25,14 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
     return article;
   }
 
-  async getComment(id: string): Promise<Comment[]> {
+  async getComment(): Promise<Comment[]> {
     return [];
+  }
+
+  protected transformCachedArticle(firebaseArticle: Article): Article {
+    Object.keys(firebaseArticle).forEach(
+      (key) => (firebaseArticle[key] = firebaseArticle[key].replace(TinhteStoryService.oauthRegex, TinhteStoryService.getOAuthToken()))
+    );
+    return firebaseArticle;
   }
 }

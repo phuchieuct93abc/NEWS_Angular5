@@ -17,7 +17,7 @@ export default class BaomoiArticleService extends ArticleService<BaomoiData> {
     this.category = category;
   }
 
-  async crawnArticleById(id: string): Promise<Article> {
+  async crawArticleById(id: string): Promise<Article> {
     let url = this.baomoiUrl.replace('{id}', id);
     const baseParamSign = `/api/v1/content/get/detailctime=1624286388id=${id}version=0.1.7`;
     const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest('hex');

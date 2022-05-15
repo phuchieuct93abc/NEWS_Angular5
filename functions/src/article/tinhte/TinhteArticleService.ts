@@ -31,10 +31,7 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
 
   protected async transformCachedArticle(firebaseArticle: Article): Promise<Article> {
     let articleText = JSON.stringify(firebaseArticle);
-
-    console.log('before', articleText);
-    articleText = articleText.replace(TinhteStoryService.oauthRegex, `oauth_token=` + (await TinhteStoryService.getOAuthToken()) + '\\"');
-    console.log('aftera', articleText);
+    articleText = articleText.replace(TinhteStoryService.oauthRegex, await TinhteStoryService.getOAuthToken());
     const article = JSON.parse(articleText);
     return Object.assign(new Article(), article);
   }

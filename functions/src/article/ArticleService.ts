@@ -19,7 +19,7 @@ export abstract class ArticleService<T> {
     return this.crawArticleById(id);
   }
 
-  protected transformCachedArticle(firebaseArticle: Article): Article {
+  protected async transformCachedArticle(firebaseArticle: Article): Promise<Article> {
     return firebaseArticle;
   }
 

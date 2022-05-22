@@ -54,6 +54,7 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
+import { StoreModule } from '@ngrx/store';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -87,6 +88,7 @@ const isMobileProvider = {
       enabled: CONFIG.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    StoreModule.forRoot({}, {}),
   ],
   declarations: [
     AppComponent,

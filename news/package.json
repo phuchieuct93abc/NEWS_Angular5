@@ -32,7 +32,7 @@
     "@angular/router": "~13.3.9",
     "@angular/service-worker": "~13.3.9",
     "@nguniversal/builders": "^13.1.1",
-    "@nguniversal/express-engine": "^12.1.0",
+    "@nguniversal/express-engine": "^13.1.1",
     "@ngx-pwa/local-storage": "^12.1.0",
     "angular-google-tag-manager": "^1.4.2",
     "autoprefixer": "^10.3.4",

@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, retry, switchMap, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
+import { readArticle } from '../store/actions';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
 
@@ -20,7 +22,12 @@ export class StoryService {
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
-  public constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {}
+  public constructor(
+    private httpClient: HttpClient,
+    private storage: LocalStorageService,
+    private loadingService: LoadingService,
+    private articleHistory: Store<{ articleHistory }>
+  ) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
@@ -73,6 +80,7 @@ export class StoryService {
   }
 
   public saveReadStory(story: Story): void {
+    this.articleHistory.dispatch(readArticle({ articleId: story.id }));
     this.storage.setItem(`${story.id}-read`, true);
   }
 

@@ -1,11 +1,9 @@
-import { createReducer } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
+import { loadArticleHistorySuccess, readArticle } from './actions';
 export const initialState = [];
 
-const featureReducer = createReducer(
+export const articleHistoryReducer = createReducer(
   initialState,
-  on(readArticle, (state) => ({ ...state, prop: updatedValue }))
+  on(readArticle, (state, { articleId }) => ({ ...state, articleId })),
+  on(loadArticleHistorySuccess, (state, { articleHistory }) => ({ ...state, articleHistory }))
 );
-
-export function reducer(state: State | undefined, action: Action) {
-  return featureReducer(state, action);
-}

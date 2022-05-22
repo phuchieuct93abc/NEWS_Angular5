@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { DestroySubscriber } from 'src/app/shared/destroy-subscriber';
+import { getArticleHistory } from 'src/app/store/actions';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
@@ -50,12 +52,15 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
     @Inject(IS_NODE) public isNode: boolean,
     protected configService: ConfigService,
     protected loadingService: LoadingService,
-    protected articleService: ArticleService
+    protected articleService: ArticleService,
+    protected store: Store<{ articleHistory }>
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    this.store.subscribe((data) => console.log(data));
+    this.store.dispatch(getArticleHistory());
     const { id, category } = this.route.children[0].snapshot?.params;
     this.openningStory = { id, category };
     this.loadOpenningStory();

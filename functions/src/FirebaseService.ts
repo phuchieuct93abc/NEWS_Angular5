@@ -20,6 +20,10 @@ const db: admin.firestore.Firestore = admin.firestore();
 db.settings(settings);
 
 class FirebaseService {
+  public getFireStore(): admin.firestore.Firestore {
+    return db;
+  }
+
   async saveArticle(article: Article, category: string): Promise<FirebaseFirestore.WriteResult> {
     const articleCollection: FirebaseFirestore.CollectionReference = db.collection(`articles-${category}`);
     let documentFireStore: FirebaseFirestore.DocumentReference = articleCollection.doc(article.id);

@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { asyncScheduler, Subject } from 'rxjs';
 import { takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
@@ -8,6 +9,7 @@ import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
+import { readArticle } from '../store/actions';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
@@ -54,7 +56,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected configService: ConfigService,
     protected storyListService: StoryListService,
     protected zone: NgZone,
-    protected crd: ChangeDetectorRef
+    protected crd: ChangeDetectorRef,
+    protected store: Store<'articleHistory'>
   ) {}
 
   get articleViewEle(): HTMLElement {
@@ -104,6 +107,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     if (articleId && categoryId) {
       this.categoryId = categoryId;
       this.articleId = articleId;
+      this.store.dispatch(readArticle({ articleId: this.articleId, categoryId: this.categoryId }));
       if (this.story?.article) {
         this.loadArticle(this.story.article);
       } else {

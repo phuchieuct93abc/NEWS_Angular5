@@ -79,11 +79,6 @@ export class StoryService {
     return this.getStoryByPage(category, 1);
   }
 
-  public saveReadStory(story: Story): void {
-    this.articleHistory.dispatch(readArticle({ articleId: story.id }));
-    this.storage.setItem(`${story.id}-read`, true);
-  }
-
   public getById(id: string): Story {
     return this.stories.find((s) => s.id === id);
   }

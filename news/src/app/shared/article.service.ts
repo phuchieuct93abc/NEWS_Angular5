@@ -39,9 +39,6 @@ export class ArticleService {
       return of(Object.assign(new Article(), article));
     }
 
-    if (story != null) {
-      this.storyService.saveReadStory(story);
-    }
     const options = {
       params: {
         url: id,

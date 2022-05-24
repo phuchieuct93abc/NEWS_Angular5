@@ -1,5 +1,4 @@
 <ng-container *ngIf="{ thumbnail: story.getThumbnail() } as data">
-  aa {{(story.id| isRead : category | async)}} aaa
   <mat-card
     (click)="onSelectStory()"
     class="p-0 desktop-story"

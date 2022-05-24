@@ -21,7 +21,6 @@ export class Story {
     public originalUrl?: string,
     public storyMeta?: StoryMeta,
     public hasVideo?: boolean,
-    public isRead: boolean = false,
     public selected = false,
     public height = 0,
     public isExpandedComment = false,

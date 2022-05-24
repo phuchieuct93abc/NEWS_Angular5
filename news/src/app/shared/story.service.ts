@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
-import { map, retry, switchMap, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, of, Subject } from 'rxjs';
+import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
@@ -20,7 +21,12 @@ export class StoryService {
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
-  public constructor(private httpClient: HttpClient, private storage: LocalStorageService, private loadingService: LoadingService) {}
+  public constructor(
+    private httpClient: HttpClient,
+    private storage: LocalStorageService,
+    private loadingService: LoadingService,
+    private articleHistory: Store<{ articleHistory }>
+  ) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
@@ -40,8 +46,7 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-        map((result) => result.map((r) => Object.assign(new Story(), r))),
-        switchMap((result) => this.checkReadStory(result))
+        map((result) => result.map((r) => Object.assign(new Story(), r)))
       );
   }
 
@@ -72,21 +77,8 @@ export class StoryService {
     return this.getStoryByPage(category, 1);
   }
 
-  public saveReadStory(story: Story): void {
-    this.storage.setItem(`${story.id}-read`, true);
-  }
-
   public getById(id: string): Story {
     return this.stories.find((s) => s.id === id);
-  }
-
-  public checkReadStory(stories: Story[]): Observable<Story[]> {
-    return forkJoin(stories.map((story) => this.storage.getItem(`${story.id}-read`, false))).pipe(
-      map((results) => {
-        stories.forEach((story, index) => (story.isRead = results[index]));
-        return stories;
-      })
-    );
   }
 
   public unshift(firstStory: Story): void {

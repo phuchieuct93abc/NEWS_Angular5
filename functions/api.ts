@@ -3,6 +3,7 @@ import * as express from 'express';
 
 import StoryServiceFactory from './src/story/StoryServiceFactory';
 import ArticleServiceFactory from './src/article/ArticleServiceFactory';
+import ArticleHistoryService from './src/article/ArticleHistoryService';
 import notifyHandler from './src/notification/notificationHandler';
 import { ttsArticle } from './tts';
 var proxy = require('express-http-proxy');
@@ -19,7 +20,7 @@ const request = require('request');
 
 router.use(compression());
 router.use(cors());
-
+router.use(express.json());
 router.get('/story', async (req, res) => {
   const story = await StoryServiceFactory.get(req).getStories();
   res.send(story);
@@ -29,6 +30,14 @@ router.get('/article', async (req, res) => {
   const { category, url } = req.query;
   const article = await ArticleServiceFactory.get(category as string).getArticleById(url as string);
   res.send(article);
+});
+
+router.get('/articles/read', async (req, res) => {
+  res.send(await new ArticleHistoryService().getReadArticle());
+});
+
+router.put('/articles/read', async (req, res) => {
+  res.send(await new ArticleHistoryService().readArticle(req.body.articleId as string, req.body.categoryId as string));
 });
 router.get('/cachestory', async (req, res) => {
   const result = await StoryServiceFactory.get(req).cache();

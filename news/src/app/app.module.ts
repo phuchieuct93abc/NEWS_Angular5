@@ -54,6 +54,11 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
+import { StoreModule } from '@ngrx/store';
+import { articleHistoryReducer } from './store/reduces';
+import { EffectsModule } from '@ngrx/effects';
+import { ArticleEffect } from './store/article.effect';
+import { IsReadPipe } from './story/is-read.pipe';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -87,6 +92,8 @@ const isMobileProvider = {
       enabled: CONFIG.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
+    EffectsModule.forRoot([ArticleEffect]),
   ],
   declarations: [
     AppComponent,
@@ -127,6 +134,7 @@ const isMobileProvider = {
     AppShellNoRenderDirective,
     AppShellRenderDirective,
     SmoothScrollDirective,
+    IsReadPipe,
   ],
   bootstrap: [AppComponent],
   providers: [

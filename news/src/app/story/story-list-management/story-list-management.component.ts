@@ -59,7 +59,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   public ngOnInit(): void {
-    this.store.subscribe((data) => console.log(data));
+    this.store.subscribe((data) => console.log(data.articleHistory));
     this.store.dispatch(getArticleHistory());
     const { id, category } = this.route.children[0].snapshot?.params;
     this.openningStory = { id, category };
@@ -153,7 +153,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
         this.articleService.getById(articleId, params.category).subscribe((article) => {
           const storyImage: StoryImage = new StoryImage(article.getThumbnail());
           const storyMeta = new StoryMeta(article.sourceName!, article.sourceIcon!, article.time as number);
-          const story = new Story(articleId, article.header, article.description, [storyImage], article.sourceUrl, storyMeta, false, true, true);
+          const story = new Story(articleId, article.header, article.description, [storyImage], article.sourceUrl, storyMeta, false, true);
           article.story = Object.assign(new Story(), story);
           story.article = article;
           observer.next(story);

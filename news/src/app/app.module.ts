@@ -58,6 +58,7 @@ import { StoreModule } from '@ngrx/store';
 import { articleHistoryReducer } from './store/reduces';
 import { EffectsModule } from '@ngrx/effects';
 import { ArticleEffect } from './store/article.effect';
+import { IsReadPipe } from './story/is-read.pipe';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -133,6 +134,7 @@ const isMobileProvider = {
     AppShellNoRenderDirective,
     AppShellRenderDirective,
     SmoothScrollDirective,
+    IsReadPipe,
   ],
   bootstrap: [AppComponent],
   providers: [

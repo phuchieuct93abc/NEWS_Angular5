@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
-import { map, retry, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
-import { readArticle } from '../store/actions';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 import { LocalStorageService } from './storage.service';
 
@@ -47,8 +46,7 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-        map((result) => result.map((r) => Object.assign(new Story(), r))),
-        switchMap((result) => this.checkReadStory(result))
+        map((result) => result.map((r) => Object.assign(new Story(), r)))
       );
   }
 
@@ -81,15 +79,6 @@ export class StoryService {
 
   public getById(id: string): Story {
     return this.stories.find((s) => s.id === id);
-  }
-
-  public checkReadStory(stories: Story[]): Observable<Story[]> {
-    return forkJoin(stories.map((story) => this.storage.getItem(`${story.id}-read`, false))).pipe(
-      map((results) => {
-        stories.forEach((story, index) => (story.isRead = results[index]));
-        return stories;
-      })
-    );
   }
 
   public unshift(firstStory: Story): void {

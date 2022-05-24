@@ -27,8 +27,6 @@ export class StoryComponent implements OnInit, OnDestroy {
   @Input()
   public selected = false;
 
-  public isRead = false;
-
   public config$: BehaviorSubject<Config>;
   public configListener: Subscription;
   public friendlyUrl: string;
@@ -46,7 +44,6 @@ export class StoryComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.isRead = this.story.isRead;
     this.config$ = this.configService.getConfig();
     this.isActive$ = this.route.events.pipe(
       takeUntil(this.onDestroy$),
@@ -58,6 +55,7 @@ export class StoryComponent implements OnInit, OnDestroy {
       tap((active) => {
         if (active) {
           this.afterSelectStory();
+
           this.onSelectedStory.emit(this.story);
         }
       })
@@ -80,10 +78,7 @@ export class StoryComponent implements OnInit, OnDestroy {
   }
 
   protected selectStory(): void {
-    this.story.isRead = true;
     this.selected = true;
   }
-  protected afterSelectStory(): void {
-    this.isRead = true;
-  }
+  protected afterSelectStory(): void {}
 }

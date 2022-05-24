@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, take } from 'rxjs/operators';
 import { ArticleHistoryService } from '../shared/article-history.service';
 import { ArticleService } from '../shared/article.service';
-import { getArticleHistory, loadArticleHistorySuccess, readArticle } from './actions';
+import { getArticleHistory, loadArticleHistorySuccess, readArticle, readArticleSuccess } from './actions';
 
 @Injectable({ providedIn: 'root' })
 export class ArticleEffect {
@@ -18,7 +18,8 @@ export class ArticleEffect {
   readArticle$ = createEffect(() =>
     this.$action.pipe(
       ofType(readArticle),
-      mergeMap((data) => this.articleHistoryService.readArticle(data.articleId, data.categoryId))
+      mergeMap(({ articleId, categoryId }) => this.articleHistoryService.readArticle(articleId, categoryId)),
+      map(({ articleId, categoryId }) => readArticleSuccess({ articleId: articleId, categoryId: categoryId }))
     )
   );
   constructor(private $action: Actions, private articleHistoryService: ArticleHistoryService) {}

@@ -11,7 +11,10 @@ export default class ArticleHistoryService {
   }
   async readArticle(articleId: string, categoryId: string): Promise<void> {
     const currentValue = (await this.getReadArticle())?.[categoryId]?.articleId || [];
-    const newReadArticle = [...currentValue, articleId];
-    FirebaseService.getFireStore().collection(`articles-read`).doc(categoryId).set({ articleId: newReadArticle });
+    const newReadArticle = new Set([...currentValue, articleId]);
+    FirebaseService.getFireStore()
+      .collection(`articles-read`)
+      .doc(categoryId)
+      .set({ articleId: [...newReadArticle] });
   }
 }

@@ -35,7 +35,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
   public readonly closeThreshold = 50;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     super.ngOnInit();
     this.isCollapseArticle = true; //Expand article
 
@@ -44,29 +44,22 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
     super.getArticleById(this.articleId, this.categoryId);
   }
-  public registerStickyHeader() {
+  public registerStickyHeader(): void {
     //Override article in desktop mode
   }
 
-  public collapseArticle() {
+  public collapseArticle(): void {
     this.isCollapseArticle = false;
     this.crd.markForCheck();
   }
 
-  public swipeleft() {
-    this.animationName = SWIPE_LEFT;
-    setTimeout(() => this.collapseArticle(), 100);
-  }
-
-  public swiperight() {
-    this.animationName = SWIPE_RIGHT;
-    setTimeout(() => this.collapseArticle(), 100);
-  }
-  public onPanEnd(direction) {
+  public onPanEnd(direction: 'right' | 'left'): void {
     if (direction === 'right') {
-      this.swiperight();
+      this.animationName = SWIPE_RIGHT;
+      setTimeout(() => this.collapseArticle(), 100);
     } else {
-      this.swipeleft();
+      this.animationName = SWIPE_LEFT;
+      setTimeout(() => this.collapseArticle(), 100);
     }
   }
 
@@ -74,7 +67,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     super.ngOnDestroy();
   }
 
-  public animEnd($event) {
+  public animEnd($event: { toState: unknown }): void {
     if (!$event.toState) {
       this.story.selected = false;
       this.story.height = 0;
@@ -87,7 +80,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
     this.animationName = 'show';
     this.crd.markForCheck();
   }
-  protected resetArticle() {
+  protected resetArticle(): void {
     //Don't need to reset article
   }
 }

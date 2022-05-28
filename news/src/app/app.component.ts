@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public isSmallDevice: boolean;
   public isOpenSidebar: boolean;
   public thumbnail$: Observable<string>;
-  private onDestroy$ = new Subject<void>();
+  onDestroy$ = new Subject<void>();
 
   private configStore$ = this.store.select(configFeature.selectDarkTheme);
   public constructor(
@@ -62,11 +62,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.configStore$.subscribe((darkTheme) => this.updateBodyClass(darkTheme));
+    this.configStore$.pipe(takeUntil(this.onDestroy$)).subscribe((darkTheme) => this.updateBodyClass(darkTheme));
   }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   public ngOnInit(): void {

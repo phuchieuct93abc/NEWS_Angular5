@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { configFeature, updateConfigAction, updateConfigSuccessAction } from '../store/config.reducer';
+import { configFeature, updateConfigAction } from '../store/config.reducer';
 import { LocalStorageService } from './storage.service';
 
 export interface Config {

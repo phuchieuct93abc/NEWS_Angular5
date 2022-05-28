@@ -70,40 +70,36 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.resetArticle();
       this.getArticleById(params.id, params.category);
     });
-
-    // this.configService
-    //   .getConfig()
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe(({ fontSize }) => {
-
-    //   });
   }
 
-  public scrollUp() {
+  public scrollUp(): void {
     this.smoothScrollDirective.up();
   }
 
-  public scrollDown() {
+  public scrollDown(): void {
     this.smoothScrollDirective.down();
   }
 
-  public prevArticle() {
+  public prevArticle(): void {
     this.storyListService.selectPrevStory();
   }
 
-  public nextArticle() {
+  public nextArticle(): void {
     this.storyListService.selectNextStory();
   }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
+    this.stopGetArticle$.next();
+    this.stopGetArticle$.complete();
   }
-  protected resetArticle() {
+  protected resetArticle(): void {
     this.articleId = null;
     this.article = null;
   }
 
-  protected getArticleById(articleId, categoryId) {
+  protected getArticleById(articleId: string, categoryId: string): void {
     if (articleId && categoryId) {
       this.categoryId = categoryId;
       this.articleId = articleId;

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
@@ -6,6 +7,7 @@ import CategoryHelper from '../../../../model/Categories';
 import { AppComponent } from '../app.component';
 import { AppService } from '../app.service';
 import { ConfigService } from '../shared/config.service';
+import { configFeature, updateConfigAction } from '../store/config.reducer';
 import { Category } from './../../../../model/Categories';
 import { DestroySubscriber } from './../shared/destroy-subscriber';
 
@@ -26,17 +28,12 @@ export class NavigatorComponent extends DestroySubscriber implements OnInit {
   public isSmallImage: boolean;
   public selectedCategory$: Observable<Category>;
 
-  public constructor(
-    @Inject(IS_MOBILE) public isMobile: boolean,
-
-    private configService: ConfigService,
-    private appService: AppService
-  ) {
+  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private appService: AppService, private store: Store) {
     super();
   }
 
   public ngOnInit() {
-    this.selectedCategory$ = this.configService.getConfig().pipe(map(({ category }) => CategoryHelper.getCategory(category)));
+    this.selectedCategory$ = this.store.select(configFeature.selectCategory).pipe(map((category) => CategoryHelper.getCategory(category)));
   }
 
   public restrictTop(top: number): number {
@@ -44,11 +41,11 @@ export class NavigatorComponent extends DestroySubscriber implements OnInit {
   }
 
   public toggleDarkMode() {
-    this.configService.updateConfig({ darkTheme: this.isDarkMode });
+    this.store.dispatch(updateConfigAction({ darkTheme: this.isDarkMode }));
   }
 
   public toogleDisplay() {
-    this.configService.updateConfig({ smallImage: this.isSmallImage });
+    this.store.dispatch(updateConfigAction({ smallImage: this.isSmallImage }));
   }
 
   public toogleSidebar() {

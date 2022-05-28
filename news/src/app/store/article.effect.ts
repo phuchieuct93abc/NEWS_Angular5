@@ -8,7 +8,7 @@ import { getArticleHistory, loadArticleHistorySuccess, readArticle, readArticleS
 
 @Injectable({ providedIn: 'root' })
 export class ArticleEffect {
-  getReadArticle$ = createEffect(() =>
+  $ = createEffect(() =>
     this.$action.pipe(
       ofType(getArticleHistory),
       mergeMap(() => this.articleHistoryService.getReadArticle()),

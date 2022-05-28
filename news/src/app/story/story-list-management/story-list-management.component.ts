@@ -6,6 +6,7 @@ import { pairwise, takeUntil, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { DestroySubscriber } from 'src/app/shared/destroy-subscriber';
 import { getArticleHistory } from 'src/app/store/actions';
+import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
@@ -51,7 +52,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   public ngOnInit(): void {
-    this.store.subscribe((data) => console.log(data.articleHistory));
     this.store.dispatch(getArticleHistory());
 
     this.loadFirstStory();
@@ -122,7 +122,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       this.resetStoryList();
 
       this.loadFirstPage();
-      this.configService.updateConfig({ category: this.category });
+      this.store.dispatch(updateConfigAction({ category: this.category }));
     });
   }
 
@@ -161,15 +161,10 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   private registerConfigChange() {
-    this.configService
-      .getConfig()
-      .pipe(this.getTakeUntilDestroy(), pairwise())
-      .subscribe(([oldConfig, newConfig]) => {
-        if (oldConfig.smallImage !== newConfig.smallImage) {
-          this.resetStoryList();
-          this.loadFirstPage();
-        }
-      });
+    this.store.select(configFeature.selectSmallImage).subscribe(() => {
+      this.resetStoryList();
+      this.loadFirstPage();
+    });
   }
 
   private getLoadMoreObservable(): Observable<Story[]> {

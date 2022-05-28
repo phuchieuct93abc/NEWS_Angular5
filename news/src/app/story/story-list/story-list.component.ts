@@ -63,7 +63,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log('reload');
     this.registerPrevAndNext();
   }
   ngOnChanges(changes: SimpleChanges): void {

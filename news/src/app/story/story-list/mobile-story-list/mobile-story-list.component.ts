@@ -7,7 +7,6 @@ import { StoryListComponent } from '../story-list.component';
   selector: 'app-mobile-story-list',
   templateUrl: './mobile-story-list.component.html',
   styleUrls: ['./mobile-story-list.component.scss', '../story-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobileStoryListComponent extends StoryListComponent {
   @ViewChildren(MobileStoryComponent)

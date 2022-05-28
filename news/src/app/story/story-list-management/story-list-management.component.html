@@ -1,15 +1,18 @@
-<app-story-list
-  *ngIf="!isSmallScreen"
-  [stories]="stories$ | async"
-  [openningStory]="openningStory.story"
-  (loadMoreStories)="loadMoreStories()"
-  [category]="category">
-</app-story-list>
+<ng-container *ngFor="let item of [category]">
+  <app-story-list
+    *ngIf="!isSmallScreen"
+    [stories]="stories$ | async"
+    [firstStory]="openingStory"
+    (loadMoreStories)="loadMoreStories()"
+    [category]="category">
+  </app-story-list>
+  
+  <app-mobile-story-list
+    *ngIf="isSmallScreen"
+    [stories]="stories$ | async"
+    [firstStory]="openingStory"
+    (loadMoreStories)="loadMoreStories()"
+    [category]="category">
+  </app-mobile-story-list>
 
-<app-mobile-story-list
-  *ngIf="isSmallScreen"
-  [stories]="stories$ | async"
-  [openningStory]="openningStory.story"
-  (loadMoreStories)="loadMoreStories()"
-  [category]="category">
-</app-mobile-story-list>
+</ng-container>

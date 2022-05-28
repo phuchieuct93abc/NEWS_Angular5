@@ -101,7 +101,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
   protected resetStoryList(): void {
     this.stories$.next([]);
-    const hasSwitchCategory = this.openingStory?.category || this.category;
+    const hasSwitchCategory = this.openingStory?.category !== this.category;
     if (hasSwitchCategory) {
       this.openingStory = null;
     }

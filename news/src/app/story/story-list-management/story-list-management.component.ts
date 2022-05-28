@@ -22,20 +22,13 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent extends DestroySubscriber implements OnInit {
-  @ViewChild(StoryListComponent)
-  public storyList: StoryListComponent;
-
   public stories$ = new BehaviorSubject<Story[]>([]);
 
   public openingStory: { id: string; story?: Story; category: string } | null = null;
 
   public category: string;
 
-  public searchKeyword: string;
-
   public isLoading = false;
-
-  public config: Config;
 
   protected buffer: Story[] = [];
 
@@ -172,7 +165,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       .getConfig()
       .pipe(this.getTakeUntilDestroy(), pairwise())
       .subscribe(([oldConfig, newConfig]) => {
-        this.config = newConfig;
         if (oldConfig.smallImage !== newConfig.smallImage) {
           this.resetStoryList();
           this.loadFirstPage();

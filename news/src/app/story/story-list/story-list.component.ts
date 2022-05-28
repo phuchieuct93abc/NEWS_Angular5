@@ -27,7 +27,6 @@ import { StoryListService } from './story-list.service';
   selector: 'app-story-list',
   templateUrl: './story-list.component.html',
   styleUrls: ['./story-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('scrollingBlock')
@@ -42,7 +41,7 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   public stories: Story[] = [];
 
   @Input()
-  openningStory: Story;
+  firstStory: { story?: Story; id: string };
 
   loadingStories = Array(20).fill('');
   @Input()
@@ -59,10 +58,12 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
+    setTimeout(() => this.scrollTop());
     this.scrollPosition$ = fromEvent(this.scrollingBlock?.nativeElement, 'scroll').pipe(map((a) => (a.target as HTMLElement).scrollTop));
   }
 
   ngOnInit(): void {
+    console.log('reload');
     this.registerPrevAndNext();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -70,23 +71,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit {
     const previousValue = changes.stories?.previousValue as Story[];
     const isFirstTime = previousValue === undefined || previousValue.length === 0;
     this.handleScrollTop(currentValue);
-    this.appendOpenningStory();
-    this.handleSelectFirstStory(isFirstTime, currentValue);
-  }
-  private handleSelectFirstStory(isFirstTime: boolean, currentValue: Story[]) {
-    if (this.isMobile && isFirstTime && this.openningStory) {
-      this.selectStory(this.stories[0]);
-      return;
-    }
-    if (!this.isMobile && isFirstTime && currentValue?.length > 0) {
-      this.selectStory(this.stories[0]);
-    }
-  }
-
-  private appendOpenningStory() {
-    if (this.openningStory) {
-      this.stories = [this.openningStory, ...this.stories];
-    }
   }
 
   private handleScrollTop(currentValue: Story[]) {

@@ -1,6 +1,17 @@
 <div class="story-list">
   <div style="padding-top: 58px">
-    <div class="stories" *ngIf="stories.length > 0">
+    <div class="stories">
+      <ng-container *ngIf="firstStory?.id">
+        <app-mobile-story
+        *ngIf="firstStory.story"
+          (onSelectedStory)="onSelectedStory($event)"
+          [story]="firstStory.story"
+          class="block story"
+          [category]="category"></app-mobile-story>
+          <div class="py-3 text-center" *ngIf="!firstStory.story"><app-loading-story class="loading-story p-2"></app-loading-story></div>
+
+      </ng-container>
+
       <ng-container *ngFor="let item of stories; trackBy: trackByFn">
         <app-mobile-story
           (onSelectedStory)="onSelectedStory($event)"
@@ -9,14 +20,12 @@
           class="block story"
           [category]="category"></app-mobile-story>
       </ng-container>
-      <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()">Load more</div>
+      <div class="py-3 text-center" (appIsIntersect)="loadMoreStories.emit()"><app-loading-story class="loading-story p-2"></app-loading-story></div>
     </div>
 
-    <ng-container *ngIf="stories.length < 10">
-      <ng-container *ngFor="let i of loadingStories">
-        <app-loading-story class="loading-story p-2"></app-loading-story>
-        <mat-divider></mat-divider>
-      </ng-container>
+    <ng-container *ngIf="stories.length < 5">
+      <app-loading-story *ngFor="let i of loadingStories" class="loading-story p-2"></app-loading-story>
+      <mat-divider></mat-divider>
     </ng-container>
     <div class="blur-edge blur-bottom" *ngIf="stories"></div>
   </div>

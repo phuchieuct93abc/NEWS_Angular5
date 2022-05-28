@@ -22,23 +22,15 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent extends DestroySubscriber implements OnInit {
-  @ViewChild(StoryListComponent)
-  public storyList: StoryListComponent;
-
   public stories$ = new BehaviorSubject<Story[]>([]);
 
-  public openningStory: { id?: string; story?: Story; category?: string } = {};
+  public openingStory: { id: string; story?: Story; category: string } | null = null;
 
   public category: string;
 
-  public searchKeyword: string;
-
   public isLoading = false;
 
-  public config: Config;
-
   protected buffer: Story[] = [];
-  private selectedStory: Story;
 
   private $stopGetStories = new Subject();
 
@@ -61,34 +53,23 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   public ngOnInit(): void {
     this.store.subscribe((data) => console.log(data.articleHistory));
     this.store.dispatch(getArticleHistory());
-    const { id, category } = this.route.children[0].snapshot?.params;
-    this.openningStory = { id, category };
-    this.loadOpenningStory();
+
+    this.loadFirstStory();
 
     if (this.isNode) {
       return;
     }
-    if (this.openningStory.id) {
-      // Delay loading story list to improve UX when first load
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-        this.updateStoryList();
-      }, 2000);
-    } else {
-      this.updateStoryList();
-    }
+    this.updateStoryList();
     this.registerConfigChange();
     this.registerSpinner();
   }
 
-  public loadOpenningStory(): void {
+  public loadFirstStory(): void {
+    const { id, category } = this.route.children[0].snapshot?.params;
+    this.openingStory = { id, category };
     this.getFirstStory().subscribe((story) => {
-      if (story === undefined) {
-        return;
-      }
-      this.openningStory.story = story;
-      this.openningStory.story.isActive = true;
+      this.openingStory.story = story;
+      this.openingStory.story.isActive = true;
     });
   }
 
@@ -113,9 +94,9 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
   protected resetStoryList(): void {
     this.stories$.next([]);
-    const hasSwitchCategory = !this.openningStory.category || this.category !== this.openningStory.category;
+    const hasSwitchCategory = this.openingStory?.category !== this.category;
     if (hasSwitchCategory) {
-      this.openningStory = {};
+      this.openingStory = null;
     }
     this.storyService.resetPageNumber();
   }
@@ -126,7 +107,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       .getStories(this.category, 10)
       .pipe(takeUntil(this.$stopGetStories))
       .subscribe((value) => {
-        const stories: Story[] = value.filter((s) => s.id !== this.openningStory.id);
+        const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
         this.pushStory(...stories);
 
         this.isLoading = false;
@@ -160,7 +141,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
           observer.complete();
         });
       } else {
-        observer.next();
         observer.complete();
       }
     });
@@ -185,7 +165,6 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       .getConfig()
       .pipe(this.getTakeUntilDestroy(), pairwise())
       .subscribe(([oldConfig, newConfig]) => {
-        this.config = newConfig;
         if (oldConfig.smallImage !== newConfig.smallImage) {
           this.resetStoryList();
           this.loadFirstPage();
@@ -199,7 +178,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   pushStory(...story: Story[]): void {
-    const unDuplicatedStories = story.filter((s) => this.stories$.getValue().indexOf(s) === -1).filter((s) => s.id !== this.openningStory?.id);
+    const unDuplicatedStories = story.filter((s) => this.stories$.getValue().indexOf(s) === -1).filter((s) => s.id !== this.openingStory?.id);
     this.stories$.next([...this.stories$.getValue(), ...unDuplicatedStories]);
   }
 

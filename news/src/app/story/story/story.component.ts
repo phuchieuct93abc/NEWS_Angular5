@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import * as url from 'speakingurl';
@@ -27,7 +28,6 @@ export class StoryComponent implements OnInit, OnDestroy {
   @Input()
   public selected = false;
 
-  public config$: BehaviorSubject<Config>;
   public configListener: Subscription;
   public friendlyUrl: string;
   public isActive$: Observable<boolean>;
@@ -40,11 +40,11 @@ export class StoryComponent implements OnInit, OnDestroy {
     protected route: Router,
     protected activatedRoute: ActivatedRoute,
     protected storyListService: StoryListService,
-    protected element: ElementRef<HTMLElement>
+    protected element: ElementRef<HTMLElement>,
+    protected store: Store
   ) {}
 
   public ngOnInit(): void {
-    this.config$ = this.configService.getConfig();
     this.isActive$ = this.route.events.pipe(
       takeUntil(this.onDestroy$),
       filter((event) => event instanceof NavigationEnd),

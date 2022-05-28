@@ -4,7 +4,7 @@
   (swipeleft)="onPanEnd('left')"
   (swiperight)="onPanEnd('right')"
   [@swipe]="animationName"
-  [ngStyle]="{ 'font-size.px': fontSize }"
+  [ngStyle]="{ 'font-size.px': (fontSize$ |async) }"
   [@.disabled]="isOpeningArticle"
   [class.no-transition]="isOpeningArticle">
   <div #articleBodyWrapper class="article-view">

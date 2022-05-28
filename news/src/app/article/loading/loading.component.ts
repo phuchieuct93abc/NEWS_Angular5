@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { configFeature } from 'src/app/store/config.reducer';
 import { ConfigService } from '../../shared/config.service';
 
 @Component({
@@ -7,9 +10,9 @@ import { ConfigService } from '../../shared/config.service';
   styleUrls: ['./loading.component.scss'],
 })
 export class LoadingComponent implements OnInit {
-  public isDarkTheme = true;
-  public constructor(public config: ConfigService) {}
+  public isDarkTheme$: Observable<boolean>;
+  public constructor(private store: Store) {}
   ngOnInit(): void {
-    this.isDarkTheme = this.config.getConfig().value.darkTheme;
+    this.isDarkTheme$ = this.store.select(configFeature.selectDarkTheme);
   }
 }

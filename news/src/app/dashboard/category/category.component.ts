@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Category } from '../../../../../model/Categories';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
 import { opacityNgIf } from '../../animation';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-top-category',
@@ -28,22 +30,31 @@ import { opacityNgIf } from '../../animation';
     opacityNgIf,
   ],
 })
-export class TopCategoryComponent implements OnInit {
+export class TopCategoryComponent implements OnInit, OnDestroy {
   @Input()
   public category: Category;
   public stories: Story[] = [];
   public isExpanded = false;
   public maximumStories = 9;
 
-  public constructor(private storyService: StoryService) {}
+  private onDestroy$ = new Subject<void>();
 
-  public ngOnInit() {
-    this.storyService.getStoriesFirstPage(this.category.name).subscribe((stories) => {
-      this.stories = stories;
-    });
+  public constructor(private storyService: StoryService) {}
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
-  public toggleExpand() {
+  public ngOnInit(): void {
+    this.storyService
+      .getStoriesFirstPage(this.category.name)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((stories) => {
+        this.stories = stories;
+      });
+  }
+
+  public toggleExpand(): void {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.maximumStories = Math.max(this.maximumStories, 20);

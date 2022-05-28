@@ -16,6 +16,8 @@ import vars from './variable';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
 import { HttpClient } from '@angular/common/http';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { Store } from '@ngrx/store';
+import { configFeature } from './store/config.reducer';
 
 @Component({
   selector: 'app-news',
@@ -32,7 +34,7 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
     ]),
   ],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSidenav)
   private sidebar: MatSidenav;
 
@@ -41,11 +43,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public isSmallDevice: boolean;
   public isOpenSidebar: boolean;
   public thumbnail$: Observable<string>;
-  private onDestroy$ = new Subject<void>();
+  onDestroy$ = new Subject<void>();
 
+  private configStore$ = this.store.select(configFeature.selectDarkTheme);
   public constructor(
     private router: Router,
-    private configService: ConfigService,
     private articleService: ArticleService,
     @Inject(IS_MOBILE) private isMobile: boolean,
     @Inject(IS_NODE) public isNode: boolean,
@@ -55,21 +57,21 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private checkForUpdateService: CheckForUpdateService,
     private httpClient: HttpClient,
-    private gtmService: GoogleTagManagerService
+    private gtmService: GoogleTagManagerService,
+    private store: Store
   ) {}
+
+  ngAfterViewInit(): void {
+    this.configStore$.pipe(takeUntil(this.onDestroy$)).subscribe((darkTheme) => this.updateBodyClass(darkTheme));
+  }
+
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   public ngOnInit(): void {
     this.checkForUpdateService.checkUpdate();
-
-    this.configService
-      .getConfig()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(({ darkTheme }) => {
-        this.updateBodyClass(darkTheme);
-      });
 
     this.isSmallDevice = this.isMobile;
     this.isOpenSidebar = !this.isSmallDevice;

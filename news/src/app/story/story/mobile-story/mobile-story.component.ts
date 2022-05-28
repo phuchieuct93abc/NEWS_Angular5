@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { configFeature } from 'src/app/store/config.reducer';
 import { StoryComponent } from '../story.component';
 import { ImageViewerComponent } from './../../image-viewer/image-viewer.component';
 
@@ -13,6 +14,8 @@ export class MobileStoryComponent extends StoryComponent {
   public imageViewerComponent: ImageViewerComponent;
 
   public isSelectedBefore = false;
+
+  isSmallImage$ = this.store.select(configFeature.selectSmallImage);
 
   public afterSelectStory(): void {
     super.afterSelectStory();

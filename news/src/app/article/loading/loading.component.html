@@ -1,4 +1,4 @@
-<div class="loading small" [ngClass]="[isDarkTheme ? 'dark' : 'light']">
+<div class="loading small" [ngClass]="[(isDarkTheme$ | async) == true ? 'dark' : 'light']">
   <div class="wrapper type-2">
     <div class="wrapper-cell">
       <div class="image-placeholder"></div>

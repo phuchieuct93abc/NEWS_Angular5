@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "plugins": ["rxjs-angular"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2019,
+        "project": [ "tsconfig.json"],
+        "sourceType": "module"
+      },
+     
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",  
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:@angular-eslint/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:rxjs/recommended"      ],
+      "rules": {
+       "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/no-output-on-prefix": "off",
+        "rxjs-angular/prefer-takeuntil": ["error", { "checkComplete": true }],
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
+        ],
+        "@typescript-eslint/naming-convention": ["warn", { "selector": "enumMember", "format": ["UPPER_CASE"] }],
+        "no-underscore-dangle": "off",
+        "arrow-parens": ["off", "always"],
+        "brace-style": ["error", "1tbs"],
+        "comma-dangle": "off",
+        "id-blacklist": "error",
+        "import/order": "error",
+        "max-len": [
+          "error",
+          {
+            "code": 200
+          }
+        ],
+        "no-empty": "error",
+        "no-multiple-empty-lines": "error"
+      }
+    }
+   
+  ]
+}

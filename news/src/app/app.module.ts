@@ -37,7 +37,6 @@ import { MaterialModule } from './material.module';
 import { CategorySelectorComponent } from './navigator/category-selector/category-selector.component';
 import { CategoryComponent } from './navigator/category-selector/category/category.component';
 import { NavigatorComponent } from './navigator/navigator.component';
-import { SearchComponent } from './navigator/search/search.component';
 import { NotificationModule } from './notification/notification.module';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
@@ -59,6 +58,7 @@ import { articleHistoryReducer } from './store/reduces';
 import { EffectsModule } from '@ngrx/effects';
 import { ArticleEffect } from './store/article.effect';
 import { IsReadPipe } from './story/is-read.pipe';
+import { configFeature } from './store/config.reducer';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -93,6 +93,7 @@ const isMobileProvider = {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
+    StoreModule.forFeature(configFeature),
     EffectsModule.forRoot([ArticleEffect]),
   ],
   declarations: [
@@ -107,7 +108,6 @@ const isMobileProvider = {
     ImageViewerComponent,
     LoadingComponent,
     ContentComponent,
-    SearchComponent,
     CapitalizeFirstPipe,
     TruncatePipe,
     SanitizeHtmlPipe,

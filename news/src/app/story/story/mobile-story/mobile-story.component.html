@@ -6,7 +6,7 @@
   [class.active]="isActive$ | async"
   [skipLocationChange]="true"
   [class.selected-before]="isSelectedBefore"
-  [ngClass]="[(config$ | async).smallImage ? 'small-image' : 'large-image', (story.id| isRead : category | async) ? 'is-read' : 'not-read']">
+  [ngClass]="[(isSmallImage$ | async) ? 'small-image' : 'large-image', (story.id| isRead : category | async) ? 'is-read' : 'not-read']">
   <mat-card-content class="m-0 card-content p-2">
     <div class="image p-0 pl-sm-1 pr-sm-1 inline-block" style="overflow: hidden">
       <app-image-viewer

@@ -10,6 +10,7 @@ import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { ConfigService } from '../shared/config.service';
 import { readArticle } from '../store/actions';
+import { configFeature } from '../store/config.reducer';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
@@ -43,7 +44,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public isFavorite: boolean;
   public articleBody: string;
 
-  public fontSize: number;
+  public fontSize$ = this.store.select(configFeature.selectFontSize);
   public isOpeningArticle: boolean;
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
@@ -53,11 +54,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
     protected route: ActivatedRoute,
     protected articleService: ArticleService,
     protected domService: DomService,
-    protected configService: ConfigService,
     protected storyListService: StoryListService,
     protected zone: NgZone,
     protected crd: ChangeDetectorRef,
-    protected store: Store<'articleHistory'>
+    protected store: Store
   ) {}
 
   get articleViewEle(): HTMLElement {
@@ -70,40 +70,36 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.resetArticle();
       this.getArticleById(params.id, params.category);
     });
-
-    this.configService
-      .getConfig()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(({ fontSize }) => {
-        this.fontSize = fontSize;
-      });
   }
 
-  public scrollUp() {
+  public scrollUp(): void {
     this.smoothScrollDirective.up();
   }
 
-  public scrollDown() {
+  public scrollDown(): void {
     this.smoothScrollDirective.down();
   }
 
-  public prevArticle() {
+  public prevArticle(): void {
     this.storyListService.selectPrevStory();
   }
 
-  public nextArticle() {
+  public nextArticle(): void {
     this.storyListService.selectNextStory();
   }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
+    this.stopGetArticle$.next();
+    this.stopGetArticle$.complete();
   }
-  protected resetArticle() {
+  protected resetArticle(): void {
     this.articleId = null;
     this.article = null;
   }
 
-  protected getArticleById(articleId, categoryId) {
+  protected getArticleById(articleId: string, categoryId: string): void {
     if (articleId && categoryId) {
       this.categoryId = categoryId;
       this.articleId = articleId;

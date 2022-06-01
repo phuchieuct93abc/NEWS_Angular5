@@ -93,7 +93,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   public selectStory(story: Story): void {
     this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
-    this.scrollTo(story);
   }
 
   protected selectFirstStory(): void {

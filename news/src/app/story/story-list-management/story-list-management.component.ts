@@ -1,20 +1,18 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { pairwise, takeUntil, throttle } from 'rxjs/operators';
+import { takeUntil, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { DestroySubscriber } from 'src/app/shared/destroy-subscriber';
 import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
 import { ArticleService } from '../../shared/article.service';
-import { Config, ConfigService } from '../../shared/config.service';
+import { ConfigService } from '../../shared/config.service';
 import { LoadingEventName, LoadingEventType, LoadingService } from '../../shared/loading.service';
 import { StoryService } from '../../shared/story.service';
-import { StoryListComponent } from '../story-list/story-list.component';
 import { StoryListService } from '../story-list/story-list.service';
 import { IS_NODE } from './../../shared/const';
 @Component({
@@ -22,10 +20,10 @@ import { IS_NODE } from './../../shared/const';
   templateUrl: './story-list-management.component.html',
   styleUrls: ['./story-list-management.component.scss'],
 })
-export class StoryListManagementComponent extends DestroySubscriber implements OnInit {
+export class StoryListManagementComponent implements OnInit, OnDestroy {
   public stories$ = new BehaviorSubject<Story[]>([]);
 
-  public openingStory: { id: string; story?: Story; category: string } | null = null;
+  public openingStory: { id: string; story?: Observable<Story>; category: string } | null = null;
 
   public category: string;
 
@@ -33,8 +31,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
   protected buffer: Story[] = [];
 
-  private $stopGetStories = new Subject();
-
+  private onDestroy$ = new Subject<void>();
   public constructor(
     protected storyService: StoryService,
     protected activatedRoute: ActivatedRoute,
@@ -47,9 +44,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
     protected loadingService: LoadingService,
     protected articleService: ArticleService,
     protected store: Store<{ articleHistory }>
-  ) {
-    super();
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(getArticleHistory());
@@ -65,12 +60,11 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   public loadFirstStory(): void {
-    const { id, category } = this.route.children[0].snapshot?.params;
-    this.openingStory = { id, category };
-    this.getFirstStory().subscribe((story) => {
-      this.openingStory.story = story;
-      this.openingStory.story.isActive = true;
-    });
+    const { id, category } = this.route.children[0].snapshot?.params as { id: string; category: string };
+    if (id == null) {
+      return;
+    }
+    this.openingStory = { id, category, story: this.getFirstStory() };
   }
 
   public loadMoreStories(): void {
@@ -83,13 +77,18 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
     this.isLoading = true;
     this.getLoadMoreObservable()
       .pipe(
-        takeUntil(this.$stopGetStories),
-        throttle(() => interval(10000))
+        throttle(() => interval(10000)),
+        takeUntil(this.onDestroy$)
       )
       .subscribe((value) => {
         this.pushStory(...value);
         this.isLoading = false;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   protected resetStoryList(): void {
@@ -105,7 +104,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
     this.isLoading = true;
     this.storyService
       .getStories(this.category, 10)
-      .pipe(takeUntil(this.$stopGetStories))
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe((value) => {
         const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
         this.pushStory(...stories);
@@ -115,9 +114,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   private updateStoryList() {
-    this.route.params.subscribe(({ category }) => {
-      this.$stopGetStories.next();
-
+    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ category }) => {
       this.category = category as string;
       this.resetStoryList();
 
@@ -131,15 +128,18 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
       const params = this.route.children[0].snapshot?.params;
       if (params?.id) {
         const articleId = params.id as string;
-        this.articleService.getById(articleId, params.category).subscribe((article) => {
-          const storyImage: StoryImage = new StoryImage(article.getThumbnail());
-          const storyMeta = new StoryMeta(article.sourceName!, article.sourceIcon!, article.time as number);
-          const story = new Story(articleId, article.header, article.description, [storyImage], article.sourceUrl, storyMeta, false, true);
-          article.story = Object.assign(new Story(), story);
-          story.article = article;
-          observer.next(story);
-          observer.complete();
-        });
+        this.articleService
+          .getById(articleId, params.category)
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe((article) => {
+            const storyImage: StoryImage = new StoryImage(article.getThumbnail());
+            const storyMeta = new StoryMeta(article.sourceName, article.sourceIcon, article.time as number);
+            const story = new Story(articleId, article.header, article.description, [storyImage], article.sourceUrl, storyMeta, false, true);
+            article.story = Object.assign(new Story(), story);
+            story.article = article;
+            observer.next(story);
+            observer.complete();
+          });
       } else {
         observer.complete();
       }
@@ -148,7 +148,7 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
 
   private registerSpinner() {
     if (typeof window !== 'undefined') {
-      this.loadingService.onLoading.subscribe((event) => {
+      this.loadingService.onLoading.pipe(takeUntil(this.onDestroy$)).subscribe((event) => {
         if (event.name === LoadingEventName.MORE_STORY) {
           if (event.type === LoadingEventType.START) {
             this.isLoading = true;
@@ -161,23 +161,22 @@ export class StoryListManagementComponent extends DestroySubscriber implements O
   }
 
   private registerConfigChange() {
-    this.store.select(configFeature.selectSmallImage).subscribe(() => {
-      this.resetStoryList();
-      this.loadFirstPage();
-    });
+    this.store
+      .select(configFeature.selectSmallImage)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.resetStoryList();
+        this.loadFirstPage();
+      });
   }
 
   private getLoadMoreObservable(): Observable<Story[]> {
-    const category = this.route!.firstChild!.snapshot.paramMap.get('category');
-    return this.storyService.getStories(category!);
+    const category = this.route.firstChild.snapshot.paramMap.get('category');
+    return this.storyService.getStories(category);
   }
 
-  pushStory(...story: Story[]): void {
+  private pushStory(...story: Story[]): void {
     const unDuplicatedStories = story.filter((s) => this.stories$.getValue().indexOf(s) === -1).filter((s) => s.id !== this.openingStory?.id);
     this.stories$.next([...this.stories$.getValue(), ...unDuplicatedStories]);
-  }
-
-  getStories(): Story[] {
-    return this.stories$.getValue();
   }
 }

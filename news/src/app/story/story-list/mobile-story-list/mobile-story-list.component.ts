@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { take, takeUntil } from 'rxjs/operators';
 import { Story } from '../../../../../../model/Story';
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { StoryListComponent } from '../story-list.component';
@@ -11,6 +12,15 @@ import { StoryListComponent } from '../story-list.component';
 export class MobileStoryListComponent extends StoryListComponent {
   @ViewChildren(MobileStoryComponent)
   public storyMobiles: QueryList<MobileStoryComponent>;
+
+  protected selectFirstStory(): void {
+    if (this.selectedStory != null) {
+      return;
+    }
+    if (this.firstStory?.story != null) {
+      this.firstStory.story.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
+    }
+  }
 
   protected scrollTop(): void {
     if (this.isNode) {

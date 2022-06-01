@@ -1,14 +1,14 @@
 <div class="story-list">
   <div style="padding-top: 58px">
     <div class="stories">
-      <ng-container *ngIf="firstStory?.id">
+      <ng-container *ngIf="firstStory">
         <app-mobile-story
-        *ngIf="firstStory.story"
+        *ngIf="firstStory.story | async"
           (onSelectedStory)="onSelectedStory($event)"
-          [story]="firstStory.story"
+          [story]="firstStory.story | async"
           class="block story"
           [category]="category"></app-mobile-story>
-          <div class="py-3 text-center" *ngIf="!firstStory.story"><app-loading-story class="loading-story p-2"></app-loading-story></div>
+          <div class="py-3 text-center" *ngIf="!(firstStory.story | async)"><app-loading-story class="loading-story p-2"></app-loading-story></div>
 
       </ng-container>
 

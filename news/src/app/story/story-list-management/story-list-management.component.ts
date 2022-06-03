@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
@@ -29,7 +29,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
 
   public isLoading = false;
 
-  public smallImageConfig$ = this.store.select(configFeature.selectSmallImage);
+  public smallImageConfig$ = this.store.select(configFeature.selectSmallImage).pipe(distinctUntilChanged());
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
@@ -104,10 +104,10 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
   private updateStoryList() {
     this.route.params
       .pipe(
-        tap(() => this.resetStoryList()),
-        tap(() => (this.isLoading = true)),
         map(({ category }) => category as string),
+        tap(() => (this.isLoading = true)),
         tap((category) => (this.category = category)),
+        tap(() => this.resetStoryList()),
         switchMap((category) => this.storyService.getStories(category, 10)),
         takeUntil(this.onDestroy$)
       )

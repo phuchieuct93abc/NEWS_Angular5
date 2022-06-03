@@ -1,19 +1,22 @@
-<ng-container *ngFor="let item of [category,smallImageConfig$ | async]">
+<ng-container *ngFor="let item of [category]">
+  <ng-container *ngFor="let item2 of [smallImageConfig$ | async]">
     <app-story-list
-    *ngIf="!isSmallScreen"
-    [stories]="stories$ | async"
-    [firstStory]="openingStory"
-    (loadMoreStories)="loadMoreStories()"
-    [category]="category">
-  </app-story-list>
-  
-  <app-mobile-story-list
-    *ngIf="isSmallScreen"
-    [stories]="stories$ | async"
-    [firstStory]="openingStory"
-    (loadMoreStories)="loadMoreStories()"
-    [category]="category">
-  </app-mobile-story-list>
+      *ngIf="!isSmallScreen"
+      [stories]="stories$ | async"
+      [firstStory]="openingStory"
+      (loadMoreStories)="loadMoreStories()"
+      [category]="category">
+    </app-story-list>
+    
+    <app-mobile-story-list
+      *ngIf="isSmallScreen"
+      [stories]="stories$ | async"
+      [firstStory]="openingStory"
+      (loadMoreStories)="loadMoreStories()"
+      [category]="category">
+    </app-mobile-story-list>
+
+  </ng-container>
   
 
 </ng-container>

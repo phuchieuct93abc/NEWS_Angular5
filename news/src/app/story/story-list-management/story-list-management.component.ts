@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
@@ -100,27 +100,23 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     this.storyService.resetPageNumber();
   }
 
-  protected loadFirstPage(): void {
-    this.isLoading = true;
-    this.storyService
-      .getStories(this.category, 10)
-      .pipe(takeUntil(this.onDestroy$))
+  private updateStoryList() {
+    this.route.params
+      .pipe(
+        tap(() => this.resetStoryList()),
+        tap(() => (this.isLoading = true)),
+        map(({ category }) => category as string),
+        tap((category) => (this.category = category)),
+        switchMap((category) => this.storyService.getStories(category, 10)),
+        takeUntil(this.onDestroy$)
+      )
+
       .subscribe((value) => {
         const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
         this.pushStory(...stories);
-
         this.isLoading = false;
+        this.store.dispatch(updateConfigAction({ category: this.category }));
       });
-  }
-
-  private updateStoryList() {
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ category }) => {
-      this.category = category as string;
-      this.resetStoryList();
-
-      this.loadFirstPage();
-      this.store.dispatch(updateConfigAction({ category: this.category }));
-    });
   }
 
   private getFirstStory(): Observable<Story> {
@@ -166,7 +162,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
         this.resetStoryList();
-        this.loadFirstPage();
       });
   }
 

@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
@@ -29,9 +29,11 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
 
   public isLoading = false;
 
+  public smallImageConfig$ = this.store.select(configFeature.selectSmallImage).pipe(distinctUntilChanged());
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
+
   public constructor(
     protected storyService: StoryService,
     protected activatedRoute: ActivatedRoute,
@@ -55,7 +57,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       return;
     }
     this.updateStoryList();
-    this.registerConfigChange();
     this.registerSpinner();
   }
 
@@ -100,27 +101,23 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     this.storyService.resetPageNumber();
   }
 
-  protected loadFirstPage(): void {
-    this.isLoading = true;
-    this.storyService
-      .getStories(this.category, 10)
-      .pipe(takeUntil(this.onDestroy$))
+  private updateStoryList() {
+    this.route.params
+      .pipe(
+        map(({ category }) => category as string),
+        tap(() => (this.isLoading = true)),
+        tap((category) => (this.category = category)),
+        tap(() => this.resetStoryList()),
+        switchMap((category) => this.storyService.getStories(category, 10)),
+        takeUntil(this.onDestroy$)
+      )
+
       .subscribe((value) => {
         const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
         this.pushStory(...stories);
-
         this.isLoading = false;
+        this.store.dispatch(updateConfigAction({ category: this.category }));
       });
-  }
-
-  private updateStoryList() {
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ category }) => {
-      this.category = category as string;
-      this.resetStoryList();
-
-      this.loadFirstPage();
-      this.store.dispatch(updateConfigAction({ category: this.category }));
-    });
   }
 
   private getFirstStory(): Observable<Story> {
@@ -158,16 +155,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  private registerConfigChange() {
-    this.store
-      .select(configFeature.selectSmallImage)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.resetStoryList();
-        this.loadFirstPage();
-      });
   }
 
   private getLoadMoreObservable(): Observable<Story[]> {

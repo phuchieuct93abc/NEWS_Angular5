@@ -29,9 +29,11 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
 
   public isLoading = false;
 
+  public smallImageConfig$ = this.store.select(configFeature.selectSmallImage);
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
+
   public constructor(
     protected storyService: StoryService,
     protected activatedRoute: ActivatedRoute,
@@ -55,7 +57,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       return;
     }
     this.updateStoryList();
-    this.registerConfigChange();
     this.registerSpinner();
   }
 
@@ -154,15 +155,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  private registerConfigChange() {
-    this.store
-      .select(configFeature.selectSmallImage)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.resetStoryList();
-      });
   }
 
   private getLoadMoreObservable(): Observable<Story[]> {

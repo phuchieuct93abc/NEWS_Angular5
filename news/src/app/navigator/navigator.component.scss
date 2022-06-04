@@ -13,11 +13,19 @@ $nav-height: 58px;
     left: 0;
     width: 100%;
 
+    &.top-scroll{
+      mat-toolbar{
+        box-shadow: none;
+      }
+    }
+
     mat-toolbar {
       @include mat-elevation(5);
       position: relative;
       z-index: 2;
-      background-color: rgba(var(--background-color-1-code), 0.6);
+      background-color: transparent;
+      transition: all 0.5s linear;
+
       height: max-content;
 
       > div {

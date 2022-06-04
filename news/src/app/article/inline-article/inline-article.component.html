@@ -5,8 +5,7 @@
   (swiperight)="onPanEnd('right')"
   [@swipe]="animationName"
   [ngStyle]="{ 'font-size.px': (fontSize$ |async) }"
-  [@.disabled]="isOpeningArticle"
-  [class.no-transition]="isOpeningArticle">
+  >
   <div #articleBodyWrapper class="article-view">
     <div *ngIf="article; else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)" class="overflow-hidden">
       <app-actions (onClosed)="collapseArticle()" [article]="article"> </app-actions>

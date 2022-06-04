@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
@@ -65,7 +65,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     if (id == null) {
       return;
     }
-    this.openingStory = { id, category, story: this.getFirstStory() };
+    this.openingStory = { id, category, story: this.getFirstStory().pipe(shareReplay({ refCount: false, bufferSize: 1 })) };
   }
 
   public loadMoreStories(): void {

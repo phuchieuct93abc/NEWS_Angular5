@@ -9,9 +9,7 @@ import { slideInAnimation } from '../animation';
   animations: [slideInAnimation],
 })
 export class MainComponent {
-  constructor() {}
-
-  prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  prepareRoute(outlet: RouterOutlet): unknown {
+    return outlet?.activatedRouteData?.animation;
   }
 }

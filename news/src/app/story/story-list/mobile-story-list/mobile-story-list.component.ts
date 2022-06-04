@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { Story } from '../../../../../../model/Story';
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';

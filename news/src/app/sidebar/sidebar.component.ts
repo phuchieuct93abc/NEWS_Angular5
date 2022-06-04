@@ -1,56 +1,38 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import { IS_MOBILE } from 'src/app/shared/const';
-import CategoryHelper, { Category } from '../../../../model/Categories';
-import { Config, ConfigService } from '../shared/config.service';
-import { opacityNgIf } from '../animation';
-import { DestroySubscriber } from './../shared/destroy-subscriber';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import CategoryHelper, { Category } from '../../../../model/Categories';
+import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
+import { DestroySubscriber } from './../shared/destroy-subscriber';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
   animations: [opacityNgIf],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent extends DestroySubscriber implements OnInit {
+export class SidebarComponent {
   @Input()
   public isOpen: boolean;
-  public vietnameseCategories: Category[];
-  public englishCategories: Category[];
-  public isDarkMode: boolean;
-  public isSmallImage: boolean;
+  public isDarkMode$ = this.store.select(configFeature.selectDarkTheme);
+  public isSmallImage$ = this.store.select(configFeature.selectSmallImage);
 
-  public activatedCatagory: string;
+  public vietnameseCategories = CategoryHelper.vietnameseCategories();
+  public englishCategories = CategoryHelper.englishCategories();
 
-  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {
-    super();
+  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {}
+
+  public toggleDarkMode(darkTheme: boolean): void {
+    this.store.dispatch(updateConfigAction({ darkTheme }));
   }
 
-  public ngOnInit() {
-    this.vietnameseCategories = CategoryHelper.vietnameseCategories();
-    this.englishCategories = CategoryHelper.englishCategories();
-
-    this.store.select(configFeature.selectConfigState).subscribe(({ darkTheme, smallImage, category }) => {
-      this.isDarkMode = darkTheme!;
-      this.isSmallImage = smallImage!;
-      this.activatedCatagory = category!;
-    });
+  public toggleDisplay(smallImage: boolean): void {
+    this.store.dispatch(updateConfigAction({ smallImage }));
   }
 
-  public toggleDarkMode(value: boolean) {
-    this.store.dispatch(updateConfigAction({ darkTheme: value }));
-    // this.configService.updateConfig({ darkTheme: value });
-  }
-
-  public toogleDisplay(value: boolean) {
-    this.store.dispatch(updateConfigAction({ smallImage: value }));
-    // this.configService.updateConfig({ smallImage: value });
-  }
-
-  public onSelectCategory(category: string) {
+  public onSelectCategory(category: string): void {
     this.store.dispatch(updateConfigAction({ category }));
-    // this.configService.updateConfig({ category });
   }
 }

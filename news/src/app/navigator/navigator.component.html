@@ -1,9 +1,9 @@
-<div class="navigator z-20" *ngIf="isMobile" [ngStyle]="{ transform: 'translateY(' + toolbarTop + 'px)' }">
+<div class="navigator z-20" *ngIf="isMobile" [class.top-scroll]="(onScrollTop$ | async) === true">
   <mat-toolbar role="heading" class="p-0" aria-level="1">
     <div class="mat-toolbar-single-row p-0">
       <div class="toolbar-item h-full">
         <a mat-button color="accent">
-          <img (click)="toogleSidebar()" width="30" height="30" class="rounded-circle logo" alt="logo" src="../../assets/newspaper.png" />
+          <img (click)="toggleSidebar()" width="30" height="30" class="rounded-circle logo" alt="logo" src="../../assets/newspaper.png" />
         </a>
 
         <div class="mat-h1 m-0 mr-4">

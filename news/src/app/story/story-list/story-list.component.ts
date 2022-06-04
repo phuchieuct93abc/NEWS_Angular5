@@ -74,8 +74,20 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   ngOnInit(): void {
     this.registerPrevAndNext();
   }
-  ngOnChanges(): void {
-    this.selectFirstStory();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.firstStory || changes.stories) {
+      if (this.selectedStory != null) {
+        return;
+      }
+      if (this.firstStory != null) {
+        this.firstStory.story.pipe(takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
+        return;
+      }
+
+      if (this.stories?.length > 0) {
+        this.selectedStory = this.stories[0];
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -93,20 +105,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   public selectStory(story: Story): void {
     this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
-  }
-
-  protected selectFirstStory(): void {
-    if (this.selectedStory != null) {
-      return;
-    }
-    if (this.firstStory != null) {
-      this.firstStory.story.pipe(takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
-      return;
-    }
-
-    if (this.stories?.length > 0 && this.firstStory?.id == null) {
-      this.selectedStory = this.stories[0];
-    }
   }
 
   protected scrollTo(story: Story): void {

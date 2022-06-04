@@ -22,11 +22,11 @@ export class DisplayComponent extends DestroySubscriber {
     super();
   }
 
-  public toggleDarkMode(value) {
-    this.store.dispatch(updateConfigAction({ darkTheme: value }));
+  public toggleDarkMode(darkTheme: boolean): void {
+    this.store.dispatch(updateConfigAction({ darkTheme }));
   }
 
-  public changeFontSize({ value }: MatSliderChange) {
-    this.store.dispatch(updateConfigAction({ fontSize: value }));
+  public changeFontSize({ value: fontSize }: MatSliderChange): void {
+    this.store.dispatch(updateConfigAction({ fontSize }));
   }
 }

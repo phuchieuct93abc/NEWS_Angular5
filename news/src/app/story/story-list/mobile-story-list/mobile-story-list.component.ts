@@ -17,11 +17,10 @@ export class MobileStoryListComponent extends StoryListComponent {
     if (this.selectedStory != null) {
       return;
     }
-    if (this.firstStory?.story != null) {
-      this.firstStory.story.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
+    if (this.firstStory != null) {
+      this.firstStory.story.pipe(take(1),takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
     }
   }
-
   protected scrollTop(): void {
     if (this.isNode) {
       return;

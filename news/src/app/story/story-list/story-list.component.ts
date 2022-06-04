@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
-import { map, mapTo, takeUntil, tap } from 'rxjs/operators';
+import { map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
@@ -76,17 +76,7 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.firstStory || changes.stories) {
-      if (this.selectedStory != null) {
-        return;
-      }
-      if (this.firstStory != null) {
-        this.firstStory.story.pipe(takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
-        return;
-      }
-
-      if (this.stories?.length > 0) {
-        this.selectedStory = this.stories[0];
-      }
+      this.selectFirstStory();
     }
   }
 
@@ -107,6 +97,20 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
     this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
   }
 
+  protected selectFirstStory(): void {
+    if (this.selectedStory != null) {
+      return;
+    }
+    if (this.firstStory != null) {
+      this.firstStory.story.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
+      return;
+    }
+
+    if (this.stories?.length > 0) {
+      this.selectedStory = this.stories[0];
+    }
+  }
+
   protected scrollTo(story: Story): void {
     const index = this.stories.findIndex((i) => i.id === story.id);
     const el = this.storyComponents.toArray()[Math.max(0, index)].getElement();
@@ -123,13 +127,15 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   }
 
   private registerPrevAndNext() {
-    merge(this.storyListService.onPrev().pipe(mapTo(-1)), this.storyListService.onNext().pipe(mapTo(1))).subscribe((adj) => {
-      if (this.stories.length === 0) {
-        return;
+    merge(this.storyListService.onPrev().pipe(mapTo(-1)), this.storyListService.onNext().pipe(mapTo(1), takeUntil(this.onDestroy$))).subscribe(
+      (adj) => {
+        if (this.stories.length === 0) {
+          return;
+        }
+        const index = Math.max(0, this.stories.indexOf(this.selectedStory) + adj);
+        this.selectedStory = this.stories[index];
+        this.scrollTo(this.stories[index]);
       }
-      const index = Math.max(0, this.stories.indexOf(this.selectedStory) + adj);
-      this.selectedStory = this.stories[index];
-      this.scrollTo(this.stories[index]);
-    });
+    );
   }
 }

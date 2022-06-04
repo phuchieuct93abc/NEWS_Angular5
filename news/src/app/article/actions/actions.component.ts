@@ -16,6 +16,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { asyncScheduler, Observable } from 'rxjs';
+import { tap, throttleTime } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
@@ -27,29 +29,32 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./actions.component.scss'],
   animations: [
     trigger('animate', [
-      transition('*=>*', [style({ transform: 'translateX(100%)', opacity: 0 }), animate('500ms', style({ transform: 'translateX(0)', opacity: 1 }))]),
+      transition(':enter', [
+        style({ transform: 'translateY(50%)', opacity: 0 }),
+        animate('500ms', style({ transform: 'translateY(0)', opacity: 1 })),
+      ]),
     ]),
   ],
 })
-export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   @Input()
   article: Article;
   @Output()
-  onClosed = new EventEmitter<void>();
+  public onClosed = new EventEmitter<void>();
   @ViewChild('actionsElement')
-  actionsElement: ElementRef;
-  @ViewChild('stickyElement')
-  stickyElement: ElementRef;
-  @Input()
-  wrapperElement: HTMLElement;
-  display = true;
-  observerWindow: IntersectionObserver;
-  observerWrapper: IntersectionObserver;
-  isFixedTop = false;
-  ttsAudioSource: { title: string; link: string; artist: string; duration: number }[] = [];
+  public actionsElement: ElementRef;
+
+  public isFixedTop = false;
+  public isFixedTop$: Observable<boolean>;
+  public ttsAudioSource: { title: string; link: string; artist: string; duration: number }[] = [];
+  private observerWindow: IntersectionObserver;
   private isDisplayingAction = false;
   private isDisplayingArticle = true;
 
+  private readonly intersectionConfig = {
+    rootMargin: '-80px 0px 0px 0px',
+    threshold: [0],
+  };
   constructor(
     private ngZone: NgZone,
     @Inject(IS_MOBILE) private isMobile: boolean,
@@ -71,45 +76,34 @@ export class ActionsComponent implements OnInit, OnDestroy, OnChanges, AfterView
     }
   }
 
-  ngOnInit(): void {}
-
   ngAfterViewInit(): void {
     this.registerStickyActions();
+  }
+
+  checkPosition(): void {
+    this.isFixedTop = !this.isDisplayingAction && this.isDisplayingArticle;
+  }
+
+  close(event: MouseEvent): void {
+    event?.stopPropagation();
+    this.onClosed.emit();
+  }
+
+  ngOnDestroy(): void {
+    this.observerWindow?.disconnect();
   }
 
   private registerStickyActions() {
     if (!this.isMobile || this.isNode) {
       return;
     }
-    this.observerWindow = new IntersectionObserver(
-      (data: IntersectionObserverEntry[]) => {
+    this.isFixedTop$ = new Observable<boolean>((observer) => {
+      this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
         if (data[0].target === this.actionsElement.nativeElement) {
-          this.ngZone.run(() => {
-            this.isDisplayingAction = data[0].isIntersecting;
-            this.checkPosition();
-          });
+          observer.next(!data[0].isIntersecting);
         }
-      },
-      {
-        rootMargin: '-80px 0px 0px 0px',
-        threshold: [0],
-      }
-    );
-    this.observerWindow.observe(this.actionsElement.nativeElement);
-  }
-
-  checkPosition(): void {
-    this.isFixedTop = !this.isDisplayingAction && this.isDisplayingArticle;
-    this.crd.markForCheck();
-  }
-
-  close(event: MouseEvent): void {
-    event && event.stopPropagation();
-    this.onClosed.emit();
-  }
-
-  ngOnDestroy(): void {
-    this.observerWindow && this.observerWindow.disconnect();
-    this.observerWrapper && this.observerWrapper.disconnect();
+      }, this.intersectionConfig);
+      this.observerWindow.observe(this.actionsElement.nativeElement);
+    }).pipe(throttleTime(200, asyncScheduler, { leading: true, trailing: true }));
   }
 }

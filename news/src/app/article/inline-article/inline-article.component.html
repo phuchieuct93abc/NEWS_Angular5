@@ -9,7 +9,7 @@
   [class.no-transition]="isOpeningArticle">
   <div #articleBodyWrapper class="article-view">
     <div *ngIf="article; else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)" class="overflow-hidden">
-      <app-actions [wrapperElement]="articleBodyElement" (onClosed)="collapseArticle()" [article]="article"> </app-actions>
+      <app-actions (onClosed)="collapseArticle()" [article]="article"> </app-actions>
       <div #articleBodyElement>
         <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
         <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein"></p>

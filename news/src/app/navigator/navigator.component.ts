@@ -29,7 +29,7 @@ export class NavigatorComponent {
     debounceTime(100)
   );
 
-  onScrollTop$ = window && fromEvent(window, 'scroll').pipe(
+  onScrollTop$ = typeof window !== 'undefined' && fromEvent(window, 'scroll').pipe(
     map(() => window.scrollY),
     startWith(window.scrollY),
     map(() => window.scrollY === 0),

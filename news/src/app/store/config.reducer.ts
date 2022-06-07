@@ -17,7 +17,7 @@ const initialState: Config = {
   darkTheme: true,
   category: 'tin-nong',
   smallImage: true,
-  fontSize: 2,
+  fontSize: 15,
 };
 
 export const configFeature = createFeature({

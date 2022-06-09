@@ -108,7 +108,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
         tap(() => (this.isLoading = true)),
         tap((category) => (this.category = category)),
         tap(() => this.resetStoryList()),
-        switchMap((category) => this.storyService.getStories(category, 10)),
+        switchMap((category) => this.storyService.getStories(category, 20)),
         takeUntil(this.onDestroy$)
       )
 

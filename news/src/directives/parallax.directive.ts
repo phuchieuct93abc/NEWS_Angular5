@@ -18,6 +18,7 @@ export class ParallaxDirective implements OnDestroy {
   private previousTransition: string;
   private isParallax = false;
   private currentTranslateY = 0;
+  private animationFrameRequest: number;
 
   public constructor(
     private imageRef: ElementRef<HTMLImageElement>,
@@ -95,7 +96,8 @@ export class ParallaxDirective implements OnDestroy {
   private updateTransform(translateY: number) {
     if (this.currentTranslateY !== translateY) {
       this.currentTranslateY = translateY;
-      requestAnimationFrame(() => {
+      cancelAnimationFrame(this.animationFrameRequest);
+      this.animationFrameRequest = requestAnimationFrame(() => {
         this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
       });
     }

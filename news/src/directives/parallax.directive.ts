@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 @Directive({
@@ -16,20 +16,22 @@ export class ParallaxDirective implements OnDestroy {
   public onDestroy$ = new Subject<void>();
   private observer: IntersectionObserver;
   private previousTransition: string;
-  private isParallaxing = false;
+  private isParallax = false;
+  private currentTranslateY = 0;
 
   public constructor(
     private imageRef: ElementRef<HTMLImageElement>,
     @Inject(IS_NODE) private isNode: boolean,
-    @Inject(IS_MOBILE) private isMobile: boolean
+    @Inject(IS_MOBILE) private isMobile: boolean,
+    private zone: NgZone
   ) {}
 
   @Input()
   public set appParallax(value: boolean) {
     if (value) {
       this.startParallax();
-      this.isParallaxing = true;
-    } else if (this.isParallaxing) {
+      this.isParallax = true;
+    } else if (this.isParallax) {
       this.stopParallax();
     }
   }
@@ -43,13 +45,14 @@ export class ParallaxDirective implements OnDestroy {
 
     this.initThresholdSet();
     this.observer?.disconnect?.();
+    this.zone.runOutsideAngular(() => {
+      this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
+        rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
+        threshold: ParallaxDirective.thresholdSets,
+      });
 
-    this.observer = new IntersectionObserver(this.updateAnimation.bind(this), {
-      rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
-      threshold: ParallaxDirective.thresholdSets,
+      this.observer.observe(this.imageRef.nativeElement);
     });
-
-    this.observer.observe(this.imageRef.nativeElement);
   }
 
   public stopParallax(): void {
@@ -57,7 +60,7 @@ export class ParallaxDirective implements OnDestroy {
       return;
     }
     this.observer?.disconnect?.();
-    this.updateTranform(0);
+    this.updateTransform(0);
     requestAnimationFrame(() => (this.transition = this.previousTransition));
   }
 
@@ -68,7 +71,7 @@ export class ParallaxDirective implements OnDestroy {
   initThresholdSet(): void {
     if (!ParallaxDirective.thresholdSets) {
       ParallaxDirective.thresholdSets = [];
-      for (let i = 0; i <= 1.0; i += 0.01) {
+      for (let i = 0; i <= 1.0; i += 0.001) {
         ParallaxDirective.thresholdSets.push(i);
       }
     }
@@ -82,14 +85,19 @@ export class ParallaxDirective implements OnDestroy {
 
     if (entry.boundingClientRect.top > this.startOffsetParallax) {
       //prevent parallax when under view fold
-      this.updateTranform(0);
+      this.updateTransform(0);
       return;
     }
     const deltaY = (1 - entry.intersectionRatio) * 30;
-    this.updateTranform(deltaY);
+    this.updateTransform(deltaY);
   }
 
-  private updateTranform(translateY: number) {
-    this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
+  private updateTransform(translateY: number) {
+    if (this.currentTranslateY !== translateY) {
+      this.currentTranslateY = translateY;
+      requestAnimationFrame(() => {
+        this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
+      });
+    }
   }
 }

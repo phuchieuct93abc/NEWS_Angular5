@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ isStickHeader: (isStickHeader$ | async) } as data">
+<ng-container *ngIf="{ isStickHeader: isStickyHeader } as data">
   <div class="content">
     <section class="wrapper" *ngIf="article">
       <app-image-viewer

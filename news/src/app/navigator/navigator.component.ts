@@ -37,6 +37,7 @@ export class NavigatorComponent implements AfterViewInit, OnDestroy {
     private changeDetect: ChangeDetectorRef
   ) {}
 
+
   ngAfterViewInit(): void {
     this.ngZone.runOutsideAngular(() => {
       fromEvent(window, 'scroll')

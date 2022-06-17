@@ -45,14 +45,11 @@ export class NavigatorComponent implements AfterViewInit, OnDestroy {
           startWith(window.scrollY),
           map(() => window.scrollY === 0),
           distinctUntilChanged(),
-          throttleTime(500, asyncScheduler, { leading: true, trailing: true }),
           takeUntil(this.onDestroy$)
         )
         .subscribe((isOnTop) => {
-          if (isOnTop !== this.onScrollTop) {
-            this.onScrollTop = isOnTop;
-            this.changeDetect.detectChanges();
-          }
+          this.onScrollTop = isOnTop;
+          this.changeDetect.detectChanges();
         });
     });
   }

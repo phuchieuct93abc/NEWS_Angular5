@@ -1,8 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, ElementRef, Inject, Input, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, Inject, NgZone, ChangeDetectorRef, Input } from '@angular/core';
 import Article from '../../../../../model/Article';
 import { IS_NODE } from './../../shared/const';
 
@@ -27,7 +24,7 @@ import { IS_NODE } from './../../shared/const';
     ]),
   ],
 })
-export class ArticleThumbnailComponent implements OnInit {
+export class ArticleThumbnailComponent implements AfterViewInit {
   @Input()
   public thumbnailPath: string;
   @Input()
@@ -37,31 +34,24 @@ export class ArticleThumbnailComponent implements OnInit {
   @ViewChild('articleHeader')
   protected articleHeader: ElementRef;
 
-  public isStickHeader$;
+  public isStickyHeader: boolean;
 
   private readonly thresholds = [0, 1];
 
-  public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) {}
+  public constructor(@Inject(IS_NODE) private isNode: boolean, private zone: NgZone, private changeDetect: ChangeDetectorRef) {}
 
-  public ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!this.isNode) {
-      this.isStickHeader$ = this.registerStickyHeader().pipe(startWith(false));
-    }
-  }
-
-  protected registerStickyHeader(): Observable<boolean> {
-    return new Observable((resolver) => {
       const options = {
         threshold: this.thresholds,
         root: this.rootArticle,
       };
-      setTimeout(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-          resolver.next(!entry.isIntersecting && entry.intersectionRatio === 0);
-        }, options);
+      const observer = new IntersectionObserver(([entry]) => {
+        this.isStickyHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
+        this.changeDetect.detectChanges();
+      }, options);
 
-        observer.observe(this.articleHeader.nativeElement);
-      }, 500);
-    });
+      observer.observe(this.articleHeader.nativeElement);
+    }
   }
 }

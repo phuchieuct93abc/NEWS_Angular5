@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding, NgZone } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding, NgZone, AfterViewInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 @Directive({
   selector: '[appParallax]',
 })
-export class ParallaxDirective implements OnDestroy {
+export class ParallaxDirective implements OnDestroy, AfterViewInit {
   static thresholdSets: number[];
   @Input()
   public maxParallax = 0;
@@ -19,20 +19,23 @@ export class ParallaxDirective implements OnDestroy {
   private isParallax = false;
 
   public constructor(
-    private imageRef: ElementRef<HTMLImageElement>,
+    private elementRef: ElementRef<HTMLElement>,
     @Inject(IS_NODE) private isNode: boolean,
     @Inject(IS_MOBILE) private isMobile: boolean,
     private zone: NgZone
   ) {}
+  ngAfterViewInit(): void {}
 
   @Input()
   public set appParallax(value: boolean) {
-    if (value) {
-      this.startParallax();
-      this.isParallax = true;
-    } else if (this.isParallax) {
-      this.stopParallax();
-    }
+    this.zone.runOutsideAngular(() => {
+      if (value) {
+        this.startParallax();
+        this.isParallax = true;
+      } else if (this.isParallax) {
+        this.stopParallax();
+      }
+    });
   }
 
   public startParallax(): void {
@@ -44,14 +47,14 @@ export class ParallaxDirective implements OnDestroy {
 
     this.initThresholdSet();
     this.observer?.disconnect?.();
-    this.zone.runOutsideAngular(() => {
-      this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
-        rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
-        threshold: ParallaxDirective.thresholdSets,
-      });
+    this.elementRef.nativeElement.style.transition = 'transform 0.01s linear';
 
-      this.observer.observe(this.imageRef.nativeElement);
+    this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
+      rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
+      threshold: ParallaxDirective.thresholdSets,
     });
+
+    this.observer.observe(this.elementRef.nativeElement);
   }
 
   public stopParallax(): void {
@@ -93,6 +96,6 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   private updateTransform(translateY: number) {
-    this.imageRef.nativeElement.style.transform = `translateY(${translateY}%)`;
+    this.elementRef.nativeElement.style.transform = `translateY(${translateY}%)`;
   }
 }

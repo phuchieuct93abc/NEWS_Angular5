@@ -31,7 +31,7 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
   @Input()
   public maxParallax = 60;
   @Input()
-  public startOffsetParllax = undefined;
+  public startOffsetParallax = undefined;
 
   public data$: Observable<ImageViewerData>;
 

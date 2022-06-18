@@ -1,17 +1,16 @@
-import { Directive, ElementRef, Input, OnDestroy, Inject, HostBinding, NgZone, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, Inject, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 @Directive({
   selector: '[appParallax]',
 })
-export class ParallaxDirective implements OnDestroy, AfterViewInit {
+export class ParallaxDirective implements OnDestroy {
   static thresholdSets: number[];
   @Input()
   public maxParallax = 0;
   @Input()
   public startOffsetParallax = 0;
-  @HostBinding('style.transition')
-  public transition: string;
+
   public readonly limitRangeParallax = 200;
   public onDestroy$ = new Subject<void>();
   private observer: IntersectionObserver;
@@ -24,7 +23,6 @@ export class ParallaxDirective implements OnDestroy, AfterViewInit {
     @Inject(IS_MOBILE) private isMobile: boolean,
     private zone: NgZone
   ) {}
-  ngAfterViewInit(): void {}
 
   @Input()
   public set appParallax(value: boolean) {
@@ -38,16 +36,19 @@ export class ParallaxDirective implements OnDestroy, AfterViewInit {
     });
   }
 
-  public startParallax(): void {
+  public ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.observer?.disconnect();
+  }
+
+  private startParallax(): void {
     if (this.isNode) {
       return;
     }
-    this.previousTransition = this.transition;
-    this.transition = 'none';
-
+    this.previousTransition = this.elementRef.nativeElement.style.transition;
+    this.elementRef.nativeElement.style.transition = 'transform 0.05s linear';
     this.initThresholdSet();
     this.observer?.disconnect?.();
-    this.elementRef.nativeElement.style.transition = 'transform 0.01s linear';
 
     this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
       rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
@@ -57,21 +58,16 @@ export class ParallaxDirective implements OnDestroy, AfterViewInit {
     this.observer.observe(this.elementRef.nativeElement);
   }
 
-  public stopParallax(): void {
+  private stopParallax(): void {
     if (this.isNode) {
       return;
     }
+    requestAnimationFrame(() => (this.elementRef.nativeElement.style.transition = this.previousTransition));
     this.observer?.disconnect?.();
     this.updateTransform(0);
-    requestAnimationFrame(() => (this.transition = this.previousTransition));
   }
 
-  public ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.observer?.disconnect();
-  }
-
-  initThresholdSet(): void {
+  private initThresholdSet(): void {
     if (!ParallaxDirective.thresholdSets) {
       ParallaxDirective.thresholdSets = [];
       for (let i = 0; i <= 1.0; i += 0.001) {
@@ -85,12 +81,16 @@ export class ParallaxDirective implements OnDestroy, AfterViewInit {
       //Prevent parallax when open menu
       return;
     }
-
-    if (entry.boundingClientRect.top > this.startOffsetParallax) {
-      //prevent parallax when under view fold
+    if (
+      (entry.boundingClientRect.top < window.innerHeight && entry.boundingClientRect.bottom > window.innerHeight) ||
+      entry.intersectionRatio === 0
+    ) {
+      console.log('reset');
+      // prevent parallax when under view fold
       this.updateTransform(0);
       return;
     }
+    // console.table(entry.intersectionRatio);
     const deltaY = (1 - entry.intersectionRatio) * 30;
     this.updateTransform(deltaY);
   }

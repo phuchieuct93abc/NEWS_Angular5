@@ -5,7 +5,7 @@ import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
   selector: '[appParallax]',
 })
 export class ParallaxDirective implements OnDestroy {
-  static thresholdSets: number[];
+  static thresholdSets = ParallaxDirective.initThresholdSet();
   @Input()
   public maxParallax = 0;
   @Input()
@@ -24,8 +24,20 @@ export class ParallaxDirective implements OnDestroy {
     private zone: NgZone
   ) {}
 
+  private static initThresholdSet(): number[] {
+    console.log('init');
+    const result: number[] = [];
+    for (let i = 0; i <= 1.0; i += 0.00001) {
+      result.push(i);
+    }
+    return result;
+  }
+
   @Input()
   public set appParallax(value: boolean) {
+    if (this.isNode) {
+      return;
+    }
     this.zone.runOutsideAngular(() => {
       if (value) {
         this.startParallax();
@@ -42,12 +54,8 @@ export class ParallaxDirective implements OnDestroy {
   }
 
   private startParallax(): void {
-    if (this.isNode) {
-      return;
-    }
     this.previousTransition = this.elementRef.nativeElement.style.transition;
     this.elementRef.nativeElement.style.transition = 'transform 0.05s linear';
-    this.initThresholdSet();
     this.observer?.disconnect?.();
 
     this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
@@ -67,15 +75,6 @@ export class ParallaxDirective implements OnDestroy {
     this.updateTransform(0);
   }
 
-  private initThresholdSet(): void {
-    if (!ParallaxDirective.thresholdSets) {
-      ParallaxDirective.thresholdSets = [];
-      for (let i = 0; i <= 1.0; i += 0.001) {
-        ParallaxDirective.thresholdSets.push(i);
-      }
-    }
-  }
-
   private updateAnimation([entry]: IntersectionObserverEntry[]) {
     if (this.isMobile && entry.intersectionRect.x > 10) {
       //Prevent parallax when open menu
@@ -85,12 +84,10 @@ export class ParallaxDirective implements OnDestroy {
       (entry.boundingClientRect.top < window.innerHeight && entry.boundingClientRect.bottom > window.innerHeight) ||
       entry.intersectionRatio === 0
     ) {
-      console.log('reset');
       // prevent parallax when under view fold
       this.updateTransform(0);
       return;
     }
-    // console.table(entry.intersectionRatio);
     const deltaY = (1 - entry.intersectionRatio) * 30;
     this.updateTransform(deltaY);
   }

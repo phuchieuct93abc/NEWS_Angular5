@@ -5,7 +5,6 @@ import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
   selector: '[appParallax]',
 })
 export class ParallaxDirective implements OnDestroy {
-  static thresholdSets = ParallaxDirective.initThresholdSet();
   @Input()
   public maxParallax = 0;
   @Input()
@@ -23,15 +22,6 @@ export class ParallaxDirective implements OnDestroy {
     @Inject(IS_MOBILE) private isMobile: boolean,
     private zone: NgZone
   ) {}
-
-  private static initThresholdSet(): number[] {
-    console.log('init');
-    const result: number[] = [];
-    for (let i = 0; i <= 1.0; i += 0.00001) {
-      result.push(i);
-    }
-    return result;
-  }
 
   @Input()
   public set appParallax(value: boolean) {
@@ -53,6 +43,16 @@ export class ParallaxDirective implements OnDestroy {
     this.observer?.disconnect();
   }
 
+  private getThresholdSet(): number[] {
+    const step = this.elementRef.nativeElement.getBoundingClientRect().height * 2;
+    console.log('init');
+    const result: number[] = [];
+    for (let i = 1; i <= step; i++) {
+      result.push(i / step);
+    }
+    return result;
+  }
+
   private startParallax(): void {
     this.previousTransition = this.elementRef.nativeElement.style.transition;
     this.elementRef.nativeElement.style.transition = 'transform 0.05s linear';
@@ -60,7 +60,7 @@ export class ParallaxDirective implements OnDestroy {
 
     this.observer = new IntersectionObserver((entries) => this.updateAnimation(entries), {
       rootMargin: `-${this.startOffsetParallax}px 0px 0px 0px`,
-      threshold: ParallaxDirective.thresholdSets,
+      threshold: this.getThresholdSet(),
     });
 
     this.observer.observe(this.elementRef.nativeElement);

@@ -45,9 +45,8 @@ export class ParallaxDirective implements OnDestroy {
 
   private getThresholdSet(): number[] {
     const step = this.elementRef.nativeElement.getBoundingClientRect().height * 2;
-    console.log('init');
     const result: number[] = [];
-    for (let i = 1; i <= step; i++) {
+    for (let i = 0; i <= step; i++) {
       result.push(i / step);
     }
     return result;

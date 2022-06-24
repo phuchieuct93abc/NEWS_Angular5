@@ -1,9 +1,6 @@
 <ng-container *ngIf="{ data: (data$ | async) } as imageData">
   <img
     *appShellNoRender="true"
-    [appParallax]="parallax"
-    [maxParallax]="maxParallax"
-    [startOffsetParallax]="startOffsetParallax"
     class="mt-0 mb-0 image hoverZoom float-left"
     [offset]="500"
     [alt]="alt"

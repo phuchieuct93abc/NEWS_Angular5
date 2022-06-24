@@ -47,6 +47,7 @@
     "ng-lazyload-image": "^9.1.0",
     "ngrx-store-localstorage": "^13.0.1",
     "ngx-clipboard": "^14.0.1",
+    "ngx-smooth-parallax": "^0.1.16",
     "postcss": "^8.3.6",
     "rxjs": "~6.6.0",
     "smoothscroll-polyfill": "^0.4.4",

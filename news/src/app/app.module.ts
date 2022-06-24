@@ -13,7 +13,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
-import { ParallaxDirective } from './../directives/parallax.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ActionsComponent } from './article/actions/actions.component';
@@ -59,6 +58,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ArticleEffect } from './store/article.effect';
 import { IsReadPipe } from './story/is-read.pipe';
 import { configFeature } from './store/config.reducer';
+import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -95,6 +95,7 @@ const isMobileProvider = {
     StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
     StoreModule.forFeature(configFeature),
     EffectsModule.forRoot([ArticleEffect]),
+    NgxSmoothParallaxModule,
   ],
   declarations: [
     AppComponent,
@@ -128,7 +129,6 @@ const isMobileProvider = {
     IsIntersectDirective,
     NavigationKeyboardDirective,
     StoryListManagementComponent,
-    ParallaxDirective,
     ArticleThumbnailComponent,
     ToNowPipe,
     AppShellNoRenderDirective,

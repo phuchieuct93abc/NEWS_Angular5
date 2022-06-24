@@ -1,12 +1,13 @@
 <ng-container *ngIf="{ isStickHeader: isStickyHeader } as data">
   <div class="content">
     <section class="wrapper" *ngIf="article">
-      <app-image-viewer
-        class="thumbnail"
-        [imagePath]="thumbnailPath"
-        [parallax]="true"
-        [maxParallax]="100"
-        [startOffsetParallax]="16"></app-image-viewer>
+      <div           class="thumbnail"
+      style="overflow: hidden">
+        <app-image-viewer
+          [imagePath]="thumbnailPath"
+          [parallax]="true"
+          [startOffsetParallax]="16"></app-image-viewer>
+      </div>
       <div class="title-wrapper">
         <div #articleHeader class="article-header p-2" [ngClass]="{ stick: data.isStickHeader }">
           <div class="mat-display-1 mb-2 accent-color article-title">

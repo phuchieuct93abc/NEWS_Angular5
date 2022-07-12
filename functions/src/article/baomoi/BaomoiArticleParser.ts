@@ -32,8 +32,8 @@ export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
   parserArticle(): Article {
     const header = this.data.title;
     const id = this.data.id.toString();
-    let sourceUrl = this.data.url;
-    let images = this.extractImages();
+    let sourceUrl = this.data.originalUrl;
+    let images = [this.data.thumbL];
     const description = this.data.description;
 
     let likes = this.data.totalLike;
@@ -57,20 +57,8 @@ export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
       description,
       likes,
       time,
-      this.extractRalatedNumber()
+      0
     );
   }
-  private extractImages(): string[] {
-    // let images = [];
-    // const imageElements = this.data.getElementsByTagName("img");
-    // for (let index = 0; index < imageElements.length; index++) {
-    //     images.push(imageElements[index].getAttribute("src"));
-    // }
 
-    return [this.data.thumbL];
-  }
-
-  private extractRalatedNumber(): number {
-    return 0;
-  }
 }

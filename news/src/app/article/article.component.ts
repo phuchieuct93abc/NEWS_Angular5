@@ -2,13 +2,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { asyncScheduler, Subject } from 'rxjs';
-import { takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
-import { ConfigService } from '../shared/config.service';
 import { readArticle } from '../store/actions';
 import { configFeature } from '../store/config.reducer';
 import { StoryListService } from '../story/story-list/story-list.service';
@@ -46,6 +45,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public fontSize$ = this.store.select(configFeature.selectFontSize);
   public isOpeningArticle: boolean;
+  public iframeSource: string;
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
 
@@ -104,6 +104,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.categoryId = categoryId;
       this.articleId = articleId;
       this.store.dispatch(readArticle({ articleId: this.articleId, categoryId: this.categoryId }));
+      console.log(this.story);
       if (this.story?.article) {
         this.loadArticle(this.story.article);
       } else {
@@ -134,6 +135,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     this.articleService.onStorySelected.next(this.article);
     this.isOpeningArticle = this.story?.article !== undefined;
     this.afterGetArticle();
+    // this.iframeSource = this.article.
   }
 
   private parseImage() {

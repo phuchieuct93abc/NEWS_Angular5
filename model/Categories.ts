@@ -74,6 +74,13 @@ const categories: Categories[] = [
         icon: 'videocam',
         color: '#007bff',
       },
+
+      {
+        name: 'daily.dev',
+        title: 'daily.dev',
+        icon: 'videocam',
+        color: '#007bff',
+      },
     ],
   },
   {

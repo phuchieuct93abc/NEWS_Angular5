@@ -24,8 +24,7 @@ export abstract class StoryService {
 
   public async getStories(): Promise<Story[]> {
     try {
-      const url = await this.getUrl();
-      const response = await axios.get(url).catch();
+      const response = await this.getResponse();
       const result = this.queryStories(response);
       let stories = Array.from(result)
         .map((r) => this.storyParser.setData(r).parseStory())
@@ -35,6 +34,11 @@ export abstract class StoryService {
       console.error(e);
       throw e;
     }
+  }
+
+  protected async getResponse() {
+    const url = await this.getUrl();
+    return await axios.get(url).catch();
   }
 
   public async cache(): Promise<any> {

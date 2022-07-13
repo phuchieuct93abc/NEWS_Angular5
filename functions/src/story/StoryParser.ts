@@ -2,10 +2,10 @@ import { Story } from '../../../model/Story';
 import StoryImage from '../../../model/StoryImage';
 import StoryMeta from '../../../model/StoryMeta';
 
-export abstract class StoryParser {
-  protected data: any;
+export abstract class StoryParser<T = any> {
+  protected data: T;
 
-  public setData(data: any) {
+  public setData(data: T) {
     this.data = data;
     return this;
   }

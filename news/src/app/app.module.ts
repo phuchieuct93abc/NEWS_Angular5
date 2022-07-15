@@ -59,6 +59,7 @@ import { ArticleEffect } from './store/article.effect';
 import { IsReadPipe } from './story/is-read.pipe';
 import { configFeature } from './store/config.reducer';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
+import { SanitizerUrlPipe } from './shared/sanitizerUrl.pipe';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -135,6 +136,7 @@ const isMobileProvider = {
     AppShellRenderDirective,
     SmoothScrollDirective,
     IsReadPipe,
+    SanitizerUrlPipe,
   ],
   bootstrap: [AppComponent],
   providers: [

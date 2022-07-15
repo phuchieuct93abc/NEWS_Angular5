@@ -12,8 +12,10 @@ export default class DailyDevArticleParser extends ArticleParser<DailyDevArticle
     article.body = articleObject.html;
     article.category = 'daily.dev';
     article.header = articleObject.title;
-    article.externalUrl = articleObject.pageUrl;
-    article.id = this.articleId;
+      article.sourceUrl = articleObject.pageUrl;
+      article.externalUrl = articleObject.resolvedPageUrl;
+      article.id = this.articleId;
+      article.time = new Date(articleObject.date).getTime();
     return article;
   }
 }

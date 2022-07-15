@@ -104,7 +104,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.categoryId = categoryId;
       this.articleId = articleId;
       this.store.dispatch(readArticle({ articleId: this.articleId, categoryId: this.categoryId }));
-      console.log(this.story);
       if (this.story?.article) {
         this.loadArticle(this.story.article);
       } else {

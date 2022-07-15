@@ -1,9 +1,7 @@
 import { ArticleService } from './ArticleService';
 import BaomoiArticleService from './baomoi/BaomoiArticleService';
-import CategoryHelper from '../../../model/Categories';
-import TinhteArticleService from './tinhte/TinhteArticleService';
-import DailyDevStoryService from '../story/daily.dev/DailyDevStoryService';
 import { DailyDevArticleService } from './daily.dev/DailyDevArticleService';
+import TinhteArticleService from './tinhte/TinhteArticleService';
 
 export default class ArticleServiceFactory {
   public static get(category: string): ArticleService<any> {

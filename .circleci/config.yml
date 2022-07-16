@@ -48,15 +48,15 @@ workflows:
   main:
     jobs:
       - build-browser:
-         filters:
-          branches:
-            only: 
-              - master
-              - test-get-back-tinhte
+        #  filters:
+        #   branches:
+        #     only: 
+        #       - master
+        #       - test-get-back-tinhte
 
       - build-server:
-         filters:
-          branches:
-            only: 
-              - master
-              - test-get-back-tinhte
+        #  filters:
+        #   branches:
+        #     only: 
+        #       - master
+        #       - test-get-back-tinhte

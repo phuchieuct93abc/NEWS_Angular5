@@ -53,7 +53,7 @@ router.get('/redirect', async (req, res) => {
   try {
     const response = await axios.get(url);
 
-    const headerString = /<head([^>]*)>/gm.exec(response.data as string)?.[1] as string;
+    const headerString = /<head([^>]*)>/gm.exec(response.data as string)?.[0] as string;
     const data = (response.data as string).replace(
       headerString,
       `${headerString}<base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />`

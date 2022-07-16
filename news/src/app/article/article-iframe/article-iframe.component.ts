@@ -11,7 +11,4 @@ export class ArticleIframeComponent {
   @ViewChild('iframe')
   iframe: ElementRef<HTMLIFrameElement>;
 
-  onLoad(): void {
-    // this.iframe.nativeElement.style.height = `${this.iframe.nativeElement.contentWindow.document.body.scrollHeight}px`;
-  }
 }

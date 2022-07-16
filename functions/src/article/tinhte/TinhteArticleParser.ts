@@ -25,7 +25,7 @@ export default class TinhteArticleParser extends ArticleParser<TinhteData> {
       this.addAttachToBody(),
       null,
       null,
-      null,
+      sourceUrl,
       sourceUrl,
       sourceName,
       'https://tinhte.vn/favicon.ico',

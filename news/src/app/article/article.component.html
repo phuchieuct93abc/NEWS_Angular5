@@ -20,16 +20,21 @@
           [thumbnailPath]="article.getThumbnail()"
           [title]="article.header"
           [article]="article"></app-article-thumbnail>
-        <iframe class="w-full h-screen" [src]="article.externalUrl | sanitizerUrl" ></iframe>
-        <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
+        <ng-container *ngIf="(viewInSource$ | async) === false; else viewInSource">
+          <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
 
-        <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
-        <div class="source text-right mb-3">
-          <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
-            <span>Nguồn: &nbsp;</span>
-            <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
-          </a>
-        </div>
+          <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
+          <div class="source text-right mb-3">
+            <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+              <span>Nguồn: &nbsp;</span>
+              <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
+            </a>
+          </div>
+        </ng-container>
+
+        <ng-template #viewInSource>
+          <iframe class="w-full h-screen" [src]="article.externalUrl | sourceIframe"></iframe>
+        </ng-template>
       </div>
       <ng-template #loading>
         <app-loading class="p-2"></app-loading>

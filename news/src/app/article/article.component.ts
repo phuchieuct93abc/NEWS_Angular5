@@ -46,6 +46,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public fontSize$ = this.store.select(configFeature.selectFontSize);
   public isOpeningArticle: boolean;
   public iframeSource: string;
+  public viewInSource$ = this.store.select(configFeature.selectViewInSource);
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
 

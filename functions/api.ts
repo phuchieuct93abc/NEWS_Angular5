@@ -8,6 +8,7 @@ import notifyHandler from './src/notification/notificationHandler';
 import { ttsArticle } from './tts';
 var proxy = require('express-http-proxy');
 require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 var router = express.Router();
@@ -47,6 +48,17 @@ router.get('/cachestory', async (req, res) => {
 router.get('/search', async (req, res) => {
   const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
   res.send(value);
+});
+router.get('/redirect', async (req, res) => {
+  const url = req.query.url as string;
+  const response = await axios.get(url);
+
+  const data = (response.data as string).replace(
+    '<head>',
+    `<head><base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />`
+  );
+
+  res.send(data);
 });
 
 router.get('/blur', (req, res) => {

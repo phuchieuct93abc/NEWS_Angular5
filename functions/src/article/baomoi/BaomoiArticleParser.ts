@@ -49,7 +49,7 @@ export default class BaomoiArticleParser extends ArticleParser<BaomoiData> {
       this.convertHtmlBody(),
       null,
       null,
-      null,
+      sourceUrl,
       sourceUrl,
       sourceName,
       sourceIconUrl,

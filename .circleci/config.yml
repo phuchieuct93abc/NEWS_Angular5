@@ -47,5 +47,16 @@ workflows:
   version: 2
   main:
     jobs:
-      - build-browser
-      - build-server
+      - build-browser:
+         filters:
+          branches:
+            only: 
+              - master
+              - test-get-back-tinhte
+
+      - build-server:
+         filters:
+          branches:
+            only: 
+              - master
+              - test-get-back-tinhte

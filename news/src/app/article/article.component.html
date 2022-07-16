@@ -24,17 +24,19 @@
           <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
 
           <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
-          <div class="source text-right mb-3">
-            <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
-              <span>Nguồn: &nbsp;</span>
-              <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
-            </a>
-          </div>
+      
         </ng-container>
 
         <ng-template #viewInSource>
-          <iframe class="w-full h-screen" [src]="article.externalUrl | sourceIframe"></iframe>
+            <app-article-iframe [url]="article.externalUrl" class="block h-auto"></app-article-iframe>
+
         </ng-template>
+        <div class="source text-right mb-3">
+          <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+            <span>Nguồn: &nbsp;</span>
+            <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
+          </a>
+        </div>
       </div>
       <ng-template #loading>
         <app-loading class="p-2"></app-loading>

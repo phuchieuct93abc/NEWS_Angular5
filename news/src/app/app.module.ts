@@ -60,6 +60,7 @@ import { ArticleEffect } from './store/article.effect';
 import { IsReadPipe } from './story/is-read.pipe';
 import { configFeature } from './store/config.reducer';
 import { SourceIframePipe } from './shared/sourceIframe.pipe';
+import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -137,12 +138,13 @@ const isMobileProvider = {
     SmoothScrollDirective,
     IsReadPipe,
     SourceIframePipe,
+    ArticleIframeComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-    { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+    { provide: IS_NODE, useFactory: (platformId: unknown) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
     isMobileProvider,
     Title,
     Meta,

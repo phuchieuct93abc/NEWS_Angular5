@@ -1,12 +1,11 @@
 // Start up the Node server
 import * as express from 'express';
 
-import StoryServiceFactory from './src/story/StoryServiceFactory';
-import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import ArticleHistoryService from './src/article/ArticleHistoryService';
+import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import notifyHandler from './src/notification/notificationHandler';
+import StoryServiceFactory from './src/story/StoryServiceFactory';
 import { ttsArticle } from './tts';
-var proxy = require('express-http-proxy');
 require('dotenv').config();
 const axios = require('axios');
 
@@ -51,14 +50,19 @@ router.get('/search', async (req, res) => {
 });
 router.get('/redirect', async (req, res) => {
   const url = req.query.url as string;
-  const response = await axios.get(url);
+  try {
+    const response = await axios.get(url);
 
-  const data = (response.data as string).replace(
-    '<head>',
-    `<head><base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />`
-  );
+    const headerString = /<head([^>]*)>/gm.exec(response.data as string)?.[1] as string;
+    const data = (response.data as string).replace(
+      headerString,
+      `${headerString}<base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />`
+    );
 
-  res.send(data);
+    res.send(data);
+  } catch (error) {
+    res.send('<body>Could not get article</body>');
+  }
 });
 
 router.get('/blur', (req, res) => {

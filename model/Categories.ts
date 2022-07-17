@@ -77,8 +77,8 @@ const categories: Categories[] = [
 
       {
         name: 'daily.dev',
-        title: 'daily.dev',
-        icon: 'videocam',
+        title: 'Daily.dev',
+        icon: 'code',
         color: '#007bff',
       },
     ],

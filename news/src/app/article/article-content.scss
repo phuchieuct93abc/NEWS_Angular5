@@ -3,6 +3,14 @@
     *{
       max-width: 100% !important;
       white-space: break-space;
+      overflow: auto;
+    }
+    pre{
+      padding: 0.5rem;
+    }
+    code,pre{
+      background-color: #2a2d2e;
+
     }
     video,
     img,iframe {

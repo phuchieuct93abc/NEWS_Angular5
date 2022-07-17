@@ -15,7 +15,7 @@ export default class Article {
     public sourceUrl?: string,
     public sourceName?: string,
     public sourceIcon?: string,
-    public images?: string[],
+    public images: string[] = [],
     public description?: string,
     public likes = 1,
     public time: string | number = new Date().toISOString(),

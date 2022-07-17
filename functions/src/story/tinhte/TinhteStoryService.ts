@@ -17,8 +17,8 @@ export default class TinhteStoryService extends StoryService {
     super(url, new TinhteStoryParser(), category, new TinhteArticleService());
   }
 
-  queryStories(data: any): any[] {
-    return data.data.threads;
+  queryStories(data: any): { payload?: any; story: any[] } {
+    return { story: data.data.threads };
   }
 
   search(): Promise<Story[]> {

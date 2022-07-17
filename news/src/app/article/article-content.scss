@@ -1,7 +1,11 @@
 .article-body {
   ::ng-deep {
+    *{
+      max-width: 100% !important;
+      white-space: break-space;
+    }
     video,
-    img {
+    img,iframe {
       width: 100% !important;
       height: auto;
       max-height: initial !important;

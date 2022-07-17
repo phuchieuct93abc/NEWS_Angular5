@@ -16,9 +16,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 import { asyncScheduler, Observable } from 'rxjs';
 import { tap, throttleTime } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
+import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import CONFIG from 'src/environments/environment';
 import Article from '../../../../../model/Article';
 import { IS_NODE } from './../../shared/const';
@@ -51,6 +53,7 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   public isFixedTop = false;
   public isFixedTop$: Observable<boolean>;
   public ttsAudioSource: { title: string; link: string; artist: string; duration: number }[] = [];
+  public showIframe$ = this.store.select(configFeature.selectViewInSource);
   private observerWindow: IntersectionObserver;
   private isDisplayingAction = false;
   private isDisplayingArticle = true;
@@ -59,12 +62,7 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
     rootMargin: '-80px 0px 0px 0px',
     threshold: [0],
   };
-  constructor(
-    private ngZone: NgZone,
-    @Inject(IS_MOBILE) private isMobile: boolean,
-    @Inject(IS_NODE) private isNode: boolean,
-    private crd: ChangeDetectorRef
-  ) {}
+  constructor(@Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean, private store: Store) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.article.currentValue != null) {
@@ -91,6 +89,9 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   close(event: MouseEvent): void {
     event?.stopPropagation();
     this.onClosed.emit();
+  }
+  changeShowIframe(showIframe: boolean): void {
+    this.store.dispatch(updateConfigAction({ viewInSource: showIframe }));
   }
 
   ngOnDestroy(): void {

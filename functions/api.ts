@@ -1,13 +1,13 @@
 // Start up the Node server
 import * as express from 'express';
 
-import StoryServiceFactory from './src/story/StoryServiceFactory';
-import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import ArticleHistoryService from './src/article/ArticleHistoryService';
+import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import notifyHandler from './src/notification/notificationHandler';
+import StoryServiceFactory from './src/story/StoryServiceFactory';
 import { ttsArticle } from './tts';
-var proxy = require('express-http-proxy');
 require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 var router = express.Router();
@@ -47,6 +47,34 @@ router.get('/cachestory', async (req, res) => {
 router.get('/search', async (req, res) => {
   const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
   res.send(value);
+});
+
+// TODO: extract to separate file
+router.get('/redirect', async (req, res) => {
+  const url = req.query.url as string;
+  try {
+    const response = await axios.get(url);
+
+    const headerString = /<head([^>]*)>/gm.exec(response.data as string)?.[0] as string;
+    const data = (response.data as string).replace(
+      headerString,
+      `${headerString}<base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />
+      <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        setTimeout(function (){
+          var parent = window.parent;
+          parent.postMessage({height:document.documentElement.scrollHeight},'*');
+
+        })
+     });
+     
+      </script>`
+    );
+
+    res.send(data);
+  } catch (error) {
+    res.send('<body>Could not get article</body>');
+  }
 });
 
 router.get('/blur', (req, res) => {

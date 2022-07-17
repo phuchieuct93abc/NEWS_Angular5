@@ -32,7 +32,6 @@ const modules = [
   MatButtonModule,
   MatDividerModule,
   MatSnackBarModule,
-  MatSlideToggleModule,
   MatSliderModule,
 ];
 

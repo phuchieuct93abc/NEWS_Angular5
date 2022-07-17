@@ -22,19 +22,23 @@ export abstract class StoryService {
     return this.url;
   }
 
-  public async getStories(): Promise<Story[]> {
+  public async getStories(): Promise<{ payload: any; story: Story[] }> {
     try {
-      const url = await this.getUrl();
-      const response = await axios.get(url).catch();
-      const result = this.queryStories(response);
-      let stories = Array.from(result)
+      const response = await this.getResponse();
+      const { story, payload } = this.queryStories(response);
+      let stories = Array.from(story)
         .map((r) => this.storyParser.setData(r).parseStory())
         .filter((r) => r != null);
-      return this.uniqueBy(stories);
+      return { story: this.uniqueBy(stories), payload };
     } catch (e) {
       console.error(e);
       throw e;
     }
+  }
+
+  protected async getResponse() {
+    const url = await this.getUrl();
+    return await axios.get(url).catch();
   }
 
   public async cache(): Promise<any> {
@@ -70,7 +74,7 @@ export abstract class StoryService {
     return result;
   }
 
-  abstract queryStories(data: any): any[];
+  abstract queryStories(data: any): { payload?: any; story: any[] };
 
   abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 }

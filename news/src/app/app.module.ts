@@ -11,6 +11,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
 import CONFIG from 'src/environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,13 +55,12 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { StoreModule } from '@ngrx/store';
 import { articleHistoryReducer } from './store/reduces';
-import { EffectsModule } from '@ngrx/effects';
 import { ArticleEffect } from './store/article.effect';
 import { IsReadPipe } from './story/is-read.pipe';
 import { configFeature } from './store/config.reducer';
-import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
+import { SourceIframePipe } from './shared/sourceIframe.pipe';
+import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -135,12 +137,14 @@ const isMobileProvider = {
     AppShellRenderDirective,
     SmoothScrollDirective,
     IsReadPipe,
+    SourceIframePipe,
+    ArticleIframeComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-    { provide: IS_NODE, useFactory: (platformId: Object) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+    { provide: IS_NODE, useFactory: (platformId: unknown) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
     isMobileProvider,
     Title,
     Meta,

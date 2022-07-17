@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { filter, map, shareReplay, take, takeUntil, tap } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 import Article from '../../../../model/Article';

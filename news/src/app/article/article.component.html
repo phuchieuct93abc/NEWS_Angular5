@@ -14,14 +14,14 @@
   </div>
   <div class="scrollable" #articleView appSmoothScroll>
     <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
-      <div  class="article-content px-2 pb-5 panel-primary"   *ngIf="(selectedStory$ | async)"
+      <div  class="article-content px-2 pb-5 panel-primary" 
        >
         <app-article-thumbnail
           [rootArticle]="rootArticle"
-          [thumbnailPath]="(selectedStory$ | async).thumbnail"
-          [header]="(selectedStory$ | async).header"
-          [articleCategory]="(selectedStory$ | async).articleCategory"
-          [articleId]="(selectedStory$ | async).articleId"
+          [thumbnailPath]="(selectedStory$ | async)?.thumbnail"
+          [header]="(selectedStory$ | async)?.header"
+          [articleCategory]="(selectedStory$ | async)?.articleCategory"
+          [articleId]="(selectedStory$ | async)?.articleId"
           ></app-article-thumbnail>
           <ng-container *ngIf="article;else loading">
             <ng-container *ngIf="(viewInSource$ | async) === false; else viewInSource">
@@ -39,9 +39,9 @@
 
         </ng-template>
         <div class="source text-right mb-3">
-          <a mat-button [href]="(selectedStory$ | async).externalUrl" rel="noreferrer" target="_blank" color="accent">
+          <a mat-button [href]="(selectedStory$ | async)?.externalUrl" rel="noreferrer" target="_blank" color="accent">
             <span>Nguồn: &nbsp;</span>
-            <img class="inline-block ml-2 source-icon" [alt]="(selectedStory$ | async).sourceName" height="20" [src]="(selectedStory$ | async).sourceIcon" />
+            <img class="inline-block ml-2 source-icon" [alt]="(selectedStory$ | async)?.sourceName" height="20" [src]="(selectedStory$ | async)?.sourceIcon" />
           </a>
         </div>
       </div>

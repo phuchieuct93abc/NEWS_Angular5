@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
-import { LocalStorageService } from './storage.service';
 
 const storyUrl = CONFIG.asiaUrl + `story`;
 
@@ -16,13 +14,14 @@ const storyUrl = CONFIG.asiaUrl + `story`;
 export class StoryService {
   public onSearch = new Subject<string>();
   private currentStoryPage = 0;
+  private currentPayload: unknown;
 
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
   public constructor(private httpClient: HttpClient, private loadingService: LoadingService) {}
 
-  public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
+  public getStoryByPage(category: string, pageNumber: number, payload: unknown): Observable<Story[]> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
     return this.httpClient
@@ -30,6 +29,7 @@ export class StoryService {
         params: {
           pageNumber: `${pageNumber}`,
           category,
+          payload: JSON.stringify(payload),
         },
       })
       .pipe(
@@ -40,7 +40,7 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-
+        tap(({ payload: returnPayload }) => (this.currentPayload = returnPayload)),
         map(({ story }) => story.map((r) => Object.assign(new Story(), r)))
       );
   }
@@ -56,7 +56,7 @@ export class StoryService {
       return of(this.storiesQueue.splice(0, numberOfStories));
     }
 
-    return this.getStoryByPage(category, this.currentStoryPage).pipe(
+    return this.getStoryByPage(category, this.currentStoryPage, this.currentPayload).pipe(
       map((stories: Story[]) => {
         const result = this.filterStory(stories);
         this.appendStoryList(result);
@@ -69,7 +69,7 @@ export class StoryService {
   }
 
   public getStoriesFirstPage(category: string): Observable<Story[]> {
-    return this.getStoryByPage(category, 1);
+    return this.getStoryByPage(category, 1, null);
   }
 
   public getById(id: string): Story {

@@ -2,6 +2,7 @@ import { Story } from '../../../../model/Story';
 import { DailyDevArticleService } from '../../article/daily.dev/DailyDevArticleService';
 import { StoryService } from '../StoryService';
 import DailyDevStoryParser from './DailyDevStoryParser';
+import { DailyDevStory } from './DailyDevType';
 
 const axios = require('axios');
 
@@ -13,21 +14,25 @@ const query = {
 };
 
 export default class DailyDevStoryService extends StoryService {
-  constructor(private currentCursor: string) {
+  constructor(private nextCursor: string) {
     super('https://app.daily.dev/api/graphql', new DailyDevStoryParser(), null, new DailyDevArticleService());
   }
   queryStories(data: any): { payload?: any; story: any[] } {
-    return { story: data };
+    return { story: data, payload: { nextCursor: this.nextCursor } };
   }
   search(pageNumber: string, keyword: string): Promise<Story[]> {
     throw new Error('Method not implemented.');
   }
   protected async getResponse() {
+    const requestQuery = { ...query };
+    (requestQuery.variables as any).after = this.nextCursor;
     const response = await axios({
       url,
       method: 'post',
-      data: query,
+      data: requestQuery,
     });
-    return response.data.data.page.edges;
+    const data = response.data as DailyDevStory;
+    this.nextCursor = data.data.page.pageInfo.endCursor;
+    return data.data.page.edges;
   }
 }

@@ -5,12 +5,20 @@ import TinhteStoryService from './tinhte/TinhteStoryService';
 
 export default class StoryServiceFactory {
   public static get(req): StoryService {
-    const { category, pageNumber, currentCursor } = req.query;
+    const { category, pageNumber, payload } = req.query;
     if (category === 'tinh-te') {
       return TinhteStoryService.createInstance(pageNumber);
     }
     if (category === 'daily.dev') {
-      return new DailyDevStoryService(currentCursor);
+      let nextCursor = null;
+      if (payload) {
+        try {
+          nextCursor = JSON.parse(payload)?.nextCursor;
+        } catch (error) {
+          console.log('Get first page daily.dev with no current cursor');
+        }
+      }
+      return new DailyDevStoryService(nextCursor);
     }
     return BaomoiStoryService.createInstance(pageNumber, category);
   }

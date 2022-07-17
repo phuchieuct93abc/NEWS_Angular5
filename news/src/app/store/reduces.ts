@@ -8,7 +8,6 @@ export const articleHistoryReducer = createReducer(
     const currentArticleId = state.articleHistory[categoryId]?.articleId || [];
     const newArticleId = [...currentArticleId, articleId];
     const newState = { articleHistory: { ...state.articleHistory, [categoryId]: { articleId: newArticleId } } };
-    console.log(state, newState);
     return { ...state, ...newState };
   }),
   on(loadArticleHistorySuccess, (state, { articleHistory }) => ({ ...state, articleHistory }))

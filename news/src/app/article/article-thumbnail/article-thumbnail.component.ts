@@ -1,6 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, Inject, NgZone, ChangeDetectorRef, Input } from '@angular/core';
-import Article from '../../../../../model/Article';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, ViewChild } from '@angular/core';
 import { IS_NODE } from './../../shared/const';
 
 @Component({
@@ -27,10 +26,18 @@ import { IS_NODE } from './../../shared/const';
 export class ArticleThumbnailComponent implements AfterViewInit {
   @Input()
   public thumbnailPath: string;
-  @Input()
-  public article: Article;
+
   @Input()
   public rootArticle: HTMLElement;
+
+  @Input()
+  public header: string;
+
+  @Input()
+  articleId: string;
+  @Input()
+  articleCategory: string;
+
   @ViewChild('articleHeader')
   protected articleHeader: ElementRef;
 
@@ -38,20 +45,22 @@ export class ArticleThumbnailComponent implements AfterViewInit {
 
   private readonly thresholds = [0, 1];
 
-  public constructor(@Inject(IS_NODE) private isNode: boolean, private zone: NgZone, private changeDetect: ChangeDetectorRef) {}
+  public constructor(@Inject(IS_NODE) private isNode: boolean, private changeDetect: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    if (!this.isNode) {
-      const options = {
-        threshold: this.thresholds,
-        root: this.rootArticle,
-      };
-      const observer = new IntersectionObserver(([entry]) => {
-        this.isStickyHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
-        this.changeDetect.detectChanges();
-      }, options);
-
-      observer.observe(this.articleHeader.nativeElement);
+    if (this.isNode) {
+      return;
     }
+    const options = {
+      threshold: this.thresholds,
+      root: this.rootArticle,
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      this.isStickyHeader = !entry.isIntersecting && entry.intersectionRatio === 0;
+      this.changeDetect.detectChanges();
+    }, options);
+    setTimeout(() => {
+      observer.observe(this.articleHeader.nativeElement);
+    }, 500);
   }
 }

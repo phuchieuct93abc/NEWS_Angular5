@@ -1,23 +1,22 @@
-import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { asyncScheduler, Observable, of, Subject } from 'rxjs';
-import { Component, Inject, OnInit, Renderer2, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import CONFIG from '../environments/environment';
-import { IS_NODE } from './shared/const';
-import { ConfigService } from './shared/config.service';
-import { ArticleService } from './shared/article.service';
 import { AppService } from './app.service';
-import { LoadingEventType, LoadingService } from './shared/loading.service';
-import vars from './variable';
+import { ArticleService } from './shared/article.service';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
-import { HttpClient } from '@angular/common/http';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
-import { Store } from '@ngrx/store';
+import { IS_NODE } from './shared/const';
+import { LoadingEventType, LoadingService } from './shared/loading.service';
 import { configFeature } from './store/config.reducer';
+import vars from './variable';
 
 @Component({
   selector: 'app-news',

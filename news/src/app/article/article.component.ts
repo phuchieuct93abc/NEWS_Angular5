@@ -2,19 +2,31 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, shareReplay, take, takeUntil, tap } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { readArticle } from '../store/actions';
 import { configFeature } from '../store/config.reducer';
+import { loadedStoriesFeature } from '../store/story.reducer';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
 import ArticleVideoParser from './parsers/article-video.parser';
 import { SmoothScrollDirective } from './smooth-scroll.directive';
+
+interface SelectedStory {
+  thumbnail: string;
+  header: string;
+  externalUrl: string;
+  sourceName: string;
+  sourceIcon: string;
+  articleId: string;
+  articleCategory: string;
+}
+
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
@@ -47,6 +59,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public isOpeningArticle: boolean;
   public iframeSource: string;
   public viewInSource$ = this.store.select(configFeature.selectViewInSource);
+  public selectedStory$: Observable<SelectedStory>;
   private onDestroy$ = new Subject<void>();
   private stopGetArticle$ = new Subject<void>();
 
@@ -67,9 +80,30 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
+      const category = params.category as string;
+      const id = params.id as string;
+
+      this.selectedStory$ = this.store.select(loadedStoriesFeature.selectLoadedStoriesState).pipe(
+        // @typescript-eslint/no-unsafe-member-access
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        filter((a) => a[category]?.[id] != null),
+        map((stories) => Object.assign(new Story(), stories[category][id])),
+        map((selectedStory) => ({
+          thumbnail: selectedStory.getThumbnail(),
+          header: selectedStory.title,
+          externalUrl: selectedStory.originalUrl,
+          sourceName: selectedStory.storyMeta.source,
+          sourceIcon: selectedStory.storyMeta.sourceIcon,
+          articleId: id,
+          articleCategory: category,
+        })),
+        take(1),
+        shareReplay({ refCount: true })
+      );
+
       this.stopGetArticle$.next();
       this.resetArticle();
-      this.getArticleById(params.id, params.category);
+      this.getArticleById(id, category);
     });
   }
 

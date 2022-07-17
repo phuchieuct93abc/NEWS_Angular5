@@ -1,19 +1,15 @@
 <ng-container *ngIf="{ isStickHeader: isStickyHeader } as data">
   <div class="content">
-    <section class="wrapper" *ngIf="article">
-      <div           class="thumbnail"
-      style="overflow: hidden">
-        <app-image-viewer
-          [imagePath]="thumbnailPath"
-          [parallax]="true"
-          [startOffsetParallax]="16"></app-image-viewer>
+    <section class="wrapper">
+      <div class="thumbnail" style="overflow: hidden">
+        <app-image-viewer [imagePath]="thumbnailPath" [parallax]="true" [startOffsetParallax]="16"></app-image-viewer>
       </div>
       <div class="title-wrapper">
         <div #articleHeader class="article-header p-2" [ngClass]="{ stick: data.isStickHeader }">
           <div class="mat-display-1 mb-2 accent-color article-title">
-            {{ article.header }}
+            {{ header }}
           </div>
-          <app-actions [article]="article"></app-actions>
+          <app-actions [articleId]="articleId" [articleCategory]="articleCategory"></app-actions>
         </div>
       </div>
     </section>
@@ -22,9 +18,9 @@
     <div class="sticky-wrapper">
       <div #articleHeader class="article-header">
         <div class="mat-display-1 mb-0 accent-color article-title">
-          {{ article.header }}
+          {{ header }}
         </div>
-        <app-actions [article]="article"></app-actions>
+        <app-actions [articleId]="articleId" [articleCategory]="articleCategory"></app-actions>
       </div>
     </div>
   </div>

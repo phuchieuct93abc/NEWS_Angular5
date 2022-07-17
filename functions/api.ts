@@ -73,7 +73,7 @@ router.get('/redirect', async (req, res) => {
 
     res.send(data);
   } catch (error) {
-    res.send('<body>Could not get article</body>');
+    res.status(404).send();
   }
 });
 

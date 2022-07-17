@@ -27,6 +27,7 @@ export class NavigatorComponent implements AfterViewInit, OnDestroy {
     debounceTime(100)
   );
   onScrollTop = true;
+  public vietnameseCategories = CategoryHelper.vietnameseCategories();
   private onDestroy$ = new Subject<void>();
 
   public constructor(
@@ -36,7 +37,6 @@ export class NavigatorComponent implements AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private changeDetect: ChangeDetectorRef
   ) {}
-
 
   ngAfterViewInit(): void {
     this.ngZone.runOutsideAngular(() => {

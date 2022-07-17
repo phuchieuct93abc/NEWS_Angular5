@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ interface ImageViewerData {
   templateUrl: './image-viewer.component.html',
   styleUrls: ['./image-viewer.component.scss'],
 })
-export class ImageViewerComponent implements OnInit, OnDestroy {
+export class ImageViewerComponent implements OnDestroy, OnChanges {
   @Input()
   public imagePath: string;
 
@@ -46,16 +46,17 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
     @Inject(IS_NODE) private isNode: boolean,
     private transferState: TransferState
   ) {}
-
-  public ngOnInit(): void {
-    this.data$ = this.data$ = this.getImageData(this.imagePath).pipe(
-      tap((data) => {
-        if (this.isNode) {
-          const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
-          this.transferState.set(imageKey, data);
-        }
-      })
-    );
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.imagePath) {
+      this.data$ = this.data$ = this.getImageData(this.imagePath).pipe(
+        tap((data) => {
+          if (this.isNode) {
+            const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
+            this.transferState.set(imageKey, data);
+          }
+        })
+      );
+    }
   }
 
   public ngOnDestroy(): void {
@@ -63,8 +64,8 @@ export class ImageViewerComponent implements OnInit, OnDestroy {
   }
   private getImageData(image: string): Observable<ImageViewerData> {
     return new Observable((resolve) => {
-      let width: number = 0;
-      let height: number = 0;
+      let width = 0;
+      let height = 0;
       let imagePath = image;
       const imageKey: StateKey<ImageViewerData> = makeStateKey<ImageViewerData>(`imageviewer-${this.imagePath}`);
 

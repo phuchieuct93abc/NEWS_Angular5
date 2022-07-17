@@ -43,8 +43,8 @@ export class StoryService {
           })
         ),
         tap(({ payload: returnPayload }) => (this.currentPayload = returnPayload)),
-        tap(({ story }) => {
-          story.forEach((story) => this.store.dispatch(addStoryAction({ category, story })));
+        tap(({ story: stories }) => {
+          stories.forEach((story) => this.store.dispatch(addStoryAction({ category, story })));
         }),
         map(({ story }) => story.map((r) => Object.assign(new Story(), r)))
       );

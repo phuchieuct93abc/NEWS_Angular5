@@ -17,8 +17,8 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { asyncScheduler, Observable } from 'rxjs';
-import { tap, throttleTime } from 'rxjs/operators';
+import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { take, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import CONFIG from 'src/environments/environment';
@@ -67,6 +67,7 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
     rootMargin: '-80px 0px 0px 0px',
     threshold: [0],
   };
+  private onDestroy$ = new Subject<void>();
   constructor(@Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean, private store: Store) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -93,11 +94,21 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
     this.onClosed.emit();
   }
   changeShowIframe(showIframe: boolean): void {
+    console.log('onchange');
     this.store.dispatch(updateConfigAction({ viewInSource: showIframe }));
   }
 
   ngOnDestroy(): void {
     this.observerWindow?.disconnect();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  onClickReader(): void {
+    console.log('click');
+    this.showIframe$.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((showIframe) => {
+      this.store.dispatch(updateConfigAction({ viewInSource: !showIframe }));
+    });
   }
 
   private registerStickyActions() {

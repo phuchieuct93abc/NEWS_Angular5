@@ -80,13 +80,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
+      this.articleView?.nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
       const category = params.category as string;
       const id = params.id as string;
 
       this.selectedStory$ = this.store.select(loadedStoriesFeature.selectLoadedStoriesState).pipe(
-        // @typescript-eslint/no-unsafe-member-access
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        filter((a) => a[category]?.[id] != null),
+        filter((loadedStories) => loadedStories[category]?.[id] != null),
         map((stories) => Object.assign(new Story(), stories[category][id])),
         map((selectedStory) => ({
           thumbnail: selectedStory.getThumbnail(),
@@ -166,6 +165,24 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   private loadArticle(article: Article) {
     this.article = article;
+    this.selectedStory$ = of({
+      articleCategory: article.category,
+      articleId: article.id,
+      externalUrl: article.externalUrl,
+      header: article.header,
+      sourceIcon: article.sourceIcon,
+      sourceName: article.sourceName,
+      thumbnail: article.getThumbnail(),
+    });
+    console.log({
+      articleCategory: article.category,
+      articleId: article.id,
+      externalUrl: article.externalUrl,
+      header: article.header,
+      sourceIcon: article.sourceIcon,
+      sourceName: article.sourceName,
+      thumbnail: article.getThumbnail(),
+    });
     this.articleService.onStorySelected.next(this.article);
     this.isOpeningArticle = this.story?.article !== undefined;
     this.afterGetArticle();

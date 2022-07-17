@@ -1,1 +1,3 @@
-<iframe scrolling="no" #iframe title="article"  class="w-full" [src]="url | sourceIframe" [style.height.px]="iframeHeight$ | async"></iframe>
+<app-loading class="pt-4" *ngIf="!loaded"></app-loading>
+
+<iframe [class.invisible]="!loaded"   (error)="onError($event)" scrolling="no" #iframe title="article"  class="w-full " [src]="url | sourceIframe" [style.height.px]="iframeHeight$ | async"></iframe>

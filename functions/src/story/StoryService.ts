@@ -38,15 +38,15 @@ export abstract class StoryService {
 
   protected async getResponse() {
     const url = await this.getUrl();
-    return await axios.get(url).catch();
+    return axios.get(url).catch();
   }
 
   public async cache(): Promise<any> {
-    const stories = await this.getStories();
+    const stories = (await this.getStories()).story;
     return this.cacheArticles(stories);
   }
 
-  private async cacheArticles(stories): Promise<any> {
+  private async cacheArticles(stories: Story[]): Promise<any> {
     let cachedArticles: Article[] = await Promise.all(stories.map(async (story) => this.articleService.crawArticleByIdAndSaveArticle(story.id)));
     cachedArticles = cachedArticles.filter((article) => article != null);
     await this.sendNotification(cachedArticles);

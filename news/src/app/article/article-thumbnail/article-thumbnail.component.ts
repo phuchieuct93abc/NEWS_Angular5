@@ -27,10 +27,13 @@ import { IS_NODE } from './../../shared/const';
 export class ArticleThumbnailComponent implements AfterViewInit {
   @Input()
   public thumbnailPath: string;
-  @Input()
-  public article: Article;
+
   @Input()
   public rootArticle: HTMLElement;
+
+  @Input()
+  public header: string;
+
   @ViewChild('articleHeader')
   protected articleHeader: ElementRef;
 

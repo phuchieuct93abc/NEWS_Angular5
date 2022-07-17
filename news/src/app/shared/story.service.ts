@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import CONFIG from '../../environments/environment';
+import { addStoryAction } from '../store/story.reducer';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 
 const storyUrl = CONFIG.asiaUrl + `story`;
@@ -19,7 +21,7 @@ export class StoryService {
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
-  public constructor(private httpClient: HttpClient, private loadingService: LoadingService) {}
+  public constructor(private httpClient: HttpClient, private loadingService: LoadingService, private store: Store) {}
 
   public getStoryByPage(category: string, pageNumber: number, payload: unknown): Observable<Story[]> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
@@ -41,6 +43,9 @@ export class StoryService {
           })
         ),
         tap(({ payload: returnPayload }) => (this.currentPayload = returnPayload)),
+        tap(({ story }) => {
+          story.forEach((story) => this.store.dispatch(addStoryAction({ category, story })));
+        }),
         map(({ story }) => story.map((r) => Object.assign(new Story(), r)))
       );
   }

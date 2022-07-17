@@ -6,6 +6,7 @@
   (right)="nextArticle()"
   class="h-full article relative mat-elevation-z8"
   [ngStyle]="{ 'font-size.px': fontSize$ | async }"
+  *ngIf="(selectedStory$ | async)"
   #rootArticle>
   <div class="navigator navigator-prev">
     <a (click)="prevArticle()" mat-icon-button>
@@ -14,13 +15,13 @@
   </div>
   <div class="scrollable" #articleView appSmoothScroll>
     <div *ngFor="let id of [articleId]" style="position: relative" class="h-full panel-primary">
-      <div *ngIf="article; else loading" class="article-content px-2 pb-5 panel-primary">
+      <div  class="article-content px-2 pb-5 panel-primary">
         <app-article-thumbnail
           [rootArticle]="rootArticle"
-          [thumbnailPath]="article.getThumbnail()"
+          [thumbnailPath]="(selectedStory$ | async).thumbnail"
           [title]="article.header"
-          [article]="article"></app-article-thumbnail>
-        <ng-container *ngIf="(viewInSource$ | async) === false; else viewInSource">
+          ></app-article-thumbnail>
+        <ng-container *ngIf="article && (viewInSource$ | async) === false; else viewInSource">
           <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein" *ngIf="article.description"></p>
 
           <p [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein" #articleContent></p>
@@ -32,7 +33,7 @@
 
         </ng-template>
         <div class="source text-right mb-3">
-          <a mat-button [href]="article.sourceUrl" rel="noreferrer" target="_blank" color="accent">
+          <a mat-button [href]="(selectedStory$ | async).externalUrl" rel="noreferrer" target="_blank" color="accent">
             <span>Nguồn: &nbsp;</span>
             <img class="inline-block ml-2 source-icon" [alt]="article.sourceName" height="20" [src]="article.sourceIcon" />
           </a>

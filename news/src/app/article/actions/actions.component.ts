@@ -43,8 +43,8 @@ import { IS_NODE } from './../../shared/const';
   ],
 })
 export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
-  @Input()
-  article: Article;
+  // @Input()
+  // article: Article;
   @Output()
   public onClosed = new EventEmitter<void>();
   @ViewChild('actionsElement')

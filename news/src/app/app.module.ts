@@ -61,6 +61,7 @@ import { IsReadPipe } from './story/is-read.pipe';
 import { configFeature } from './store/config.reducer';
 import { SourceIframePipe } from './shared/sourceIframe.pipe';
 import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
+import { loadedStoriesFeature } from './store/story.reducer';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -96,6 +97,7 @@ const isMobileProvider = {
     }),
     StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
     StoreModule.forFeature(configFeature),
+    StoreModule.forFeature(loadedStoriesFeature),
     EffectsModule.forRoot([ArticleEffect]),
     NgxSmoothParallaxModule,
   ],

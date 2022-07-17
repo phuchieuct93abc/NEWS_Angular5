@@ -48,6 +48,11 @@ $transparent: transparent;
   .text {
     color: rgba(255, 255, 255, 0.78) !important;
   }
+  mat-nav-list{
+    a.mat-list-item.active{
+     background-color:  rgba(255,255,255,.04);
+    }
+  }
 }
 
 .unicorn-light-theme {
@@ -64,5 +69,10 @@ $transparent: transparent;
   }
   .text {
     color: rgba(255, 255, 255, 0.78) !important;
+  }
+  mat-nav-list{
+    a.mat-list-item.active{
+     background-color:  rgba(0,0,0,.04);
+    }
   }
 }

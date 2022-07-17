@@ -143,3 +143,8 @@ body:not(.mobile-device) {
 }
 
 /* Importing Bootstrap SCSS file. */
+mat-nav-list{
+  a.mat-list-item.active{
+   background-color:  rgba(255,255,255,.04);
+  }
+}

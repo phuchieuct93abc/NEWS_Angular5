@@ -22,14 +22,14 @@ export abstract class StoryService {
     return this.url;
   }
 
-  public async getStories(): Promise<Story[]> {
+  public async getStories(): Promise<{ payload: any; story: Story[] }> {
     try {
       const response = await this.getResponse();
-      const result = this.queryStories(response);
-      let stories = Array.from(result)
+      const { story, payload } = this.queryStories(response);
+      let stories = Array.from(story)
         .map((r) => this.storyParser.setData(r).parseStory())
         .filter((r) => r != null);
-      return this.uniqueBy(stories);
+      return { story: this.uniqueBy(stories), payload };
     } catch (e) {
       console.error(e);
       throw e;
@@ -74,7 +74,7 @@ export abstract class StoryService {
     return result;
   }
 
-  abstract queryStories(data: any): any[];
+  abstract queryStories(data: any): { payload?: any; story: any[] };
 
   abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 }

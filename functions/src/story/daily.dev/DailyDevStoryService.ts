@@ -16,8 +16,8 @@ export default class DailyDevStoryService extends StoryService {
   constructor(private currentCursor: string) {
     super('https://app.daily.dev/api/graphql', new DailyDevStoryParser(), null, new DailyDevArticleService());
   }
-  queryStories(data: any): any[] {
-    return data;
+  queryStories(data: any): { payload?: any; story: any[] } {
+    return { story: data };
   }
   search(pageNumber: string, keyword: string): Promise<Story[]> {
     throw new Error('Method not implemented.');

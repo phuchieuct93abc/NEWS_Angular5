@@ -14,8 +14,8 @@ const baomoiStoryparams =
   'https://baomoi.com/api/v1/content/get/list-by-type?listType=3&listId={categoryId}&page={page}&ctime={ctime}&version=0.1.30&sig={sig}&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw';
 
 export default class BaomoiStoryService extends StoryService {
-  queryStories(response): any[] {
-    return response.data.data.items;
+  queryStories(response): { payload?: any; story: any[] } {
+    return { story: response.data.data.items };
   }
 
   constructor(protected url: string, category: string) {

@@ -9,7 +9,6 @@ import { LoadingEventName, LoadingEventType, LoadingService } from './loading.se
 import { LocalStorageService } from './storage.service';
 
 const storyUrl = CONFIG.asiaUrl + `story`;
-const searchUrl = CONFIG.asiaUrl + `search`;
 
 @Injectable({
   providedIn: 'root',
@@ -21,20 +20,15 @@ export class StoryService {
   private stories: Story[] = [];
   private storiesQueue: Story[] = [];
 
-  public constructor(
-    private httpClient: HttpClient,
-    private storage: LocalStorageService,
-    private loadingService: LoadingService,
-    private articleHistory: Store<{ articleHistory }>
-  ) {}
+  public constructor(private httpClient: HttpClient, private loadingService: LoadingService) {}
 
   public getStoryByPage(category: string, pageNumber: number): Observable<Story[]> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
     return this.httpClient
-      .get<Story[]>(storyUrl, {
+      .get<{ payload: unknown; story: Story[] }>(storyUrl, {
         params: {
-          pageNumber: pageNumber + '',
+          pageNumber: `${pageNumber}`,
           category,
         },
       })
@@ -46,11 +40,12 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-        map((result) => result.map((r) => Object.assign(new Story(), r)))
+
+        map(({ story }) => story.map((r) => Object.assign(new Story(), r)))
       );
   }
 
-  public resetPageNumber() {
+  public resetPageNumber(): void {
     this.currentStoryPage = 1;
     this.stories = [];
     this.storiesQueue = [];

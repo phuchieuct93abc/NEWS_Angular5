@@ -48,6 +48,8 @@ router.get('/search', async (req, res) => {
   const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
   res.send(value);
 });
+
+// TODO: extract to separate file
 router.get('/redirect', async (req, res) => {
   const url = req.query.url as string;
   try {
@@ -56,7 +58,17 @@ router.get('/redirect', async (req, res) => {
     const headerString = /<head([^>]*)>/gm.exec(response.data as string)?.[0] as string;
     const data = (response.data as string).replace(
       headerString,
-      `${headerString}<base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />`
+      `${headerString}<base href="${new URL(url).origin}" /><meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />
+      <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+        setTimeout(function (){
+          var parent = window.parent;
+          parent.postMessage({height:document.documentElement.scrollHeight},'*');
+
+        })
+     });
+     
+      </script>`
     );
 
     res.send(data);

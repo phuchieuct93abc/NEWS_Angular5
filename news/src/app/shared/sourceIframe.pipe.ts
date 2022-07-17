@@ -10,7 +10,7 @@ export class SourceIframePipe implements PipeTransform {
 
   transform(iframeSource: string): SafeHtml {
     if (iframeSource.includes('tinhte.vn')) {
-      return this._sanitizer.bypassSecurityTrustResourceUrl(iframeSource);
+      // return this._sanitizer.bypassSecurityTrustResourceUrl(iframeSource);
     }
     return this._sanitizer.bypassSecurityTrustResourceUrl(CONFIG.baseUrl + 'redirect?url=' + iframeSource);
   }

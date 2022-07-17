@@ -2,3 +2,11 @@ iframe{
     height: 500vh;
     border: none;
 }
+:host-context(.mobile-device){
+    iframe{
+        
+        width: 100vw !important;
+        margin-top: 1rem;
+        margin-left: calc((100% - 100vw) / 2);
+    }
+}

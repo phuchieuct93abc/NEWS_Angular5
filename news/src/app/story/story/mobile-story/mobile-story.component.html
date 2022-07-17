@@ -24,7 +24,7 @@
       {{ story.title }}
     </div>
     <app-story-meta [story]="story" class="meta"></app-story-meta>
-    <app-inline-article *ngIf="selected" (click)="$event.stopPropagation()" (onClosed)="close()" [story]="story" class="block content-article">
+    <app-inline-article *ngIf="selected" (click)="$event.stopPropagation()" (onClosed)="close()" [story]="story" class="block content-article w-full overflow-hidden">
     </app-inline-article>
   </mat-card-content>
 </mat-card>

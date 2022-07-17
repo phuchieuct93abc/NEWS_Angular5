@@ -4,14 +4,18 @@
   (swipeleft)="onPanEnd('left')"
   (swiperight)="onPanEnd('right')"
   [@swipe]="animationName"
-  [ngStyle]="{ 'font-size.px': (fontSize$ |async) }"
-  >
+  [ngStyle]="{ 'font-size.px': (fontSize$ | async) }">
   <div #articleBodyWrapper class="article-view">
     <div *ngIf="article; else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)" class="overflow-hidden">
       <app-actions (onClosed)="collapseArticle()" [article]="article"> </app-actions>
       <div #articleBodyElement>
-        <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
-        <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein"></p>
+        <ng-container *ngIf="(viewInSource$ | async) === false; else viewInSource">
+          <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>
+          <p #articleContent [innerHTML]="articleBody | sanitizeHtml" class="article-body fadein"></p>
+        </ng-container>
+        <ng-template #viewInSource>
+          <app-article-iframe [url]="article.externalUrl" class="block h-auto"></app-article-iframe>
+        </ng-template>
       </div>
 
       <div class="source text-right mb-3">

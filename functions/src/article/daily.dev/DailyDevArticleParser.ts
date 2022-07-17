@@ -15,7 +15,11 @@ export default class DailyDevArticleParser extends ArticleParser<DailyDevArticle
       article.sourceUrl = articleObject.pageUrl;
       article.externalUrl = articleObject.resolvedPageUrl;
       article.id = this.articleId;
-      article.time = new Date(articleObject.date).getTime();
+    article.time = new Date(articleObject.date).getTime();
+    article.description = '';
+    if (articleObject.images?.length > 0) {
+      article.images = [articleObject.images[0].url];
+    }
     return article;
   }
 }

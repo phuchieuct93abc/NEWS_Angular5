@@ -7,7 +7,7 @@
   [ngStyle]="{ 'font-size.px': (fontSize$ | async) }">
   <div #articleBodyWrapper class="article-view">
     <div *ngIf="article; else loading" [@showArticle]="isCollapseArticle" (@showArticle.done)="animEnd($event)" class="overflow-hidden">
-      <app-actions (onClosed)="collapseArticle()" > </app-actions>
+      <app-actions (onClosed)="collapseArticle()" [articleCategory]="(selectedStory$ | async)?.articleCategory" [articleId]="(selectedStory$ | async)?.articleId" > </app-actions>
       <div #articleBodyElement>
         <ng-container *ngIf="(viewInSource$ | async) === false; else viewInSource">
           <p [innerHTML]="article.description | sanitizeHtml" class="article-body fadein"></p>

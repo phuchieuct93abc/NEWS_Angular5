@@ -45,6 +45,11 @@ import { IS_NODE } from './../../shared/const';
 export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   // @Input()
   // article: Article;
+
+  @Input()
+  articleId: string;
+  @Input()
+  articleCategory: string;
   @Output()
   public onClosed = new EventEmitter<void>();
   @ViewChild('actionsElement')
@@ -65,17 +70,14 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   constructor(@Inject(IS_MOBILE) private isMobile: boolean, @Inject(IS_NODE) private isNode: boolean, private store: Store) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.article.currentValue != null) {
-      const { id, category } = changes.article.currentValue as Article;
-      this.ttsAudioSource = [
-        {
-          title: 'Audio One Title',
-          link: `${CONFIG.baseUrl}tts?id=${id}&category=${category}`,
-          artist: 'Artist',
-          duration: 10,
-        },
-      ];
-    }
+    this.ttsAudioSource = [
+      {
+        title: 'Audio One Title',
+        link: `${CONFIG.baseUrl}tts?id=${this.articleId}&category=${this.articleCategory}`,
+        artist: 'Artist',
+        duration: 10,
+      },
+    ];
   }
 
   ngAfterViewInit(): void {

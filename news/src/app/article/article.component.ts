@@ -23,6 +23,8 @@ interface SelectedStory {
   externalUrl: string;
   sourceName: string;
   sourceIcon: string;
+  articleId: string;
+  articleCategory: string;
 }
 
 @Component({
@@ -77,23 +79,24 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe(({ category, id }) => {
-      console.log(category, id);
+    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe((params) => {
+      const category = params.category as string;
+      const id = params.id as string;
+
       this.selectedStory$ = this.store.select(loadedStoriesFeature.selectLoadedStoriesState).pipe(
-        tap((a) => console.log(a)),
         // @typescript-eslint/no-unsafe-member-access
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         filter((a) => a[category]?.[id] != null),
-        tap((a) => console.log('after', a)),
-        map((stories) => Object.assign(new Story(), stories[category as string][id as string])),
+        map((stories) => Object.assign(new Story(), stories[category][id])),
         map((selectedStory) => ({
           thumbnail: selectedStory.getThumbnail(),
           header: selectedStory.title,
           externalUrl: selectedStory.originalUrl,
           sourceName: selectedStory.storyMeta.source,
           sourceIcon: selectedStory.storyMeta.sourceIcon,
+          articleId: id,
+          articleCategory: category,
         })),
-        tap((a) => console.log(a)),
         take(1),
         shareReplay({ refCount: true })
       );

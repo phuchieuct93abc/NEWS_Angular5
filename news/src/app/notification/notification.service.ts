@@ -8,7 +8,7 @@ import CONFIG from '../../environments/environment';
 export class NotificationService {
   public constructor(private httpClient: HttpClient) {}
 
-  public subscribeToken(token) {
+  public subscribeToken(token: string) {
     this.httpClient
       .post(CONFIG.baseUrl + 'subscribe', {
         token,

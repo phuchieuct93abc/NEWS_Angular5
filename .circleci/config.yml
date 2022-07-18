@@ -33,8 +33,8 @@ jobs:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
             - root-cache
 
-      - run: npm ci
       - run: npm install
+      - run: npm ci
 
       - save_cache:
           key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}

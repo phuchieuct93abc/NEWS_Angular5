@@ -4,7 +4,7 @@ orbs:
 jobs:
   build-browser:
     docker:
-      - image: cimg/node:16.4.0
+      - image: cimg/node:16.16.0
     steps:
       - checkout
       - restore_cache:

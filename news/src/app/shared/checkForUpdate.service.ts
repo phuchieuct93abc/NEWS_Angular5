@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { interval } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

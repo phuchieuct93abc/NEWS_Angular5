@@ -10,8 +10,6 @@ jobs:
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
-
       - run: npm install
       - run: npm ci
 
@@ -31,7 +29,6 @@ jobs:
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
 
       - run: npm install
       - run: npm ci

@@ -1,13 +1,16 @@
-/* eslint-disable */
+/***************************************************************************************************
+ * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
+ */
+import '@angular/localize/init';
 import 'zone.js/dist/zone-node';
 
-import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import { existsSync } from 'fs';
 import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
+import { APP_BASE_HREF } from '@angular/common';
+import { existsSync } from 'fs';
 import isMobile from 'ismobilejs';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -16,7 +19,7 @@ export function app(): express.Express {
   const distFolder = join(process.cwd(), 'dist/news/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
+  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',
     ngExpressEngine({
@@ -40,7 +43,6 @@ export function app(): express.Express {
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     const userAgent = req.headers['user-agent'];
-
     res.render(indexHtml, {
       req,
       providers: [
@@ -54,7 +56,7 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 4000;
+  const port = process.env.PORT || 4000;
 
   // Start up the Node server
   const server = app();

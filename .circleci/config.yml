@@ -47,6 +47,6 @@ workflows:
   version: 2
   main:
     jobs:
-      - build-browser:
-      - build-server:
+      - build-browser
+      - build-server
 

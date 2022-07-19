@@ -10,8 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, StoreModule } from '@ngrx/store';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
+import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 import CONFIG from 'src/environments/environment';
@@ -52,6 +53,7 @@ import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArticleEffect } from './store/article.effect';
 import { configFeature } from './store/config.reducer';
+import { LoginEffect, loginFeature } from './store/login.effect';
 import { articleHistoryReducer } from './store/reduces';
 import { loadedStoriesFeature } from './store/story.reducer';
 import { ImageViewerComponent } from './story/image-viewer/image-viewer.component';
@@ -63,8 +65,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { CustomGoogleLoginProvider } from './login/CustomGoogleLoginProvider';
-import { LoginEffect } from './store/login.effect';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -79,7 +79,20 @@ const isMobileProvider = {
   },
   deps: [BreakpointObserver, Injector],
 };
+const reducers: ActionReducerMap<{ config; articleHistory }> = {
+  config: configFeature.reducer,
+  articleHistory: articleHistoryReducer,
+};
 
+export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
+  const config: LocalStorageConfig = {
+    keys: ['config', 'articleHistory'],
+    rehydrate: true,
+    removeOnUndefined: true,
+  };
+
+  return localStorageSync(config)(reducer);
+};
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -98,8 +111,9 @@ const isMobileProvider = {
       enabled: CONFIG.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
+    StoreModule.forRoot(reducers, { metaReducers: [configStorage] }),
     StoreModule.forFeature(configFeature),
+    StoreModule.forFeature(loginFeature),
     StoreModule.forFeature(loadedStoriesFeature),
     EffectsModule.forRoot([ArticleEffect, LoginEffect]),
     NgxSmoothParallaxModule,

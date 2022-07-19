@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import CategoryHelper, { Category } from '../../../../model/Categories';
+import { IS_MOBILE } from 'src/app/shared/const';
+import CategoryHelper from '../../../../model/Categories';
 import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { DestroySubscriber } from './../shared/destroy-subscriber';
+import { loginFeature } from '../store/login.effect';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,6 +22,7 @@ export class SidebarComponent {
   public vietnameseCategories = CategoryHelper.vietnameseCategories();
   public englishCategories = CategoryHelper.englishCategories();
 
+  public user$ = this.store.select(loginFeature.selectLoginFeatureState);
   public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {}
 
   public toggleDarkMode(darkTheme: boolean): void {

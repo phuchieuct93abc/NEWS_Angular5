@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { LocalStorageService } from './storage.service';
 
 export interface Config {
   darkTheme?: boolean;
@@ -21,10 +20,5 @@ export class ConfigService {
 
   configState = this.store.select(configFeature.selectConfigState);
 
-  public constructor(private storageService: LocalStorageService, private store: Store) {
-    this.store.dispatch(updateConfigAction(this.storageService.getItemSync(id, {})));
-    this.configState.subscribe((config) => {
-      this.storageService.setItemSync(id, config);
-    });
-  }
+  public constructor(private store: Store) {}
 }

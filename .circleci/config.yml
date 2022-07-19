@@ -1,17 +1,16 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@5.0.2
 jobs:
   build-browser:
     docker:
-      - image: cimg/node:16.4.0
+      - image: cimg/node:16.16.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
-
+      - run: npm install
       - run: npm ci
 
       - save_cache:
@@ -24,14 +23,14 @@ jobs:
       - run: npm run deploy:hosting
   build-server:
     docker:
-      - image: cimg/node:16.4.0
+      - image: cimg/node:16.16.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
 
+      - run: npm install
       - run: npm ci
 
       - save_cache:
@@ -47,16 +46,6 @@ workflows:
   version: 2
   main:
     jobs:
-      - build-browser:
-         filters:
-          branches:
-            only: 
-              - master
-              - test-get-back-tinhte
+      - build-browser
+      - build-server
 
-      - build-server:
-         filters:
-          branches:
-            only: 
-              - master
-              - test-get-back-tinhte

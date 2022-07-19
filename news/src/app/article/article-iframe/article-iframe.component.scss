@@ -1,6 +1,7 @@
 iframe{
     height: 500vh;
     border: none;
+    background-color: white;
 }
 :host-context(.mobile-device){
     iframe{

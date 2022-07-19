@@ -46,6 +46,13 @@ workflows:
   version: 2
   main:
     jobs:
-      - build-browser
-      - build-server
-
+      - build-browser:
+         filters:
+          branches:
+            only: 
+              - master
+      - build-server:
+         filters:
+          branches:
+            only: 
+              - master

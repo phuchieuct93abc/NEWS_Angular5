@@ -1,3 +1,4 @@
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -8,12 +9,12 @@ import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
-import CONFIG from 'src/environments/environment';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
+import CONFIG from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HammerConfig } from './hammer.config';
 import { NoopInterceptor } from './interceptor';
 // import { HammerConfig } from './hammer.config';
+import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from './material.module';
 import { CategorySelectorComponent } from './navigator/category-selector/category-selector.component';
@@ -44,10 +46,16 @@ import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/app
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
+import { SourceIframePipe } from './shared/sourceIframe.pipe';
 import { ToNowPipe } from './shared/toNow.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ArticleEffect } from './store/article.effect';
+import { configFeature } from './store/config.reducer';
+import { articleHistoryReducer } from './store/reduces';
+import { loadedStoriesFeature } from './store/story.reducer';
 import { ImageViewerComponent } from './story/image-viewer/image-viewer.component';
+import { IsReadPipe } from './story/is-read.pipe';
 import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
 import { MobileStoryListComponent } from './story/story-list/mobile-story-list/mobile-story-list.component';
 import { StoryListComponent } from './story/story-list/story-list.component';
@@ -55,13 +63,8 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { articleHistoryReducer } from './store/reduces';
-import { ArticleEffect } from './store/article.effect';
-import { IsReadPipe } from './story/is-read.pipe';
-import { configFeature } from './store/config.reducer';
-import { SourceIframePipe } from './shared/sourceIframe.pipe';
-import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
-import { loadedStoriesFeature } from './store/story.reducer';
+import { CustomGoogleLoginProvider } from './login/CustomGoogleLoginProvider';
+import { LoginEffect } from './store/login.effect';
 
 registerLocaleData(en);
 const isMobileProvider = {
@@ -78,79 +81,99 @@ const isMobileProvider = {
 };
 
 @NgModule({
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        AppRoutingModule,
-        RouterModule,
-        NotificationModule,
-        ClipboardModule,
-        LazyLoadImageModule,
-        HammerModule,
-        BrowserTransferStateModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: CONFIG.production,
-            registrationStrategy: 'registerWhenStable:30000',
-        }),
-        StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
-        StoreModule.forFeature(configFeature),
-        StoreModule.forFeature(loadedStoriesFeature),
-        EffectsModule.forRoot([ArticleEffect]),
-        NgxSmoothParallaxModule,
-    ],
-    declarations: [
-        AppComponent,
-        StoryListComponent,
-        MobileStoryListComponent,
-        StoryComponent,
-        ArticleComponent,
-        InlineArticleComponent,
-        NavigatorComponent,
-        MainComponent,
-        ImageViewerComponent,
-        LoadingComponent,
-        ContentComponent,
-        CapitalizeFirstPipe,
-        TruncatePipe,
-        SanitizeHtmlPipe,
-        VideoComponent,
-        CategorySelectorComponent,
-        MobileStoryComponent,
-        DisplayComponent,
-        CategoryComponent,
-        ActionsComponent,
-        ShareComponent,
-        DashboardComponent,
-        TopCategoryComponent,
-        SidebarComponent,
-        StoryMetaComponent,
-        LoadingComponent,
-        LoadingStoryComponent,
-        ImageComponent,
-        IsIntersectDirective,
-        NavigationKeyboardDirective,
-        StoryListManagementComponent,
-        ArticleThumbnailComponent,
-        ToNowPipe,
-        AppShellNoRenderDirective,
-        AppShellRenderDirective,
-        SmoothScrollDirective,
-        IsReadPipe,
-        SourceIframePipe,
-        ArticleIframeComponent,
-    ],
-    bootstrap: [AppComponent],
-    providers: [
-        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
-        { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
-        { provide: IS_NODE, useFactory: (platformId: unknown) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
-        isMobileProvider,
-        Title,
-        Meta,
-        { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
-    ]
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    AppRoutingModule,
+    RouterModule,
+    NotificationModule,
+    ClipboardModule,
+    LazyLoadImageModule,
+    HammerModule,
+    BrowserTransferStateModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: CONFIG.production,
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+    StoreModule.forRoot({ articleHistory: articleHistoryReducer }),
+    StoreModule.forFeature(configFeature),
+    StoreModule.forFeature(loadedStoriesFeature),
+    EffectsModule.forRoot([ArticleEffect, LoginEffect]),
+    NgxSmoothParallaxModule,
+    SocialLoginModule,
+  ],
+  declarations: [
+    AppComponent,
+    StoryListComponent,
+    MobileStoryListComponent,
+    StoryComponent,
+    ArticleComponent,
+    InlineArticleComponent,
+    NavigatorComponent,
+    MainComponent,
+    ImageViewerComponent,
+    LoadingComponent,
+    ContentComponent,
+    CapitalizeFirstPipe,
+    TruncatePipe,
+    SanitizeHtmlPipe,
+    VideoComponent,
+    CategorySelectorComponent,
+    MobileStoryComponent,
+    DisplayComponent,
+    CategoryComponent,
+    ActionsComponent,
+    ShareComponent,
+    DashboardComponent,
+    TopCategoryComponent,
+    SidebarComponent,
+    StoryMetaComponent,
+    LoadingComponent,
+    LoadingStoryComponent,
+    ImageComponent,
+    IsIntersectDirective,
+    NavigationKeyboardDirective,
+    StoryListManagementComponent,
+    ArticleThumbnailComponent,
+    ToNowPipe,
+    AppShellNoRenderDirective,
+    AppShellRenderDirective,
+    SmoothScrollDirective,
+    IsReadPipe,
+    SourceIframePipe,
+    ArticleIframeComponent,
+  ],
+  bootstrap: [AppComponent],
+  providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+    { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
+    { provide: IS_NODE, useFactory: (platformId: unknown) => isPlatformServer(platformId), deps: [PLATFORM_ID] },
+    isMobileProvider,
+    Title,
+    Meta,
+    { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', { oneTapEnabled: true }),
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
+    },
+    // {
+    //   provide: GoogleLoginProvider,
+    //   useClass: CustomGoogleLoginProvider,
+    // },
+  ],
 })
 export class AppModule {}

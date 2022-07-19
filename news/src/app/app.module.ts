@@ -79,14 +79,15 @@ const isMobileProvider = {
   },
   deps: [BreakpointObserver, Injector],
 };
-const reducers: ActionReducerMap<{ config; articleHistory }> = {
+const reducers: ActionReducerMap<{ config; articleHistory; login }> = {
   config: configFeature.reducer,
   articleHistory: articleHistoryReducer,
+  login: loginFeature.reducer,
 };
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
   const config: LocalStorageConfig = {
-    keys: ['config', 'articleHistory'],
+    keys: ['config', 'articleHistory', 'login'],
     rehydrate: true,
     removeOnUndefined: true,
   };

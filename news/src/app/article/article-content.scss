@@ -9,7 +9,7 @@
     code,pre{
       overflow: auto;
       background-color: #2a2d2e;
-
+      padding: 0 0.25em;
     }
     video,
     img,iframe {
@@ -61,6 +61,11 @@
       li {
         padding: 0.5em 0;
       }
+    }
+    ol,ul{
+      padding:revert;
+      list-style: revert;
+      margin: revert;
     }
   }
 }

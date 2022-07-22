@@ -8,15 +8,15 @@ import { configFeature } from './config.reducer';
 import { LoginEffect, loginFeature } from './login.effect';
 import { articleHistoryReducer } from './reduces';
 import { loadedStoriesFeature } from './story.reducer';
-const reducers: ActionReducerMap<{ config; articleHistory }> = {
-  articleHistory: articleHistoryReducer,
+const reducers: ActionReducerMap<{ config; readArticle }> = {
+  readArticle: articleHistoryReducer,
   config: configFeature.reducer,
   // loggedUser: loginFeature.reducer,
 };
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
   const config: LocalStorageConfig = {
-    keys: ['config', 'articleHistory', 'loggedUser'],
+    keys: ['config', 'readArticle', 'loggedUser'],
     rehydrate: true,
     removeOnUndefined: false,
   };

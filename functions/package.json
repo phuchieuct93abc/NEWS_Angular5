@@ -22,9 +22,9 @@
     "dotenv": "^10.0.0",
     "express-http-proxy": "^1.6.2",
     "expressjs": "^1.0.1",
-    "firebase-admin": "^9.10.0",
-    "firebase-app": "0.0.1",
-    "firebase-functions": "^3.21.1",
+    "firebase-admin": "^11.0.0",
+    "firebase-app": "^0.0.1",
+    "firebase-functions": "^3.22.0",
     "http-proxy": "^1.18.1",
     "jsdom": "^16.6.0",
     "newsapi": "^2.4.1",
@@ -61,6 +61,6 @@
   },
   "private": true,
   "engines": {
-    "node": "10"
+    "node": "16"
   }
 }

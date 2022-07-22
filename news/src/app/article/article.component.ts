@@ -30,7 +30,7 @@ interface SelectedStory {
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss', './article-content.scss'],
+  styleUrls: ['./article.component.scss'],
 
   animations: [
     trigger('showArticle', [

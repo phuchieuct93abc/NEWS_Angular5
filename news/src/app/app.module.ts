@@ -1,4 +1,4 @@
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,10 +9,7 @@ import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { EffectsModule } from '@ngrx/effects';
-import { ActionReducer, ActionReducerMap, StoreModule } from '@ngrx/store';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
-import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 import CONFIG from 'src/environments/environment';
@@ -48,14 +45,12 @@ import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
 import { SourceIframePipe } from './shared/sourceIframe.pipe';
+import { LocalStorageService } from './shared/storage.service';
 import { ToNowPipe } from './shared/toNow.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ArticleEffect } from './store/article.effect';
-import { configFeature } from './store/config.reducer';
-import { LoginEffect, loginFeature } from './store/login.effect';
-import { articleHistoryReducer } from './store/reduces';
-import { loadedStoriesFeature } from './store/story.reducer';
+import { GoogleLogin } from './store/login.effect';
+import { AppStoreModule } from './store/store.module';
 import { ImageViewerComponent } from './story/image-viewer/image-viewer.component';
 import { IsReadPipe } from './story/is-read.pipe';
 import { StoryListManagementComponent } from './story/story-list-management/story-list-management.component';
@@ -79,21 +74,7 @@ const isMobileProvider = {
   },
   deps: [BreakpointObserver, Injector],
 };
-const reducers: ActionReducerMap<{ config; articleHistory; login }> = {
-  config: configFeature.reducer,
-  articleHistory: articleHistoryReducer,
-  login: loginFeature.reducer,
-};
 
-export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
-  const config: LocalStorageConfig = {
-    keys: ['config', 'articleHistory', 'login'],
-    rehydrate: true,
-    removeOnUndefined: true,
-  };
-
-  return localStorageSync(config)(reducer);
-};
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -112,11 +93,7 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
       enabled: CONFIG.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    StoreModule.forRoot(reducers, { metaReducers: [configStorage] }),
-    StoreModule.forFeature(configFeature),
-    StoreModule.forFeature(loginFeature),
-    StoreModule.forFeature(loadedStoriesFeature),
-    EffectsModule.forRoot([ArticleEffect, LoginEffect]),
+    AppStoreModule,
     NgxSmoothParallaxModule,
     SocialLoginModule,
   ],
@@ -172,18 +149,28 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
     { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
     {
       provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: true,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', { oneTapEnabled: true }),
-          },
-        ],
-        onError: (err) => {
-          console.error(err);
-        },
-      } as SocialAuthServiceConfig,
+      useFactory: (storage: LocalStorageService) => {
+        console.log('start google login');
+
+        // if (storage.getItemSync<GoogleLogin>('loggedUser', { loggedIn: false, user: null }).loggedIn === false) {
+        //   console.log('init google login');
+        //   return {
+        //     autoLogin: false,
+        //     providers: [
+        //       {
+        //         id: GoogleLoginProvider.PROVIDER_ID,
+        //         provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', { oneTapEnabled: true }),
+        //       },
+        //     ],
+        //     onError: (err) => {
+        //       console.error(err);
+        //     },
+        //   };
+        // }
+
+        return { providers: [] };
+      },
+      deps: [LocalStorageService],
     },
   ],
 })

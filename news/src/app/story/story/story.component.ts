@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 import { Story } from '../../../../../model/Story';
-import { Config, ConfigService } from '../../shared/config.service';
+import { ConfigService } from '../../shared/config.service';
 import { StoryListService } from '../story-list/story-list.service';
 
 @Component({

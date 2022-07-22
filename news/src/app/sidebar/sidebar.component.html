@@ -5,10 +5,12 @@
       <a href="/" class="px-3"> Báo hiếu </a>
     </div>
   </div>
-  <div *ngIf="(user$ | async).user" class="flex items-center gap-4">
-    <img class="w-8 rounded-full inline-block" [src]="(user$ | async).user.photoUrl" referrerpolicy="no-referrer" alt="Google Avatar" />
+  
+  <div *ngIf="(user$ | async).loggedIn" class="flex items-center gap-4">
+    <img class="w-8 rounded-full inline-block" [src]="(user$ | async).user" referrerpolicy="no-referrer" alt="Google Avatar" />
     <span>{{ (user$ | async).user.name }}</span>
   </div>
+  <mat-divider class="mb-3"></mat-divider>
 
   <ng-container *ngIf="isMobile">
     <div class="mat-h2">Giao diện</div>

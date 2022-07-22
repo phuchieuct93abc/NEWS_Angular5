@@ -3,6 +3,7 @@ import { state } from '@angular/animations';
 import { Injectable, OnInit } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
+import { configFeature } from './config.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class LoginEffect {
@@ -10,8 +11,12 @@ export class LoginEffect {
   loggedIn: boolean;
 
   constructor(private authService: SocialAuthService, store: Store) {
+    store.select(configFeature.selectFontSize).subscribe((a) => console.log('config', a));
+    store.select(loginFeature.selectUser).subscribe((a) => console.log('login', a));
     this.authService.authState.subscribe((user) => {
-      store.dispatch(loginSuccess({ user, loggedIn: user != null }));
+      if (user) {
+        store.dispatch(loginSuccess({ user, loggedIn: user != null }));
+      }
     });
   }
 }
@@ -20,12 +25,13 @@ export interface GoogleLogin {
   user: SocialUser;
   loggedIn: boolean;
 }
-const initialState: GoogleLogin = { loggedIn: false, user: null };
-const loginSuccess = createAction('[Google login] Logic success', props<GoogleLogin>());
+const initialState: GoogleLogin = { user: null, loggedIn: false };
+const loginSuccess = createAction('[Google login] Login success', props<GoogleLogin>());
+export const loginReducer = createReducer(
+  initialState,
+  on(loginSuccess, (s, action) => ({ ...s, ...action }))
+);
 export const loginFeature = createFeature({
   name: 'LoginFeature',
-  reducer: createReducer(
-    initialState,
-    on(loginSuccess, (state, action) => ({ ...state, ...action }))
-  ),
+  reducer: loginReducer,
 });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper from '../../../../model/Categories';

@@ -18,7 +18,6 @@ export class ConfigService {
   public static MIN_FONTSIZE = 15;
   public static MAX_FONTSIZE = 25;
 
-  configState = this.store.select(configFeature.selectConfigState);
 
   public constructor(private store: Store) {}
 }

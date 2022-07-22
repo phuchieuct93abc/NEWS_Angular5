@@ -49,8 +49,10 @@ workflows:
           branches:
             only: 
               - master
+              - feature/google-login
       - build-server:
          filters:
           branches:
             only: 
               - master
+              - feature/google-login

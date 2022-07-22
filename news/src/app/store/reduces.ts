@@ -1,14 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
 import { loadArticleHistorySuccess, readArticleSuccess } from './actions';
-export const initialState = { articleHistory: {} };
+export interface ArticleHistoryData {
+  articleHistory: {
+    [key: string]: string[];
+  };
+}
+export const initialState: ArticleHistoryData = { articleHistory: {} };
 
 export const articleHistoryReducer = createReducer(
   initialState,
   on(readArticleSuccess, (state, { articleId, categoryId }) => {
-    const currentArticleId = state.articleHistory[categoryId]?.articleId || [];
-    const newArticleId = [...currentArticleId, articleId];
-    const newState = { articleHistory: { ...state.articleHistory, [categoryId]: { articleId: newArticleId } } };
-    return { ...state, ...newState };
+    const currentArticleId = state.articleHistory[categoryId] || [];
+    const newArticleId: string[] = [...currentArticleId, articleId];
+    return { articleHistory: { ...state.articleHistory, ...{ [categoryId]: newArticleId } } };
   }),
-  on(loadArticleHistorySuccess, (state, { articleHistory }) => ({ ...state, articleHistory }))
+  on(loadArticleHistorySuccess, (state, data) => data)
 );

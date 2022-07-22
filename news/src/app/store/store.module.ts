@@ -8,10 +8,10 @@ import { configFeature } from './config.reducer';
 import { LoginEffect, loginFeature } from './login.effect';
 import { articleHistoryReducer } from './reduces';
 import { loadedStoriesFeature } from './story.reducer';
-const reducers: ActionReducerMap<{ config; articleHistory; loggedUser }> = {
+const reducers: ActionReducerMap<{ config; articleHistory }> = {
   articleHistory: articleHistoryReducer,
   config: configFeature.reducer,
-  loggedUser: loginFeature.reducer,
+  // loggedUser: loginFeature.reducer,
 };
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {

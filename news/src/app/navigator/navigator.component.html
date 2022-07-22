@@ -7,7 +7,7 @@
         </a>
 
         <div class="mat-h1 m-0 mr-4">
-          <button mat-button [matMenuTriggerFor]="menu" class="mat-h1 text-2xl title">
+          <button mat-button [matMenuTriggerFor]="menu" class="mat-h1 text-2xl title mb-0">
            {{ (selectedCategory$ | async)?.title }} <mat-icon>expand_more</mat-icon>
           </button>
           <mat-menu #menu="matMenu">

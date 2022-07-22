@@ -12,6 +12,6 @@ export class IsReadPipe implements PipeTransform {
     if (storyId == null) {
       return of(false);
     }
-    return this.store.select('articleHistory').pipe(map(({ articleHistory }) => articleHistory[categoryId]?.articleId?.includes(storyId)));
+    return this.store.select('articleHistory').pipe(map(({ articleHistory }) => articleHistory[categoryId]?.includes(storyId)));
   }
 }

@@ -1,20 +1,25 @@
 import FirebaseService from '../FirebaseService';
+import { verifyGoogleToken } from '../google';
 
 export default class ArticleHistoryService {
-  async getReadArticle(): Promise<{ [key: string]: { articleId: string[] } }> {
-    const articleReadCollection = await FirebaseService.getFireStore().collection(`articles-read`).get();
-    const result = articleReadCollection.docs.reduce((acc, doc) => {
-      acc[doc.id] = doc.data();
-      return acc;
-    }, {}) as unknown as { [key: string]: string };
-    return result as unknown as { [key: string]: { articleId: string[] } };
+  constructor(private googleId: string) {}
+  async getReadArticle(): Promise<{ [key: string]: string[] }> {
+    const email = (await verifyGoogleToken(this.googleId)).email;
+    const articleReadCollection = await FirebaseService.getFireStore().collection(`articles-read`).doc(email).get();
+    if (articleReadCollection.exists) {
+      return articleReadCollection.data() as unknown as { [key: string]: string[] };
+    }
+    return {};
   }
   async readArticle(articleId: string, categoryId: string): Promise<void> {
-    const currentValue = (await this.getReadArticle())?.[categoryId]?.articleId || [];
-    const newReadArticle = new Set([...currentValue, articleId]);
-    FirebaseService.getFireStore()
+    const email = (await verifyGoogleToken(this.googleId)).email;
+    const currentArticleRead = await this.getReadArticle();
+    const currentArticleReadByCategory = currentArticleRead?.[categoryId] || [];
+    const newReadArticle = new Set([...currentArticleReadByCategory, articleId]);
+    console.log({ ...currentArticleRead, ...{ [categoryId]: newReadArticle } });
+    await FirebaseService.getFireStore()
       .collection(`articles-read`)
-      .doc(categoryId)
-      .set({ articleId: [...newReadArticle] });
+      .doc(email)
+      .set({ ...currentArticleRead, ...{ [categoryId]: [...newReadArticle] } });
   }
 }

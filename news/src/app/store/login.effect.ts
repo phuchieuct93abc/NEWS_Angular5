@@ -3,6 +3,7 @@ import { state } from '@angular/animations';
 import { Injectable, OnInit } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
+import { getArticleHistory } from './actions';
 import { configFeature } from './config.reducer';
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +17,7 @@ export class LoginEffect {
     this.authService.authState.subscribe((user) => {
       if (user) {
         store.dispatch(loginSuccess({ user, loggedIn: user != null }));
+        store.dispatch(getArticleHistory());
       }
     });
   }

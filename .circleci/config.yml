@@ -11,7 +11,6 @@ jobs:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
       - run: npm install
-      - run: npm ci
 
       - save_cache:
           key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
@@ -31,7 +30,6 @@ jobs:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
 
       - run: npm install
-      - run: npm ci
 
       - save_cache:
           key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
@@ -46,6 +44,15 @@ workflows:
   version: 2
   main:
     jobs:
-      - build-browser
-      - build-server
-
+      - build-browser:
+         filters:
+          branches:
+            only: 
+              - master
+              - function/update-new-firebase
+      - build-server:
+         filters:
+          branches:
+            only: 
+              - master
+              - function/update-new-firebase

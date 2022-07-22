@@ -1,18 +1,17 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@5.0.2
 jobs:
   build-browser:
     docker:
-      - image: cimg/node:16.4.0
+      - image: cimg/node:16.16.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
-
       - run: npm install
+      - run: npm ci
 
       - save_cache:
           key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
@@ -24,15 +23,15 @@ jobs:
       - run: npm run deploy:hosting
   build-server:
     docker:
-      - image: cimg/node:16.4.0
+      - image: cimg/node:16.16.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-            - root-cache
 
       - run: npm install
+      - run: npm ci
 
       - save_cache:
           key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}

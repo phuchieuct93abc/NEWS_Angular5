@@ -1,22 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducer, ActionReducerMap, StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
-import { ArticleEffect } from './article.effect';
+import CONFIG from 'src/environments/environment';
+import { ArticleEffect, articleHistoryFeature, articleHistoryReducer } from './article-history.feature';
+
 import { configFeature } from './config.reducer';
+import { LocalStoreService } from './local-store.service';
 import { LoginEffect, loginFeature } from './login.effect';
-import { articleHistoryReducer } from './reduces';
 import { loadedStoriesFeature } from './story.reducer';
-const reducers: ActionReducerMap<{ config; readArticle }> = {
-  readArticle: articleHistoryReducer,
-  config: configFeature.reducer,
-  // loggedUser: loginFeature.reducer,
-};
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
   const config: LocalStorageConfig = {
-    keys: ['config', 'readArticle', 'loggedUser'],
+    keys: ['articleHistory', 'loggedUser'],
     rehydrate: true,
     removeOnUndefined: false,
   };
@@ -26,12 +24,28 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forRoot(reducers, { metaReducers: [configStorage] }),
     StoreModule.forFeature(configFeature),
-    StoreModule.forFeature(loginFeature),
     StoreModule.forFeature(loadedStoriesFeature),
+    StoreModule.forFeature(loginFeature),
+    StoreModule.forFeature(articleHistoryFeature),
     EffectsModule.forRoot([ArticleEffect, LoginEffect]),
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Demo App',
+      logOnly: CONFIG.production,
+    }),
   ],
   declarations: [],
+  providers: [
+    LocalStoreService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (ds: LocalStoreService) => () => {
+        ds.load();
+      },
+      deps: [LocalStoreService],
+      multi: true,
+    },
+  ],
 })
 export class AppStoreModule {}

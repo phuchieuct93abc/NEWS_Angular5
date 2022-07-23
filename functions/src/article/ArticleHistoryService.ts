@@ -16,7 +16,6 @@ export default class ArticleHistoryService {
     const currentArticleRead = await this.getReadArticle();
     const currentArticleReadByCategory = currentArticleRead?.[categoryId] || [];
     const newReadArticle = new Set([...currentArticleReadByCategory, articleId]);
-    console.log({ ...currentArticleRead, ...{ [categoryId]: newReadArticle } });
     await FirebaseService.getFireStore()
       .collection(`articles-read`)
       .doc(email)

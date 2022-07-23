@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { loginFeature } from '../store/login.effect';
+import { ArticleHistoryData } from '../store/article-history.feature';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,11 @@ import { loginFeature } from '../store/login.effect';
 export class ArticleHistoryService {
   constructor(private httpClient: HttpClient, private store: Store) {}
 
-  getReadArticle(): Observable<unknown> {
+  getReadArticle(): Observable<ArticleHistoryData> {
     return this.store.select(loginFeature.selectUser).pipe(
       switchMap((user) => {
         if (user?.idToken) {
-          return this.httpClient.get<string[]>('/api/articles/read', { params: { googleId: user?.idToken } });
+          return this.httpClient.get<ArticleHistoryData>('/api/articles/read', { params: { googleId: user?.idToken } });
         }
         throw new Error('No Google login');
       })

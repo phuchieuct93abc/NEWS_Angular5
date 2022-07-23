@@ -5,13 +5,20 @@
       <a href="/" class="px-3"> Báo hiếu </a>
     </div>
   </div>
-  <!-- <asl-google-signin-button></asl-google-signin-button> -->
+  <div class="mat-h2">Tài khoản</div>
 
-  <div *ngIf="(user$ | async).loggedIn" class="flex items-center gap-4">
-    <img class="w-8 rounded-full inline-block" [src]="(user$ | async).user" referrerpolicy="no-referrer" alt="Google Avatar" />
-    <span>{{ (user$ | async).user.name }}</span>
-  </div>
-  <mat-divider class="mb-3"></mat-divider>
+  <asl-google-signin-button  *ngIf="(user$ | async).loggedIn === false"></asl-google-signin-button>
+
+  <ng-container *ngIf="(user$ | async).loggedIn"  >
+  
+    <div class="flex items-center gap-4">
+      <img class="w-8 rounded-full inline-block" [src]="(user$ | async).user?.photoUrl" referrerpolicy="no-referrer" alt="Google Avatar" />
+      <span>{{ (user$ | async).user.name }}</span>
+    </div>
+    <button class="mt-3" mat-stroked-button color="primary" (click)="logout()"> Đăng xuất</button>
+  </ng-container>
+
+  <mat-divider class="my-3"></mat-divider>
 
   <ng-container *ngIf="isMobile">
     <div class="mat-h2">Giao diện</div>

@@ -150,25 +150,22 @@ const isMobileProvider = {
     {
       provide: 'SocialAuthServiceConfig',
       useFactory: (storage: LocalStorageService) => {
-        console.log('start google login');
-
-         if (storage.getItemSync<GoogleLogin>('loggedUser', { loggedIn: false, user: null }).loggedIn === false) {
-           console.log('init google login');
-           return {
-             autoLogin: false,
-             providers: [
-               {
-                 id: GoogleLoginProvider.PROVIDER_ID,
-                 provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', {
-                   oneTapEnabled: true,
-                 }),
-               },
-             ],
-             onError: (err) => {
-               console.error(err);
-             },
-           };
-         }
+        if (storage.getItemSync<GoogleLogin>('loggedUser', { loggedIn: false, user: null }).loggedIn === false) {
+          return {
+            autoLogin: false,
+            providers: [
+              {
+                id: GoogleLoginProvider.PROVIDER_ID,
+                provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', {
+                  oneTapEnabled: true,
+                }),
+              },
+            ],
+            onError: (err) => {
+              console.error(err);
+            },
+          };
+        }
 
         return { providers: [] };
       },

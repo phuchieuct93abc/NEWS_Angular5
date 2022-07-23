@@ -2,7 +2,6 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
 import { getArticleHistory } from './article-history.feature';
-import { configFeature } from './config.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class LoginEffect {
@@ -25,9 +24,11 @@ export interface GoogleLogin {
 }
 const initialState: GoogleLogin = { user: null, loggedIn: false };
 export const loginSuccess = createAction('[Google login] Login success', props<GoogleLogin>());
+export const logout = createAction('[Google login] Logout');
 export const loginReducer = createReducer(
   initialState,
-  on(loginSuccess, (s, action) => ({ ...s, ...action }))
+  on(loginSuccess, (s, action) => ({ ...s, ...action })),
+  on(logout, () => ({ ...initialState }))
 );
 export const loginFeature = createFeature({
   name: 'LoginFeature',

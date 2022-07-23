@@ -4,7 +4,7 @@ import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper from '../../../../model/Categories';
 import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { loginFeature } from '../store/login.effect';
+import { loginFeature, logout } from '../store/login.effect';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,5 +35,10 @@ export class SidebarComponent {
 
   public onSelectCategory(category: string): void {
     this.store.dispatch(updateConfigAction({ category }));
+  }
+
+  public logout() {
+    this.store.dispatch(logout());
+    window.location.reload();
   }
 }

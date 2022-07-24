@@ -123,7 +123,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       if (params?.id) {
         const articleId = params.id as string;
         this.articleService
-          .getById(articleId, params.category)
+          .getById(articleId, params.category as string)
           .pipe(takeUntil(this.onDestroy$))
           .subscribe((article) => {
             const storyImage: StoryImage = new StoryImage(article.getThumbnail());

@@ -38,7 +38,7 @@ export class SidebarComponent {
   }
 
   public logout() {
-    this.store.dispatch(logout());
+    this.auth.signOut();
     window.location.reload();
   }
 

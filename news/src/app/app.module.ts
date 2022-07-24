@@ -157,7 +157,7 @@ const isMobileProvider = {
     Meta,
     { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
     { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
-    { provide: PERSISTENCE, useValue: 'session' },
+    { provide: PERSISTENCE, useValue: 'local' },
   ],
 })
 export class AppModule {}

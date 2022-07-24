@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { getArticleHistory } from 'src/app/store/article-history.feature';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
@@ -49,8 +48,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(getArticleHistory());
-
     this.loadFirstStory();
 
     if (this.isNode) {

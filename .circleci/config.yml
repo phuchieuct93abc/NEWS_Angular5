@@ -49,10 +49,10 @@ workflows:
           branches:
             only: 
               - master
-              - feature/google-login
+              - angularfire
       - build-server:
          filters:
           branches:
             only: 
               - master
-              - feature/google-login
+              - angularfire

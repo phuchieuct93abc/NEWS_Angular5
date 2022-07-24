@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import CONFIG from 'src/environments/environment';
+import environment from 'src/environments/environment';
 
 @Pipe({
   name: 'sourceIframe',
@@ -12,6 +12,6 @@ export class SourceIframePipe implements PipeTransform {
     if (iframeSource.includes('tinhte.vn')) {
       // return this._sanitizer.bypassSecurityTrustResourceUrl(iframeSource);
     }
-    return this._sanitizer.bypassSecurityTrustResourceUrl(CONFIG.baseUrl + 'redirect?url=' + iframeSource);
+    return this._sanitizer.bypassSecurityTrustResourceUrl(environment.baseUrl + 'redirect?url=' + iframeSource);
   }
 }

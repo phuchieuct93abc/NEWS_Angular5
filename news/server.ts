@@ -1,5 +1,6 @@
 /* eslint-disable */
 import 'zone.js/dist/zone-node';
+import 'zone.js/dist/zone-patch-rxjs';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';

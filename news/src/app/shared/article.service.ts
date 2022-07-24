@@ -4,7 +4,7 @@ import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import Article from '../../../../model/Article';
-import CONFIG from '../../environments/environment';
+import environment from '../../environments/environment';
 import { Story } from '../../../../model/Story';
 import ArticleComment from '../../../../model/ArticleComment';
 import { StoryService } from './story.service';
@@ -46,7 +46,7 @@ export class ArticleService {
       },
     };
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
-    return this.httpClient.get(CONFIG.baseUrl + 'article', options).pipe(
+    return this.httpClient.get(environment.baseUrl + 'article', options).pipe(
       retry(3),
       map((result) => {
         this.loadingService.onLoading.next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });
@@ -65,7 +65,7 @@ export class ArticleService {
   @Cache()
   public getComment(id: string): Observable<ArticleComment[]> {
     return this.httpClient
-      .get(CONFIG.baseUrl + 'comments', {
+      .get(environment.baseUrl + 'comments', {
         params: {
           id,
         },

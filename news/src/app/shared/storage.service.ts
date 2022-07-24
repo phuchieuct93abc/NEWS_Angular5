@@ -9,16 +9,11 @@ import { map } from 'rxjs/operators';
 export class LocalStorageService {
   constructor(private storage: StorageMap) {}
   getItem<T>(id: string, fallbackValue: T): Observable<T> {
-    if (typeof localStorage !== 'undefined') {
-      return this.storage.get(id).pipe(map((item) => (item ? (item as T) : fallbackValue)));
-    }
-    return of(fallbackValue);
+    return this.storage.get(id).pipe(map((item) => (item ? (item as T) : fallbackValue)));
   }
 
-  setItem(id: string, item: unknown) {
-    if (typeof localStorage !== 'undefined') {
-      this.storage.set(id, item).subscribe();
-    }
+  setItem(id: string, item: unknown): Observable<unknown> {
+    return this.storage.set(id, item);
   }
 
   hasKey(id: string): Observable<boolean> {

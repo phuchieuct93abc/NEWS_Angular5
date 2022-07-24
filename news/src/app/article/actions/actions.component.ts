@@ -1,28 +1,23 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Inject,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { asyncScheduler, Observable, Subject } from 'rxjs';
-import { take, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { take, takeUntil, throttleTime } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
-import CONFIG from 'src/environments/environment';
-import Article from '../../../../../model/Article';
+import environment from 'src/environments/environment';
 import { IS_NODE } from './../../shared/const';
 
 @Component({
@@ -74,7 +69,7 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
     this.ttsAudioSource = [
       {
         title: 'Audio One Title',
-        link: `${CONFIG.baseUrl}tts?id=${this.articleId}&category=${this.articleCategory}`,
+        link: `${environment.baseUrl}tts?id=${this.articleId}&category=${this.articleCategory}`,
         artist: 'Artist',
         duration: 10,
       },

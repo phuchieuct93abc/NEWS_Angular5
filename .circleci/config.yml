@@ -49,10 +49,10 @@ workflows:
           branches:
             only: 
               - master
-              - function/update-new-firebase
+              - angularfire
       - build-server:
          filters:
           branches:
             only: 
               - master
-              - function/update-new-firebase
+              - angularfire

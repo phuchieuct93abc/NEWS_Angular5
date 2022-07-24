@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { LocalStorageService } from './storage.service';
 
 export interface Config {
   darkTheme?: boolean;
@@ -19,12 +18,6 @@ export class ConfigService {
   public static MIN_FONTSIZE = 15;
   public static MAX_FONTSIZE = 25;
 
-  configState = this.store.select(configFeature.selectConfigState);
 
-  public constructor(private storageService: LocalStorageService, private store: Store) {
-    this.store.dispatch(updateConfigAction(this.storageService.getItemSync(id, {})));
-    this.configState.subscribe((config) => {
-      this.storageService.setItemSync(id, config);
-    });
-  }
+  public constructor(private store: Store) {}
 }

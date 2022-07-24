@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { IS_MOBILE } from 'src/app/shared/const';
+import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
-import CategoryHelper, { Category } from '../../../../model/Categories';
+import firebase from 'firebase/compat/app';
+import { IS_MOBILE } from 'src/app/shared/const';
+import CategoryHelper from '../../../../model/Categories';
 import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { DestroySubscriber } from './../shared/destroy-subscriber';
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -22,7 +22,7 @@ export class SidebarComponent {
   public vietnameseCategories = CategoryHelper.vietnameseCategories();
   public englishCategories = CategoryHelper.englishCategories();
 
-  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {}
+  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store, public auth: AngularFireAuth) {}
 
   public toggleDarkMode(darkTheme: boolean): void {
     this.store.dispatch(updateConfigAction({ darkTheme }));
@@ -34,5 +34,13 @@ export class SidebarComponent {
 
   public onSelectCategory(category: string): void {
     this.store.dispatch(updateConfigAction({ category }));
+  }
+
+  public logout() {
+    this.auth.signOut();
+  }
+
+  public login(): void {
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 }

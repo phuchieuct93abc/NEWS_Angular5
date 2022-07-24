@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IS_MOBILE } from 'src/app/shared/const';
-import { IS_NODE } from './../shared/const';
-import { ConfigService } from './../shared/config.service';
 import { Store } from '@ngrx/store';
+import { IS_MOBILE } from 'src/app/shared/const';
 import { updateConfigAction } from '../store/config.reducer';
+import { IS_NODE } from './../shared/const';
 
 @Component({
   selector: 'app-content',

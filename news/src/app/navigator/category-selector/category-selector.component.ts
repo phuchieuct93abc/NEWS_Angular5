@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import CategoryHelper, { Category } from '../../../../../model/Categories';
-import { ConfigService } from '../../shared/config.service';
 import { Config } from './../../shared/config.service';
 
 @Component({

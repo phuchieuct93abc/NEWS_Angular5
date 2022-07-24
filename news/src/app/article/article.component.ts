@@ -3,12 +3,12 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, Input, NgZone, OnDest
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, map, shareReplay, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, take, takeUntil } from 'rxjs/operators';
 import { IS_NODE } from 'src/app/shared/const';
 import Article from '../../../../model/Article';
 import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
-import { readArticle } from '../store/actions';
+import { readArticle } from '../store/article-history.feature';
 import { configFeature } from '../store/config.reducer';
 import { loadedStoriesFeature } from '../store/story.reducer';
 import { StoryListService } from '../story/story-list/story-list.service';
@@ -166,15 +166,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   private loadArticle(article: Article) {
     this.article = article;
     this.selectedStory$ = of({
-      articleCategory: article.category,
-      articleId: article.id,
-      externalUrl: article.externalUrl,
-      header: article.header,
-      sourceIcon: article.sourceIcon,
-      sourceName: article.sourceName,
-      thumbnail: article.getThumbnail(),
-    });
-    console.log({
       articleCategory: article.category,
       articleId: article.id,
       externalUrl: article.externalUrl,

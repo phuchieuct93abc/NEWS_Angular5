@@ -9,7 +9,7 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import CONFIG from '../environments/environment';
+import environment from '../environments/environment';
 import { AppService } from './app.service';
 import { ArticleService } from './shared/article.service';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
@@ -111,7 +111,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public getBlurImageUrl(url: string): Observable<string> {
     if (url !== undefined) {
-      return this.httpClient.get(`${CONFIG.asiaUrl}blur?url=${url}`, { responseType: 'blob' }).pipe(map((blob) => URL.createObjectURL(blob)));
+      return this.httpClient.get(`${environment.asiaUrl}blur?url=${url}`, { responseType: 'blob' }).pipe(map((blob) => URL.createObjectURL(blob)));
     }
     return of();
   }

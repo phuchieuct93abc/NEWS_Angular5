@@ -10,7 +10,7 @@ export interface Config {
 
 export const updateConfigAction = createAction('[Config] Update Config', props<Partial<Config>>());
 export const updateConfigSuccessAction = createAction('[Config] Update Config Success');
-const initialState: Config = {
+export const initialConfigState: Config = {
   darkTheme: true,
   category: 'tin-nong',
   smallImage: true,
@@ -21,7 +21,7 @@ const initialState: Config = {
 export const configFeature = createFeature({
   name: 'config',
   reducer: createReducer(
-    initialState,
+    initialConfigState,
     on(updateConfigAction, (state, action) => ({ ...state, ...action }))
   ),
 });

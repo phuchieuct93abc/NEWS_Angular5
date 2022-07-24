@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { getArticleHistory } from 'src/app/store/actions';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
@@ -45,12 +44,10 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     protected configService: ConfigService,
     protected loadingService: LoadingService,
     protected articleService: ArticleService,
-    protected store: Store<{ articleHistory }>
+    protected store: Store
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(getArticleHistory());
-
     this.loadFirstStory();
 
     if (this.isNode) {
@@ -126,7 +123,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       if (params?.id) {
         const articleId = params.id as string;
         this.articleService
-          .getById(articleId, params.category)
+          .getById(articleId, params.category as string)
           .pipe(takeUntil(this.onDestroy$))
           .subscribe((article) => {
             const storyImage: StoryImage = new StoryImage(article.getThumbnail());

@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
-import CONFIG from '../../environments/environment';
+import environment from '../../environments/environment';
 import { addStoryAction } from '../store/story.reducer';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 
-const storyUrl = CONFIG.asiaUrl + `story`;
+const storyUrl = environment.asiaUrl + `story`;
 
 @Injectable({
   providedIn: 'root',

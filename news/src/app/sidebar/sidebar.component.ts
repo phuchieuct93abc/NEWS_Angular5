@@ -6,7 +6,6 @@ import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper from '../../../../model/Categories';
 import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
-import { loginFeature, logout } from '../store/login.effect';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',

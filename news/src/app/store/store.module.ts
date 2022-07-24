@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { ActionReducer, ActionReducerMap, StoreModule } from '@ngrx/store';
+import { ActionReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import environment from 'src/environments/environment';
-import { ArticleEffect, articleHistoryFeature, articleHistoryReducer } from './article-history.feature';
+import { ArticleEffect, articleHistoryFeature } from './article-history.feature';
 
 import { configFeature } from './config.reducer';
 import { LocalStoreService } from './local-store.service';
-import { LoginEffect, loginFeature } from './login.effect';
+import { LoginEffect } from './login.effect';
 import { loadedStoriesFeature } from './story.reducer';
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
@@ -26,7 +26,6 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
     CommonModule,
     StoreModule.forFeature(configFeature),
     StoreModule.forFeature(loadedStoriesFeature),
-    StoreModule.forFeature(loginFeature),
     StoreModule.forFeature(articleHistoryFeature),
     EffectsModule.forRoot([ArticleEffect, LoginEffect]),
     StoreModule.forRoot({}),

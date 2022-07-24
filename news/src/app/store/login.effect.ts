@@ -1,25 +1,25 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
+import firebase from 'firebase/compat/app';
 import { getArticleHistory } from './article-history.feature';
 
 @Injectable({ providedIn: 'root' })
 export class LoginEffect {
-  user: SocialUser;
+  user: firebase.User;
   loggedIn: boolean;
 
-  constructor(private authService: SocialAuthService, store: Store<{ loggedUser: GoogleLogin }>) {
-    this.authService.authState.subscribe((user) => {
+  constructor(private auth: AngularFireAuth, store: Store) {
+    auth.authState.subscribe((user) => {
       if (user) {
-        store.dispatch(loginSuccess({ user, loggedIn: user != null }));
-        store.dispatch(getArticleHistory());
+        // store.dispatch(getArticleHistory());
       }
     });
   }
 }
 
 export interface GoogleLogin {
-  user: SocialUser;
+  user: firebase.User;
   loggedIn: boolean;
 }
 const initialState: GoogleLogin = { user: null, loggedIn: false };
@@ -27,7 +27,7 @@ export const loginSuccess = createAction('[Google login] Login success', props<G
 export const logout = createAction('[Google login] Logout');
 export const loginReducer = createReducer(
   initialState,
-  on(loginSuccess, (s, action) => ({ ...s, ...action })),
+  on(loginSuccess, (s, action) => action),
   on(logout, () => ({ ...initialState }))
 );
 export const loginFeature = createFeature({

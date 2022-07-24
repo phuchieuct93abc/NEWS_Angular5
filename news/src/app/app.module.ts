@@ -1,9 +1,14 @@
-import { GoogleLoginProvider, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { AngularFireAuth, AngularFireAuthModule, PERSISTENCE, SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule, HammerModule, HAMMER_GESTURE_CONFIG, Meta, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,11 +50,9 @@ import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
 import { SourceIframePipe } from './shared/sourceIframe.pipe';
-import { LocalStorageService } from './shared/storage.service';
 import { ToNowPipe } from './shared/toNow.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { GoogleLogin } from './store/login.effect';
 import { AppStoreModule } from './store/store.module';
 import { ImageViewerComponent } from './story/image-viewer/image-viewer.component';
 import { IsReadPipe } from './story/is-read.pipe';
@@ -60,7 +63,7 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-
+import { AngularFireModule } from '@angular/fire/compat';
 registerLocaleData(en);
 const isMobileProvider = {
   provide: IS_MOBILE,
@@ -95,7 +98,13 @@ const isMobileProvider = {
     }),
     AppStoreModule,
     NgxSmoothParallaxModule,
-    SocialLoginModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    // provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
+    provideMessaging(() => getMessaging()),
   ],
   declarations: [
     AppComponent,
@@ -147,30 +156,8 @@ const isMobileProvider = {
     Title,
     Meta,
     { provide: 'googleTagManagerId', useValue: 'GTM-NJ2C63G' },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useFactory: (storage: LocalStorageService) => {
-        if (storage.getItemSync<GoogleLogin>('loggedUser', { loggedIn: false, user: null }).loggedIn === false) {
-          return {
-            autoLogin: false,
-            providers: [
-              {
-                id: GoogleLoginProvider.PROVIDER_ID,
-                provider: new GoogleLoginProvider('17159897246-6hfdpdr301isae78t0l7u6v99sklbsef.apps.googleusercontent.com', {
-                  oneTapEnabled: true,
-                }),
-              },
-            ],
-            onError: (err) => {
-              console.error(err);
-            },
-          };
-        }
-
-        return { providers: [] };
-      },
-      deps: [LocalStorageService],
-    },
+    { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
+    { provide: PERSISTENCE, useValue: 'session' },
   ],
 })
 export class AppModule {}

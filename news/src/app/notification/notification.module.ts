@@ -25,8 +25,8 @@ export class NotificationModule {
       return;
     }
     try {
-      this.firebaseApp = initializeApp(FIREBASE_CONFIG);
-      this.registerNotification();
+      // this.firebaseApp = initializeApp(FIREBASE_CONFIG);
+      // this.registerNotification();
     } catch (e) {
       console.error(e);
     }

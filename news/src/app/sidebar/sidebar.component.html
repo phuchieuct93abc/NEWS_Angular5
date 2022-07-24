@@ -7,16 +7,16 @@
   </div>
   <div class="mat-h2">Tài khoản</div>
 
-  <asl-google-signin-button  *ngIf="(user$ | async).loggedIn === false"></asl-google-signin-button>
+  <div *ngIf="(auth.currentUser| async) as user; else showLogin">
+    <img class="w-8 rounded-full inline-block" [src]="user?.photoURL" referrerpolicy="no-referrer" alt="Google Avatar" />
+    <span class="ml-3">{{ user.displayName}}</span>    
+    <button class="mt-3 block" mat-stroked-button color="primary" (click)="logout()"> Đăng xuất</button>
+  </div>
+  <ng-template #showLogin>
+    <p>Please login.</p>
+    <button class="mt-3 block" mat-stroked-button color="primary" (click)="login()"> Đăng nhập</button>
+  </ng-template>
 
-  <ng-container *ngIf="(user$ | async).loggedIn"  >
-  
-    <div class="flex items-center gap-4">
-      <img class="w-8 rounded-full inline-block" [src]="(user$ | async).user?.photoUrl" referrerpolicy="no-referrer" alt="Google Avatar" />
-      <span>{{ (user$ | async).user.name }}</span>
-    </div>
-    <button class="mt-3" mat-stroked-button color="primary" (click)="logout()"> Đăng xuất</button>
-  </ng-container>
 
   <mat-divider class="my-3"></mat-divider>
 

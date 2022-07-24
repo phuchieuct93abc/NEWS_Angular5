@@ -1,32 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { loginFeature } from '../store/login.effect';
 import { ArticleHistoryData } from '../store/article-history.feature';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleHistoryService {
-  constructor(private httpClient: HttpClient, private store: Store) {}
+  constructor(private httpClient: HttpClient, private store: Store, private auth: AngularFireAuth) {}
 
   getReadArticle(): Observable<ArticleHistoryData> {
-    return this.store.select(loginFeature.selectUser).pipe(
+    return from(this.auth.currentUser).pipe(
       switchMap((user) => {
-        if (user?.idToken) {
-          return this.httpClient.get<ArticleHistoryData>('/api/articles/read', { params: { googleId: user?.idToken } });
+        if (user) {
+          return user.getIdTokenResult(false);
+        }
+        return of();
+      }),
+      switchMap(({ token }) => {
+        if (token) {
+          return this.httpClient.get<ArticleHistoryData>('/api/articles/read', { params: { googleId: token } });
         }
         throw new Error('No Google login');
       })
     );
   }
+
   readArticle(articleId: string, categoryId: string): Observable<{ articleId: string; categoryId: string }> {
-    return this.store.select(loginFeature.selectUser).pipe(
+    return from(this.auth.currentUser).pipe(
       switchMap((user) => {
-        if (user?.idToken) {
-          return this.httpClient.put('/api/articles/read', { articleId, categoryId }, { params: { googleId: user?.idToken } });
+        if (user) {
+          return user.getIdTokenResult(false);
+        }
+        return of();
+      }),
+      switchMap(({ token }) => {
+        if (token) {
+          return this.httpClient.put('/api/articles/read', { articleId, categoryId }, { params: { googleId: token } });
         }
         return of();
       }),

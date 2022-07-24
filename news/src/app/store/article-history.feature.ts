@@ -15,7 +15,6 @@ export const loadArticleHistorySuccess = createAction('[Article] Load History Su
 export const articleHistoryReducer = createReducer(
   initialState,
   on(readArticleSuccess, (state, { articleId, categoryId }) => {
-    console.log('readArticleSuccess', articleId);
     const currentArticleId = state[categoryId] || [];
     const newArticleId: string[] = [...currentArticleId, articleId];
     return { ...state, ...{ [categoryId]: newArticleId } };

@@ -1,11 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
+import firebase from 'firebase/compat/app';
 import { IS_MOBILE } from 'src/app/shared/const';
 import CategoryHelper from '../../../../model/Categories';
 import { opacityNgIf } from '../animation';
 import { configFeature, updateConfigAction } from '../store/config.reducer';
 import { loginFeature, logout } from '../store/login.effect';
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -22,8 +23,7 @@ export class SidebarComponent {
   public vietnameseCategories = CategoryHelper.vietnameseCategories();
   public englishCategories = CategoryHelper.englishCategories();
 
-  public user$ = this.store.select(loginFeature.selectLoginFeatureState);
-  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {}
+  public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store, public auth: AngularFireAuth) {}
 
   public toggleDarkMode(darkTheme: boolean): void {
     this.store.dispatch(updateConfigAction({ darkTheme }));
@@ -40,5 +40,9 @@ export class SidebarComponent {
   public logout() {
     this.store.dispatch(logout());
     window.location.reload();
+  }
+
+  public login(): void {
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 }

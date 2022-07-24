@@ -29,11 +29,6 @@ export class LocalStoreService {
   }
 
   load(): void {
-    // const loggedUser = this.localStorageService.getItemSync('loggedUser', null) as GoogleLogin;
-    // if (loggedUser) {
-    //   this.store.dispatch(loginSuccess(loggedUser));
-    // }
-    // this.storeLoggedUser.subscribe();
     this.loadArticleHistory.pipe(switchMap(() => this.storeArticleHistory)).subscribe();
   }
 }

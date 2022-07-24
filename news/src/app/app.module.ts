@@ -18,6 +18,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHo
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 import environment from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -63,7 +64,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { AngularFireModule } from '@angular/fire/compat';
 registerLocaleData(en);
 const isMobileProvider = {
   provide: IS_MOBILE,

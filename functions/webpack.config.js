@@ -33,6 +33,10 @@ module.exports = {
         rules: [
             { test: /\.ts$/, loader: 'ts-loader' },
             { test: /canvas\.node$/, loader: 'node-loader', },
+            {
+                test: /\.txt$/i,
+                use: 'raw-loader',
+            },
         ]
     },
     plugins: [

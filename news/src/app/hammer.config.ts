@@ -1,6 +1,6 @@
 import { HammerGestureConfig } from '@angular/platform-browser';
 import { Inject, Injectable } from '@angular/core';
-import CONFIG from 'src/environments/environment';
+import environment from 'src/environments/environment';
 import { IS_NODE } from './shared/const';
 
 // const HammerLoader = () => import('hammerjs')

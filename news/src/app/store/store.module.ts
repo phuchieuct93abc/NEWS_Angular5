@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ActionReducer, ActionReducerMap, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
-import CONFIG from 'src/environments/environment';
+import environment from 'src/environments/environment';
 import { ArticleEffect, articleHistoryFeature, articleHistoryReducer } from './article-history.feature';
 
 import { configFeature } from './config.reducer';
@@ -32,7 +32,7 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Demo App',
-      logOnly: CONFIG.production,
+      logOnly: environment.production,
     }),
   ],
   declarations: [],

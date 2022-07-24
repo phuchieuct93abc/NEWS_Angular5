@@ -6,12 +6,12 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import * as smoothscroll from 'smoothscroll-polyfill';
 import { AppModule } from './app/app.module';
-import CONFIG from './environments/environment';
+import environment from './environments/environment';
 import 'intersection-observer';
 
 smoothscroll.polyfill();
 
-if (CONFIG.production) {
+if (environment.production) {
   enableProdMode();
   if (window) {
     window.console.log = () => {

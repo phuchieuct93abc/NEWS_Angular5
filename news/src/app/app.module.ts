@@ -12,7 +12,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHooks
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
-import CONFIG from 'src/environments/environment';
+import environment from 'src/environments/environment';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -90,7 +90,7 @@ const isMobileProvider = {
     HammerModule,
     BrowserTransferStateModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: CONFIG.production,
+      enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
     AppStoreModule,

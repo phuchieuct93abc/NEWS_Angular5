@@ -12,7 +12,8 @@ export class LoginEffect {
   constructor(private auth: AngularFireAuth, store: Store) {
     auth.authState.subscribe((user) => {
       if (user) {
-        // store.dispatch(getArticleHistory());
+        console.log(user);
+        store.dispatch(getArticleHistory());
       }
     });
   }

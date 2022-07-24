@@ -13,7 +13,7 @@ export class ArticleHistoryService {
   constructor(private httpClient: HttpClient, private store: Store, private auth: AngularFireAuth) {}
 
   getReadArticle(): Observable<ArticleHistoryData> {
-    return from(this.auth.currentUser).pipe(
+    return from(this.auth.user).pipe(
       switchMap((user) => {
         if (user) {
           return user.getIdTokenResult(false);
@@ -30,7 +30,7 @@ export class ArticleHistoryService {
   }
 
   readArticle(articleId: string, categoryId: string): Observable<{ articleId: string; categoryId: string }> {
-    return from(this.auth.currentUser).pipe(
+    return from(this.auth.user).pipe(
       switchMap((user) => {
         if (user) {
           return user.getIdTokenResult(false);

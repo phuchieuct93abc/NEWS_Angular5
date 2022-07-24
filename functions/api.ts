@@ -9,6 +9,7 @@ import { ttsArticle } from './tts';
 require('dotenv').config();
 const axios = require('axios');
 
+
 const app = express();
 var router = express.Router();
 
@@ -26,11 +27,6 @@ router.get('/story', async (req, res) => {
   res.send(story);
 });
 
-
-
-
-
-
 router.get('/article', async (req, res) => {
   const { category, url } = req.query;
   const article = await ArticleServiceFactory.get(category as string).getArticleById(url as string);
@@ -40,6 +36,7 @@ router.get('/article', async (req, res) => {
 router.get('/articles/read', async (req, res) => {
   res.send(await new ArticleHistoryService(req.query.googleId as string).getReadArticle());
 });
+
 
 router.put('/articles/read', async (req, res) => {
   res.send(await new ArticleHistoryService(req.query.googleId as string).readArticle(req.body.articleId as string, req.body.categoryId as string));

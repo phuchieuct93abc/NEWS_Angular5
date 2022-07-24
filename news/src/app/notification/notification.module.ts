@@ -26,7 +26,7 @@ export class NotificationModule {
     }
     try {
       // this.firebaseApp = initializeApp(FIREBASE_CONFIG);
-      // this.registerNotification();
+      this.registerNotification();
     } catch (e) {
       console.error(e);
     }
@@ -39,7 +39,7 @@ export class NotificationModule {
           if (++this.numberOfNavigation < this.numberOfNavigationBeforeNotification) {
             return;
           }
-          this.message = getMessaging(this.firebaseApp);
+          this.message = getMessaging();
           getToken(this.message, { vapidKey: FIREBASE_PUBLIC_KEY })
             .then((currentToken) => {
               if (currentToken) {

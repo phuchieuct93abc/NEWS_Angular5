@@ -11,7 +11,7 @@ export class DailyDevArticleService extends ArticleService<any> {
     this.parser = new DailyDevArticleParser(id);
 
     return new Promise((resolve) => {
-      const diffbot = new Diffbot('ecc77eafdbb5d5e20794ea22c6bd2b03');
+      const diffbot = new Diffbot('91ffd6d42adc4e0b04c8b5279c10e44c');
       diffbot.article(
         {
           url: 'https://api.daily.dev/r/' + id,

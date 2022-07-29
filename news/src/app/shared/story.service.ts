@@ -23,11 +23,11 @@ export class StoryService {
 
   public constructor(private httpClient: HttpClient, private loadingService: LoadingService, private store: Store) {}
 
-  public getStoryByPage(category: string, pageNumber: number, payload: unknown): Observable<Story[]> {
+  public getStoryByPage(category: string, pageNumber: number, payload: string): Observable<{ story: Story[]; payload: string }> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });
 
     return this.httpClient
-      .get<{ payload: unknown; story: Story[] }>(storyUrl, {
+      .get<{ story: Story[]; payload: string }>(storyUrl, {
         params: {
           pageNumber: `${pageNumber}`,
           category,
@@ -42,11 +42,10 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-        tap(({ payload: returnPayload }) => (this.currentPayload = returnPayload)),
         tap(({ story: stories }) => {
           stories.forEach((story) => this.store.dispatch(addStoryAction({ category, story })));
         }),
-        map(({ story }) => story.map((r) => Object.assign(new Story(), r)))
+        map((result) => ({ payload: result.payload, story: result.story.map((r) => Object.assign(new Story(), r)) }))
       );
   }
 

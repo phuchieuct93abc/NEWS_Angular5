@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
-import { createAction, createFeature, createReducer, on, props } from '@ngrx/store';
-import { mergeMap } from 'rxjs';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
+import { map, mergeMap, switchMap } from 'rxjs';
 import { Story } from '../../../../model/Story';
 import { StoryService } from '../shared/story.service';
 
@@ -18,7 +18,7 @@ export interface LoadedStories {
 }
 
 export const addStoryAction = createAction('[Stories] Add Story', props<{ category: string; story: Story }>());
-export const addStoriesAction = createAction('[Stories] Add Stories', props<{ category: string; story: Story[] }>());
+export const addStoriesAction = createAction('[Stories] Add Stories', props<{ story: Story[]; payload: string }>());
 export const loadMoreStory = createAction('[Stories] Load more', props<{ category: string; story: Story }>());
 const initialState: LoadedStories = {
   currentPageNumber: 1,
@@ -43,11 +43,13 @@ export const loadedStoriesFeature = createFeature({
   providedIn: 'root',
 })
 export class StoreEffect {
-  loadMoreStories$ = this.action.pipe(
-    ofType(loadMoreStory),
-    mergeMap(() => {
-      return this.storyService.getStoryByPage();
-    })
+  loadMoreStories$ = createEffect(() =>
+    this.action.pipe(
+      ofType(loadMoreStory),
+      concatLatestFrom(() => this.store.select(loadedStoriesFeature.selectLoadedStoriesState)),
+      mergeMap(([_, state]) => this.storyService.getStoryByPage(state.category, state.currentPageNumber, state.currentPayload)),
+      map(({ story, payload }) => addStoriesAction({ story, payload }))
+    )
   );
-  constructor(private action: Actions, private storyService: StoryService) {}
+  constructor(private action: Actions, private storyService: StoryService, private store: Store) {}
 }

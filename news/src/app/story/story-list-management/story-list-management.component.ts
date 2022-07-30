@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, mergeMap, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature } from 'src/app/store/config.reducer';
 import { loadMoreStory, storyFeature } from 'src/app/store/story.reducer';
@@ -53,7 +53,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     if (this.isNode) {
       return;
     }
-    this.updateStoryList();
     this.registerSpinner();
   }
 
@@ -88,24 +87,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     if (this.openingStory?.category !== category) {
       this.openingStory = null;
     }
-  }
-
-  private updateStoryList() {
-    // this.route.params
-    //   .pipe(
-    //     map(({ category }) => category as string),
-    //     tap(() => (this.isLoading = true)),
-    //     tap((category) => (this.category = category)),
-    //     tap(() => this.resetStoryList()),
-    //     switchMap((category) => this.storyService.getStories(category, 20)),
-    //     takeUntil(this.onDestroy$)
-    //   )
-    //   .subscribe((value) => {
-    //     const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
-    //     this.pushStory(...stories);
-    //     this.isLoading = false;
-    //     this.store.dispatch(updateConfigAction({ category: this.category }));
-    //   });
   }
 
   private getFirstStory(): Observable<Story> {

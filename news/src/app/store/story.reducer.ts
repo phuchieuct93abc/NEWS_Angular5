@@ -58,7 +58,6 @@ export class StoryEffect {
   loadMoreStories$ = createEffect(() =>
     this.action.pipe(
       ofType(loadMoreStory),
-      tap(() => console.log('loadmore')),
       concatLatestFrom(() => this.store.select(storyFeature.selectStoryFeatureState)),
       filter(([, { category }]) => !!category),
       switchMap(([, state]) => this.storyService.getStoryByPage(state.category, state.currentPageNumber, state.currentPayload)),

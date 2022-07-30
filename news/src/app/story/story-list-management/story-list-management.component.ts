@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, mergeMap, shareReplay, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, mergeMap, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature } from 'src/app/store/config.reducer';
 import { loadMoreStory, storyFeature } from 'src/app/store/story.reducer';
@@ -21,7 +21,7 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent implements OnInit, OnDestroy {
-  public stories$ = this.store.select(storyFeature.selectStories);
+  public stories$ = this.store.select(storyFeature.selectStories).pipe(tap(() => (this.isLoading = false)));
 
   public openingStory: { id: string; story?: Observable<Story>; category: string } | null = null;
 
@@ -59,7 +59,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
 
   public loadFirstStory(): void {
     this.category$.pipe(takeUntil(this.onDestroy$)).subscribe((category) => {
-      console.log('combine');
       const id = this.route.children?.[0]?.snapshot?.paramMap?.get('id');
       if (id == null) {
         this.openingStory = null;
@@ -77,6 +76,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
+    console.log('load more');
     this.store.dispatch(loadMoreStory());
   }
 

@@ -22,7 +22,6 @@ export class ArticleIframeComponent implements OnInit, OnDestroy {
   iframeHeight$: Observable<number>;
   private destroy = new Subject<void>();
   ngOnInit(): void {
-    console.log('load iframe');
     this.iframeHeight$ = fromEvent(window, 'message').pipe(
       take(1),
       map((event: unknown) => parseInt((event as IframeMessage).data?.height, 10)),

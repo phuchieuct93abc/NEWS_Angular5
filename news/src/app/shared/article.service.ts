@@ -51,7 +51,7 @@ export class ArticleService {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.FETCH_ARTICLE });
     return this.httpClient.get(environment.baseUrl + 'article', options).pipe(
       retry(3),
-      concatLatestFrom(() => this.store.select(storyFeature.selectStoryMap).pipe(map((storyMap) => storyMap[category][id]))),
+      concatLatestFrom(() => this.store.select(storyFeature.selectStoryMap).pipe(map((storyMap) => storyMap[category]?.[id]))),
       map(([result, story]) => {
         this.loadingService.onLoading.next({ type: LoadingEventType.FINISH, name: LoadingEventName.FETCH_ARTICLE });
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { finalize, map, retry, tap } from 'rxjs/operators';
+import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import environment from '../../environments/environment';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';

@@ -69,8 +69,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
   public animEnd($event: { toState: unknown }): void {
     if (!$event.toState) {
-      this.story.selected = false;
-      this.story.height = 0;
+
       this.onClosed.emit();
     }
   }

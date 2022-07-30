@@ -2,10 +2,10 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, shareReplay, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature } from 'src/app/store/config.reducer';
-import { loadMoreStory } from 'src/app/store/story.reducer';
+import { loadMoreStory, storyFeature } from 'src/app/store/story.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
@@ -21,15 +21,14 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent implements OnInit, OnDestroy {
-  public stories$ = new BehaviorSubject<Story[]>([]);
+  public stories$ = this.store.select(storyFeature.selectStories).pipe(map((stories) => {}));
 
   public openingStory: { id: string; story?: Observable<Story>; category: string } | null = null;
-
-  public category: string;
 
   public isLoading = false;
 
   public smallImageConfig$ = this.store.select(configFeature.selectSmallImage).pipe(distinctUntilChanged());
+  public category$ = this.store.select(storyFeature.selectCategory).pipe(tap(() => this.resetStoryList()));
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
@@ -83,12 +82,8 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
   }
 
   protected resetStoryList(): void {
-    this.stories$.next([]);
-    const hasSwitchCategory = this.openingStory?.category !== this.category;
-    if (hasSwitchCategory) {
-      this.openingStory = null;
-    }
-    this.storyService.resetPageNumber();
+    console.log('reset');
+    this.openingStory = null;
   }
 
   private updateStoryList() {
@@ -144,10 +139,5 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  private pushStory(...story: Story[]): void {
-    const unDuplicatedStories = story.filter((s) => this.stories$.getValue().indexOf(s) === -1).filter((s) => s.id !== this.openingStory?.id);
-    this.stories$.next([...this.stories$.getValue(), ...unDuplicatedStories]);
   }
 }

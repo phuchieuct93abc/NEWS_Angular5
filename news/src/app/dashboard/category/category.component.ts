@@ -46,12 +46,12 @@ export class TopCategoryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.storyService
-      .getStoriesFirstPage(this.category.name)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((stories) => {
-        this.stories = stories;
-      });
+    // this.storyService
+    //   .getStoriesFirstPage(this.category.name)
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe((stories) => {
+    //     this.stories = stories;
+    //   });
   }
 
   public toggleExpand(): void {

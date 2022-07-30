@@ -46,6 +46,7 @@ router.get('/cachestory', async (req, res) => {
   res.send({ articles: result, number: result.length });
 });
 
+
 router.get('/search', async (req, res) => {
   const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
   res.send(value);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
-import { map, mergeMap } from 'rxjs';
+import { filter, map, mergeMap, tap } from 'rxjs';
 import { Story } from '../../../../model/Story';
 import { StoryService } from '../shared/story.service';
 
@@ -33,14 +33,17 @@ export const storyFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(addStoriesAction, (state, { story, payload }) => {
-      const storiesMap = story.reduce((prev, current) => (prev[current.id] = current), {});
+      const stories = [...state.stories, ...story];
+      const storiesMap = story.reduce((prev, current) => {
+        prev[current.id] = current;
+        return prev;
+      }, {});
       const storiesMapState = { ...state.storyMap[state.category], ...storiesMap };
-
       return {
         ...state,
-        currentPageNumber: ++state.currentPageNumber,
+        currentPageNumber: state.currentPageNumber + 1,
         currentPayload: payload,
-        stories: [...story],
+        stories,
         storyMap: { ...storiesMapState },
       };
     }),
@@ -56,15 +59,17 @@ export class StoryEffect {
     this.action.pipe(
       ofType(loadMoreStory),
       concatLatestFrom(() => this.store.select(storyFeature.selectStoryFeatureState)),
+      filter(([, { category }]) => !!category),
+      tap(() => console.log('loadmore')),
       mergeMap(([, state]) => this.storyService.getStoryByPage(state.category, state.currentPageNumber, state.currentPayload)),
       map(({ story, payload }) => addStoriesAction({ story, payload }))
     )
   );
-  onChangeCategory$ = createEffect(() =>
-    this.action.pipe(
-      ofType(onChangeCategory),
-      map(() => loadMoreStory())
-    )
-  );
+  // onChangeCategory$ = createEffect(() =>
+  //   this.action.pipe(
+  //     ofType(onChangeCategory),
+  //     map(() => loadMoreStory())
+  //   )
+  // );
   constructor(private action: Actions, private storyService: StoryService, private store: Store) {}
 }

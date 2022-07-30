@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import environment from '../../environments/environment';
-import { addStoryAction } from '../store/story.reducer';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
 
 const storyUrl = environment.asiaUrl + `story`;
@@ -42,9 +41,7 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-        tap(({ story: stories }) => {
-          stories.forEach((story) => this.store.dispatch(addStoryAction({ category, story })));
-        }),
+
         map((result) => ({ payload: result.payload, story: result.story.map((r) => Object.assign(new Story(), r)) }))
       );
   }
@@ -55,26 +52,26 @@ export class StoryService {
     this.storiesQueue = [];
   }
 
-  public getStories(category: string, numberOfStories: number = 5): Observable<Story[]> {
-    if (this.storiesQueue.length > 0) {
-      return of(this.storiesQueue.splice(0, numberOfStories));
-    }
+  // public getStories(category: string, numberOfStories: number = 5): Observable<Story[]> {
+  //   if (this.storiesQueue.length > 0) {
+  //     return of(this.storiesQueue.splice(0, numberOfStories));
+  //   }
 
-    return this.getStoryByPage(category, this.currentStoryPage, this.currentPayload).pipe(
-      map((stories: Story[]) => {
-        const result = this.filterStory(stories);
-        this.appendStoryList(result);
-        this.storiesQueue = result;
-        this.currentStoryPage++;
-        return result;
-      }),
-      map(() => this.storiesQueue.splice(0, numberOfStories))
-    );
-  }
+  //   return this.getStoryByPage(category, this.currentStoryPage, this.currentPayload).pipe(
+  //     map((stories: Story[]) => {
+  //       const result = this.filterStory(stories);
+  //       this.appendStoryList(result);
+  //       this.storiesQueue = result;
+  //       this.currentStoryPage++;
+  //       return result;
+  //     }),
+  //     map(() => this.storiesQueue.splice(0, numberOfStories))
+  //   );
+  // }
 
-  public getStoriesFirstPage(category: string): Observable<Story[]> {
-    return this.getStoryByPage(category, 1, null);
-  }
+  // public getStoriesFirstPage(category: string): Observable<Story[]> {
+  //   return this.getStoryByPage(category, 1, null);
+  // }
 
   public getById(id: string): Story {
     return this.stories.find((s) => s.id === id);

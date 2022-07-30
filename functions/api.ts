@@ -110,8 +110,8 @@ router.get('/tts', async (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'audio/mpeg',
   });
-  const autio = await ttsArticle(article);
-  res.end(Buffer.from(autio as any, 'binary'));
+  const audio = await ttsArticle(article);
+  res.end(Buffer.from(audio as any, 'binary'));
 });
 
 // regular function

@@ -76,7 +76,6 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    console.log('load more');
     this.store.dispatch(loadMoreStory());
   }
 

@@ -1,10 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, switchMap, takeUntil, tap, throttle } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
+import { configFeature } from 'src/app/store/config.reducer';
+import { loadMoreStory, storyFeature } from 'src/app/store/story.reducer';
 import { Story } from '../../../../../model/Story';
 import StoryImage from '../../../../../model/StoryImage';
 import StoryMeta from '../../../../../model/StoryMeta';
@@ -20,15 +21,14 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent implements OnInit, OnDestroy {
-  public stories$ = new BehaviorSubject<Story[]>([]);
+  public stories$ = this.store.select(storyFeature.selectStories).pipe(tap(() => (this.isLoading = false)));
 
   public openingStory: { id: string; story?: Observable<Story>; category: string } | null = null;
-
-  public category: string;
 
   public isLoading = false;
 
   public smallImageConfig$ = this.store.select(configFeature.selectSmallImage).pipe(distinctUntilChanged());
+  public category$ = this.store.select(storyFeature.selectCategory);
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
@@ -53,16 +53,18 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     if (this.isNode) {
       return;
     }
-    this.updateStoryList();
     this.registerSpinner();
   }
 
   public loadFirstStory(): void {
-    const { id, category } = this.route.children[0].snapshot?.params as { id: string; category: string };
-    if (id == null) {
-      return;
-    }
-    this.openingStory = { id, category, story: this.getFirstStory().pipe(shareReplay({ refCount: false, bufferSize: 1 })) };
+    this.category$.pipe(takeUntil(this.onDestroy$)).subscribe((category) => {
+      const id = this.route.children?.[0]?.snapshot?.paramMap?.get('id');
+      if (id == null) {
+        this.openingStory = null;
+      } else {
+        this.openingStory = { id, category, story: this.getFirstStory().pipe(shareReplay({ refCount: false, bufferSize: 1 })) };
+      }
+    });
   }
 
   public loadMoreStories(): void {
@@ -73,15 +75,7 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.getLoadMoreObservable()
-      .pipe(
-        throttle(() => interval(10000)),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((value) => {
-        this.pushStory(...value);
-        this.isLoading = false;
-      });
+    this.store.dispatch(loadMoreStory());
   }
 
   ngOnDestroy(): void {
@@ -89,32 +83,10 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  protected resetStoryList(): void {
-    this.stories$.next([]);
-    const hasSwitchCategory = this.openingStory?.category !== this.category;
-    if (hasSwitchCategory) {
+  protected resetStoryList(category: string): void {
+    if (this.openingStory?.category !== category) {
       this.openingStory = null;
     }
-    this.storyService.resetPageNumber();
-  }
-
-  private updateStoryList() {
-    this.route.params
-      .pipe(
-        map(({ category }) => category as string),
-        tap(() => (this.isLoading = true)),
-        tap((category) => (this.category = category)),
-        tap(() => this.resetStoryList()),
-        switchMap((category) => this.storyService.getStories(category, 20)),
-        takeUntil(this.onDestroy$)
-      )
-
-      .subscribe((value) => {
-        const stories: Story[] = value.filter((s) => s.id !== this.openingStory?.id);
-        this.pushStory(...stories);
-        this.isLoading = false;
-        this.store.dispatch(updateConfigAction({ category: this.category }));
-      });
   }
 
   private getFirstStory(): Observable<Story> {
@@ -152,15 +124,5 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  private getLoadMoreObservable(): Observable<Story[]> {
-    const category = this.route.firstChild.snapshot.paramMap.get('category');
-    return this.storyService.getStories(category);
-  }
-
-  private pushStory(...story: Story[]): void {
-    const unDuplicatedStories = story.filter((s) => this.stories$.getValue().indexOf(s) === -1).filter((s) => s.id !== this.openingStory?.id);
-    this.stories$.next([...this.stories$.getValue(), ...unDuplicatedStories]);
   }
 }

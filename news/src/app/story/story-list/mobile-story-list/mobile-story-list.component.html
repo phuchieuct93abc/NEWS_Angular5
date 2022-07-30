@@ -12,7 +12,7 @@
 
       </ng-container>
 
-      <ng-container *ngFor="let item of stories; trackBy: trackByFn">
+      <ng-container *ngFor="let item of stories |filter:filterFirstStory.bind(this); trackBy: trackByFn">
         <app-mobile-story
           (onSelectedStory)="onSelectedStory($event)"
           #storyMobile

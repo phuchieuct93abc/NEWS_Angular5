@@ -10,7 +10,7 @@ import { ArticleEffect, articleHistoryFeature } from './article-history.feature'
 import { configFeature } from './config.reducer';
 import { LocalStoreService } from './local-store.service';
 import { LoginEffect } from './login.effect';
-import { loadedStoriesFeature } from './story.reducer';
+import { StoryEffect, storyFeature } from './story.reducer';
 
 export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
   const config: LocalStorageConfig = {
@@ -25,9 +25,9 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
   imports: [
     CommonModule,
     StoreModule.forFeature(configFeature),
-    StoreModule.forFeature(loadedStoriesFeature),
     StoreModule.forFeature(articleHistoryFeature),
-    EffectsModule.forRoot([ArticleEffect, LoginEffect]),
+    StoreModule.forFeature(storyFeature),
+    EffectsModule.forRoot([ArticleEffect, LoginEffect, StoryEffect]),
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Demo App',

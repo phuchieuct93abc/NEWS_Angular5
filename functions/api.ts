@@ -46,6 +46,12 @@ router.get('/cachestory', async (req, res) => {
   res.send({ articles: result, number: result.length });
 });
 
+
+
+
+
+
+
 router.get('/search', async (req, res) => {
   const value = await StoryServiceFactory.get(req).search(req.query.pageNumber as string, req.query.keyword as string);
   res.send(value);
@@ -104,8 +110,8 @@ router.get('/tts', async (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'audio/mpeg',
   });
-  const autio = await ttsArticle(article);
-  res.end(Buffer.from(autio as any, 'binary'));
+  const audio = await ttsArticle(article);
+  res.end(Buffer.from(audio as any, 'binary'));
 });
 
 // regular function

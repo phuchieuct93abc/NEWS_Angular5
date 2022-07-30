@@ -4,8 +4,8 @@ import { Category } from '../../../../../model/Categories';
 import { StoryService } from '../../shared/story.service';
 import { Story } from '../../../../../model/Story';
 import { opacityNgIf } from '../../animation';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-top-category',
@@ -33,7 +33,7 @@ import { Subject } from 'rxjs';
 export class TopCategoryComponent implements OnInit, OnDestroy {
   @Input()
   public category: Category;
-  public stories: Story[] = [];
+  public stories$: Observable<Story[]>;
   public isExpanded = false;
   public maximumStories = 9;
 
@@ -46,12 +46,7 @@ export class TopCategoryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.storyService
-      .getStoriesFirstPage(this.category.name)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((stories) => {
-        this.stories = stories;
-      });
+    this.stories$ = this.storyService.getStoryByPage(this.category?.name, 1, null).pipe(map(({ story }) => story));
   }
 
   public toggleExpand(): void {

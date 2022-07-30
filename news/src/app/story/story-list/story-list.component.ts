@@ -61,9 +61,9 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   constructor(
     @Inject(IS_NODE) public isNode: boolean,
-    private storyListService: StoryListService,
     protected activatedRoute: ActivatedRoute,
-    protected route: Router
+    protected route: Router,
+    private storyListService: StoryListService
   ) {}
 
   ngAfterViewInit(): void {
@@ -96,7 +96,9 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   public selectStory(story: Story): void {
     this.route.navigate([url(story.title), story.id], { relativeTo: this.activatedRoute });
   }
-
+  public filterFirstStory(story: Story): boolean {
+    return story.id !== this.firstStory?.id;
+  }
   protected selectFirstStory(): void {
     if (this.selectedStory != null) {
       return;
@@ -105,7 +107,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
       this.firstStory.story.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
       return;
     }
-
     if (this.stories?.length > 0) {
       this.selectedStory = this.stories[0];
     }

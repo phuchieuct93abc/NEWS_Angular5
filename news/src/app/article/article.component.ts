@@ -10,7 +10,7 @@ import { Story } from '../../../../model/Story';
 import { ArticleService } from '../shared/article.service';
 import { readArticle } from '../store/article-history.feature';
 import { configFeature } from '../store/config.reducer';
-import { loadedStoriesFeature } from '../store/story.reducer';
+import { storyFeature } from '../store/story.reducer';
 import { StoryListService } from '../story/story-list/story-list.service';
 import { DomService } from './dom.service';
 import ArticleImageParser from './parsers/article-image.parser';
@@ -84,7 +84,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       const category = params.category as string;
       const id = params.id as string;
 
-      this.selectedStory$ = this.store.select(loadedStoriesFeature.selectLoadedStoriesState).pipe(
+      this.selectedStory$ = this.store.select(storyFeature.selectStoryMap).pipe(
         filter((loadedStories) => loadedStories[category]?.[id] != null),
         map((stories) => Object.assign(new Story(), stories[category][id])),
         map((selectedStory) => ({

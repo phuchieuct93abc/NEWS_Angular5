@@ -1,24 +1,26 @@
-<div class="mat-h1">
-  <a [routerLink]="category.name">{{ category.title }}</a>
-</div>
-<div *ngIf="stories.length; else loading" @opacityNgIf>
-  <div class="gap-4 flex flex-wrap categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded ? 'expand' : 'collapse'">
-    <app-story
-      [category]="category.name"
-      *ngFor="let story of stories | slice: 0:maximumStories"
-      [story]="story"
-      class="flex-auto w-full lg:w-5/12"></app-story>
-    <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
+<ng-container *ngIf="stories$ | async as stories">
+  <div class="mat-h1">
+    <a [routerLink]="category.name">{{ category.title }}</a>
   </div>
-  <div class="text-center">
-    <a mat-button class="caption" color="primary" (click)="toggleExpand()">{{ isExpanded ? 'Thu gọn' : 'Xem Thêm' }}</a>
+  <div *ngIf="stories.length; else loading" @opacityNgIf>
+    <div class="gap-4 flex flex-wrap categories-wrapper" [class.completed]="isExpanded != null" [@expand]="isExpanded ? 'expand' : 'collapse'">
+      <app-story
+        [category]="category.name"
+        *ngFor="let story of stories | slice: 0:maximumStories"
+        [story]="story"
+        class="flex-auto w-full lg:w-5/12"></app-story>
+      <div class="blur-bottom blur-edge" *ngIf="!isExpanded"></div>
+    </div>
+    <div class="text-center">
+      <a mat-button class="caption" color="primary" (click)="toggleExpand()">{{ isExpanded ? 'Thu gọn' : 'Xem Thêm' }}</a>
+    </div>
   </div>
-</div>
-<ng-template #loading>
-  <div class="p-2 text-center">
-    <span class="mat-h3">Đang tải</span>
-    <button class="loading_icon icon spin-icon" mat-icon-button aria-label="Đang tải">
-      <mat-icon>cached</mat-icon>
-    </button>
-  </div>
-</ng-template>
+  <ng-template #loading>
+    <div class="p-2 text-center">
+      <span class="mat-h3">Đang tải</span>
+      <button class="loading_icon icon spin-icon" mat-icon-button aria-label="Đang tải">
+        <mat-icon>cached</mat-icon>
+      </button>
+    </div>
+  </ng-template>
+</ng-container>

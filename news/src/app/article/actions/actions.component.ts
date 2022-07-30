@@ -89,7 +89,6 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
     this.onClosed.emit();
   }
   changeShowIframe(showIframe: boolean): void {
-    console.log('onchange');
     this.store.dispatch(updateConfigAction({ viewInSource: showIframe }));
   }
 
@@ -100,7 +99,6 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   }
 
   onClickReader(): void {
-    console.log('click');
     this.showIframe$.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((showIframe) => {
       this.store.dispatch(updateConfigAction({ viewInSource: !showIframe }));
     });

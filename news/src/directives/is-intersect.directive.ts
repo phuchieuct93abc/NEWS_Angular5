@@ -1,22 +1,39 @@
-import { Directive, Output, ElementRef, EventEmitter, AfterViewInit, Inject } from '@angular/core';
+import { Directive, Output, ElementRef, EventEmitter, AfterViewInit, Inject, OnDestroy } from '@angular/core';
+import { asyncScheduler, debounceTime, filter, Subject } from 'rxjs';
 import { IS_NODE } from './../app/shared/const';
 
 @Directive({
   selector: '[appIsIntersect]',
 })
-export class IsIntersectDirective implements AfterViewInit {
+export class IsIntersectDirective implements AfterViewInit, OnDestroy {
   @Output()
   public appIsIntersect = new EventEmitter<boolean>();
+  private onDestroy$ = new Subject<void>();
+  private intersect$ = new Subject<boolean>();
 
-  public constructor(private element: ElementRef, @Inject(IS_NODE) private isNode: boolean) {}
+  private observer: IntersectionObserver;
+  public constructor(private element: ElementRef<HTMLElement>, @Inject(IS_NODE) private isNode: boolean) {}
 
   public ngAfterViewInit(): void {
     if (this.isNode) {
       return;
     }
-    new IntersectionObserver((data) => this.appIsIntersect.emit(data[0].isIntersecting), {
-      threshold: 0.1,
-      rootMargin: '200px',
-    }).observe(this.element.nativeElement);
+    this.observer = new IntersectionObserver(
+      ([data]) => {
+        console.log(data);
+        this.intersect$.next(data.isIntersecting);
+      },
+      {
+        rootMargin: '200px',
+      }
+    );
+    this.observer.observe(this.element.nativeElement);
+    this.intersect$.pipe(filter((intersecting) => intersecting)).subscribe((intersect) => this.appIsIntersect.emit(intersect));
+  }
+
+  ngOnDestroy(): void {
+    this.observer.disconnect();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

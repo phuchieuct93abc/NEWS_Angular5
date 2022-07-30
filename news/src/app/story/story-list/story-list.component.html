@@ -13,7 +13,7 @@
       [category]="category"
       (onSelectedStory)="onSelectedStory($event)"
       #story
-      *ngFor="let item of stories; trackBy: trackByFn"
+      *ngFor="let item of stories | filter:filterFirstStory.bind(this); trackBy: trackByFn"
       [story]="item"
       class="block pb-2"></app-story>
 

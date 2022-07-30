@@ -1,11 +1,11 @@
-<ng-container *ngFor="let item of [category]">
+<ng-container *ngFor="let item of [category$ | async]">
   <ng-container *ngFor="let item2 of [smallImageConfig$ | async]">
     <app-story-list
       *ngIf="!isSmallScreen"
       [stories]="stories$ | async"
       [firstStory]="openingStory"
       (loadMoreStories)="loadMoreStories()"
-      [category]="category">
+      [category]="category$ | async">
     </app-story-list>
     
     <app-mobile-story-list
@@ -13,7 +13,7 @@
       [stories]="stories$ | async"
       [firstStory]="openingStory"
       (loadMoreStories)="loadMoreStories()"
-      [category]="category">
+      [category]="category$ | async">
     </app-mobile-story-list>
 
   </ng-container>

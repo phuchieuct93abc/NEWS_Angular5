@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
-import { filter, map, mergeMap, tap } from 'rxjs';
+import { filter, map, mergeMap, switchMap, tap } from 'rxjs';
 import { Story } from '../../../../model/Story';
 import { StoryService } from '../shared/story.service';
 
@@ -58,18 +58,13 @@ export class StoryEffect {
   loadMoreStories$ = createEffect(() =>
     this.action.pipe(
       ofType(loadMoreStory),
+      tap(() => console.log('loadmore')),
       concatLatestFrom(() => this.store.select(storyFeature.selectStoryFeatureState)),
       filter(([, { category }]) => !!category),
-      tap(() => console.log('loadmore')),
-      mergeMap(([, state]) => this.storyService.getStoryByPage(state.category, state.currentPageNumber, state.currentPayload)),
+      switchMap(([, state]) => this.storyService.getStoryByPage(state.category, state.currentPageNumber, state.currentPayload)),
       map(({ story, payload }) => addStoriesAction({ story, payload }))
     )
   );
-  // onChangeCategory$ = createEffect(() =>
-  //   this.action.pipe(
-  //     ofType(onChangeCategory),
-  //     map(() => loadMoreStory())
-  //   )
-  // );
+
   constructor(private action: Actions, private storyService: StoryService, private store: Store) {}
 }

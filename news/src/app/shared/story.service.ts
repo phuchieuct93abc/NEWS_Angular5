@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, retry, tap } from 'rxjs/operators';
+import { finalize, map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
 import environment from '../../environments/environment';
 import { LoadingEventName, LoadingEventType, LoadingService } from './loading.service';
@@ -34,6 +34,7 @@ export class StoryService {
         },
       })
       .pipe(
+        finalize(() => console.log('finally')),
         retry(3),
         tap(() =>
           this.loadingService.onLoading.next({
@@ -41,7 +42,7 @@ export class StoryService {
             name: LoadingEventName.MORE_STORY,
           })
         ),
-
+        tap(() => console.log('has data')),
         map((result) => ({ payload: result.payload, story: result.story.map((r) => Object.assign(new Story(), r)) }))
       );
   }

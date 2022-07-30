@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, merge, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, mergeMap, shareReplay, takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature } from 'src/app/store/config.reducer';
 import { loadMoreStory, storyFeature } from 'src/app/store/story.reducer';
@@ -21,14 +21,14 @@ import { IS_NODE } from './../../shared/const';
   styleUrls: ['./story-list-management.component.scss'],
 })
 export class StoryListManagementComponent implements OnInit, OnDestroy {
-  public stories$ = this.store.select(storyFeature.selectStories).pipe(map((stories) => {}));
+  public stories$ = this.store.select(storyFeature.selectStories);
 
   public openingStory: { id: string; story?: Observable<Story>; category: string } | null = null;
 
   public isLoading = false;
 
   public smallImageConfig$ = this.store.select(configFeature.selectSmallImage).pipe(distinctUntilChanged());
-  public category$ = this.store.select(storyFeature.selectCategory).pipe(tap(() => this.resetStoryList()));
+  public category$ = this.store.select(storyFeature.selectCategory);
   protected buffer: Story[] = [];
 
   private onDestroy$ = new Subject<void>();
@@ -58,11 +58,15 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
   }
 
   public loadFirstStory(): void {
-    const { id, category } = this.route.children[0].snapshot?.params as { id: string; category: string };
-    if (id == null) {
-      return;
-    }
-    this.openingStory = { id, category, story: this.getFirstStory().pipe(shareReplay({ refCount: false, bufferSize: 1 })) };
+    this.category$.pipe(takeUntil(this.onDestroy$)).subscribe((category) => {
+      console.log('combine');
+      const id = this.route.children?.[0]?.snapshot?.paramMap?.get('id');
+      if (id == null) {
+        this.openingStory = null;
+      } else {
+        this.openingStory = { id, category, story: this.getFirstStory().pipe(shareReplay({ refCount: false, bufferSize: 1 })) };
+      }
+    });
   }
 
   public loadMoreStories(): void {
@@ -81,9 +85,10 @@ export class StoryListManagementComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  protected resetStoryList(): void {
-    console.log('reset');
-    this.openingStory = null;
+  protected resetStoryList(category: string): void {
+    if (this.openingStory?.category !== category) {
+      this.openingStory = null;
+    }
   }
 
   private updateStoryList() {

@@ -3,11 +3,11 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
 import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, filter, first, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import environment from '../environments/environment';
 import { AppService } from './app.service';
@@ -16,7 +16,6 @@ import { CheckForUpdateService } from './shared/checkForUpdate.service';
 import { IS_NODE } from './shared/const';
 import { LoadingEventType, LoadingService } from './shared/loading.service';
 import { configFeature } from './store/config.reducer';
-import { onChangeCategory } from './store/story.reducer';
 import vars from './variable';
 
 @Component({

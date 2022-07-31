@@ -33,13 +33,13 @@ export const storyFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(addStoriesAction, (state, { story: newStories, payload }) => {
-      const unDuplicatedNewStories = [...newStories].filter((s) => state.stories.findIndex((existedStory) => existedStory.id === s.id) > 0 - 1);
+      const unDuplicatedNewStories = [...newStories].filter((s) => state.storyMap[state.category]?.[s.id] == null);
       const stories = [...state.stories, ...unDuplicatedNewStories];
       const storiesMap = unDuplicatedNewStories.reduce((prev, current) => {
         prev[current.id] = current;
         return prev;
       }, {});
-      const storiesMapState = { ...state.storyMap[state.category], ...storiesMap };
+      const storiesMapState = { [state.category]: { ...state.storyMap[state.category], ...storiesMap } };
       return {
         ...state,
         currentPageNumber: state.currentPageNumber + 1,

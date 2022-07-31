@@ -20,7 +20,6 @@ export class IsIntersectDirective implements AfterViewInit, OnDestroy {
     }
     this.observer = new IntersectionObserver(
       ([data]) => {
-        console.log(data);
         this.intersect$.next(data.isIntersecting);
       },
       {

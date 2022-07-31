@@ -32,13 +32,14 @@ export const storyFeature = createFeature({
   name: 'StoryFeature',
   reducer: createReducer(
     initialState,
-    on(addStoriesAction, (state, { story, payload }) => {
-      const stories = [...state.stories, ...story];
-      const storiesMap = story.reduce((prev, current) => {
+    on(addStoriesAction, (state, { story: newStories, payload }) => {
+      const unDuplicatedNewStories = [...newStories].filter((s) => state.storyMap[state.category]?.[s.id] == null);
+      const stories = [...state.stories, ...unDuplicatedNewStories];
+      const storiesMap = unDuplicatedNewStories.reduce((prev, current) => {
         prev[current.id] = current;
         return prev;
       }, {});
-      const storiesMapState = { ...state.storyMap[state.category], ...storiesMap };
+      const storiesMapState = { [state.category]: { ...state.storyMap[state.category], ...storiesMap } };
       return {
         ...state,
         currentPageNumber: state.currentPageNumber + 1,
@@ -47,7 +48,7 @@ export const storyFeature = createFeature({
         storyMap: { ...storiesMapState },
       };
     }),
-    on(onChangeCategory, (state, { category }) => ({ ...initialState, category }))
+    on(onChangeCategory, (_state, { category }) => ({ ...initialState, category }))
   ),
 });
 

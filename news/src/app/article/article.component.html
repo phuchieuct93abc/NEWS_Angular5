@@ -4,7 +4,7 @@
   (down)="scrollDown()"
   (left)="prevArticle()"
   (right)="nextArticle()"
-  class="h-full article relative mat-elevation-z8"
+  class="h-full article relative mat-elevation-z8 rounded-lg overflow-hidden"
   [ngStyle]="{ 'font-size.px': fontSize$ | async }"
   #rootArticle>
   <div class="navigator navigator-prev">

@@ -99,7 +99,7 @@ body:not(.mobile-device) {
     .scrollable,
     .vertical.selfScroll {
       &::-webkit-scrollbar {
-        width: 5px;
+        // width: 5px;
       }
 
       /* background of the scrollbar except button or resizer */

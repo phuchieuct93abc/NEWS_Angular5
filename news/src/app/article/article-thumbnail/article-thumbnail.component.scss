@@ -42,7 +42,6 @@
   position: sticky;
   margin-left: -8px;
   margin-right: -8px;
-  overflow: hidden;
 
   .sticky-wrapper {
     background: none;
@@ -58,6 +57,7 @@
     padding: 0 1rem;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+    overflow: hidden;
     @include mat-elevation(5);
 
     .article-header {

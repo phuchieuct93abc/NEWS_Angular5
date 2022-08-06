@@ -1,78 +1,85 @@
 @import '@angular/material/theming';
 
 $card-height: 120px;
+:host{
+  padding-bottom: 0.25rem;
 
-.mat-card {
-  cursor: pointer;
-  height: $card-height;
-  overflow: hidden;
+  .desktop-story {
+    margin-bottom: 0.25rem;
 
-  .card-content {
-    display: grid;
-    grid-template: 1fr 40px / #{$card-height} 1fr;
-    grid-template-areas: 'thumbnail title' 'thumbnail metadata';
-    height: 100%;
-    gap: 10px;
-
-    .image-viewer {
-      grid-area: thumbnail;
-      border-radius: 4px;
+    cursor: pointer;
+    height: $card-height;
+    overflow: hidden;
+  
+    .card-content {
+      display: grid;
+      grid-template: 1fr 40px / #{$card-height} 1fr;
+      grid-template-areas: 'thumbnail title' 'thumbnail metadata';
+      height: 100%;
+      column-gap: 10px;
+  
+      .image-viewer {
+        grid-area: thumbnail;
+        border-radius: 4px;
+      }
+      .title {
+        grid-area: title;
+        font-size: 1.1rem;
+        overflow: hidden;
+        line-height: 1.3em !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: max-content;
+      }
+      .metadata {
+        grid-area: metadata;
+      }
     }
+  
+    &.desktop-story {
+      &:hover ::ng-deep .image-viewer img.image {
+        transform: scale(1.1);
+      }
+    }
+    &.is-read:not(.active) {
+      opacity: 0.7;
+    }
+  
+    .last-child {
+      margin-bottom: 0;
+    }
+  
     .title {
-      grid-area: title;
+      transition: var(--text-transition);
       font-size: 1.1rem;
       overflow: hidden;
-      line-height: 1.3em !important;
-      display: -webkit-box !important;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      height: max-content;
     }
-    .metadata {
-      grid-area: metadata;
+  
+    &.active {
+      background-color: var(--background-color-2) !important;
+      opacity: 1 !important;
     }
-  }
-
-  &.desktop-story {
-    &:hover ::ng-deep .image-viewer img.image {
-      transform: scale(1.1);
+  
+    &:hover,
+    &.active {
+      // @include mat-elevation(5);
+  
+      .title {
+        color: var(--highlight-color) !important;
+      }
     }
-  }
-  &.is-read:not(.active) {
-    opacity: 0.7;
-  }
-
-  .last-child {
-    margin-bottom: 0;
-  }
-
-  .title {
-    transition: var(--text-transition);
-    font-size: 1.1rem;
-    overflow: hidden;
-  }
-
-  &.active {
-    background-color: var(--background-color-2) !important;
-    opacity: 1 !important;
-  }
-
-  &:hover,
-  &.active {
-    @include mat-elevation(5);
-
+  
+    &.active {
+      background-color: #e5e5e5;
+    }
+  
     .title {
-      color: var(--highlight-color) !important;
+      line-height: 1.3em !important;
     }
   }
 
-  &.active {
-    background-color: #e5e5e5;
-  }
-
-  .title {
-    line-height: 1.3em !important;
-  }
+  
 }

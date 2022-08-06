@@ -10,7 +10,13 @@
   padding: 0 1px;
   max-height: 100%;
 
+  overflow: hidden;
+  &.story-list-desktop{
+    background-color: rgba(74,74,77,0.7);
+    border-radius: 0.5rem;
+  }
+
   .blur-edge {
-    width: calc(100% - 5px);
+    width: 100%;
   }
 }

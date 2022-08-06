@@ -1,10 +1,10 @@
-<div class="h-full story-list">
+<div class="h-full story-list story-list-desktop">
   <div #scrollingBlock class="scrollable">
     <div class="blur-edge blur-top" *ngIf="stories && (this.scrollPosition$ | async) > 10"></div>
 
     <ng-container *ngIf="firstStory">
 
-      <app-story *ngIf="firstStory.story |async" [category]="category" (onSelectedStory)="onSelectedStory($event)" [story]="firstStory.story | async" class="block pb-2">
+      <app-story *ngIf="firstStory.story |async" [category]="category" (onSelectedStory)="onSelectedStory($event)" [story]="firstStory.story | async" class="block ">
       </app-story>
       <app-loading-story *ngIf="!(firstStory.story | async)" class="loading-story pb-2"></app-loading-story>
 
@@ -15,7 +15,7 @@
       #story
       *ngFor="let item of stories | filter:filterFirstStory.bind(this); trackBy: trackByFn"
       [story]="item"
-      class="block pb-2"></app-story>
+      class="block"></app-story>
 
     <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story pb-2"></app-loading-story>
     <ng-container *ngIf="stories.length < 5">

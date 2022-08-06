@@ -1,5 +1,5 @@
 <ng-container *ngIf="{ thumbnail: story.getThumbnail() } as data">
-  <mat-card
+  <div
     (click)="onSelectStory()"
     class="p-0 desktop-story"
     [class.active]="isActive$ | async"
@@ -12,5 +12,6 @@
       <div class="mt-sm-0 mt-1 mat-title mb-0 title mr-3">{{ story.title }}</div>
       <app-story-meta class="metadata" [story]="story"></app-story-meta>
     </mat-card-content>
-  </mat-card>
+  </div>
+  <mat-divider ></mat-divider>
 </ng-container>

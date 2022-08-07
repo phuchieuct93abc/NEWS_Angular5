@@ -1,6 +1,6 @@
-<div class="h-full story-list story-list-desktop">
+<div class="h-full story-list story-list-desktop rounded-lg">
   <div #scrollingBlock class="scrollable">
-    <div class="blur-edge blur-top" *ngIf="stories && (this.scrollPosition$ | async) > 10"></div>
+    <div class="blur-edge blur-top rounded-t-lg" *ngIf="stories && (this.scrollPosition$ | async) > 10"></div>
 
     <ng-container *ngIf="firstStory">
 
@@ -25,6 +25,6 @@
     <ng-template #loadingStory>
       <app-loading-story *ngFor="let i of loadingStories" class="loading-story pb-2"></app-loading-story>
     </ng-template>
-    <div class="blur-edge blur-bottom" *ngIf="stories"></div>
+    <div class="blur-edge blur-bottom rounded-b-lg" *ngIf="stories"></div>
   </div>
 </div>

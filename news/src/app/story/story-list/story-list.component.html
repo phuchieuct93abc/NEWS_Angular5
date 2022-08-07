@@ -6,7 +6,7 @@
 
       <app-story *ngIf="firstStory.story |async" [category]="category" (onSelectedStory)="onSelectedStory($event)" [story]="firstStory.story | async" class="block ">
       </app-story>
-      <app-loading-story *ngIf="!(firstStory.story | async)" class="loading-story pb-2"></app-loading-story>
+      <app-loading-story *ngIf="!(firstStory.story | async)" class="loading-story"></app-loading-story>
 
     </ng-container>
     <app-story
@@ -17,13 +17,13 @@
       [story]="item"
       class="block"></app-story>
 
-    <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story pb-2"></app-loading-story>
+    <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story"></app-loading-story>
     <ng-container *ngIf="stories.length < 5">
-      <app-loading-story *ngFor="let i of loadingStories" class="loading-story pb-2"></app-loading-story>
+      <app-loading-story *ngFor="let i of loadingStories" class="loading-story"></app-loading-story>
     </ng-container>
 
     <ng-template #loadingStory>
-      <app-loading-story *ngFor="let i of loadingStories" class="loading-story pb-2"></app-loading-story>
+      <app-loading-story *ngFor="let i of loadingStories" class="loading-story"></app-loading-story>
     </ng-template>
     <div class="blur-edge blur-bottom rounded-b-lg" *ngIf="stories"></div>
   </div>

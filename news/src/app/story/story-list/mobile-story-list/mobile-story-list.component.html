@@ -8,7 +8,7 @@
           [story]="firstStory.story | async"
           class="block story"
           [category]="category"></app-mobile-story>
-         <app-loading-story class="loading-story p-2" *ngIf="!(firstStory.story | async)"></app-loading-story>
+         <app-loading-story class="loading-story" *ngIf="!(firstStory.story | async)"></app-loading-story>
 
       </ng-container>
 
@@ -20,11 +20,11 @@
           class="block story"
           [category]="category"></app-mobile-story>
       </ng-container>
-     <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story p-2"></app-loading-story>
+     <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story"></app-loading-story>
     </div>
 
     <ng-container *ngIf="stories.length < 5">
-      <app-loading-story *ngFor="let i of loadingStories" class="loading-story p-2"></app-loading-story>
+      <app-loading-story *ngFor="let i of loadingStories" class="loading-story"></app-loading-story>
       <mat-divider></mat-divider>
     </ng-container>
     <div class="blur-edge blur-bottom" *ngIf="stories"></div>

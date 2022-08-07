@@ -165,19 +165,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   private loadArticle(article: Article) {
     this.article = article;
-    this.selectedStory$ = of({
-      articleCategory: article.category,
-      articleId: article.id,
-      externalUrl: article.externalUrl,
-      header: article.header,
-      sourceIcon: article.sourceIcon,
-      sourceName: article.sourceName,
-      thumbnail: article.getThumbnail(),
-    });
     this.articleService.onStorySelected.next(this.article);
     this.isOpeningArticle = this.story?.article !== undefined;
     this.afterGetArticle();
-    // this.iframeSource = this.article.
   }
 
   private parseImage() {

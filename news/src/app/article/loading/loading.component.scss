@@ -50,7 +50,7 @@
       .image-placeholder {
         height: $height;
         width: $height;
-        border-radius: 4px;
+        border-radius: 0.5rem;
         @extend %animated-background;
       }
 

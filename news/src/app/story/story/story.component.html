@@ -1,7 +1,7 @@
 <ng-container *ngIf="{ thumbnail: story.getThumbnail() } as data">
   <div
     (click)="onSelectStory()"
-    class="pt-2 pl-2 desktop-story"
+    class="pt-2 pl-2 desktop-story rounded-lg"
     [class.active]="isActive$ | async"
     [class.read]="story.id| isRead : category | async"
     [ngClass]="[ (story.id| isRead : category | async) ? 'is-read' : 'not-read']"

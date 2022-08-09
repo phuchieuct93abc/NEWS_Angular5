@@ -4,7 +4,6 @@ import FirebaseService from '../FirebaseService';
 
 export abstract class ArticleService<T> {
   protected category: string;
-  protected parser: ArticleParser<T>;
 
   abstract crawArticleById(id: string): Promise<Article>;
 

@@ -25,7 +25,9 @@ export default class DailyDevStoryService extends StoryService {
   }
   protected async getResponse() {
     const requestQuery = { ...query };
-    (requestQuery.variables as any).after = this.nextCursor;
+    if (this.nextCursor) {
+      (requestQuery.variables as any).after = this.nextCursor;
+    }
     const response = await axios({
       url,
       method: 'post',

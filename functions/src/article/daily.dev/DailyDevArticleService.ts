@@ -8,8 +8,6 @@ export class DailyDevArticleService extends ArticleService<any> {
     this.category = 'daily.dev';
   }
   crawArticleById(id: string): Promise<Article> {
-    this.parser = new DailyDevArticleParser(id);
-
     return new Promise((resolve) => {
       const diffbot = new Diffbot('91ffd6d42adc4e0b04c8b5279c10e44c');
       diffbot.article(
@@ -17,7 +15,7 @@ export class DailyDevArticleService extends ArticleService<any> {
           url: 'https://api.daily.dev/r/' + id,
         },
         (error, response) => {
-          resolve(this.parser.setData(response).parserArticle());
+          resolve(new DailyDevArticleParser(id).setData(response).parserArticle());
         }
       );
     });

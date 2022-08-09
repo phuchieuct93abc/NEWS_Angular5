@@ -13,7 +13,6 @@ export default class BaomoiArticleService extends ArticleService<BaomoiData> {
     'https://baomoi.com/api/v1/content/get/detail?id={id}&ctime=1624286388&version=0.1.7&sig={sig}&apiKey=kI44ARvPwaqL7v0KuDSM0rGORtdY1nnw';
   constructor(category: string) {
     super();
-    this.parser = new BaomoiArticleParser();
     this.category = category;
   }
 
@@ -23,7 +22,7 @@ export default class BaomoiArticleService extends ArticleService<BaomoiData> {
     const sig = createHmac('sha256', '882QcNXV4tUZbvAsjmFOHqNC1LpcBRKW').update(baseParamSign).digest('hex');
     url = url.replace('{sig}', sig);
     const response = await axios.get(url);
-    const article = this.parser.setData(response.data.data).parserArticle();
+    const article = new BaomoiArticleParser().setData(response.data.data).parserArticle();
     article.category = this.category;
     return article;
   }

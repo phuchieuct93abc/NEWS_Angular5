@@ -27,10 +27,4 @@ export default class BaomoiArticleService extends ArticleService<BaomoiData> {
     return article;
   }
 
-  async getComment(id: string): Promise<Comment[]> {
-    const url = `https://data.baomoi.com/comment.aspx?contentid=${id}&size=100`;
-    const response = await axios.get(url);
-
-    return response.data.result as Comment[];
-  }
 }

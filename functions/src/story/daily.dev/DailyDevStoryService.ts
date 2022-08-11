@@ -20,9 +20,6 @@ export default class DailyDevStoryService extends StoryService {
   queryStories(data: any): { payload?: any; story: any[] } {
     return { story: data, payload: { nextCursor: this.nextCursor } };
   }
-  search(pageNumber: string, keyword: string): Promise<Story[]> {
-    throw new Error('Method not implemented.');
-  }
   protected async getResponse() {
     const requestQuery = { ...query };
     if (this.nextCursor) {

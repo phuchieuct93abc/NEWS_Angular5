@@ -21,7 +21,4 @@ export class DailyDevArticleService extends ArticleService<any> {
       );
     });
   }
-  getComment(id: string): Promise<Comment[]> {
-    throw new Error('Method not implemented.');
-  }
 }

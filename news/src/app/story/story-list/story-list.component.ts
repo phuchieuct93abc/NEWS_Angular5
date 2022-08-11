@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -17,11 +16,11 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
-import { map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
 import * as url from 'speakingurl';
 import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
-import { IS_MOBILE, IS_NODE } from './../../shared/const';
+import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
 
 @Component({
@@ -51,6 +50,14 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   protected onDestroy$ = new Subject<void>();
 
   private _selectedStory: Story;
+
+  constructor(
+    private storyListService: StoryListService,
+    @Inject(IS_NODE) public isNode: boolean,
+    protected activatedRoute: ActivatedRoute,
+    protected route: Router
+  ) {}
+
   public get selectedStory(): Story {
     return this._selectedStory;
   }
@@ -58,13 +65,6 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
     this._selectedStory = value;
     this.selectStory(value);
   }
-
-  constructor(
-    @Inject(IS_NODE) public isNode: boolean,
-    protected activatedRoute: ActivatedRoute,
-    protected route: Router,
-    private storyListService: StoryListService
-  ) {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -132,15 +132,15 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
   }
 
   private registerPrevAndNext() {
-    merge(this.storyListService.onPrev().pipe(mapTo(-1)), this.storyListService.onNext().pipe(mapTo(1), takeUntil(this.onDestroy$))).subscribe(
-      (adj) => {
+    merge(this.storyListService.onPrev().pipe(map(() => -1)), this.storyListService.onNext().pipe(map(() => 1)))
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((adj) => {
         if (this.stories.length === 0) {
           return;
         }
         const index = Math.max(0, this.stories.indexOf(this.selectedStory) + adj);
         this.selectedStory = this.stories[index];
         this.scrollTo(this.stories[index]);
-      }
-    );
+      });
   }
 }

@@ -7,8 +7,6 @@ export abstract class ArticleService<T> {
 
   abstract crawArticleById(id: string): Promise<Article>;
 
-  abstract getComment(id: string): Promise<Comment[]>;
-
   public async getArticleById(id: string): Promise<Article> {
     const firebaseArticle = await FirebaseService.findArticle(id, this.category);
     if (firebaseArticle?.exists) {

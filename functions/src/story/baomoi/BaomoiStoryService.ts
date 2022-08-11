@@ -31,14 +31,4 @@ export default class BaomoiStoryService extends StoryService {
     return new BaomoiStoryService(url, category);
   }
 
-  async search(pageNumber: string, keyword: string): Promise<Story[]> {
-    let searchUrl = encodeURI(`${CONFIG.baomoiUrl}tim-kiem/${keyword}/trang${pageNumber}.epi`);
-
-    const response = await axios.get(searchUrl);
-    const dom = new JSDOM(response.data);
-    const result: HTMLCollection = dom.window.document.getElementsByClassName('story');
-    return Array.from(result)
-      .map((r) => this.storyParser.setData(r).parseStory())
-      .filter((r) => r != null);
-  }
 }

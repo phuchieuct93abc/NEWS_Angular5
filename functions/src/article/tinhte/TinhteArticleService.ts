@@ -24,9 +24,6 @@ export default class TinhteArticleService extends ArticleService<TinhteData> {
     return article;
   }
 
-  async getComment(): Promise<Comment[]> {
-    return [];
-  }
 
   protected async transformCachedArticle(firebaseArticle: Article): Promise<Article> {
     let articleText = JSON.stringify(firebaseArticle);

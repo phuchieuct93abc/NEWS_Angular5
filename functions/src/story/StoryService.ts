@@ -75,6 +75,4 @@ export abstract class StoryService {
   }
 
   abstract queryStories(data: any): { payload?: any; story: any[] };
-
-  abstract search(pageNumber: string, keyword: string): Promise<Story[]>;
 }

@@ -21,10 +21,6 @@ export default class TinhteStoryService extends StoryService {
     return { story: data.data.threads };
   }
 
-  search(): Promise<Story[]> {
-    return undefined;
-  }
-
   public static async getOAuthToken(): Promise<string> {
     if (lastToken == null || lastTokenTime.getTime() + 5 * 60 * 1000 < new Date().getTime()) {
       const index = await axios.get('https://tinhte.vn');

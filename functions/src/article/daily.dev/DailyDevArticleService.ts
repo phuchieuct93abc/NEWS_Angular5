@@ -2,19 +2,20 @@ import Article from '../../../../model/Article';
 import { ArticleService } from '../ArticleService';
 import { Diffbot } from 'diffbot';
 import DailyDevArticleParser from './DailyDevArticleParser';
+import FirebaseService from '../../FirebaseService';
 export class DailyDevArticleService extends ArticleService<any> {
   constructor() {
     super();
     this.category = 'daily.dev';
   }
-  crawArticleById(id: string): Promise<Article> {
-    return new Promise((resolve) => {
-      const diffbot = new Diffbot('91ffd6d42adc4e0b04c8b5279c10e44c');
+  async crawArticleById(id: string): Promise<Article> {
+    return new Promise(async (resolve) => {
+      const diffbot = new Diffbot(await FirebaseService.getDiffBotCredential());
       diffbot.article(
         {
           url: 'https://api.daily.dev/r/' + id,
         },
-        (error, response) => {
+        (_, response) => {
           resolve(new DailyDevArticleParser(id).setData(response).parserArticle());
         }
       );

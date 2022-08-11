@@ -34,6 +34,11 @@ class FirebaseService {
     const articleCollection: FirebaseFirestore.CollectionReference = db.collection(`articles-${category}`);
     return articleCollection.doc(id).get();
   }
+
+  async getDiffBotCredential(): Promise<string> {
+    const token = await db.collection('diffbot').doc('token').get();
+    return token.data().value;
+  }
 }
 
 export default new FirebaseService();

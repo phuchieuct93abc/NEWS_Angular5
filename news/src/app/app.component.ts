@@ -82,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       this.thumbnail$ = this.articleService.onStorySelected.pipe(
         filter((article) => article != null),
         switchMap((article) => this.getBlurImageUrl(article.getThumbnail())),
-        shareReplay()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     this.isShowProgressBar$ = this.loadingService.onLoading.pipe(
@@ -95,17 +95,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   loadGoogleAnalytics(): void {
     if (this.isNode) {
       return;
-    }
-  }
-  public swipeRight(ev) {
-    if (this.isSmallDevice) {
-      if (this.sidebar.opened) {
-        return;
-      }
-      if (ev.center.x - ev.deltaX < vars.sideNavThreshold) {
-        this.sidebar.open();
-        ev.srcEvent.preventDefault();
-      }
     }
   }
 

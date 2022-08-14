@@ -1,21 +1,8 @@
-import { HammerGestureConfig } from '@angular/platform-browser';
+/* eslint-disable */
 import { Inject, Injectable } from '@angular/core';
-import environment from 'src/environments/environment';
+import { HammerGestureConfig } from '@angular/platform-browser';
 import { IS_NODE } from './shared/const';
 
-// const HammerLoader = () => import('hammerjs')
-
-// async initHammer () {
-//       const hammer = await Hammer().then(mod => mod.default || mod)
-//       const hammerEl = new hammer.Manager(this.$el)
-//       const Swipe = new hammer.Swipe()
-
-//       // Add the recognizer to the manager
-//       hammerEl.add(Swipe)
-//       hammerEl.on('swipe', (e) => {
-//         console.log(e)
-//       })
-// }
 declare const Hammer: any;
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -24,6 +11,8 @@ export class HammerConfig extends HammerGestureConfig {
   }
   public buildHammer(element: HTMLElement) {
     if (!this.isNode) {
+      delete Hammer.defaults.cssProps.userSelect;
+
       return new Hammer(element, {
         touchAction: 'pan-y',
       });

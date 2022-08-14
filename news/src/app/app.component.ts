@@ -82,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       this.thumbnail$ = this.articleService.onStorySelected.pipe(
         filter((article) => article != null),
         switchMap((article) => this.getBlurImageUrl(article.getThumbnail())),
-        shareReplay()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     this.isShowProgressBar$ = this.loadingService.onLoading.pipe(

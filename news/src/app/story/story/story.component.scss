@@ -7,6 +7,8 @@ $card-height: 120px;
 
     cursor: pointer;
     overflow: hidden;
+    background-color: var(--background-color-2) !important;
+    opacity: 1;
   
     .card-content {
       min-height: $card-height;
@@ -57,11 +59,7 @@ $card-height: 120px;
       overflow: hidden;
     }
   
-    &.active {
-      background-color: var(--background-color-2) !important;
-      opacity: 1 !important;
-    }
-  
+
     &:hover,
     &.active {
       // @include mat-elevation(5);

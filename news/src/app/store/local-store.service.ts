@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, switchMap, take, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { LocalStorageService } from '../shared/storage.service';
 import { ArticleHistoryData, articleHistoryFeature, loadArticleHistorySuccess } from './article-history.feature';
-import { Config, configFeature, updateConfigAction } from './config.reducer';
+import { Config, configFeature, initialConfigState, updateConfigAction } from './config.reducer';
 
 @Injectable()
 export class LocalStoreService {
@@ -29,10 +29,8 @@ export class LocalStoreService {
   load(): void {
     this.loadArticleHistory.pipe(switchMap(() => this.storeArticleHistory)).subscribe();
     this.localStorageService
-      .getItem<Config>('config', null)
+      .getItem<Config>('config', initialConfigState)
       .pipe(
-        filter((a) => !!a),
-        take(1),
         tap((config) => this.store.dispatch(updateConfigAction(config))),
         switchMap(() => this.storeConfig)
       )

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props } from '@ngrx/store';
-import { concatMap, map, mergeMap, switchMap } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 import { IS_MOBILE } from '../shared/const';
 import { LocalStorageService } from '../shared/storage.service';
 

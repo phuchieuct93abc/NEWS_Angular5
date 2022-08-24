@@ -7,7 +7,7 @@ import { LocalStorageConfig, localStorageSync } from 'ngrx-store-localstorage';
 import environment from 'src/environments/environment';
 import { ArticleEffect, articleHistoryFeature } from './article-history.feature';
 
-import { configFeature } from './config.reducer';
+import { ConfigEffect, configFeature } from './config.reducer';
 import { LocalStoreService } from './local-store.service';
 import { LoginEffect } from './login.effect';
 import { StoryEffect, storyFeature } from './story.reducer';
@@ -27,7 +27,7 @@ export const configStorage = (reducer: ActionReducer<any>): ActionReducer<any> =
     StoreModule.forFeature(configFeature),
     StoreModule.forFeature(articleHistoryFeature),
     StoreModule.forFeature(storyFeature),
-    EffectsModule.forRoot([ArticleEffect, LoginEffect, StoryEffect]),
+    EffectsModule.forRoot([ArticleEffect, LoginEffect, StoryEffect, ConfigEffect]),
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Demo App',

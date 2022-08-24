@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, switchMap, take, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, take, tap } from 'rxjs';
+import { IS_MOBILE } from '../shared/const';
 import { LocalStorageService } from '../shared/storage.service';
 import { ArticleHistoryData, articleHistoryFeature, loadArticleHistorySuccess } from './article-history.feature';
 import { Config, initialConfigState, updateConfigAction } from './config.reducer';
@@ -9,8 +10,7 @@ import { Config, initialConfigState, updateConfigAction } from './config.reducer
 export class LocalStoreService {
   private loadArticleHistory: Observable<unknown>;
   private storeArticleHistory: Observable<unknown>;
-  private storeConfig: Observable<unknown>;
-  constructor(private store: Store, private localStorageService: LocalStorageService) {
+  constructor(private store: Store, private localStorageService: LocalStorageService, @Inject(IS_MOBILE) public isSmallScreen: boolean) {
     this.loadArticleHistory = this.localStorageService
       .getItem('articleHistory', null)
       .pipe(tap((articleHistory) => articleHistory && this.store.dispatch(loadArticleHistorySuccess(articleHistory as ArticleHistoryData))));
@@ -25,7 +25,15 @@ export class LocalStoreService {
     this.loadArticleHistory.pipe(switchMap(() => this.storeArticleHistory)).subscribe();
     this.localStorageService
       .getItem<Config>('config', initialConfigState)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        map((config) => {
+          if (!this.isSmallScreen) {
+            return { ...config, darkTheme: true };
+          }
+          return config;
+        })
+      )
       .subscribe((config) => this.store.dispatch(updateConfigAction(config)));
   }
 }

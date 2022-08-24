@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { createAction, createFeature, createReducer, on, props } from '@ngrx/store';
-import { map, mergeMap } from 'rxjs';
+import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
+import { map, mergeMap, skip, switchMap, tap } from 'rxjs';
 import { IS_MOBILE } from '../shared/const';
 import { LocalStorageService } from '../shared/storage.service';
 
@@ -34,20 +34,14 @@ export const configFeature = createFeature({
   providedIn: 'root',
 })
 export class ConfigEffect {
-  $ = createEffect(
+  store$ = createEffect(
     () =>
-      this.$action.pipe(
-        ofType(updateConfigAction),
-        map((config) => {
-          if (!this.isSmallScreen) {
-            return { ...config, darkTheme: true };
-          }
-          return config;
-        }),
-        mergeMap((config) => this.localStorageService.setItem('config', config).pipe(map(() => config))),
-        map((config) => updateConfigAction(config))
+      this.store.select(configFeature.selectConfigState).pipe(
+        skip(1),
+        switchMap((config) => this.localStorageService.setItem('config', config))
       ),
     { dispatch: false }
   );
-  constructor(@Inject(IS_MOBILE) private isSmallScreen: boolean, private $action: Actions, private localStorageService: LocalStorageService) {}
+
+  constructor(private localStorageService: LocalStorageService, private store: Store) {}
 }

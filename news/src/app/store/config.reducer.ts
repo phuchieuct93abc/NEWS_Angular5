@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props } from '@ngrx/store';
-import { map } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 import { IS_MOBILE } from '../shared/const';
 import { LocalStorageService } from '../shared/storage.service';
 
@@ -44,9 +44,10 @@ export class ConfigEffect {
           }
           return config;
         }),
+        mergeMap((config) => this.localStorageService.setItem('config', config).pipe(map(() => config))),
         map((config) => updateConfigAction(config))
       ),
     { dispatch: false }
   );
-  constructor(@Inject(IS_MOBILE) private isSmallScreen: boolean, private $action: Actions) {}
+  constructor(@Inject(IS_MOBILE) private isSmallScreen: boolean, private $action: Actions, private localStorageService: LocalStorageService) {}
 }

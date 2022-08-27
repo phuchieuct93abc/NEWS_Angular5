@@ -30,6 +30,7 @@ $nav-height: 58px;
 
       > div {
         backdrop-filter: saturate(180%) blur(20px);
+        background-color: var(--navigator-color);
       }
       .breadcrumb-separator {
         color: var(--background-color-3);

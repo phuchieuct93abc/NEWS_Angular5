@@ -1,6 +1,9 @@
 <div class="flex wrapper h-14 items-center gap-4" #actionsElement>
   <div class="tts h-full flex-1">
-    <audio class="h-full w-full" controls preload="none" *ngIf="ttsAudioSource[0]" [src]="ttsAudioSource[0].link" type="audio/ogg"></audio>
+    <div class="flex h-full items-center">
+      <audio class=" w-full" controls preload="none" *ngIf="ttsAudioSource[0]" [src]="ttsAudioSource[0].link" type="audio/ogg"></audio>
+
+    </div>
   </div>
   <div class="text-right">
     <mat-button-toggle-group [value]="showIframe$ | async" (click)="onClickReader()" >

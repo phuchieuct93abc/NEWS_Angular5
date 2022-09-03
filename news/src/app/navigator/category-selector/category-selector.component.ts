@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
+import { configFeature, Theme, updateConfigAction } from 'src/app/store/config.reducer';
 import CategoryHelper, { Category } from '../../../../../model/Categories';
 import { Config } from './../../shared/config.service';
 
@@ -16,7 +16,7 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
   public vietnameseCategories: Category[];
   public englishCategories: Category[];
   public selectedCategory: Category;
-  public isDarkMode: boolean;
+  public theme: Theme;
   public isSmallImage: boolean;
   public config$: Observable<Config>;
   private onDestroy$ = new Subject<void>();
@@ -24,6 +24,7 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
   public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store) {}
   public ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   public ngOnInit() {
@@ -33,15 +34,15 @@ export class CategorySelectorComponent implements OnInit, OnDestroy {
     this.store
       .select(configFeature.selectConfigState)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(({ darkTheme, smallImage, category }) => {
-        this.isDarkMode = darkTheme;
+      .subscribe(({ theme, smallImage, category }) => {
+        this.theme = theme;
         this.isSmallImage = smallImage;
         this.selectedCategory = CategoryHelper.getCategory(category);
       });
   }
 
   public toggleDarkMode() {
-    this.store.dispatch(updateConfigAction({ darkTheme: this.isDarkMode }));
+    this.store.dispatch(updateConfigAction({ theme: this.theme }));
   }
 
   public toogleDisplay() {

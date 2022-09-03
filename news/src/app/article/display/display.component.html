@@ -1,7 +1,8 @@
 <mat-menu #menu="matMenu" [classList]="'mat-menu-display'" xPosition="before">
   <button *ngIf="isMobile" mat-menu-item (click)="$event.stopPropagation()" class="flex items-center">
     <span>Sáng</span>
-    <mat-slide-toggle class="mx-2" [ngModel]="(config$ | async).darkTheme" (ngModelChange)="toggleDarkMode($event)"></mat-slide-toggle>
+    TODO darkmode
+    <!-- <mat-slide-toggle class="mx-2" [ngModel]="(config$ | async).darkTheme" (ngModelChange)="toggleDarkMode($event)"></mat-slide-toggle> -->
     <span>Tối</span>
   </button>
 

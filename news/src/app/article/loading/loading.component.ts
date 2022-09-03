@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { configFeature } from 'src/app/store/config.reducer';
 
 @Component({
@@ -12,6 +12,6 @@ export class LoadingComponent implements OnInit {
   public isDarkTheme$: Observable<boolean>;
   public constructor(private store: Store) {}
   ngOnInit(): void {
-    this.isDarkTheme$ = this.store.select(configFeature.selectDarkTheme);
+    this.isDarkTheme$ = this.store.select(configFeature.selectTheme).pipe(map(() => true));
   }
 }

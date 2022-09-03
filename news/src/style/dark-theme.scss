@@ -28,6 +28,27 @@ $dark-background-light: rgb(74, 74, 77);
 $dark-background-gray: rgba(48, 48, 48, 1);
 $transparent: transparent;
 
+
+@media (prefers-color-scheme: dark) {
+  body.theme {
+    @include angular-material-color($dark-theme);
+  }
+}
+@media (prefers-color-scheme: light) {
+  body.theme {
+    @include lightTheme();
+  }
+}
+body.unicorn-dark-theme {
+  @include darkTheme();
+}
+
+body.unicorn-light-theme {
+  @include lightTheme();
+}
+
+
+
 .unicorn-dark-theme {
   @include angular-material-color($dark-theme);
   background-color: $dark-background-gray !important;

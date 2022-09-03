@@ -65,6 +65,7 @@ import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.co
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
 import { FilterPipe } from './shared/filter.pipe';
+import { ThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
 registerLocaleData(en);
 const isMobileProvider = {
   provide: IS_MOBILE,
@@ -148,6 +149,7 @@ const isMobileProvider = {
     SourceIframePipe,
     ArticleIframeComponent,
     FilterPipe,
+    ThemeSelectorComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

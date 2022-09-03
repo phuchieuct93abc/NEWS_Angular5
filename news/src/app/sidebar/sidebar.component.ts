@@ -17,31 +17,12 @@ import { configFeature, Theme, updateConfigAction } from '../store/config.reduce
 export class SidebarComponent {
   @Input()
   public isOpen: boolean;
-  public darkMode$ = this.store.select(configFeature.selectTheme);
   public isSmallImage$ = this.store.select(configFeature.selectSmallImage);
 
   public vietnameseCategories = CategoryHelper.vietnameseCategories();
   public englishCategories = CategoryHelper.englishCategories();
 
-  public themes = [
-    {
-      theme: Theme.PREFERENCE,
-      label: 'Tự động',
-    },
-    {
-      theme: Theme.DARK,
-      label: 'Tối',
-    },
-    {
-      theme: Theme.LIGHT,
-      label: 'Sáng',
-    },
-  ];
   public constructor(@Inject(IS_MOBILE) public isMobile: boolean, private store: Store, public auth: AngularFireAuth) {}
-
-  public toggleDarkMode(theme: Theme): void {
-    this.store.dispatch(updateConfigAction({ theme }));
-  }
 
   public toggleDisplay(smallImage: boolean): void {
     this.store.dispatch(updateConfigAction({ smallImage }));

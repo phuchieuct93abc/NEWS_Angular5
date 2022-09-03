@@ -1,22 +1,26 @@
-import { Inject, Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { createEffect } from '@ngrx/effects';
 import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
-import { map, mergeMap, skip, switchMap, tap } from 'rxjs';
-import { IS_MOBILE } from '../shared/const';
+import { skip, switchMap } from 'rxjs';
 import { LocalStorageService } from '../shared/storage.service';
 
 export interface Config {
-  darkTheme: boolean;
+  theme: Theme;
   category: string;
   smallImage: boolean;
   fontSize: number;
   viewInSource: boolean;
 }
+export enum Theme {
+  PREFERENCE,
+  DARK,
+  LIGHT,
+}
 
 export const updateConfigAction = createAction('[Config] Update Config', props<Partial<Config>>());
 export const updateConfigSuccessAction = createAction('[Config] Update Config Success');
 export const initialConfigState: Config = {
-  darkTheme: true,
+  theme: null,
   category: 'tin-nong',
   smallImage: true,
   fontSize: 15,

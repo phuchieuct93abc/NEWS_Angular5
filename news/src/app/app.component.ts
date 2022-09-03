@@ -15,7 +15,7 @@ import { ArticleService } from './shared/article.service';
 import { CheckForUpdateService } from './shared/checkForUpdate.service';
 import { IS_NODE } from './shared/const';
 import { LoadingEventType, LoadingService } from './shared/loading.service';
-import { configFeature } from './store/config.reducer';
+import { configFeature, Theme } from './store/config.reducer';
 import vars from './variable';
 
 @Component({
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public thumbnail$: Observable<string>;
   onDestroy$ = new Subject<void>();
 
-  private configStore$ = this.store.select(configFeature.selectDarkTheme);
+  private configStore$ = this.store.select(configFeature.selectTheme);
   public constructor(
     private router: Router,
     private articleService: ArticleService,
@@ -116,17 +116,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return of();
   }
 
-  public updateBodyClass(darkTheme: boolean) {
-    const className = darkTheme ? 'unicorn-dark-theme' : 'unicorn-light-theme';
-    this.renderer.removeClass(this.document.body, 'unicorn-dark-theme');
-    this.renderer.removeClass(this.document.body, 'unicorn-light-theme');
-    this.renderer.removeClass(this.document.body, 'mobile-device');
-    this.renderer.removeClass(this.document.body, 'desktop-device');
-    this.renderer.addClass(this.document.body, className);
+  public updateBodyClass(theme: Theme) {
+    const classes = {
+      [Theme.PREFERENCE]: 'theme',
+      [Theme.DARK]: 'unicorn-dark-theme',
+      [Theme.LIGHT]: 'unicorn-light-theme',
+    };
+
+    ['theme', 'unicorn-dark-theme', 'unicorn-light-theme', 'mobile-device', 'desktop-device'].forEach((cls) =>
+      this.renderer.removeClass(this.document.body, cls)
+    );
+
     if (this.isSmallDevice) {
       this.renderer.addClass(this.document.body, 'mobile-device');
+      this.renderer.addClass(this.document.body, classes[theme]);
     } else {
       this.renderer.addClass(this.document.body, 'desktop-device');
+      this.renderer.addClass(this.document.body, classes[Theme.DARK]);
     }
   }
 

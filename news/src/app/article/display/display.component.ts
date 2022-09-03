@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
 import { IS_MOBILE } from 'src/app/shared/const';
-import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
+import { configFeature, Theme, updateConfigAction } from 'src/app/store/config.reducer';
 import { ConfigService } from '../../shared/config.service';
 import { Config } from './../../shared/config.service';
 import { DestroySubscriber } from './../../shared/destroy-subscriber';
@@ -22,8 +22,8 @@ export class DisplayComponent extends DestroySubscriber {
     super();
   }
 
-  public toggleDarkMode(darkTheme: boolean): void {
-    this.store.dispatch(updateConfigAction({ darkTheme }));
+  public toggleDarkMode(theme: Theme): void {
+    this.store.dispatch(updateConfigAction({ theme }));
   }
 
   public changeFontSize({ value: fontSize }: MatSliderChange): void {

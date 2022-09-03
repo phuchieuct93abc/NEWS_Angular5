@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Giao dien</mat-label>
+  <mat-select (valueChange)="toggleDarkMode($event)" [value]="darkMode$ | async">
+    <mat-option *ngFor="let theme of themes" [value]="theme.theme">
+      {{theme.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

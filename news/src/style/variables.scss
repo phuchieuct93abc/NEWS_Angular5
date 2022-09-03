@@ -1,4 +1,9 @@
-body.unicorn-dark-theme {
+body {
+  --highlight-color: rgb(64, 196, 255);
+  --highlight-transparent-color: #40c4ff80;
+}
+
+@mixin darkThemeColor {
   --background-color-1: rgb(48, 48, 48); //background
   --background-color-1-code: 48, 48, 48; //background
 
@@ -8,11 +13,16 @@ body.unicorn-dark-theme {
   --background-color-transparent-2: rgb(74, 74, 77, 0); //content, active story
   --background-color-3: rgb(66, 66, 66); //story
   --background-color-4: transparent; //sidebar
-  --highlight-color: #40c4ff;
-  --foreground-color: rgba(255, 255, 255, 0.78);
-}
 
-body.unicorn-light-theme {
+  --foreground-color: rgba(255, 255, 255);
+
+  --panel-primary-background:#4a4a4d;
+  --panel-primary-color:#ffffffc7;
+  --navigator-color:rgba(66,66,66,0.72);
+
+
+}
+@mixin lightThemeColor {
   --background-color-1: rgb(250, 250, 250);
   --background-color-1-code: 250, 250, 250; //background
 
@@ -22,8 +32,17 @@ body.unicorn-light-theme {
   --background-color-transparent-2: rgb(229, 229, 229, 0);
   --background-color-3: rgb(255, 255, 255);
   --background-color-4: rgb(250, 250, 250); //sidebar
-  --highlight-color: #40c4ff;
+  --foreground-color: rgba(255, 255, 255, 0.78);
+
+  --panel-primary-background:white;
+  --panel-primary-color:#1b1b1a;
+  --navigator-color:rgba(255,255,255,0.72);
+
+
 }
+
+
+
 
 @mixin blur-edge($color, $transparent, $direction-start, $direction-end) {
   background: linear-gradient(to $direction-end, $color 0%, $transparent 100%);

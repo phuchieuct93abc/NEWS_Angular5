@@ -28,8 +28,8 @@ export class LocalStoreService {
       .pipe(
         take(1),
         map((config) => {
-          if (!this.isSmallScreen) {
-            return { ...config, darkTheme: true };
+          if (config.theme == null) {
+            return { ...config, theme: Theme.PREFERENCE };
           }
           return config;
         })

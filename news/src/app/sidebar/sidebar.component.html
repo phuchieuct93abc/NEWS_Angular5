@@ -10,7 +10,7 @@
   <div *ngIf="(auth.user| async) as user; else showLogin">
     <img class="w-8 rounded-full inline-block" [src]="user?.photoURL" referrerpolicy="no-referrer" alt="Google Avatar" />
     <span class="ml-3">{{ user.displayName}}</span>    
-    <button class="mt-3 block w-full" mat-stroked-button color="primary" (click)="logout()"> Đăng xuất</button>
+    <button class="mt-3 block w-full logout-btn" mat-stroked-button color="primary" (click)="logout()"> Đăng xuất</button>
   </div>
   <ng-template #showLogin>
     <button class="mt-3 block w-full" mat-stroked-button color="primary" (click)="login()"> Đăng nhập</button>

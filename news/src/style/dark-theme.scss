@@ -21,13 +21,17 @@ body{
     color: var(--panel-primary-color);
   }
 
+  display: none;
+  &.theme,&.unicorn-dark-theme,&.unicorn-light-theme{
+    display: block
+  }
+
 }
+
 
 @mixin darkTheme {
   @include mat.all-component-colors($my-dark-theme);
   @include darkThemeColor();
-
-  
 }
 @media (prefers-color-scheme: dark) {
   body.theme {

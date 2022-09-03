@@ -20,7 +20,7 @@ export enum Theme {
 export const updateConfigAction = createAction('[Config] Update Config', props<Partial<Config>>());
 export const updateConfigSuccessAction = createAction('[Config] Update Config Success');
 export const initialConfigState: Config = {
-  theme: Theme.PREFERENCE,
+  theme: null,
   category: 'tin-nong',
   smallImage: true,
   fontSize: 15,

@@ -4,7 +4,7 @@ import { filter, map, Observable, switchMap, take, tap } from 'rxjs';
 import { IS_MOBILE } from '../shared/const';
 import { LocalStorageService } from '../shared/storage.service';
 import { ArticleHistoryData, articleHistoryFeature, loadArticleHistorySuccess } from './article-history.feature';
-import { Config, initialConfigState, updateConfigAction } from './config.reducer';
+import { Config, initialConfigState, Theme, updateConfigAction } from './config.reducer';
 
 @Injectable()
 export class LocalStoreService {
@@ -24,7 +24,7 @@ export class LocalStoreService {
   load(): void {
     this.loadArticleHistory.pipe(switchMap(() => this.storeArticleHistory)).subscribe();
     this.localStorageService
-      .getItem<Config>('config', initialConfigState)
+      .getItem<Config>('config', { ...initialConfigState, theme: Theme.PREFERENCE })
       .pipe(
         take(1),
         map((config) => {

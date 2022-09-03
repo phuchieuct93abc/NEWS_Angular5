@@ -126,13 +126,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     ['theme', 'unicorn-dark-theme', 'unicorn-light-theme', 'mobile-device', 'desktop-device'].forEach((cls) =>
       this.renderer.removeClass(this.document.body, cls)
     );
-    const className = classes[theme];
 
-    this.renderer.addClass(this.document.body, className);
     if (this.isSmallDevice) {
       this.renderer.addClass(this.document.body, 'mobile-device');
+      this.renderer.addClass(this.document.body, classes[theme]);
     } else {
       this.renderer.addClass(this.document.body, 'desktop-device');
+      this.renderer.addClass(this.document.body, classes[Theme.DARK]);
     }
   }
 

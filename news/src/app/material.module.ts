@@ -16,7 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import { MatSelectModule } from '@angular/material/select';
 const modules = [
   MatInputModule,
   MatFormFieldModule,
@@ -35,6 +35,7 @@ const modules = [
   MatSnackBarModule,
   MatSliderModule,
   MatButtonToggleModule,
+  MatSelectModule,
 ];
 
 @NgModule({

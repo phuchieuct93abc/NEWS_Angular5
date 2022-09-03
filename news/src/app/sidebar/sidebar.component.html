@@ -23,7 +23,16 @@
     <div class="mat-h2">Giao diện</div>
 
     <mat-slide-toggle class="mb-3" [ngModel]="isSmallImage$ | async" (ngModelChange)="toggleDisplay($event)">Ảnh nhỏ</mat-slide-toggle>
-    <mat-slide-toggle class="mb-3" [ngModel]="isDarkMode$ | async" (ngModelChange)="toggleDarkMode($event)">Giao diện tối</mat-slide-toggle>
+    <mat-form-field appearance="fill">
+      <mat-label>Giao dien</mat-label>
+      <mat-select (valueChange)="toggleDarkMode($event)" [value]="darkMode$ | async">
+        <mat-option *ngFor="let theme of themes" [value]="theme.theme">
+          {{theme.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+   
+   
 
     <mat-divider class="mb-3"></mat-divider>
   </ng-container>

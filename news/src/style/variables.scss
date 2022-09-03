@@ -3,7 +3,7 @@ body {
   --highlight-transparent-color: #40c4ff80;
 }
 
-@mixin darkTheme {
+@mixin darkThemeColor {
   --background-color-1: rgb(48, 48, 48); //background
   --background-color-1-code: 48, 48, 48; //background
 
@@ -15,8 +15,14 @@ body {
   --background-color-4: transparent; //sidebar
 
   --foreground-color: rgba(255, 255, 255);
+
+  --panel-primary-background:#4a4a4d;
+  --panel-primary-color:#ffffffc7;
+  --navigator-color:rgba(66,66,66,0.72);
+
+
 }
-@mixin lightTheme {
+@mixin lightThemeColor {
   --background-color-1: rgb(250, 250, 250);
   --background-color-1-code: 250, 250, 250; //background
 
@@ -27,6 +33,12 @@ body {
   --background-color-3: rgb(255, 255, 255);
   --background-color-4: rgb(250, 250, 250); //sidebar
   --foreground-color: rgba(255, 255, 255, 0.78);
+
+  --panel-primary-background:white;
+  --panel-primary-color:#1b1b1a;
+  --navigator-color:rgba(255,255,255,0.72);
+
+
 }
 
 

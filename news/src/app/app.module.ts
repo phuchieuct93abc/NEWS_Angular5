@@ -3,9 +3,8 @@ import { isPlatformServer, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { AngularFireAuth, AngularFireAuthModule, PERSISTENCE, SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
+import { AngularFireAuthModule, PERSISTENCE, SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
@@ -42,8 +41,6 @@ import { NoopInterceptor } from './interceptor';
 import { ArticleIframeComponent } from './article/article-iframe/article-iframe.component';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from './material.module';
-import { CategorySelectorComponent } from './navigator/category-selector/category-selector.component';
-import { CategoryComponent } from './navigator/category-selector/category/category.component';
 import { NavigatorComponent } from './navigator/navigator.component';
 import { NotificationModule } from './notification/notification.module';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
@@ -124,10 +121,8 @@ const isMobileProvider = {
     TruncatePipe,
     SanitizeHtmlPipe,
     VideoComponent,
-    CategorySelectorComponent,
     MobileStoryComponent,
     DisplayComponent,
-    CategoryComponent,
     ActionsComponent,
     ShareComponent,
     DashboardComponent,

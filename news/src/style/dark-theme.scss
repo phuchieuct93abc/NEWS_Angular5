@@ -14,6 +14,8 @@ $my-dark-theme: mat.define-dark-theme($my-primary, $my-accent);
 
 body{
   @include lightThemeColor();
+  background-color: var(--background-color-1);
+
   .panel-primary {
     background-color: var(--panel-primary-background);
     color: var(--panel-primary-color);
@@ -24,7 +26,6 @@ body{
 @mixin darkTheme {
   @include mat.all-component-colors($my-dark-theme);
   @include darkThemeColor();
-  background-color: var(--background-color-1);
 
   
 }

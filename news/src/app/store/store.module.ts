@@ -6,7 +6,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import environment from 'src/environments/environment';
 import { ArticleEffect, articleHistoryFeature } from './article-history.feature';
 
-import { ConfigEffect, configFeature } from './config.reducer';
+import { configFeature } from './config.reducer';
 import { LoginEffect } from './login.effect';
 import { StoryEffect, storyFeature } from './story.reducer';
 
@@ -16,7 +16,7 @@ import { StoryEffect, storyFeature } from './story.reducer';
     StoreModule.forFeature(configFeature),
     StoreModule.forFeature(articleHistoryFeature),
     StoreModule.forFeature(storyFeature),
-    EffectsModule.forRoot([ArticleEffect, LoginEffect, StoryEffect, ConfigEffect]),
+    EffectsModule.forRoot([ArticleEffect, LoginEffect, StoryEffect]),
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       name: 'NgRx Demo App',

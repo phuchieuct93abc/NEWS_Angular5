@@ -1,8 +1,5 @@
-import { Injectable } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
-import { createAction, createFeature, createReducer, on, props, Store } from '@ngrx/store';
-import { skip, switchMap } from 'rxjs';
-import { LocalStorageService } from '../shared/storage.service';
+import { createAction, createFeature, on, props } from '@ngrx/store';
+import { createRehydrateReducer } from './reducer';
 
 export interface Config {
   theme: Theme;
@@ -19,6 +16,7 @@ export enum Theme {
 
 export const updateConfigAction = createAction('[Config] Update Config', props<Partial<Config>>());
 export const updateConfigSuccessAction = createAction('[Config] Update Config Success');
+
 export const initialConfigState: Config = {
   theme: null,
   category: 'tin-nong',
@@ -29,23 +27,9 @@ export const initialConfigState: Config = {
 
 export const configFeature = createFeature({
   name: 'config',
-  reducer: createReducer(
+  reducer: createRehydrateReducer(
+    'config',
     initialConfigState,
     on(updateConfigAction, (state, action) => ({ ...state, ...action }))
   ),
 });
-@Injectable({
-  providedIn: 'root',
-})
-export class ConfigEffect {
-  store$ = createEffect(
-    () =>
-      this.store.select(configFeature.selectConfigState).pipe(
-        skip(1),
-        switchMap((config) => this.localStorageService.setItem('config', config))
-      ),
-    { dispatch: false }
-  );
-
-  constructor(private localStorageService: LocalStorageService, private store: Store) {}
-}

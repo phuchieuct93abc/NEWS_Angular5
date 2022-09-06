@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { createAction, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
-import { mergeMap, map, tap } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { createAction, createFeature, createReducer, on, props } from '@ngrx/store';
+import { map, mergeMap, tap } from 'rxjs';
 import { ArticleHistoryService } from '../shared/article-history.service';
 export interface ArticleHistoryData {
   [key: string]: string[];

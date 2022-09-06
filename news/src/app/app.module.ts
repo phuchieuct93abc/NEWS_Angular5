@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import en from '@angular/common/locales/en';
 import { Injector, NgModule, PLATFORM_ID } from '@angular/core';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule, PERSISTENCE, SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
@@ -17,7 +18,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image'; // <-- include ScrollHo
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxSmoothParallaxModule } from 'ngx-smooth-parallax';
 import environment from 'src/environments/environment';
-import { AngularFireModule } from '@angular/fire/compat';
 import { IsIntersectDirective } from '../directives/is-intersect.directive';
 import { NavigationKeyboardDirective } from '../directives/navigation-keyboard.directive';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,8 +46,10 @@ import { NotificationModule } from './notification/notification.module';
 import { AppShellNoRenderDirective, AppShellRenderDirective } from './shared/appShellRender.directive';
 import { CapitalizeFirstPipe } from './shared/capitalizefirst.pipe';
 import { IS_MOBILE, IS_NODE } from './shared/const';
+import { FilterPipe } from './shared/filter.pipe';
 import { SanitizeHtmlPipe } from './shared/sanitize.pipe';
 import { SourceIframePipe } from './shared/sourceIframe.pipe';
+import { ThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
 import { ToNowPipe } from './shared/toNow.pipe';
 import { TruncatePipe } from './shared/trauncate.pipe';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -61,8 +63,6 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
-import { FilterPipe } from './shared/filter.pipe';
-import { ThemeSelectorComponent } from './shared/theme-selector/theme-selector.component';
 registerLocaleData(en);
 const isMobileProvider = {
   provide: IS_MOBILE,

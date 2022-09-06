@@ -18,7 +18,7 @@ export const updateConfigAction = createAction('[Config] Update Config', props<P
 export const updateConfigSuccessAction = createAction('[Config] Update Config Success');
 
 export const initialConfigState: Config = {
-  theme: null,
+  theme: Theme.PREFERENCE,
   category: 'tin-nong',
   smallImage: true,
   fontSize: 15,
@@ -28,7 +28,7 @@ export const initialConfigState: Config = {
 export const configFeature = createFeature({
   name: 'config',
   reducer: createRehydrateReducer(
-    'config',
+    'configuration',
     initialConfigState,
     on(updateConfigAction, (state, action) => ({ ...state, ...action }))
   ),

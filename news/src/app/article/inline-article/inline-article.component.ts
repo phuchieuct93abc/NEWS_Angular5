@@ -28,7 +28,7 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
   @Output()
   public onClosed = new EventEmitter();
   @ViewChild('articleBodyWrapper')
-  public articleView: ElementRef;
+  public articleView: ElementRef<HTMLElement>;
 
   public animationName = 'none';
   public isCollapseArticle = false;
@@ -69,7 +69,6 @@ export class InlineArticleComponent extends ArticleComponent implements OnDestro
 
   public animEnd($event: { toState: unknown }): void {
     if (!$event.toState) {
-
       this.onClosed.emit();
     }
   }

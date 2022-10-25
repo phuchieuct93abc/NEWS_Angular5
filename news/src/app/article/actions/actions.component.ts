@@ -13,8 +13,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { asyncScheduler, Observable, Subject } from 'rxjs';
-import { take, takeUntil, throttleTime } from 'rxjs/operators';
+import { asyncScheduler, combineLatest, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil, throttleTime } from 'rxjs/operators';
 import { IS_MOBILE } from 'src/app/shared/const';
 import { configFeature, updateConfigAction } from 'src/app/store/config.reducer';
 import environment from 'src/environments/environment';
@@ -38,8 +38,8 @@ import { IS_NODE } from './../../shared/const';
   ],
 })
 export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
-  // @Input()
-  // article: Article;
+  @Input()
+  articleElement: ElementRef<HTMLElement>;
 
   @Input()
   articleId: string;
@@ -48,7 +48,7 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   @Output()
   public onClosed = new EventEmitter<void>();
   @ViewChild('actionsElement')
-  public actionsElement: ElementRef;
+  public actionsElement: ElementRef<HTMLElement>;
 
   public isFixedTop = false;
   public isFixedTop$: Observable<boolean>;
@@ -74,6 +74,9 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
         duration: 10,
       },
     ];
+    if (changes.articleElement) {
+      this.registerStickyActions();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -105,16 +108,31 @@ export class ActionsComponent implements OnDestroy, OnChanges, AfterViewInit {
   }
 
   private registerStickyActions() {
-    if (!this.isMobile || this.isNode) {
+    if (!this.isMobile || this.isNode || this.articleElement == null) {
       return;
     }
-    this.isFixedTop$ = new Observable<boolean>((observer) => {
-      this.observerWindow = new IntersectionObserver((data: IntersectionObserverEntry[]) => {
-        if (data[0].target === this.actionsElement.nativeElement) {
-          observer.next(!data[0].isIntersecting);
-        }
-      }, this.intersectionConfig);
-      this.observerWindow.observe(this.actionsElement.nativeElement);
-    }).pipe(throttleTime(200, asyncScheduler, { leading: true, trailing: true }));
+    this.observerWindow?.disconnect();
+
+    const isActionBarVisible$ = new Observable<boolean>((observer) => {
+      const intersectObserver = new IntersectionObserver(([{ isIntersecting }]) => observer.next(isIntersecting), this.intersectionConfig);
+      intersectObserver.observe(this.actionsElement.nativeElement);
+      observer.add(() => {
+        intersectObserver.unobserve(this.actionsElement.nativeElement);
+        intersectObserver.disconnect();
+      });
+    });
+    const isArticleVisible$ = new Observable<boolean>((observer) => {
+      const intersectObserver = new IntersectionObserver(([{ isIntersecting }]) => observer.next(isIntersecting), this.intersectionConfig);
+      intersectObserver.observe(this.articleElement.nativeElement);
+      observer.add(() => {
+        intersectObserver.unobserve(this.articleElement.nativeElement);
+        intersectObserver.disconnect();
+      });
+    });
+
+    this.isFixedTop$ = combineLatest([isActionBarVisible$, isArticleVisible$]).pipe(
+      map(([isActionBarVisible, isArticleVisible]) => !isActionBarVisible && isArticleVisible),
+      throttleTime(200, asyncScheduler, { leading: true, trailing: true })
+    );
   }
 }

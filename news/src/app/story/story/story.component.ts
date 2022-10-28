@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
-import * as url from 'speakingurl';
+import * as speakingurl from 'speakingurl';
 import { IS_MOBILE, IS_NODE } from 'src/app/shared/const';
 import { Story } from '../../../../../model/Story';
 import { ConfigService } from '../../shared/config.service';
@@ -46,7 +46,6 @@ export class StoryComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.isActive$ = this.route.events.pipe(
-      takeUntil(this.onDestroy$),
       filter((event) => event instanceof NavigationEnd),
       map(() => this.activatedRoute.firstChild?.snapshot.params),
       startWith(this.activatedRoute.firstChild?.snapshot.params),
@@ -58,15 +57,17 @@ export class StoryComponent implements OnInit, OnDestroy {
 
           this.onSelectedStory.emit(this.story);
         }
-      })
+      }),
+      takeUntil(this.onDestroy$)
     );
 
     if (this.story.isOpenning) {
       this.selectStory();
     }
   }
-  public onSelectStory(): void {
-    this.route.navigate([this.category, url(this.story.title!) as string, this.story.id]);
+
+  url(text: string): string {
+    return speakingurl(text);
   }
 
   public getElement(): HTMLElement {

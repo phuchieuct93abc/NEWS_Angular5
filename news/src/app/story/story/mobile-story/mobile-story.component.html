@@ -1,14 +1,11 @@
 <mat-card
-  (click)="onSelectStory()"
   class="m-0 p-0"
-  [class.read]="story.id| isRead : category | async"
-  [routerLink]="[friendlyUrl, story.id]"
+  [class.read]="story.id | isRead: category | async"
   [class.active]="isActive$ | async"
-  [skipLocationChange]="true"
   [class.selected-before]="isSelectedBefore"
-  [ngClass]="[(isSmallImage$ | async) ? 'small-image' : 'large-image', (story.id| isRead : category | async) ? 'is-read' : 'not-read']">
+  [ngClass]="[(isSmallImage$ | async) ? 'small-image' : 'large-image', (story.id | isRead: category | async) ? 'is-read' : 'not-read']">
   <mat-card-content class="m-0 card-content p-2">
-    <div class="image p-0 pl-sm-1 pr-sm-1 inline-block" style="overflow: hidden">
+    <a class="image p-0 pl-sm-1 pr-sm-1 inline-block" style="overflow: hidden" [routerLink]="[friendlyUrl, story.id]">
       <app-image-viewer
         *ngIf="story.getThumbnail()"
         [imagePath]="story.getThumbnail()"
@@ -18,13 +15,18 @@
         [startOffsetParallax]="60"
         class="h-full w-full">
       </app-image-viewer>
-    </div>
+    </a>
 
-    <div class="flex mat-title mb-0 title">
+    <a class="flex mat-title mb-0 title text-inherit" [routerLink]="[friendlyUrl, story.id]">
       {{ story.title }}
-    </div>
+    </a>
     <app-story-meta [story]="story" class="meta"></app-story-meta>
-    <app-inline-article *ngIf="selected" (click)="$event.stopPropagation()" (onClosed)="close()" [story]="story" class="block content-article w-full overflow-hidden">
+    <app-inline-article
+      *ngIf="selected"
+      (click)="$event.stopPropagation()"
+      (onClosed)="close()"
+      [story]="story"
+      class="block content-article w-full overflow-hidden">
     </app-inline-article>
   </mat-card-content>
 </mat-card>

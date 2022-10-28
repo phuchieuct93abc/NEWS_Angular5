@@ -1,18 +1,21 @@
 <ng-container *ngIf="{ thumbnail: story.getThumbnail() } as data">
-  <div
-    (click)="onSelectStory()"
-    class="pt-2 pl-2 desktop-story rounded-lg"
+  <a
+    [routerLink]="['/', category, url(story.title), story.id]"
+    class="p-0 pt-2 pl-2 desktop-story rounded-lg block text-inherit"
     [class.active]="isActive$ | async"
-    [class.read]="story.id| isRead : category | async"
-    [ngClass]="[ (story.id| isRead : category | async) ? 'is-read' : 'not-read']"
+    [class.read]="story.id | isRead: category | async"
+    [ngClass]="[(story.id | isRead: category | async) ? 'is-read' : 'not-read']"
     matRipple>
     <mat-card-content class="card-content m-0">
-      <app-image-viewer *ngIf="data.thumbnail" class="image-viewer rounded-lg" [imagePath]="data.thumbnail" [hasVideo]="story.hasVideo"></app-image-viewer>
+      <app-image-viewer
+        *ngIf="data.thumbnail"
+        class="image-viewer rounded-lg"
+        [imagePath]="data.thumbnail"
+        [hasVideo]="story.hasVideo"></app-image-viewer>
 
       <div class="mt-sm-0 mt-1 mat-title mb-0 title mr-3">{{ story.title }}</div>
       <app-story-meta class="metadata" [story]="story"></app-story-meta>
     </mat-card-content>
     <mat-divider class="mt-2"></mat-divider>
-
-  </div>
+  </a>
 </ng-container>

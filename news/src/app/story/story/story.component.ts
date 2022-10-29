@@ -29,7 +29,6 @@ export class StoryComponent implements OnInit, OnDestroy {
   public selected = false;
 
   public configListener: Subscription;
-  public friendlyUrl: string;
   public isActive$: Observable<boolean>;
   private onDestroy$ = new Subject<void>();
 

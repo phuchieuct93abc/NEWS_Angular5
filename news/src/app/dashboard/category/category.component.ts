@@ -7,6 +7,7 @@ import { Story } from '../../../../../model/Story';
 import { opacityNgIf } from '../../animation';
 import { StoryService } from '../../shared/story.service';
 
+let queue = 0;
 @Component({
   selector: 'app-top-category',
   templateUrl: './category.component.html',
@@ -30,23 +31,23 @@ import { StoryService } from '../../shared/story.service';
     opacityNgIf,
   ],
 })
-export class TopCategoryComponent implements OnInit, OnDestroy {
+export class TopCategoryComponent implements OnInit {
   @Input()
   public category: Category;
   public stories$: Observable<Story[]>;
   public isExpanded = false;
   public loadingStories = Array(10).fill('');
   private readonly maximumStories = 10;
-  private onDestroy$ = new Subject<void>();
 
   public constructor(private storyService: StoryService) {}
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
 
   public ngOnInit(): void {
-    this.stories$ = this.storyService.getStoryByPage(this.category?.name, 1, null).pipe(map(({ story }) => [...story].slice(0, this.maximumStories)));
+    setTimeout(() => {
+      this.stories$ = this.storyService
+        .getStoryByPage(this.category?.name, 1, null)
+        .pipe(map(({ story }) => [...story].slice(0, this.maximumStories)));
+    }, queue * 1000);
+    queue++;
   }
 
   public toggleExpand(): void {

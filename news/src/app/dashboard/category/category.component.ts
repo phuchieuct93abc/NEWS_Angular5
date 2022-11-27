@@ -1,24 +1,38 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { finalize, map, take } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
+import { v4 as uuid } from 'uuid';
 import { Category } from '../../../../../model/Categories';
 import { Story } from '../../../../../model/Story';
 import { opacityNgIf } from '../../animation';
 import { StoryService } from '../../shared/story.service';
 
-class Queue {
-  queue: (() => void)[] = [];
-  checkAndRun$ = new Subject();
-  running = false;
+class Queue<T> {
+  private queue: { id: string; action: Observable<T> }[] = [];
+  private checkAndRun$ = new Subject();
+  private running = false;
+  private result = new Subject<{ id: string; result: T }>();
+
+  private onDestroy$ = new Subject<void>();
 
   constructor(private delay = 0) {
     this.checkAndRun$.subscribe(() => this.checkAndRun());
   }
 
-  scheduler(action: () => void) {
-    this.queue.push(action);
+  cancel() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  scheduler(action: Observable<T>): Observable<T> {
+    const id = uuid() as string;
+    this.queue.push({ id, action });
     this.checkAndRun();
+    return this.result.pipe(
+      filter(({ id: resultId }) => resultId === id),
+      map(({ result }) => result)
+    );
   }
   dequeue() {
     setTimeout(() => {
@@ -26,15 +40,19 @@ class Queue {
       this.checkAndRun();
     }, this.delay);
   }
-  private checkAndRun() {
-    if (!this.running) {
-      this.queue.shift()();
+  private checkAndRun(): void {
+    if (!this.running && this.queue.length > 0) {
+      const { id, action } = this.queue.shift();
+      action.pipe(takeUntil(this.onDestroy$)).subscribe((result) => {
+        this.result.next({ id, result });
+        this.dequeue();
+      });
       this.running = true;
     }
   }
 }
 
-const queue = new Queue(500);
+const queue = new Queue<Story[]>(0);
 @Component({
   selector: 'app-top-category',
   templateUrl: './category.component.html',
@@ -58,27 +76,30 @@ const queue = new Queue(500);
     opacityNgIf,
   ],
 })
-export class TopCategoryComponent implements OnInit {
+export class TopCategoryComponent implements OnInit, OnDestroy {
   @Input()
   public category: Category;
   public stories$: Observable<Story[]>;
   public isExpanded = false;
   public loadingStories = Array(10).fill('');
+
   private readonly maximumStories = 10;
+  private onDestroy$ = new Subject<void>();
 
   public constructor(private storyService: StoryService) {}
 
   public ngOnInit(): void {
-    queue.scheduler(() => {
-      this.stories$ = this.storyService.getStoryByPage(this.category?.name, 1, null).pipe(
-        map(({ story }) => [...story].slice(0, this.maximumStories)),
-        take(1),
-        finalize(() => queue.dequeue())
-      );
-    });
+    this.stories$ = queue.scheduler(
+      this.storyService.getStoryByPage(this.category?.name, 1, null).pipe(map(({ story }) => [...story].slice(0, this.maximumStories)))
+    );
   }
 
   public toggleExpand(): void {
     this.isExpanded = !this.isExpanded;
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+    queue.cancel();
   }
 }

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, retry, tap } from 'rxjs/operators';
 import { Story } from '../../../../model/Story';
@@ -15,7 +14,7 @@ const storyUrl = environment.asiaUrl + `story`;
 export class StoryService {
   public onSearch = new Subject<string>();
 
-  public constructor(private httpClient: HttpClient, private loadingService: LoadingService, private store: Store) {}
+  public constructor(private httpClient: HttpClient, private loadingService: LoadingService) {}
 
   public getStoryByPage(category: string, pageNumber: number, payload: string): Observable<{ story: Story[]; payload: string }> {
     this.loadingService.onLoading.next({ type: LoadingEventType.START, name: LoadingEventName.MORE_STORY });

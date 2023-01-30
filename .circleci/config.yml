@@ -50,9 +50,11 @@ workflows:
             only: 
               - master
               - angularfire
+              - fix-tinhte
       - build-server:
          filters:
           branches:
             only: 
               - master
               - angularfire
+              - fix-tinhte

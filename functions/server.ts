@@ -11,14 +11,14 @@ exports.app = functions
 
 exports.apissr = functions
   .runWith({
-    timeoutSeconds: 10,
+    timeoutSeconds: 20,
     memory: '1GB',
   })
   .https.onRequest(router);
 
 exports.api = functions
   .runWith({
-    timeoutSeconds: 10,
+    timeoutSeconds: 20,
     memory: '1GB',
   })
   .region('asia-northeast1')

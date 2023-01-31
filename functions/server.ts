@@ -7,6 +7,7 @@ exports.app = functions
     timeoutSeconds: 20,
     memory: '2GB',
   })
+  .region('asia-east2')
   .https.onRequest(app);
 
 exports.apissr = functions
@@ -14,6 +15,7 @@ exports.apissr = functions
     timeoutSeconds: 20,
     memory: '1GB',
   })
+  .region('asia-east2')
   .https.onRequest(router);
 
 exports.api = functions
@@ -21,5 +23,5 @@ exports.api = functions
     timeoutSeconds: 20,
     memory: '1GB',
   })
-  .region('asia-northeast1')
+  .region('asia-east2')
   .https.onRequest(router);

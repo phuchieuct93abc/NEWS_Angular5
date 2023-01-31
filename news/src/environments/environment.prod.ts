@@ -11,8 +11,8 @@ const environment = {
     measurementId: 'G-9ZSZ1636X5',
   },
   baseUrl: '/api/',
-  asiaUrl: 'https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/api/',
+  asiaUrl: 'https://asia-east2-angularhero-3b066.cloudfunctions.net/api/api/',
   production: true,
 };
-//    baseUrl: "https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/",
+//    baseUrl: "https://asia-east2-angularhero-3b066.cloudfunctions.net/api/",
 export default environment;

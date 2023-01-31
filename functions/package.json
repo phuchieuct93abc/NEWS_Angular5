@@ -4,7 +4,8 @@
     "setup": "npm install",
     "deploy": "firebase deploy --only functions",
     "build": "node copy-index && webpack",
-    "serve": "nodemon api.ts"
+    "serve": "nodemon api.ts",
+    "build:watch": "tsc -w"
   },
   "main": "dist/server.js",
   "dependencies": {

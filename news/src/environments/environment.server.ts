@@ -14,5 +14,5 @@ const environment = {
   asiaUrl: 'https://news.phuchieu.cf/api/',
   production: true,
 };
-//    baseUrl: "https://asia-northeast1-angularhero-3b066.cloudfunctions.net/api/",
+//    baseUrl: "https://asia-east2-angularhero-3b066.cloudfunctions.net/api/",
 export default environment;

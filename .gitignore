@@ -77,3 +77,4 @@ functions/.env
 test/
 **/dist/**
 news/.angular/**
+functions/key.json

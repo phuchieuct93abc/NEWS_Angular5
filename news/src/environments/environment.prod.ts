@@ -10,7 +10,7 @@ const environment = {
     messagingSenderId: '17159897246',
     measurementId: 'G-9ZSZ1636X5',
   },
-  baseUrl: '/api/',
+  baseUrl: 'https://asia-east2-angularhero-3b066.cloudfunctions.net/api/api/',
   asiaUrl: 'https://asia-east2-angularhero-3b066.cloudfunctions.net/api/api/',
   production: true,
 };

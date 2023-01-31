@@ -1,10 +1,11 @@
+import { AxiosInstance } from 'axios';
 import Article from '../../../model/Article';
 import { Story } from '../../../model/Story';
 import { ArticleService } from '../article/ArticleService';
 import NotificationService from '../notification/notification.service';
 import { StoryParser } from './StoryParser';
 
-const axios = require('axios');
+const axios: AxiosInstance = require('axios');
 
 export abstract class StoryService {
   readonly MAX_CACHE_NUMBER = 50;
@@ -38,7 +39,9 @@ export abstract class StoryService {
 
   protected async getResponse() {
     const url = await this.getUrl();
-    return axios.get(url).catch();
+    return axios.get(url).catch((response) => {
+      console.error(response);
+    });
   }
 
   public async cache(): Promise<any> {

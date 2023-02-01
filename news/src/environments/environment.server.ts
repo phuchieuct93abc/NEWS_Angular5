@@ -10,9 +10,9 @@ const environment = {
     messagingSenderId: '17159897246',
     measurementId: 'G-9ZSZ1636X5',
   },
-  baseUrl: 'https://asia-east2-angularhero-3b066.cloudfunctions.net/api/api/',
-  asiaUrl: 'https://asia-east2-angularhero-3b066.cloudfunctions.net/api/api/',
+  baseUrl: 'https://us-central1-angularhero-3b066.cloudfunctions.net/api/api/',
+  asiaUrl: 'https://us-central1-angularhero-3b066.cloudfunctions.net/api/api/',
   production: true,
 };
-//    baseUrl: "https://asia-east2-angularhero-3b066.cloudfunctions.net/api/",
+//    baseUrl: "https://us-central1-angularhero-3b066.cloudfunctions.net/api/",
 export default environment;

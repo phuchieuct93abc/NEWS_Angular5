@@ -37,7 +37,7 @@ export abstract class StoryService {
     }
   }
 
-  protected async getResponse() {
+  protected async getResponse(): Promise<any> {
     const url = await this.getUrl();
     return axios.get(url).catch((response) => {
       console.error(response);

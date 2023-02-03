@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import environment from 'src/environments/environment';
 import { ArticleHistoryData } from '../store/article-history.feature';
 
 @Injectable({
@@ -22,7 +23,7 @@ export class ArticleHistoryService {
       }),
       switchMap(({ token }) => {
         if (token) {
-          return this.httpClient.get<ArticleHistoryData>('/api/articles/read', { params: { googleId: token } });
+          return this.httpClient.get<ArticleHistoryData>(`${environment.baseUrl}api/articles/read`, { params: { googleId: token } });
         }
         throw new Error('No Google login');
       })
@@ -39,7 +40,7 @@ export class ArticleHistoryService {
       }),
       switchMap(({ token }) => {
         if (token) {
-          return this.httpClient.put('/api/articles/read', { articleId, categoryId }, { params: { googleId: token } });
+          return this.httpClient.put(`${environment.baseUrl}api/articles/read`, { articleId, categoryId }, { params: { googleId: token } });
         }
         return of();
       }),

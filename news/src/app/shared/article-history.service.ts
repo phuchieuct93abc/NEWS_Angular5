@@ -23,7 +23,7 @@ export class ArticleHistoryService {
       }),
       switchMap(({ token }) => {
         if (token) {
-          return this.httpClient.get<ArticleHistoryData>(`${environment.baseUrl}api/articles/read`, { params: { googleId: token } });
+          return this.httpClient.get<ArticleHistoryData>(`${environment.baseUrl}/articles/read`, { params: { googleId: token } });
         }
         throw new Error('No Google login');
       })
@@ -40,7 +40,7 @@ export class ArticleHistoryService {
       }),
       switchMap(({ token }) => {
         if (token) {
-          return this.httpClient.put(`${environment.baseUrl}api/articles/read`, { articleId, categoryId }, { params: { googleId: token } });
+          return this.httpClient.put(`${environment.baseUrl}/articles/read`, { articleId, categoryId }, { params: { googleId: token } });
         }
         return of();
       }),

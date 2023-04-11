@@ -1,10 +1,11 @@
+import { AxiosInstance } from 'axios';
 import { Story } from '../../../../model/Story';
 import { DailyDevArticleService } from '../../article/daily.dev/DailyDevArticleService';
 import { StoryService } from '../StoryService';
 import DailyDevStoryParser from './DailyDevStoryParser';
 import { DailyDevStory } from './DailyDevType';
 
-const axios = require('axios');
+const axios: AxiosInstance = require('axios');
 
 const url = 'https://app.daily.dev/api/graphql';
 const query = {

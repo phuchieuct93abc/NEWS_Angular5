@@ -7,7 +7,6 @@ exports.app = functions
     timeoutSeconds: 20,
     memory: '2GB',
   })
-  .region('asia-southeast1')
   .https.onRequest(app);
 
 exports.apissr = functions

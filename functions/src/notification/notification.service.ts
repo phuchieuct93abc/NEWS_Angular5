@@ -10,7 +10,7 @@ export default class NotificationService {
   send(article: Article, category: string): Promise<string> {
     let message = {
       data: {
-        url: `https://news.phuchieu.ga/${category}/${url(article.header)}/${article.id}`,
+        url: `https://phuchieu.ga/${category}/${url(article.header)}/${article.id}`,
         title: 'Tin nóng',
         body: article.header,
         image: article.getThumbnail(),

@@ -1,4 +1,4 @@
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import { ArticleService } from '../ArticleService';
 import { Diffbot } from 'diffbot';
 import DailyDevArticleParser from './DailyDevArticleParser';

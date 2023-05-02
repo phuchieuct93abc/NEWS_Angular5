@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { Story } from '../../../../model/Story';
+import { Story } from '@model/Story';
 import TinhteArticleService from '../../article/tinhte/TinhteArticleService';
 import { StoryService } from '../StoryService';
 

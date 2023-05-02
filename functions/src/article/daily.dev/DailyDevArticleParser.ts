@@ -1,4 +1,4 @@
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import { ArticleParser } from '../ArticleParser';
 import { DailyDevArticleType } from './DailyDevArticleType';
 

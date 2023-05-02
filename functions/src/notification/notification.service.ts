@@ -1,5 +1,5 @@
+import Article from '@model/Article';
 import * as admin from 'firebase-admin';
-import Article from '../../../model/Article';
 import * as url from 'speakingurl';
 
 export default class NotificationService {

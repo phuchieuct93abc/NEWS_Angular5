@@ -1,4 +1,4 @@
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import { ArticleParser } from '../ArticleParser';
 import { BaomoiData } from './BaoMoiArticleTypes';
 import { BodyElementParser } from './BodyElementParser';

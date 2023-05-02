@@ -1,6 +1,6 @@
+import StoryImage from '@model/StoryImage';
+import StoryMeta from '@model/StoryMeta';
 import { StoryParser } from '../StoryParser';
-import StoryImage from '../../../../model/StoryImage';
-import StoryMeta from '../../../../model/StoryMeta';
 
 export default class TinhteStoryParser extends StoryParser {
   parseTitle(): string {

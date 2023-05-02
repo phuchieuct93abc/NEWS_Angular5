@@ -1,4 +1,4 @@
-import Article from '../model/Article';
+import Article from '@model/Article';
 
 // Imports the Google Cloud client library
 const textToSpeech = require('@google-cloud/text-to-speech');
@@ -26,7 +26,7 @@ const sanitize = (text: string): string => {
   return escapedLines;
 };
 export async function ttsArticle(article: Article) {
-  let text = [article.header, article.description, sanitize(article.body)].join('\n');
+  let text = [article.header, article.description, sanitize(article.body!)].join('\n');
   text = text.replace(/\n/g, '\n<break time="1" />');
   text = `<speak>${text.substring(0, 4000)}</speak>`;
 

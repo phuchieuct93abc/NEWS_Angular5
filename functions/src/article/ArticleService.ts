@@ -1,5 +1,4 @@
-import Article from '../../../model/Article';
-import { ArticleParser } from './ArticleParser';
+import Article from '@model/Article';
 import FirebaseService from '../FirebaseService';
 
 export abstract class ArticleService<T> {

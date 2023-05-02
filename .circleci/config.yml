@@ -9,11 +9,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
-      - run: npm install
+            - root-cache-v2-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
+      - run: npm i
 
       - save_cache:
-          key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
+          key: root-cache-v2-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
           paths:
             - node_modules
             - news/node_modules
@@ -27,12 +27,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
+            - root-cache-v2-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
 
-      - run: npm install
+      - run: npm i
 
       - save_cache:
-          key: root-cache-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
+          key: root-cache-v2-{{ checksum "package.json" }}-{{ checksum "news/package.json" }}-{{ checksum "functions/package.json" }}
           paths:
             - node_modules
             - news/node_modules
@@ -58,3 +58,4 @@ workflows:
               - master
               - angularfire
               - change-region
+              - fix-failed-pipeline

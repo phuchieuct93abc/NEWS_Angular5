@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { Story } from '../../../../model/Story';
+import { Story } from '@model/Story';
 import { DailyDevArticleService } from '../../article/daily.dev/DailyDevArticleService';
 import { StoryService } from '../StoryService';
 import DailyDevStoryParser from './DailyDevStoryParser';

@@ -1,9 +1,9 @@
-import { Story } from '../../../../model/Story';
+import { Story } from '@model/Story';
 import BaomoiStoryParser from './BaomoiStoryParser';
 import { CONFIG } from '../../const';
 import { StoryService } from '../StoryService';
-import CategoryHelper from '../../../../model/Categories';
-import Categories from '../../../../model/Categories';
+import CategoryHelper from '@model/Categories';
+import Categories from '@model/Categories';
 import { createHmac } from 'crypto';
 import BaomoiArticleService from '../../article/baomoi/BaomoiArticleService';
 

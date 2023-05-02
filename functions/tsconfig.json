@@ -4,20 +4,18 @@
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
-    "lib": [
-      "es2017",
-      "dom",
-      "esnext.array"
-    ]
+    "lib": ["es2017", "dom", "esnext.array"],
+    "baseUrl": "src",
+    "paths": {
+      "@model/*": ["model/*"]
+    }
+  },
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": ["tsconfig-paths/register"]
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ],
-  "files": [
-    "./node_modules/@types/node/index.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "../model"],
+  "files": ["./node_modules/@types/node/index.d.ts"],
+  "exclude": ["node_modules"]
 }

@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import { DocumentSnapshot } from 'firebase-functions/v1/firestore';
 
-import Article from '../../model/Article';
+import Article from 'model/Article';
 import { firebaseCredentiaL } from '../../model/firebase.config';
 
 const settings = { /* your settings... */ timestampsInSnapshots: true };

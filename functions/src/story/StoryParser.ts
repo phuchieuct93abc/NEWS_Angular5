@@ -1,6 +1,7 @@
-import { Story } from '../../../model/Story';
-import StoryImage from '../../../model/StoryImage';
-import StoryMeta from '../../../model/StoryMeta';
+import { Story } from "@model/Story";
+import StoryImage from "@model/StoryImage";
+import StoryMeta from "@model/StoryMeta";
+
 
 export abstract class StoryParser<T = any> {
   protected data: T;

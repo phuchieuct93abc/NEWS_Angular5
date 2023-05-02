@@ -1,6 +1,7 @@
+import Article from '@model/Article';
+import { Story } from '@model/Story';
 import { AxiosInstance } from 'axios';
-import Article from '../../../model/Article';
-import { Story } from '../../../model/Story';
+
 import { ArticleService } from '../article/ArticleService';
 import NotificationService from '../notification/notification.service';
 import { StoryParser } from './StoryParser';

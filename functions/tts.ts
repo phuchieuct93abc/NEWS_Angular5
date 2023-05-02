@@ -1,4 +1,4 @@
-import Article from '../model/Article';
+import Article from './src/model/Article';
 
 // Imports the Google Cloud client library
 const textToSpeech = require('@google-cloud/text-to-speech');

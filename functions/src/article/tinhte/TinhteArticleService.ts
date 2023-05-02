@@ -1,9 +1,9 @@
 import { ArticleService } from '../ArticleService';
-import Article from '@model/Article';
 import TinhteArticleParser from './TinhteArticleParser';
 import { TinhteData } from './TInhTeArticleType';
 import TinhteStoryService from '../../story/tinhte/TinhteStoryService';
 import { AxiosInstance } from 'axios';
+import Article from '@model/Article';
 
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;

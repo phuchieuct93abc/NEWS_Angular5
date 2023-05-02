@@ -1,5 +1,5 @@
 import { ArticleParser } from '../ArticleParser';
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import { Attachment, TinhteData } from './TInhTeArticleType';
 import { VideoParser } from '../baomoi/VideoParser';
 import { ImageParser } from '../baomoi/ImageParser';

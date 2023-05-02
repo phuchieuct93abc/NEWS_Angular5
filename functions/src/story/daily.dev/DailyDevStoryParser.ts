@@ -1,5 +1,5 @@
-import StoryImage from '../../../../model/StoryImage';
-import StoryMeta from '../../../../model/StoryMeta';
+import StoryImage from '@model/StoryImage';
+import StoryMeta from '@model/StoryMeta';
 import { StoryParser } from '../StoryParser';
 import { Edge } from './DailyDevType';
 

@@ -1,5 +1,5 @@
 import { ArticleService } from '../ArticleService';
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import TinhteArticleParser from './TinhteArticleParser';
 import { TinhteData } from './TInhTeArticleType';
 import TinhteStoryService from '../../story/tinhte/TinhteStoryService';

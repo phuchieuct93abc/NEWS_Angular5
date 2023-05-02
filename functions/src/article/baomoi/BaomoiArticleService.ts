@@ -1,6 +1,6 @@
 import BaomoiArticleParser from './BaomoiArticleParser';
 import { ArticleService } from '../ArticleService';
-import Article from '../../../../model/Article';
+import Article from '@model/Article';
 import { createHmac } from 'crypto';
 import { BaomoiData } from './BaoMoiArticleTypes';
 

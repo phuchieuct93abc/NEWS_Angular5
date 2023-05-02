@@ -5,7 +5,7 @@ import ArticleHistoryService from './src/article/ArticleHistoryService';
 import ArticleServiceFactory from './src/article/ArticleServiceFactory';
 import notifyHandler from './src/notification/notificationHandler';
 import StoryServiceFactory from './src/story/StoryServiceFactory';
-import { ttsArticle } from './tts';
+import { ttsArticle } from './src/tts';
 require('dotenv').config();
 const axios = require('axios');
 

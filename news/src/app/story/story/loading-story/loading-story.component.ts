@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loading-story',
@@ -6,4 +6,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./loading-story.component.scss', '../mobile-story/mobile-story.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingStoryComponent {}
+export class LoadingStoryComponent {
+  @Input()
+  mode: 'big' | 'small' = 'small';
+}

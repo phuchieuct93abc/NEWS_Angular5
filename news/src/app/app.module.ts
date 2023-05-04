@@ -63,6 +63,7 @@ import { LoadingStoryComponent } from './story/story/loading-story/loading-story
 import { MobileStoryComponent } from './story/story/mobile-story/mobile-story.component';
 import { StoryMetaComponent } from './story/story/story-meta/story-meta.component';
 import { StoryComponent } from './story/story/story.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 registerLocaleData(en);
 const isMobileProvider = {
   provide: IS_MOBILE,
@@ -99,7 +100,12 @@ const isMobileProvider = {
     NgxSmoothParallaxModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
+    NgxSkeletonLoaderModule.forRoot({
+      animation: 'progress-dark',
+      theme: {
+        extendsFromRoot: true,
+      },
+    }),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),

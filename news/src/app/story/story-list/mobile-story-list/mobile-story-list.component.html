@@ -1,6 +1,7 @@
 <div class="story-list">
   <div style="padding-top: 50px">
     <div class="stories">
+
       <ng-container *ngIf="firstStory">
         <app-mobile-story
         *ngIf="firstStory.story | async"
@@ -11,19 +12,16 @@
          <app-loading-story class="loading-story" *ngIf="!(firstStory.story | async)"></app-loading-story>
 
       </ng-container>
-
-      <ng-container *ngFor="let item of stories |filter:filterFirstStory.bind(this); trackBy: trackByFn">
-        <app-mobile-story
-          (onSelectedStory)="onSelectedStory($event)"
-          #storyMobile
-          [story]="item"
-          class="block story"
-          [category]="category"></app-mobile-story>
+      <ng-container *ngIf="!debugSkeleton">
+        <ng-container *ngFor="let item of stories |filter:filterFirstStory.bind(this); trackBy: trackByFn">
+          <app-mobile-story (onSelectedStory)="onSelectedStory($event)" #storyMobile [story]="item" class="block story"
+            [category]="category"></app-mobile-story>
+        </ng-container>
       </ng-container>
      <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story"></app-loading-story>
     </div>
 
-    <ng-container *ngIf="stories.length < 5">
+    <ng-container *ngIf="stories.length < 5 || debugSkeleton">
       <app-loading-story *ngFor="let i of loadingStories" class="loading-story"></app-loading-story>
       <mat-divider></mat-divider>
     </ng-container>

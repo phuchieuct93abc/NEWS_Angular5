@@ -13,12 +13,14 @@ export class MobileStoryListComponent extends StoryListComponent {
   @ViewChildren(MobileStoryComponent)
   public storyMobiles: QueryList<MobileStoryComponent>;
 
+  debugSkeleton = false;
+
   protected selectFirstStory(): void {
     if (this.selectedStory != null) {
       return;
     }
     if (this.firstStory != null) {
-      this.firstStory.story.pipe(take(1),takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
+      this.firstStory.story.pipe(take(1), takeUntil(this.onDestroy$)).subscribe((story) => (this.selectedStory = story));
     }
   }
   protected scrollTop(): void {

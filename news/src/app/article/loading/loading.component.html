@@ -1,15 +1,35 @@
-<div class="loading small" [ngClass]="[(isDarkTheme$ | async) == true ? 'dark' : 'light']">
-  <div class="wrapper type-2">
-    <div class="wrapper-cell">
-      <div class="image-placeholder"></div>
+<div [ngClass]="[mode == 'big' ? 'big' : 'small', (isDarkTheme$ | async) == THEME.DARK ? 'dark' : 'light']">
+  <div class="flex">
+    <ngx-skeleton-loader class="avatar-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
+        'border-radius': '5px',
+        height: 'var(--avatar-width)',
+        width: 'var(--avatar-width)',
+        display: 'block',
+        'background-color': 'var(--background-color)',
 
-      <div class="text-placeholder pt-2">
-        <div class="text-line"></div>
-        <div class="text-line"></div>
-        <div class="text-line"></div>
-        <div class="text-line"></div>
-        <div class="text-line"></div>
-      </div>
+        margin: 0
+      }"></ngx-skeleton-loader>
+    <div class="flex-1 px-4 py-3">
+      <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
+          'border-radius': '5px',
+          'background-color': 'var(--background-color)',
+          height: '10px',
+          width: '50%'
+        }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
+          'border-radius': '5px',
+          height: '10px',
+          'background-color': 'var(--background-color)',
+
+          width: '90%'
+        }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
+          'border-radius': '5px',
+          height: '10px',
+          'background-color': 'var(--background-color)',
+
+          width: '70%'
+        }"></ngx-skeleton-loader>
     </div>
   </div>
 </div>

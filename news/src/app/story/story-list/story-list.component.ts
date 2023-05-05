@@ -22,6 +22,7 @@ import { Story } from '../../../../../model/Story';
 import { StoryComponent } from '../story/story.component';
 import { IS_NODE } from './../../shared/const';
 import { StoryListService } from './story-list.service';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-story-list',
@@ -55,7 +56,8 @@ export class StoryListComponent implements OnInit, OnChanges, AfterViewInit, OnD
     private storyListService: StoryListService,
     @Inject(IS_NODE) public isNode: boolean,
     protected activatedRoute: ActivatedRoute,
-    protected route: Router
+    protected route: Router,
+    protected store: Store
   ) {}
 
   public get selectedStory(): Story {

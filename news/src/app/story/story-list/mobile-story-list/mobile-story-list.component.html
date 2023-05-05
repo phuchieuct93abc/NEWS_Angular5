@@ -9,7 +9,7 @@
           [story]="firstStory.story | async"
           class="block story"
           [category]="category"></app-mobile-story>
-         <app-loading-story class="loading-story" *ngIf="!(firstStory.story | async)"></app-loading-story>
+         <app-loading-story [mode]="(isSmallImage$ | async)?'small':'big'" class="loading-story" *ngIf="!(firstStory.story | async)"></app-loading-story>
 
       </ng-container>
       <ng-container *ngIf="!debugSkeleton">
@@ -18,11 +18,11 @@
             [category]="category"></app-mobile-story>
         </ng-container>
       </ng-container>
-     <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story"></app-loading-story>
+     <app-loading-story (appIsIntersect)="loadMoreStories.emit()" class="loading-story" [mode]="(isSmallImage$ | async)?'small':'big'" ></app-loading-story>
     </div>
 
     <ng-container *ngIf="stories.length < 5 || debugSkeleton">
-      <app-loading-story *ngFor="let i of loadingStories" class="loading-story"></app-loading-story>
+      <app-loading-story *ngFor="let i of loadingStories" class="loading-story" [mode]="(isSmallImage$ | async)?'small':'big'" ></app-loading-story>
       <mat-divider></mat-divider>
     </ng-container>
     <div class="blur-edge blur-bottom" *ngIf="stories"></div>

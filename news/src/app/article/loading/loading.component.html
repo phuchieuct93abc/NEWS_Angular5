@@ -1,26 +1,19 @@
-<div [ngClass]="[mode == 'big' ? 'big' : 'small', (isDarkTheme$ | async) == THEME.DARK ? 'dark' : 'light']">
-  <div class="flex">
+<div [ngClass]="[mode == 'big' ? 'big' : 'small', (isDarkTheme$ | async) ===true? 'dark' : 'light']">
+  <div class="flex" [class.flex-col]="mode == 'big'" >
     <ngx-skeleton-loader class="avatar-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
         'border-radius': '5px',
-        height: 'var(--avatar-width)',
+        height: 'var(--avatar-height)',
         width: 'var(--avatar-width)',
         display: 'block',
         'background-color': 'var(--background-color)',
 
         margin: 0
       }"></ngx-skeleton-loader>
-    <div class="flex-1 px-4 py-3">
+    <div class="flex-1 px-4 py-3 lines-skeleton" >
       <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
           'border-radius': '5px',
           'background-color': 'var(--background-color)',
           height: '10px',
-          width: '50%'
-        }"></ngx-skeleton-loader>
-      <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
-          'border-radius': '5px',
-          height: '10px',
-          'background-color': 'var(--background-color)',
-
           width: '90%'
         }"></ngx-skeleton-loader>
       <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
@@ -28,7 +21,14 @@
           height: '10px',
           'background-color': 'var(--background-color)',
 
-          width: '70%'
+          width: '60%'
+        }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="line-skeleton" appearance="line" [animation]="skeletonTheme$ | async" [theme]="{
+          'border-radius': '5px',
+          height: '10px',
+          'background-color': 'var(--background-color)',
+
+          width: '80%'
         }"></ngx-skeleton-loader>
     </div>
   </div>

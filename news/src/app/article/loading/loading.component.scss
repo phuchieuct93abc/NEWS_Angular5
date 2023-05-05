@@ -1,10 +1,24 @@
+
+
 .big {
-  --avatar-width: 200px;
+  --avatar-width: 100%;
+  --avatar-height: 297px;
+  .avatar-skeleton{
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  .lines-skeleton{
+    padding-bottom: 45px !important;
+  }
 }
 
 .small {
   --avatar-width: 120px;
+  --avatar-height: 120px;
+
 }
+
+.avatar-skeleton{}
 
 .dark {
   --background-color: rgb(50, 50, 50);
@@ -15,7 +29,7 @@
 }
 :host {
   border: none;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   display: inline-block;
 }

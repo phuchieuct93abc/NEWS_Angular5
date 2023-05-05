@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
+import { configFeature } from 'src/app/store/config.reducer';
 import { Story } from '../../../../../../model/Story';
 import { MobileStoryComponent } from '../../story/mobile-story/mobile-story.component';
 import { StoryListComponent } from '../story-list.component';
@@ -12,6 +13,7 @@ import { StoryListComponent } from '../story-list.component';
 export class MobileStoryListComponent extends StoryListComponent {
   @ViewChildren(MobileStoryComponent)
   public storyMobiles: QueryList<MobileStoryComponent>;
+  isSmallImage$ = this.store.select(configFeature.selectSmallImage);
 
   debugSkeleton = false;
 

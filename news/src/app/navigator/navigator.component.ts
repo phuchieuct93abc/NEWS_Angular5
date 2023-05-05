@@ -19,7 +19,6 @@ export class NavigatorComponent implements AfterViewInit, OnDestroy {
   public readonly MIN_TOP = -63;
   public readonly MAX_TOP = 0;
 
-  public isDarkMode: boolean;
   public isSmallImage: boolean;
 
   public selectedCategory$ = this.store.select(configFeature.selectCategory).pipe(
